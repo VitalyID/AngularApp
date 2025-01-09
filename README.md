@@ -1,0 +1,2 @@
+# AngularApp
+Angular educational project
