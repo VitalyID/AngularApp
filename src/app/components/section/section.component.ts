@@ -13,8 +13,4 @@ export class SectionComponent {
     title: 'error name',
     icon: 'Error transmit child',
   };
-  // @Input() itemAboutMe: SectionItem = {
-  //   title: 'error name',
-  //   icon: 'Error transmit child',
-  // };
 }

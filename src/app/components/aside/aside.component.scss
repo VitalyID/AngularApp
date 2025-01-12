@@ -26,7 +26,50 @@
 }
 
 .last-section {
-  background-color: #a71d1d;
-  border: 1px solid black;
-  color: green;
+  background-color: rgba(248, 57, 57, 0.05);
+  border-radius: 10px;
+  position: relative;
+  z-index: 5;
+  margin: 10px 10px;
 }
+// ----------------------------------
+.last-section .section {
+  padding-left: 0;
+  border: 5px solid green; /* Убираем padding-left для элементов в .last-section-item */
+}
+// ----------------------------------------
+
+.support {
+  background: linear-gradient(0deg, #3bc76b, #3bc76b),
+    linear-gradient(0deg, #479b4e, #479b4e),
+    linear-gradient(0deg, #3fa949, #3fa949), #54a75c;
+  mix-blend-mode: normal;
+  opacity: 0.1;
+  border-radius: 20px;
+  position: relative;
+  padding: 20px;
+}
+.support::before {
+  content: url(../../../assets/icons/illustration.svg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(0%, 0%);
+}
+
+button {
+  background: linear-gradient(0deg, #3bc76b, #3bc76b), #3bc76b;
+  box-shadow: 0px 5px 20px rgba(71, 155, 78, 0.15);
+  border-radius: 54px;
+  padding: 11px 30px;
+
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #ffffff;
+}
+
+// пОПРАВИТЬ ЦВЕТА И КАРТИНКУ

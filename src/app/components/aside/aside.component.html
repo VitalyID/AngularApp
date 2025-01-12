@@ -5,10 +5,23 @@
 </div>
 
 <div class="aside-body">
-  <div *ngFor="let item of title2; let i = index">
-    <app-section
-      [item]="item"
-      [ngClass]="{ 'last-section': i > 2 }"
-    ></app-section>
+  <div *ngFor="let item of generalGroup">
+    <app-section [item]="item"> </app-section>
+  </div>
+  <div class="last-section">
+    <div *ngFor="let item of myGroup">
+      <app-section [item]="item" class="last-section-item"> </app-section>
+    </div>
+  </div>
+  <div *ngFor="let item of othergroup">
+    <app-section [item]="item"> </app-section>
+  </div>
+
+  <div class="support">
+    <button type="button">Служба поддержки</button>
+  </div>
+
+  <div *ngFor="let item of logOut">
+    <app-section [item]="item"> </app-section>
   </div>
 </div>

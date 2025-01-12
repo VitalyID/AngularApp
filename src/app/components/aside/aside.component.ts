@@ -33,5 +33,25 @@ export class AsideComponent {
       title: 'Мои отзывы',
       icon: '/assets/icons/symbol-defs.svg#icon-myFeedbacks',
     },
+    {
+      title: 'Программа лояльности',
+      icon: '/assets/icons/symbol-defs.svg#loyalty',
+    },
+    {
+      title: 'Выйти',
+      icon: '/assets/icons/symbol-defs.svg#logout',
+    },
   ];
+
+  public generalGroup: SectionItem[] = [];
+  public myGroup: SectionItem[] = [];
+  public othergroup: SectionItem[] = [];
+  public logOut: SectionItem[] = [];
+
+  ngOnInit(): void {
+    this.generalGroup = this.title2.slice(0, 5);
+    this.myGroup = this.title2.slice(5, 8);
+    this.othergroup = this.title2.slice(8, 9);
+    this.logOut = this.title2.slice(9, 10);
+  }
 }
