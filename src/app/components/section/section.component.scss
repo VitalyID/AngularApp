@@ -1,0 +1,30 @@
+.section {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 15px;
+  padding: 18px;
+}
+.section__title {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #313436;
+}
+
+svg {
+  width: 24px;
+  height: 24px;
+  fill: #777d82;
+  fill: red;
+  --color1: red;
+}
+
+.last-section {
+  background-color: #a71d1d;
+  border: 1px solid black;
+  color: green;
+}

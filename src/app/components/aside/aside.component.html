@@ -1,0 +1,14 @@
+<div class="title">
+  <svg class="icon icon-Logout">
+    <use xlink:href="/assets/icons/symbol-defs.svg#icon-logo"></use>
+  </svg>
+</div>
+
+<div class="aside-body">
+  <div *ngFor="let item of title2; let i = index">
+    <app-section
+      [item]="item"
+      [ngClass]="{ 'last-section': i > 2 }"
+    ></app-section>
+  </div>
+</div>

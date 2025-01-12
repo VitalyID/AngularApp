@@ -1,0 +1,46 @@
+.user {
+  display: flex;
+  width: 218px;
+  height: 44px;
+}
+
+.user-logo {
+  width: 25%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.user-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.icon-flag {
+  width: 1.2001953125em;
+}
+
+.user-data {
+  width: 75%;
+}
+.user-data span {
+  display: block;
+  text-align: center;
+
+  &:first-child {
+    font-family: "PT_Russia Text";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+
+    color: #121212;
+  }
+  &:last-child {
+    font-family: "PT_Russia Text";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+
+    color: #62687a;
+  }
+}

@@ -1,1 +1,111 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+
+@font-face {
+  font-family: "PT_Russia Text";
+  src: url("/assets/fonts/PT_Russia-Text.ttf") format("truetype");
+  // src: url("/assets/fonts/PT_Russia-Text.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-BlackItalic.woff2") format("woff2");
+//   font-weight: 900;
+//   font-style: italic;
+// }
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-MediumItalic.woff2") format("woff2");
+//   font-weight: 500;
+//   font-style: italic;
+// }
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-Italic.woff2") format("woff2");
+//   font-weight: 400;
+//   font-style: italic;
+// }
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-LightItalic.woff2") format("woff2");
+//   font-weight: 300;
+//   font-style: italic;
+// }
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-Black.woff2") format("woff2");
+//   font-weight: 900;
+//   font-style: normal;
+// }
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-Light.woff2") format("woff2");
+//   font-weight: 300;
+//   font-style: normal;
+// }
+
+@font-face {
+  font-family: "Formular";
+  src: url("/assets/fonts/Formular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-Medium.woff2") format("woff2");
+//   font-weight: 500;
+//   font-style: normal;
+// }
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-BoldItalic.woff2") format("woff2");
+//   font-weight: bold;
+//   font-style: italic;
+// }
+
+// @font-face {
+//   font-family: "Formular";
+//   src: url("/assets/fonts/Formular-Bold.woff2") format("woff2");
+//   font-weight: bold;
+//   font-style: normal;
+// }
+
+a {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #101112;
+  text-decoration: none;
+
+  &:hover {
+    font-family: "Formular";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+
+    color: #54a75c;
+  }
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}

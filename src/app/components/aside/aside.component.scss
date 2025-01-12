@@ -1,0 +1,32 @@
+.icon-logo {
+  width: 3.0625em;
+}
+
+.icon-flag {
+  width: 1.2001953125em;
+}
+
+.title,
+.aside-body {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.title svg {
+  height: 71px;
+  width: 98px;
+  fill: black;
+}
+.aside-body {
+  display: block;
+  text-align: center;
+}
+
+.last-section {
+  background-color: #a71d1d;
+  border: 1px solid black;
+  color: green;
+}
