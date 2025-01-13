@@ -6,15 +6,22 @@
 
 <div class="aside-body">
   <div *ngFor="let item of generalGroup">
-    <app-section [item]="item"> </app-section>
+    <app-section [item]="item" [class.active]="activeItemID === item.ID">
+    </app-section>
   </div>
   <div class="last-section">
     <div *ngFor="let item of myGroup">
-      <app-section [item]="item" class="last-section-item"> </app-section>
+      <app-section
+        [item]="item"
+        class="last-section-item"
+        [class.active]="activeItemID === item.ID"
+      >
+      </app-section>
     </div>
   </div>
   <div *ngFor="let item of othergroup">
-    <app-section [item]="item"> </app-section>
+    <app-section [item]="item" [class.active]="activeItemID === item.ID">
+    </app-section>
   </div>
 
   <div class="support-wrapper">
@@ -28,6 +35,7 @@
   </div>
 
   <div *ngFor="let item of logOut">
-    <app-section [item]="item"> </app-section>
+    <app-section [item]="item" [class.active]="activeItemID === item.ID">
+    </app-section>
   </div>
 </div>

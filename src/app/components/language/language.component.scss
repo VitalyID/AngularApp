@@ -1,0 +1,47 @@
+select {
+  width: 80px;
+  height: 35px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border: 0px;
+  outline: 0px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  background: url("../../../assets/images/arrowSelect.png");
+  background-repeat: no-repeat;
+  // background-size:16px 17px;
+  background-position: right;
+}
+
+.flag-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+}
+.flag-wrapper img {
+  width: 20px !important;
+  height: 20px !important;
+  // object-fit: cover;
+  border-radius: 50% !important;
+
+  background: #c4c4c4 !important;
+  border-radius: 4px !important;
+}
+.flag-wrapper span {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+
+  color: #787576;
+}

@@ -4,6 +4,14 @@
   align-items: start;
   gap: 15px;
   padding: 18px;
+
+  &.active {
+    fill: green;
+    border: solid 1px black;
+  }
+  &.hover {
+    cursor: pointer;
+  }
 }
 
 .section__title {
