@@ -35,26 +35,43 @@
 // ----------------------------------
 .last-section .section {
   padding-left: 0;
-  border: 5px solid green; /* Убираем padding-left для элементов в .last-section-item */
+  border: 5px solid green;
 }
 // ----------------------------------------
 
+.support-wrapper {
+  width: 100%;
+  padding-bottom: 10px;
+  padding-top: 3vw;
+}
+
 .support {
+  border-radius: 20px;
+  margin: 0px 2%;
+  position: relative;
+  padding: 23% 0px 7%;
+}
+
+.support::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(0deg, #3bc76b, #3bc76b),
     linear-gradient(0deg, #479b4e, #479b4e),
     linear-gradient(0deg, #3fa949, #3fa949), #54a75c;
   mix-blend-mode: normal;
   opacity: 0.1;
   border-radius: 20px;
-  position: relative;
-  padding: 20px;
 }
-.support::before {
-  content: url(../../../assets/icons/illustration.svg);
+
+.support img {
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(0%, 0%);
+  transform: translate(20%, -54%);
 }
 
 button {
@@ -71,5 +88,3 @@ button {
 
   color: #ffffff;
 }
-
-// пОПРАВИТЬ ЦВЕТА И КАРТИНКУ

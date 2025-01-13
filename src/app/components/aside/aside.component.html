@@ -17,8 +17,14 @@
     <app-section [item]="item"> </app-section>
   </div>
 
-  <div class="support">
-    <button type="button">Служба поддержки</button>
+  <div class="support-wrapper">
+    <div class="support">
+      <img
+        src="../../../assets/images/illustration.png"
+        alt="Картинка support"
+      />
+      <button type="button">Служба поддержки</button>
+    </div>
   </div>
 
   <div *ngFor="let item of logOut">
