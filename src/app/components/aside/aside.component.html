@@ -6,23 +6,10 @@
 
 <div class="aside-body">
   <div *ngFor="let item of generalGroup">
-    <app-section [item]="item" [class.active]="activeItemID === item.ID">
+    <app-section [item]="item" [isActive]="item.ID === 6 || item.ID === 7 || item.ID === 8">
     </app-section>
   </div>
-  <div class="last-section">
-    <div *ngFor="let item of myGroup">
-      <app-section
-        [item]="item"
-        class="last-section-item"
-        [class.active]="activeItemID === item.ID"
-      >
-      </app-section>
-    </div>
-  </div>
-  <div *ngFor="let item of othergroup">
-    <app-section [item]="item" [class.active]="activeItemID === item.ID">
-    </app-section>
-  </div>
+
 
   <div class="support-wrapper">
     <div class="support">
@@ -30,12 +17,12 @@
         src="../../../assets/images/illustration.png"
         alt="Картинка support"
       />
-      <button type="button">Служба поддержки</button>
+      <app-buttons [btnText]="btnText"></app-buttons>
     </div>
   </div>
 
   <div *ngFor="let item of logOut">
-    <app-section [item]="item" [class.active]="activeItemID === item.ID">
+    <app-section [item]="item">
     </app-section>
   </div>
 </div>

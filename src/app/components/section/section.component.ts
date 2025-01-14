@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 import { SectionItem } from './../../types/sectionItem';
 
 @Component({
@@ -8,10 +8,14 @@ import { SectionItem } from './../../types/sectionItem';
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss',
 })
+
 export class SectionComponent {
   @Input() item: SectionItem = {
     title: 'error name',
     icon: 'Error transmit child',
     ID: 999,
   };
+
+  @Input() isActive?:boolean;
 }
+

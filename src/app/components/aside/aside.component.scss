@@ -25,19 +25,32 @@
   text-align: center;
 }
 
-.last-section {
-  background-color: rgba(248, 57, 57, 0.05);
-  border-radius: 10px;
-  position: relative;
-  z-index: 5;
-  margin: 10px 10px;
+.aside-body app-section:nth-child(1) {
+  /* Стили для первого компонента */
+  background-color: red;
 }
-// ----------------------------------
-.last-section .section {
-  padding-left: 0;
-  border: 5px solid green;
+
+.aside-body app-section:nth-child(2) {
+  /* Стили для второго компонента */
+  background-color: blue;
 }
-// ----------------------------------------
+
+.aside-body app-section:nth-child(3) {
+  /* Стили для третьего компонента */
+  background-color: green;
+}
+
+
+// app-section.active {
+//   background-color: rgba(248, 57, 57, 0.05);
+//   // border-radius: 10px;
+//   // position: relative;
+//   // z-index: 5;
+//   // margin: 10px 10px;
+//   border: 5px solid green;
+//   color: #3bc76b;
+
+// }
 
 .support-wrapper {
   width: 100%;
@@ -74,17 +87,4 @@
   transform: translate(20%, -54%);
 }
 
-button {
-  background: linear-gradient(0deg, #3bc76b, #3bc76b), #3bc76b;
-  box-shadow: 0px 5px 20px rgba(71, 155, 78, 0.15);
-  border-radius: 54px;
-  padding: 11px 30px;
 
-  font-family: "Formular";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #ffffff;
-}

@@ -1,4 +1,5 @@
-<div class="section">
+<div class="section" [ngClass]="{'isActive': isActive}">
+
   <svg class="icon icon-Logout">
     <use [attr.xlink:href]="item.icon"></use>
   </svg>

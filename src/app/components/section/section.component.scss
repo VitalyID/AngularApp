@@ -7,12 +7,31 @@
 
   &.active {
     fill: green;
-    border: solid 1px black;
-  }
+   }
   &.hover {
     cursor: pointer;
   }
 }
+
+.isActive {
+  background-color:rgba(248, 57, 57, 0.05);
+  color: #3bc76b;
+  margin: 0 10px;
+  padding-left: 8px ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .section__title {
   font-family: "Formular";
