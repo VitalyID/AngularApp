@@ -27,6 +27,14 @@
   width: 100%;
 }
 
+.headerWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  width: 100%;
+}
+
 .aside {
   grid-area: aside;
   background: #ffffff;
