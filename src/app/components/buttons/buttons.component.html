@@ -1,1 +1,4 @@
-<button type="button">{{btnText}}</button>
+<button>
+  <i *ngIf="buttonData.iconClass" [class]="buttonData.iconClass"></i>
+  {{buttonData.text}}
+</button>

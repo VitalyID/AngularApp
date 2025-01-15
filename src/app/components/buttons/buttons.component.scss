@@ -10,5 +10,18 @@ button {
   font-size: 16px;
   line-height: 22px;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
   color: #ffffff;
 }
+
+.icon-add-outline:before  {
+  content: "\e900";
+  color: #ffffff !important;
+  font-size: 24px;
+  font-size: 24px;
+}
+

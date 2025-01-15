@@ -3,11 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AsideComponent } from './components/aside/aside.component';
 import { SectionComponent } from './components/section/section.component';
 import { ButtonsComponent } from './components/buttons/buttons.component';
+// import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   imports: [BrowserModule],
-  exports: [AsideComponent, SectionComponent],
-  declarations: [AsideComponent, SectionComponent, ButtonsComponent],
+  exports: [AsideComponent, SectionComponent, ButtonsComponent],
+  declarations: [AsideComponent, SectionComponent, ButtonsComponent,],
   providers: [],
 })
 export class SharedModule {}

@@ -12,7 +12,7 @@ import { LanguageComponent } from './components/language/language.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
 import { SharedModule } from './shared.module';
-// import { ButtonsComponent } from './components/buttons/buttons.component';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
@@ -24,9 +24,9 @@ import { SharedModule } from './shared.module';
     WrapFlexComponent,
     HeaderUserComponent,
     LanguageComponent,
-    // ButtonsComponent,
+
   ],
-  imports: [BrowserModule, AppRoutingModule, RouterModule, SharedModule],
+  imports: [BrowserModule, AppRoutingModule, RouterModule, SharedModule, MainComponent],
   providers: [],
   bootstrap: [AppComponent],
 })

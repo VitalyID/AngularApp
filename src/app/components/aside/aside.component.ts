@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SectionItem } from './../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
+import { ButtonData } from './../../types/sectionItem';
 
 @Component({
   selector: 'app-aside',
@@ -70,7 +71,8 @@ export class AsideComponent {
   public othergroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
 
-  public btnText : string = 'Служба поддержки'
+   public btnText: ButtonData = {text: 'Служба поддержки'}
+
 
   ngOnInit(): void {
     this.generalGroup = this.title2.slice(0, 9);
@@ -78,7 +80,7 @@ export class AsideComponent {
     // this.othergroup = this.title2.slice(8, 9);
     this.logOut = this.title2.slice(9, 10);
 
-    this.btnText = this.btnText;
+
   }
 
   activeItemID: number | null = null;

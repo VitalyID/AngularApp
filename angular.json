@@ -6,15 +6,31 @@
     "AppOnAngular": {
       "projectType": "application",
       "schematics": {
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "prefix": "",
+          "skipTests": true,
+          "changeDetection": "OnPush"
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "prefix": "",
+          "skipTests": true
         },
-        "@schematics/angular:pipe": {
-          "standalone": false
+        "@schematics/angular:application": {
+          "strict": true,
+          "style": "sass"
+        },
+        "@angular-eslint/schematics:application": {
+          "setParserOptionsProject": true
+        },
+        "@angular-eslint/schematics:library": {
+          "setParserOptionsProject": true
         }
       },
       "root": "",
