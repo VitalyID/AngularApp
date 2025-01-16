@@ -2,7 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 30px 57px 0 30px;
+  width: 100%;
+  padding: 0 57px 0 30px;
+  // margin: 30px 57px 0 30px;
 }
 
 h2 {
@@ -15,6 +17,11 @@ align-items: center;
 
 color: #121212;
 }
+.wrapTable {
+  width: 100%;
+  padding: 0 30px;
+}
+
 table {
-  margin-left: 30px;
+  width: 100%;
 }

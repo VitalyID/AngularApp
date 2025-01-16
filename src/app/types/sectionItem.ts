@@ -7,3 +7,12 @@ export interface ButtonData {
   text: string;       // Текст для кнопки
   iconClass?: string; // Класс иконки (необязательный)
 }
+
+export interface DataUserOperation {
+  'data': string,
+  'country' : string,
+  'tips': string,
+  'commission': string,
+  'email': string,
+  'card': string
+}
