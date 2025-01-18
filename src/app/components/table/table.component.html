@@ -3,7 +3,7 @@
     <div class="tab-element" *ngFor="let item of tab"> {{item}}
     </div>
   </div>
-  <app-buttons [buttonData] = 'btnText'></app-buttons>
+  <app-buttons [buttonData] = btnText [buttonStyles] = classFromTableComponent></app-buttons>
 </div>
 
   <div class="bodyTable">
@@ -17,4 +17,3 @@
     </div>
 
   </div>
-

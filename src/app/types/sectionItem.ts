@@ -8,6 +8,11 @@ export interface ButtonData {
   iconClass?: string; // Класс иконки (необязательный)
 }
 
+export interface ButtonClass {
+  background ?: string,
+  color ?: string
+}
+
 export interface DataUserOperation {
   'data': string,
   'country' : string,

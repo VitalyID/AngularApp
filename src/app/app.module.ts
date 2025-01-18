@@ -13,6 +13,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
 import { SharedModule } from './shared.module';
 import { MainComponent } from './components/main/main.component';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import { MainComponent } from './components/main/main.component';
 
   ],
   imports: [BrowserModule, AppRoutingModule, RouterModule, SharedModule, MainComponent],
-  providers: [],
+  providers: [
+    provideCharts(withDefaultRegisterables())
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

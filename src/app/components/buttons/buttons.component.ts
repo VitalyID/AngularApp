@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 import { ButtonData } from '../../types/sectionItem';
+import { ButtonClass } from '../../types/sectionItem';
 
 @Component({
   selector: 'app-buttons',
@@ -10,6 +11,6 @@ import { ButtonData } from '../../types/sectionItem';
   styleUrl: './buttons.component.scss'
 })
 export class ButtonsComponent {
-  @Input() buttonData!: ButtonData
-
+  @Input() buttonData !: ButtonData;
+  @Input() buttonStyles ?: ButtonClass;
 }
