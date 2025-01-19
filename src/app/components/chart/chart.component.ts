@@ -4,6 +4,9 @@ import { BaseChartDirective } from 'ng2-charts';
 import {defaults} from 'chart.js';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { Color } from 'chart.js';
+import { TransmitDataToChartService } from '../../services/transmit-data-to-chart.service';
+import { Subscription } from 'rxjs';
+
 
 
 @Component({
@@ -19,15 +22,15 @@ export class ChartComponent {
   public barChartPlugins = [Legend];
 
    public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [ '2006', '2007', '2008', '2009', '2010', '2011', '2012' ],
+    labels: [],
     datasets: [
-      { data: [ 65, 59, 80, 81, 56, 55, 40 ] },
+      { data: [] },
     ]
   };
 
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
-    // maintainAspectRatio: false,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false
@@ -38,6 +41,7 @@ export class ChartComponent {
     },
     scales: {
       x: {
+        // padding: 20,
         ticks: {
           color: 'black',
           font: {
@@ -45,7 +49,7 @@ export class ChartComponent {
             family: 'Formular',
             weight: 600
           }
-        }
+        },
       },
       y: {
         ticks: {
@@ -53,14 +57,31 @@ export class ChartComponent {
           font: {
             size: 14,
             family: 'Formular'
-          }
+          }, maxTicksLimit: 10,
+          stepSize: 2000
         }
       }
     },
 
-  }
-  ;
+  };
+  private dataXSubscription !: Subscription;
+  private dataYSubscription !: Subscription;
 
-  constructor() {
-  }
+    constructor(private dataFromTable: TransmitDataToChartService) {
+      this.dataXSubscription = dataFromTable.dataX$.subscribe (dataX => {this.barChartData.labels = dataX});
+      this.barChartData = {...this.barChartData}
+
+      this.dataYSubscription = dataFromTable.dataY$.subscribe (dataY => {this.barChartData.datasets[0].data = dataY});
+      this.barChartData = {...this.barChartData}
+    }
+
+    ngOnDestroy():void {
+      if(this.dataXSubscription) {
+        this.dataXSubscription.unsubscribe
+      }
+      if( this.dataYSubscription) {
+        this.dataYSubscription.unsubscribe
+      }
+    }
+
 }

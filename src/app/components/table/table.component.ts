@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component , OnInit} from '@angular/core';
 import { ButtonClass, ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { SharedModule } from '../../shared.module';
 import { CommonModule } from '@angular/common';
-// import { ButtonsComponent } from '../buttons/buttons.component';
+import { TransmitDataToChartService } from '../../services/transmit-data-to-chart.service';
 
 @Component({
   selector: 'table',
@@ -135,28 +135,27 @@ public dataUserOperations : DataUserOperation[] =[
 // public dataX : string[] = []
 // public dataY :  number[] = []
 
-constructor () {
+constructor (private dataToChart : TransmitDataToChartService) {
   console.log (typeof this.dataUserOperations)
 }
 
 private dataX: string[] = [];
-private dataY : string[] = [];
+private dataY : number[] = [];
 
 ngOnInit(): void {
 
 for ( let item of this.dataUserOperations) {
   // console.log (item.data);
   this.dataX.push (item.data);
-  this.dataY.push (item.tips)
+  this.dataY.push (Number(item.tips.replace(' ₽','')));
   }
 
-  console.log (this.dataX);
-  console.log (this.dataY);
+  this.dataToChart.setData(this.dataX, this.dataY)
 
-
+  // console.log (this.dataX);
+  // console.log (this.dataY);
 
 }
-
 
 }
 
