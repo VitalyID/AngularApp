@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component , OnInit} from '@angular/core';
 import { ButtonClass, ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { SharedModule } from '../../shared.module';
 import { CommonModule } from '@angular/common';
-import { TransmitDataToChartService } from '../../services/transmit-data-to-chart.service';
+import { TransmitDataService} from '../../services/transmit-data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'table',
@@ -14,148 +15,38 @@ import { TransmitDataToChartService } from '../../services/transmit-data-to-char
 export class TableComponent implements OnInit{
   public tab : string[] = ['За сегодня','За вчера','За неделю','За месяц','За прошлый месяц','За период'];
 
-public btnText: ButtonData = {text: 'Скачать в Exel', iconClass : 'icon-PaperDownload'};
-public classFromTableComponent: ButtonClass= {background : '#F7F9FB', color: '#101112'}
+  public btnText: ButtonData = {text: 'Скачать в Exel', iconClass : 'icon-PaperDownload'};
+  public classFromTableComponent: ButtonClass= {background : '#F7F9FB', color: '#101112'};
+  private dataSubscription !: Subscription;
+  public dataUserOperations : DataUserOperation[] = [];
 
-public dataUserOperations : DataUserOperation[] =[
-  {
-    'data': '16.01.2025',
-    'country' : 'Russia',
-    'tips': '1000 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '15.01.2025',
-    'country' : 'Russia',
-    'tips': '1500 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '14.01.2025',
-    'country' : 'Russia',
-    'tips': '5000 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '01.01.2025',
-    'country' : 'Russia',
-    'tips': '1300 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.12.2024',
-    'country' : 'Russia',
-    'tips': '800 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.12.2024',
-    'country' : 'Russia',
-    'tips': '10000 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.11.2024',
-    'country' : 'Russia',
-    'tips': '5900 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.11.2024',
-    'country' : 'Russia',
-    'tips': '7800 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.11.2024',
-    'country' : 'Russia',
-    'tips': '2300 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.01.2025',
-    'country' : 'Russia',
-    'tips': '5500 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.01.2025',
-    'country' : 'Russia',
-    'tips': '1100 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.01.2025',
-    'country' : 'Russia',
-    'tips': '1950 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.01.2025',
-    'country' : 'Russia',
-    'tips': '1800 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  },
-  {
-    'data': '16.10.2025',
-    'country' : 'Russia',
-    'tips': '6000 ₽  ',
-    'commission': '12 ₽',
-    'email': 'mail@mail.ru',
-    'card': '4563****2569'
-  }
-]
-
-// public dataX : string[] = []
-// public dataY :  number[] = []
-
-constructor (private dataToChart : TransmitDataToChartService) {
-  console.log (typeof this.dataUserOperations)
-}
-
-private dataX: string[] = [];
-private dataY : number[] = [];
-
-ngOnInit(): void {
-
-for ( let item of this.dataUserOperations) {
-  // console.log (item.data);
-  this.dataX.push (item.data);
-  this.dataY.push (Number(item.tips.replace(' ₽','')));
+  constructor (private myServiceTips : TransmitDataService, private transmitData : TransmitDataService) {
   }
 
-  this.dataToChart.setData(this.dataX, this.dataY)
+  // get class on tab.start
+  private numberActiveTab : number = 3
+  clickOnTab (index:number) {
+    this.numberActiveTab = index;
+    this.myServiceTips.getDataUserTab(this.numberActiveTab)
+  }
 
-  // console.log (this.dataX);
-  // console.log (this.dataY);
+  getClass (index: number) : string {
+    if(index == this.numberActiveTab) {
+      return 'isActive'
+    } else {
+      return 'isUnactive'
+    }
+  }
+  // get class on tab.end
 
-}
 
+  ngOnInit(): void {
+    this.dataSubscription = this.transmitData.dataObject$.subscribe (data =>{this.dataUserOperations = data})
+  }
+
+  ngOnDestroy() : void {
+    if(this.dataSubscription)
+    {this.dataSubscription.unsubscribe}
+  }
 }
 

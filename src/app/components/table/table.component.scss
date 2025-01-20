@@ -25,12 +25,16 @@ border-radius: 40px;
   border-radius: 50px;
 
   font-family: 'Formular';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
 
-color: #313436;
+  color: #313436;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .isActive {

@@ -14,6 +14,7 @@ import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
 import { SharedModule } from './shared.module';
 import { MainComponent } from './components/main/main.component';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+// import { TransmitDataService } from './services/transmit-data.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,6 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
     WrapFlexComponent,
     HeaderUserComponent,
     LanguageComponent,
-
   ],
   imports: [BrowserModule, AppRoutingModule, RouterModule, SharedModule, MainComponent],
   providers: [
