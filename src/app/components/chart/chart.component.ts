@@ -1,13 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ChartConfiguration, Colors, Legend , ChartType} from 'chart.js';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
+import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import {defaults} from 'chart.js';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { Color } from 'chart.js';
-import { TransmitDataService } from '../../services/transmit-data.service';
 import { Subscription } from 'rxjs';
-
-
+import { TransmitDataService } from '../../services/transmit-data.service';
 
 @Component({
   selector: 'chart',
@@ -16,16 +15,13 @@ import { Subscription } from 'rxjs';
   styleUrl: './chart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class ChartComponent {
   public barChartLegend = false;
   public barChartPlugins = [Legend];
 
-   public barChartData: ChartConfiguration<'bar'>['data'] = {
+  public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
-    datasets: [
-      { data: [] },
-    ]
+    datasets: [{ data: [] }],
   };
 
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
@@ -33,11 +29,11 @@ export class ChartComponent {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false
+        display: false,
       },
-      colors : {
-        forceOverride : true
-      }
+      colors: {
+        forceOverride: true,
+      },
     },
     scales: {
       x: {
@@ -46,8 +42,8 @@ export class ChartComponent {
           font: {
             size: 14,
             family: 'Formular',
-            weight: 600
-          }
+            weight: 600,
+          },
         },
       },
       y: {
@@ -55,67 +51,74 @@ export class ChartComponent {
           color: '#101112',
           font: {
             size: 14,
-            family: 'Formular'
-          }, maxTicksLimit: 10,
-          stepSize: 2000
-        }
-      }
+            family: 'Formular',
+          },
+          maxTicksLimit: 10,
+          stepSize: 2000,
+        },
+      },
     },
-
   };
 
-  // private dataXSubscription ?: Subscription;
-  // private dataYSubscription ?: Subscription;
+  private dataXSubscription?: Subscription;
+  private dataYSubscription?: Subscription;
 
-  //   constructor(private dataFromService : TransmitOperationService) {
-  //     this.dataXSubscription = dataFromService.dataX$.subscribe (dataX => {this.barChartData.labels = dataX});
-  //     this.barChartData = {...this.barChartData}
+  constructor(
+    private DataService: TransmitDataService,
+    private dataX: TransmitDataService,
+    // private dataY: TransmitDataService,
+    private cdr: ChangeDetectorRef
+  ) {}
+  // private dataFromService : [{}] = [{}]
 
-  //     this.dataYSubscription = dataFromService.dataY$.subscribe (dataY => {this.barChartData.datasets[0].data = dataY});
-  //     this.barChartData = {...this.barChartData}
-  //   }
+  ngOnInit() {
+    let dataFromService: any[];
+    this.dataXSubscription = this.dataX.dataObject$.subscribe(
+      (dataFromService) => {
+        const getDateFromService = dataFromService.map((item) => item.data);
 
-  //   ngOnDestroy():void {
-  //     if(this.dataXSubscription) {
-  //       this.dataXSubscription.unsubscribe
-  //     }
-  //     if( this.dataYSubscription) {
-  //       this.dataYSubscription.unsubscribe
-  //     }
-  //   }
-  private dataXSubscription ?: Subscription;
-  private dataYSubscription ?: Subscription;
+        // У чаевых удаляем симввол валюты в значении
+        const getTipsFromService = dataFromService.map((item) =>
+          Number(item.tips.split(' ')[0])
+        );
 
-  constructor(private DataService : TransmitDataService, private dataX : TransmitDataService, private dataY : TransmitDataService) {}
-  // private arrData :string[] = []
+        if (dataFromService) {
+          console.log(
+            'Массив дат, которые пришли с сервиса ',
+            getDateFromService
+          );
+          this.barChartData.labels = getDateFromService;
+          this.barChartData.datasets[0].data = getTipsFromService;
+          // console.log(this.barChartData.datasets[0].data);
 
-  ngOnInit (){
-    this.dataXSubscription = this.dataX.dataObject$.subscribe
-    (data => {for (let item of data) {
-      // console.log(item.data);
-      // this.arrData.push (item.data);
-      this.barChartData.labels?.push(item.data)
+          // Применение новых данных не изменило график, делаем дубли всех данных из-за onPush
+          const doubleBarChartData = { ...this.barChartData };
+          const newLabels = [...getDateFromService];
+          doubleBarChartData.labels = newLabels;
+
+          // для второй оси
+          const newDataset = [...getTipsFromService];
+          doubleBarChartData.datasets[0].data = newDataset;
+          this.barChartData = doubleBarChartData;
+
+          // Этот код тоже работает
+          // ----------------------
+          // this.barChartData = {
+          //   ...this.barChartData,
+          //   labels: [...getDateFromService],
+          // };
+
+          this.cdr.detectChanges();
+          console.log('Даты: ', this.barChartData.labels);
+        }
       }
-    // console.log(this.arrData);
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.dataXSubscription && this.dataYSubscription) {
+      this.dataXSubscription.unsubscribe;
+      // this.dataYSubscription.unsubscribe;
     }
-      );
-      console.log(this.dataXSubscription);
-
-
-      this.dataYSubscription = this.dataY.dataObject$.subscribe
-      (data => {for (let item of data) {
-        // console.log(item.tips);
-        // console.log("График получил данные ", item.tips.split (' ')[0])
-        this.barChartData.datasets[0].data.push( Number(item.tips.split (' ')[0]))
-      }})
-
-        console.log("График получил данные ", this.barChartData.datasets[0].data)
-        console.log("График получил данные ", this.barChartData.labels);
-
-    }
-
-    ;
-
-
-
+  }
 }
