@@ -1,23 +1,28 @@
 <div class="wrapTableTop">
   <div class="tabs">
-    <div class="tab-element"
-    *ngFor="let item of tab;
-    let i = index"
-    (click)="clickOnTab(i)"
-    [ngClass]="getClass(i)">{{item}}
+    <div
+      class="tab-element"
+      *ngFor="let item of tab; let i = index"
+      (click)="clickOnTab(i)"
+      [ngClass]="getClass(i)"
+    >
+      {{ item }}
     </div>
+    <user-forms [buttonDataInput]="btnTextInput"></user-forms>
   </div>
-  <app-buttons [buttonData] = btnText [buttonStyles] = classFromTableComponent></app-buttons>
+  <app-buttons
+    [buttonData]="btnText"
+    [buttonStyles]="classFromTableComponent"
+  ></app-buttons>
 </div>
 
-  <div class="bodyTable">
-    <div class="rowTable" *ngFor="let item of dataUserOperations">
-      <div class="cellTable">{{item.data}}</div>
-      <div class="cellTable">{{item.country}}</div>
-      <div class="cellTable">{{item.tips}}</div>
-      <div class="cellTable">{{item.commission}}</div>
-      <div class="cellTable">{{item.email}}</div>
-      <div class="cellTable">{{item.card}}</div>
-    </div>
-
+<div class="bodyTable">
+  <div class="rowTable" *ngFor="let item of dataUserOperations">
+    <div class="cellTable">{{ item.data }}</div>
+    <div class="cellTable">{{ item.country }}</div>
+    <div class="cellTable">{{ item.tips }}</div>
+    <div class="cellTable">{{ item.commission }}</div>
+    <div class="cellTable">{{ item.email }}</div>
+    <div class="cellTable">{{ item.card }}</div>
   </div>
+</div>

@@ -1,4 +1,7 @@
-<button [style.background] = 'buttonStyles?.background' [style.color] = 'buttonStyles?.color'>
-  <i *ngIf="buttonData.iconClass" [class]="buttonData.iconClass"></i>
-  {{buttonData.text}}
+<button
+  [style.background]="buttonStyles?.background"
+  [style.color]="buttonStyles?.color"
+>
+  <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
+  {{ (buttonDataInput || buttonData)?.text }}
 </button>
