@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DataUserOperation } from './../types/sectionItem';
-// import { DataUserOperation } from '../types/sectionItem';
 
 @Injectable({
   providedIn: 'root',
@@ -181,55 +180,37 @@ export class TransmitDataService {
     this._correctData.asObservable();
 
   getDataUserTab(index: number) {
-    // console.log('Сервис получил клик по табу: ', index);
     this.index = index;
-    // console.log('index', index);
 
     if (this.index == 0) {
-      // console.log('выполняем условие this.index == 0');
       this.arrCorrectElements = [];
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
-        // console.log('Дата: ', this.arrDateItem);
 
         if (this.arrDate[0] === this.arrDateItem[0]) {
-          // console.log('есть совпадение');
           this.arrCorrectElements.push(item);
-          // console.log('now will transmit ', this.arrCorrectElements);
         } else {
-          // console.log('Нет совпадений', this.arrCorrectElements);
         }
       }
       console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index == 1) {
-      // console.log('выполняем условие this.index == 1');
+    } else if (this.index === 1) {
       this.arrCorrectElements = [];
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
-        // console.log('Дата: ', this.arrDateItem);
 
         if (Number(this.arrDate[0]) - 1 === Number(this.arrDateItem[0])) {
-          // console.log('есть совпадение');
           this.arrCorrectElements.push(item);
-          // console.log('now will transmit ', this.arrCorrectElements);
-        } else {
-          // console.log('Нет совпадений', this.arrCorrectElements);
         }
       }
 
       console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
-      // --------------------------------------------------------------------------
-    } else if (this.index == 2) {
-      // console.log('выполняем условие this.index == 2');
+      // ---------------------------------------------------------------------
+    } else if (this.index === 2) {
       this.arrCorrectElements = [];
 
       let currentDay: number = this.now.getDay() - 1;
-      // console.log(currentDay);
-      // console.log(Number(this.arrDate[0]) - currentDay);
 
       const arrUserOperationForWeek = this.dataUserOperations.filter((item) => {
         return (
@@ -238,29 +219,18 @@ export class TransmitDataService {
             Number(this.arrDate[0]) - currentDay
         );
       });
-      // console.log('NewArray: ', arrUserOperationForWeek);
       this.arrCorrectElements = arrUserOperationForWeek;
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index == 3) {
-      // console.log('Method is work');
-
+    } else if (this.index === 3) {
       this.arrCorrectElements = [];
       const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
       });
-      // console.log('NewArray: ', arrOperationsForMonth);
       this.arrCorrectElements = arrOperationsForMonth;
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     } else if (this.index === 4) {
       this.arrCorrectElements = [];
-      // console.log(this.now);
       this.now.setMonth(-1);
-      // console.log(this.now);
-      // console.log(this.now.getMonth() + 1);
 
       const arrOperationsForLastMonth = this.dataUserOperations.filter(
         (item) => {
@@ -268,37 +238,30 @@ export class TransmitDataService {
         }
       );
 
-      // console.log('NewArray: ', arrOperationsForLastMonth);
       this.arrCorrectElements = arrOperationsForLastMonth;
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     }
+    // else if (this.index === 5) {
+    //   btnText: ButtonData = {
+    //     text: 'Ok',
+    //     disabled: false,
+    //   };
+    // }
   }
 
   constructor() {
-    // console.log(this.now);
-    // console.log(this.now.toLocaleDateString());
-
     this.arrDate = this.now.toLocaleDateString().split('.');
-    // console.log(this.arrDate);
 
     // Интервал - месяц
     if (this.index == 3) {
-      // console.log('Constructor is work');
-
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
 
         if (this.arrDate[1] === this.arrDateItem[1]) {
           // месяц совпадает
-          // this._correctData?.push(item);
           this.arrCorrectElements.push(item);
-          // console.log('now will transmit');
         }
       }
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     }
   }
