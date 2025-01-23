@@ -4,7 +4,7 @@ export interface SectionItem {
   ID: number;
 }
 
-// Используется для текста, иконки (icon-fonts) и вкл-выкл btn
+// Управление btn
 export interface ButtonData {
   text: string;
   iconClass?: string;
@@ -26,8 +26,6 @@ export interface ButtonClass {
   background?: string;
   color?: string;
 }
-
-// TODO объединить и удалить
 
 export interface DataUserOperation {
   data: string;

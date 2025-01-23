@@ -1,7 +1,16 @@
 <button
+<<<<<<< HEAD
   [style.background]="buttonStyles?.background"
   [style.color]="buttonStyles?.color"
 >
   <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
   {{ (buttonDataInput || buttonData)?.text }}
+=======
+  [style.background]="buttonData?.background"
+  [style.color]="buttonData?.color"
+  [disabled]="buttonData?.disabled"
+>
+  <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
+  {{ buttonData.text }}
+>>>>>>> fork
 </button>

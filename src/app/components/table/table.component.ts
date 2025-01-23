@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
-import {
-  ButtonClass,
-  ButtonData,
-  DataUserOperation,
-} from '../../types/sectionItem';
-import { UserFormsComponent } from '../user-forms/user-forms.component';
+import { ButtonData, DataUserOperation } from '../../types/sectionItem';
+import { DataInputComponent } from '../data-input/data-input.component';
 
 @Component({
   selector: 'table',
-  imports: [SharedModule, CommonModule, UserFormsComponent],
+  imports: [SharedModule, CommonModule, DataInputComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,21 +31,23 @@ export class TableComponent implements OnInit {
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
     iconClass: 'icon-PaperDownload',
-  };
-
-  public btnTextInput: ButtonData = {
-    text: 'Ok',
-  };
-  public classFromTableComponent: ButtonClass = {
     background: '#F7F9FB',
     color: '#101112',
   };
+  // public classFromTableComponent: ButtonClass= {background : '#F7F9FB', color: '#101112'};
+
+  transmitToBTN: ButtonData = {
+    text: 'Ok',
+    disabled: true,
+  };
+
   private dataSubscription!: Subscription;
   public dataUserOperations: DataUserOperation[] = [];
 
   constructor(
     private myServiceTips: TransmitDataService,
-    private transmitData: TransmitDataService
+    private transmitData: TransmitDataService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // get class on tab.start
@@ -52,11 +55,13 @@ export class TableComponent implements OnInit {
   clickOnTab(index: number) {
     this.numberActiveTab = index;
     this.myServiceTips.getDataUserTab(this.numberActiveTab);
+
     if (this.numberActiveTab === 5) {
-      this.btnTextInput = {
+      this.transmitToBTN = {
         text: 'Ok',
         disabled: false,
       };
+      this.cdr.markForCheck();
     }
   }
 
