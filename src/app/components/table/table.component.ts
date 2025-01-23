@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
@@ -30,12 +35,19 @@ export class TableComponent implements OnInit {
     color: '#101112',
   };
   // public classFromTableComponent: ButtonClass= {background : '#F7F9FB', color: '#101112'};
+
+  transmitToBTN: ButtonData = {
+    text: 'Ok',
+    disabled: true,
+  };
+
   private dataSubscription!: Subscription;
   public dataUserOperations: DataUserOperation[] = [];
 
   constructor(
     private myServiceTips: TransmitDataService,
-    private transmitData: TransmitDataService
+    private transmitData: TransmitDataService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // get class on tab.start
@@ -43,6 +55,14 @@ export class TableComponent implements OnInit {
   clickOnTab(index: number) {
     this.numberActiveTab = index;
     this.myServiceTips.getDataUserTab(this.numberActiveTab);
+
+    if (this.numberActiveTab === 5) {
+      this.transmitToBTN = {
+        text: 'Ok',
+        disabled: false,
+      };
+      this.cdr.markForCheck();
+    }
   }
 
   getClass(index: number): string {

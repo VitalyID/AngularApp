@@ -3,6 +3,6 @@
   [style.color]="buttonData?.color"
   [disabled]="buttonData?.disabled"
 >
-  <i *ngIf="buttonData.iconClass" [class]="buttonData.iconClass"></i>
+  <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
   {{ buttonData.text }}
 </button>

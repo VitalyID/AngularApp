@@ -11,5 +11,4 @@ import { ButtonData } from '../../types/sectionItem';
 })
 export class ButtonsComponent {
   @Input() buttonData!: ButtonData;
-  // @Input() buttonStyles ?: ButtonClass;
 }

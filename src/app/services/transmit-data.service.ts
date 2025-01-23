@@ -9,6 +9,30 @@ import { DataUserOperation } from './../types/sectionItem';
 export class TransmitDataService {
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '23.01.2025',
+      country: 'Russia',
+      tips: '0300 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '22.01.2025',
+      country: 'Russia',
+      tips: '5300 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '22.01.2025',
+      country: 'Russia',
+      tips: '5900 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '21.01.2025',
       country: 'Russia',
       tips: '6100 ₽  ',
