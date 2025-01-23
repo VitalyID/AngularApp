@@ -10,5 +10,5 @@ import { ButtonData } from '../../types/sectionItem';
   styleUrl: './buttons.component.scss',
 })
 export class ButtonsComponent {
-  @Input() buttonData!: ButtonData;
+  @Input() buttonData: ButtonData | null = null;
 }

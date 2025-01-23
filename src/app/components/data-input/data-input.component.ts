@@ -17,8 +17,8 @@ import { ButtonData } from './../../types/sectionItem';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataInputComponent implements OnChanges {
-  @Input() dateForBTN!: ButtonData;
-  btnText2!: ButtonData;
+  @Input() dateForBTN: ButtonData | null = null;
+  btnText2: ButtonData | null = null;
 
   ngOnInit(): void {
     this.btnText2 = this.dateForBTN;

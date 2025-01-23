@@ -5,7 +5,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
@@ -36,10 +36,15 @@ export class TableComponent implements OnInit {
   };
   // public classFromTableComponent: ButtonClass= {background : '#F7F9FB', color: '#101112'};
 
-  transmitToBTN: ButtonData = {
+  // transmitToBTN: ButtonData = {
+  //   text: 'Ok',
+  //   disabled: true,
+  // };
+
+  transmitToBTN$ = new BehaviorSubject<ButtonData>({
     text: 'Ok',
     disabled: true,
-  };
+  });
 
   private dataSubscription!: Subscription;
   public dataUserOperations: DataUserOperation[] = [];
@@ -57,11 +62,11 @@ export class TableComponent implements OnInit {
     this.myServiceTips.getDataUserTab(this.numberActiveTab);
 
     if (this.numberActiveTab === 5) {
-      this.transmitToBTN = {
+      this.transmitToBTN$.next({
         text: 'Ok',
         disabled: false,
-      };
-      this.cdr.markForCheck();
+      });
+      // this.cdr.markForCheck();
     }
   }
 
