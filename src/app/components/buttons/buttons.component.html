@@ -2,6 +2,7 @@
   [style.background]="buttonData?.background"
   [style.color]="buttonData?.color"
   [disabled]="buttonData?.disabled"
+  (click)="clickOn()"
 >
   <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
   {{ buttonData.text }}

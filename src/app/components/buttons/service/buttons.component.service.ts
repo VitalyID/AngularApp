@@ -5,11 +5,15 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ButtonService {
-  public eventClick$ = new Subject<number>();
+  public eventClick$ = new Subject<{ id: number }>();
 
-  clickOnButton(): void {}
+  clickOnButton(id: number): void {
+    this.eventClick$.next({ id });
+  }
 
-  public eventClickIsDone(eventClick: number) {
-    this.eventClick$.next(eventClick);
+  public DateFromInput$ = new Subject<{ obj: object }>();
+
+  transmitData(obj: object): void {
+    this.DateFromInput$.next({ obj });
   }
 }

@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DataUserOperation } from './../types/sectionItem';
+import { ButtonService } from '../components/buttons/service/buttons.component.service';
+import {
+  DataUserOperation,
+  DateTimeUserOperations,
+} from './../types/sectionItem';
 // import { DataUserOperation } from '../types/sectionItem';
 
 @Injectable({
@@ -204,6 +208,8 @@ export class TransmitDataService {
   public dataObject$: Observable<DataUserOperation[]> =
     this._correctData.asObservable();
 
+  #tmp?: DateTimeUserOperations;
+
   getDataUserTab(index: number) {
     // console.log('Сервис получил клик по табу: ', index);
     this.index = index;
@@ -279,7 +285,7 @@ export class TransmitDataService {
       // console.log('ready to transmit ', this.arrCorrectElements);
       // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index === 4) {
+    } else if (this.index == 4) {
       this.arrCorrectElements = [];
       // console.log(this.now);
       this.now.setMonth(-1);
@@ -297,10 +303,15 @@ export class TransmitDataService {
       // console.log('ready to transmit ', this.arrCorrectElements);
       // // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
+    } else if (this.index == 5) {
+      // Получаем данные по с myForm по клику кнопки
+      this.service.DateFromInput$.subscribe((data) => {
+        console.log(data.obj);
+      });
     }
   }
 
-  constructor() {
+  constructor(private service: ButtonService) {
     // console.log(this.now);
     // console.log(this.now.toLocaleDateString());
 

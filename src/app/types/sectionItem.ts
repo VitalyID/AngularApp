@@ -13,13 +13,8 @@ export interface ButtonData {
   color?: string;
   type?: string;
   event?: string;
+  id: number;
 }
-
-// export interface ButtonClass {
-//   background ?: string,
-//   color ?: string
-// }
-
 export interface DataUserOperation {
   data: string;
   country: string;
@@ -27,4 +22,10 @@ export interface DataUserOperation {
   commission: string;
   email: string;
   card: string;
+}
+
+// Даты пользователя при клике на таб "За период"
+export interface DateTimeUserOperations {
+  dateFrom: string;
+  dateEnd: string;
 }
