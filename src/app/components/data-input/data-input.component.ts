@@ -27,6 +27,7 @@ export class DataInputComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dateForBTN']) {
       console.log('Пришли изменения ', this.dateForBTN);
+      this.btnText2 = this.dateForBTN;
       // this.cdr.detectChanges();
       // this.cdr.markForCheck();
     }

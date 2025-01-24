@@ -6,11 +6,13 @@ export interface SectionItem {
 
 // Управление btn
 export interface ButtonData {
-  text: string;
+  text?: string;
   iconClass?: string;
   disabled?: boolean;
   background?: string;
   color?: string;
+  type?: string;
+  event?: string;
 }
 
 // export interface ButtonClass {
