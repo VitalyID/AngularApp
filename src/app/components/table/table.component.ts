@@ -64,7 +64,6 @@ export class TableComponent implements OnInit {
         disabled: false,
         id: 2,
       };
-      // this.cdr.markForCheck();
     } else {
       this.transmitToBTN = {
         text: 'Ok',

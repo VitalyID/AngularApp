@@ -5,7 +5,6 @@ import {
   DataUserOperation,
   DateTimeUserOperations,
 } from './../types/sectionItem';
-// import { DataUserOperation } from '../types/sectionItem';
 
 @Injectable({
   providedIn: 'root',
@@ -224,13 +223,10 @@ export class TransmitDataService {
   public dataObject$: Observable<DataUserOperation[]> =
     this._correctData.asObservable();
 
-  // private arrUserActualOperations?: DataUserOperation
   #tmp?: DateTimeUserOperations;
 
   getDataUserTab(index: number) {
-    // console.log('Сервис получил клик по табу: ', index);
     this.index = index;
-    // console.log('index', index);
     let arrUserActualOperations;
 
     if (this.index == 0) {
@@ -252,32 +248,20 @@ export class TransmitDataService {
       // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     } else if (this.index == 1) {
-      // console.log('выполняем условие this.index == 1');
       this.arrCorrectElements = [];
+
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
-        // console.log('Дата: ', this.arrDateItem);
-
         if (Number(this.arrDate[0]) - 1 === Number(this.arrDateItem[0])) {
-          // console.log('есть совпадение');
           this.arrCorrectElements.push(item);
-          // console.log('now will transmit ', this.arrCorrectElements);
         } else {
-          // console.log('Нет совпадений', this.arrCorrectElements);
         }
       }
 
-      console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
-      // --------------------------------------------------------------------------
     } else if (this.index == 2) {
-      // console.log('выполняем условие this.index == 2');
       this.arrCorrectElements = [];
-
       let currentDay: number = this.now.getDay() - 1;
-      // console.log(currentDay);
-      // console.log(Number(this.arrDate[0]) - currentDay);
 
       const arrUserOperationForWeek = this.dataUserOperations.filter((item) => {
         return (
@@ -286,29 +270,18 @@ export class TransmitDataService {
             Number(this.arrDate[0]) - currentDay
         );
       });
-      // console.log('NewArray: ', arrUserOperationForWeek);
       this.arrCorrectElements = arrUserOperationForWeek;
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     } else if (this.index == 3) {
-      // console.log('Method is work');
-
       this.arrCorrectElements = [];
       const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
       });
-      // console.log('NewArray: ', arrOperationsForMonth);
       this.arrCorrectElements = arrOperationsForMonth;
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     } else if (this.index == 4) {
       this.arrCorrectElements = [];
-      // console.log(this.now);
       this.now.setMonth(-1);
-      // console.log(this.now);
-      // console.log(this.now.getMonth() + 1);
 
       const arrOperationsForLastMonth = this.dataUserOperations.filter(
         (item) => {
@@ -316,87 +289,52 @@ export class TransmitDataService {
         }
       );
 
-      // console.log('NewArray: ', arrOperationsForLastMonth);
       this.arrCorrectElements = arrOperationsForLastMonth;
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     } else if (this.index == 5) {
-      // Получаем данные по с myForm по клику кнопки
       this.service.DateFromInput$.subscribe((data) => {
-        // console.log(data.obj);
         this.#tmp = data.obj as DateTimeUserOperations;
-        // console.log(this.#tmp);
 
         let dataStart = new Date(this.#tmp.dateFrom);
         let dataEnd = new Date(this.#tmp.dateEnd);
         console.log(this.#tmp.dateFrom, this.#tmp.dateEnd);
         console.log(dataEnd, dataStart);
 
-        // console.log(+dataEnd - +dataStart);
+        arrUserActualOperations = this.dataUserOperations.filter((item) => {
+          const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
+          const match = item.data.match(regex);
 
-        const arrOperationsUserSetYear = [];
-        const arrOperationsUserSetMonth = [];
-        // const arrOperationsUserSet = [];
-        arrUserActualOperations = this.dataUserOperations.filter(
-          (item) => {
-            console.log(item.data);
-            // const qq = convertDateFormat(item.data)
-
-            // function convertDateFormat(dateString: string) {
-            const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
-            const match = item.data.match(regex);
-
-            let dataActual;
-            if (match) {
-              const day = match[1];
-              const month = match[2];
-              const year = match[3];
-              // return `${year}-${month}-${day}`;
-              dataActual = `${year}-${month}-${day}`;
-            }
-
-            const dataActualFormat = new Date(`${dataActual}`);
-            console.log(dataStart);
-            console.log(dataActualFormat);
-            console.log(dataEnd);
-
-            return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
+          let dataActual;
+          if (match) {
+            const day = match[1];
+            const month = match[2];
+            const year = match[3];
+            dataActual = `${year}-${month}-${day}`;
           }
 
-          // const dataActual = new Date(item.data);
-          // }
-        );
+          const dataActualFormat = new Date(`${dataActual}`);
 
-        console.log(arrUserActualOperations);
+          return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
+        });
+
         this._correctData.next(arrUserActualOperations);
       });
     }
   }
 
   constructor(private service: ButtonService) {
-    // console.log(this.now);
-    // console.log(this.now.toLocaleDateString());
-
     this.arrDate = this.now.toLocaleDateString().split('.');
-    // console.log(this.arrDate);
 
     // Интервал - месяц
     if (this.index == 3) {
-      // console.log('Constructor is work');
-
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
 
         if (this.arrDate[1] === this.arrDateItem[1]) {
           // месяц совпадает
-          // this._correctData?.push(item);
           this.arrCorrectElements.push(item);
-          // console.log('now will transmit');
         }
       }
-      // console.log('ready to transmit ', this.arrCorrectElements);
-      // this.dataObject$ = this.arrCorrectElements.asObservable();
       this._correctData.next(this.arrCorrectElements);
     }
   }

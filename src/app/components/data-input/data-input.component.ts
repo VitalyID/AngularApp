@@ -29,11 +29,6 @@ export class DataInputComponent implements OnChanges, OnInit {
     dateEnd: new FormControl('2025-01-24'),
   });
 
-  // #dateTimeUserOperations: DateTimeUserOperations = {
-  //   dateFrom: '',
-  //   dateEnd: '',
-  // };
-
   #clickSubscription!: Subscription;
 
   ngOnInit(): void {
@@ -45,29 +40,7 @@ export class DataInputComponent implements OnChanges, OnInit {
         if (data.id === 2) {
           console.log('Кнопка нажата с ID:', data.id);
 
-          // проверка на соответсвие
-          // const tmp = this.myInputForm.value as DateTimeUserOperations;
           this.buttonService.transmitData(this.myInputForm.value);
-          // this.#dateTimeUserOperations = tmp;
-
-          // if (
-          //   this.#dateTimeUserOperations.dateFrom &&
-          //   this.#dateTimeUserOperations.dateEnd
-          // ) {
-          //   // проверка на соответсвие.end
-
-          //   console.log(
-          //     this.#dateTimeUserOperations.dateFrom,
-          //     ' ',
-          //     this.#dateTimeUserOperations.dateEnd
-          //   );
-
-          //   const dateStart = new Date(this.#dateTimeUserOperations.dateFrom);
-          //   const dateEnd = new Date(this.#dateTimeUserOperations.dateEnd);
-          //   // console.log(typeof dateEnd);
-
-          //   console.log(+dateEnd - +dateStart);
-          // }
         }
       }
     );
@@ -75,7 +48,6 @@ export class DataInputComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dateForBTN']) {
-      console.log('Пришли изменения ', this.dateForBTN);
       this.btnText2 = this.dateForBTN;
     }
     if (changes['clickSubscription']) console.log(222222);
