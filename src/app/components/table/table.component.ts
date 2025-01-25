@@ -33,12 +33,14 @@ export class TableComponent implements OnInit {
     iconClass: 'icon-PaperDownload',
     background: '#F7F9FB',
     color: '#101112',
+    id: 1,
   };
   // public classFromTableComponent: ButtonClass= {background : '#F7F9FB', color: '#101112'};
 
   transmitToBTN: ButtonData = {
     text: 'Ok',
     disabled: true,
+    id: 2,
   };
 
   private dataSubscription!: Subscription;
@@ -60,8 +62,14 @@ export class TableComponent implements OnInit {
       this.transmitToBTN = {
         text: 'Ok',
         disabled: false,
+        id: 2,
       };
-      this.cdr.markForCheck();
+    } else {
+      this.transmitToBTN = {
+        text: 'Ok',
+        disabled: true,
+        id: 2,
+      };
     }
   }
 

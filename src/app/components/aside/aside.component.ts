@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { SectionItem } from './../../types/sectionItem';
-import { ButtonsComponent } from '../buttons/buttons.component';
-import { ButtonData } from './../../types/sectionItem';
+import { ButtonData, SectionItem } from './../../types/sectionItem';
 
 @Component({
   selector: 'app-aside',
@@ -71,24 +69,19 @@ export class AsideComponent {
   public othergroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
 
-   public btnText: ButtonData = {text: 'Служба поддержки'}
-
+  public btnText: ButtonData = { text: 'Служба поддержки', id: 4 };
 
   ngOnInit(): void {
     this.generalGroup = this.title2.slice(0, 9);
     // this.myGroup = this.title2.slice(5, 8);
     // this.othergroup = this.title2.slice(8, 9);
     this.logOut = this.title2.slice(9, 10);
-
-
   }
 
   activeItemID: number | null = null;
   selectItem(item: SectionItem) {
     this.activeItemID = item.ID;
   }
-
-
 
   // public isMy : string[] = ['Мои площадки', 'Мои сотрудники','Мои отзывы' ]
 }

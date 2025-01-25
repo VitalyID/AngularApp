@@ -1,12 +1,32 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DataUserOperation } from './../types/sectionItem';
+import { ButtonService } from '../components/buttons/service/buttons.component.service';
+import {
+  DataUserOperation,
+  DateTimeUserOperations,
+} from './../types/sectionItem';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransmitDataService {
   public dataUserOperations: DataUserOperation[] = [
+    {
+      data: '25.01.2025',
+      country: 'Russia',
+      tips: '900 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '24.01.2025',
+      country: 'Russia',
+      tips: '1300 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
     {
       data: '23.01.2025',
       country: 'Russia',
@@ -203,8 +223,12 @@ export class TransmitDataService {
   public dataObject$: Observable<DataUserOperation[]> =
     this._correctData.asObservable();
 
+  #tmp?: DateTimeUserOperations;
+
   getDataUserTab(index: number) {
     this.index = index;
+
+    let arrUserActualOperations;
 
     if (this.index == 0) {
       this.arrCorrectElements = [];
@@ -218,22 +242,20 @@ export class TransmitDataService {
       }
       console.log('ready to transmit ', this.arrCorrectElements);
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index === 1) {
+    } else if (this.index == 1) {
       this.arrCorrectElements = [];
+
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
-
         if (Number(this.arrDate[0]) - 1 === Number(this.arrDateItem[0])) {
           this.arrCorrectElements.push(item);
+        } else {
         }
       }
 
-      console.log('ready to transmit ', this.arrCorrectElements);
       this._correctData.next(this.arrCorrectElements);
-      // ---------------------------------------------------------------------
-    } else if (this.index === 2) {
+    } else if (this.index == 2) {
       this.arrCorrectElements = [];
-
       let currentDay: number = this.now.getDay() - 1;
 
       const arrUserOperationForWeek = this.dataUserOperations.filter((item) => {
@@ -245,14 +267,14 @@ export class TransmitDataService {
       });
       this.arrCorrectElements = arrUserOperationForWeek;
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index === 3) {
+    } else if (this.index == 3) {
       this.arrCorrectElements = [];
       const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
       });
       this.arrCorrectElements = arrOperationsForMonth;
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index === 4) {
+    } else if (this.index == 4) {
       this.arrCorrectElements = [];
       this.now.setMonth(-1);
 
@@ -264,16 +286,38 @@ export class TransmitDataService {
 
       this.arrCorrectElements = arrOperationsForLastMonth;
       this._correctData.next(this.arrCorrectElements);
+    } else if (this.index == 5) {
+      this.service.DateFromInput$.subscribe((data) => {
+        this.#tmp = data.obj as DateTimeUserOperations;
+
+        let dataStart = new Date(this.#tmp.dateFrom);
+        let dataEnd = new Date(this.#tmp.dateEnd);
+        console.log(this.#tmp.dateFrom, this.#tmp.dateEnd);
+        console.log(dataEnd, dataStart);
+
+        arrUserActualOperations = this.dataUserOperations.filter((item) => {
+          const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
+          const match = item.data.match(regex);
+
+          let dataActual;
+          if (match) {
+            const day = match[1];
+            const month = match[2];
+            const year = match[3];
+            dataActual = `${year}-${month}-${day}`;
+          }
+
+          const dataActualFormat = new Date(`${dataActual}`);
+
+          return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
+        });
+
+        this._correctData.next(arrUserActualOperations);
+      });
     }
-    // else if (this.index === 5) {
-    //   btnText: ButtonData = {
-    //     text: 'Ok',
-    //     disabled: false,
-    //   };
-    // }
   }
 
-  constructor() {
+  constructor(private service: ButtonService) {
     this.arrDate = this.now.toLocaleDateString().split('.');
 
     // Интервал - месяц

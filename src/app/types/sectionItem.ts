@@ -6,27 +6,15 @@ export interface SectionItem {
 
 // Управление btn
 export interface ButtonData {
-  text: string;
+  text?: string;
   iconClass?: string;
   disabled?: boolean;
   background?: string;
   color?: string;
+  type?: string;
+  event?: string;
+  id: number;
 }
-
-export interface ButtonDataInput {
-  text: string;
-  iconClass?: string;
-  disabled?: boolean;
-  background?: string;
-  color?: string;
-}
-
-// Используется для передачи нового класса стилей btn
-export interface ButtonClass {
-  background?: string;
-  color?: string;
-}
-
 export interface DataUserOperation {
   data: string;
   country: string;
@@ -34,4 +22,10 @@ export interface DataUserOperation {
   commission: string;
   email: string;
   card: string;
+}
+
+// Даты пользователя при клике на таб "За период"
+export interface DateTimeUserOperations {
+  dateFrom: string;
+  dateEnd: string;
 }

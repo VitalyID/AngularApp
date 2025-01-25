@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ButtonData } from '../../types/sectionItem';
-// import { ButtonClass } from '../../types/sectionItem';
+import { ButtonService } from './service/buttons.component.service';
 
 @Component({
   selector: 'app-buttons',
@@ -11,4 +11,10 @@ import { ButtonData } from '../../types/sectionItem';
 })
 export class ButtonsComponent {
   @Input() buttonData!: ButtonData;
+
+  constructor(private service: ButtonService) {}
+
+  clickOn() {
+    this.service.clickOnButton(this.buttonData.id);
+  }
 }

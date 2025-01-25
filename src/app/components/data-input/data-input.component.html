@@ -1,7 +1,7 @@
-<div class="wrapComponent">
+<div class="wrapComponent" [formGroup]="myInputForm">
   <div class="wrapInput">
-    <input type="date" />
-    <input type="date" />
+    <input type="date" formControlName="dateFrom" />
+    <input type="date" formControlName="dateEnd" />
   </div>
   <app-buttons [buttonData]="btnText2"></app-buttons>
 </div>
