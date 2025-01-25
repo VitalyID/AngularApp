@@ -13,6 +13,22 @@ import {
 export class TransmitDataService {
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '25.01.2025',
+      country: 'Russia',
+      tips: '900 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '24.01.2025',
+      country: 'Russia',
+      tips: '1300 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '23.01.2025',
       country: 'Russia',
       tips: '0300 ₽  ',
@@ -208,12 +224,14 @@ export class TransmitDataService {
   public dataObject$: Observable<DataUserOperation[]> =
     this._correctData.asObservable();
 
+  // private arrUserActualOperations?: DataUserOperation
   #tmp?: DateTimeUserOperations;
 
   getDataUserTab(index: number) {
     // console.log('Сервис получил клик по табу: ', index);
     this.index = index;
     // console.log('index', index);
+    let arrUserActualOperations;
 
     if (this.index == 0) {
       // console.log('выполняем условие this.index == 0');
@@ -306,7 +324,52 @@ export class TransmitDataService {
     } else if (this.index == 5) {
       // Получаем данные по с myForm по клику кнопки
       this.service.DateFromInput$.subscribe((data) => {
-        console.log(data.obj);
+        // console.log(data.obj);
+        this.#tmp = data.obj as DateTimeUserOperations;
+        // console.log(this.#tmp);
+
+        let dataStart = new Date(this.#tmp.dateFrom);
+        let dataEnd = new Date(this.#tmp.dateEnd);
+        console.log(this.#tmp.dateFrom, this.#tmp.dateEnd);
+        console.log(dataEnd, dataStart);
+
+        // console.log(+dataEnd - +dataStart);
+
+        const arrOperationsUserSetYear = [];
+        const arrOperationsUserSetMonth = [];
+        // const arrOperationsUserSet = [];
+        arrUserActualOperations = this.dataUserOperations.filter(
+          (item) => {
+            console.log(item.data);
+            // const qq = convertDateFormat(item.data)
+
+            // function convertDateFormat(dateString: string) {
+            const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
+            const match = item.data.match(regex);
+
+            let dataActual;
+            if (match) {
+              const day = match[1];
+              const month = match[2];
+              const year = match[3];
+              // return `${year}-${month}-${day}`;
+              dataActual = `${year}-${month}-${day}`;
+            }
+
+            const dataActualFormat = new Date(`${dataActual}`);
+            console.log(dataStart);
+            console.log(dataActualFormat);
+            console.log(dataEnd);
+
+            return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
+          }
+
+          // const dataActual = new Date(item.data);
+          // }
+        );
+
+        console.log(arrUserActualOperations);
+        this._correctData.next(arrUserActualOperations);
       });
     }
   }
