@@ -73,8 +73,6 @@ export class AsideComponent {
 
   ngOnInit(): void {
     this.generalGroup = this.title2.slice(0, 9);
-    // this.myGroup = this.title2.slice(5, 8);
-    // this.othergroup = this.title2.slice(8, 9);
     this.logOut = this.title2.slice(9, 10);
   }
 
@@ -83,5 +81,11 @@ export class AsideComponent {
     this.activeItemID = item.ID;
   }
 
-  // public isMy : string[] = ['Мои площадки', 'Мои сотрудники','Мои отзывы' ]
+  // добавляем класс только к элементам с этими id
+  readonly activeMenuItem: number[] = [6, 7, 8];
+  getClassForSectionItem(id: number): boolean {
+    if (this.activeMenuItem.indexOf(id) != -1) {
+      return true;
+    } else return false;
+  }
 }

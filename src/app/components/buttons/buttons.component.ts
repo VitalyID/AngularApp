@@ -10,11 +10,13 @@ import { ButtonService } from './service/buttons.component.service';
   styleUrl: './buttons.component.scss',
 })
 export class ButtonsComponent {
-  @Input() buttonData!: ButtonData;
+  @Input() buttonData?: ButtonData;
 
   constructor(private service: ButtonService) {}
 
   clickOn() {
-    this.service.clickOnButton(this.buttonData.id);
+    if (this.buttonData) {
+      this.service.clickOnButton(this.buttonData.id);
+    }
   }
 }

@@ -6,10 +6,9 @@
 
 <div class="aside-body">
   <div *ngFor="let item of generalGroup">
-    <app-section [item]="item" [isActive]="item.ID === 6 || item.ID === 7 || item.ID === 8">
+    <app-section [item]="item" [isActive]="getClassForSectionItem(item.ID)">
     </app-section>
   </div>
-
 
   <div class="support-wrapper">
     <div class="support">
@@ -22,7 +21,6 @@
   </div>
 
   <div *ngFor="let item of logOut">
-    <app-section [item]="item">
-    </app-section>
+    <app-section [item]="item"> </app-section>
   </div>
 </div>
