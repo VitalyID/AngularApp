@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ButtonData, SectionItem } from './../../types/sectionItem';
+import { ButtonData, SectionItem } from '../../../types/sectionItem';
 
 @Component({
   selector: 'app-aside',
