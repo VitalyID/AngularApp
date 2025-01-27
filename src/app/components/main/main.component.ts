@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SharedModule } from '../../shared.module';
 import { ChartComponent } from '../chart/chart.component';
@@ -14,7 +20,9 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
+  readonly #btnService = inject(ButtonService);
+
   public btnText: ButtonData = {
     text: 'Создать QR-Code',
     iconClass: 'icon-add-outline',
@@ -23,13 +31,13 @@ export class MainComponent implements OnInit {
 
   clickOn() {
     // отправляем в сервис клик по кнопке с ее идентификатором "3".
-    this.btnService.clickOnButton(this.btnText.id);
+    this.#btnService.clickOnButton(this.btnText.id);
   }
 
   private btnSubscription!: Subscription;
 
   ngOnInit(): void {
-    this.btnSubscription = this.btnService.eventClick$.subscribe((data) => {
+    this.btnSubscription = this.#btnService.eventClick$.subscribe((data) => {
       if (data.id == 3) {
         console.log('Кнопка нажата с ID:', data.id);
         // пишем логику клика по кнопке
@@ -37,5 +45,11 @@ export class MainComponent implements OnInit {
     });
   }
 
-  constructor(private btnService: ButtonService) {}
+  ngOnDestroy(): void {
+    if (this.btnSubscription) {
+      this.btnSubscription.unsubscribe();
+    }
+  }
+
+  constructor() {}
 }

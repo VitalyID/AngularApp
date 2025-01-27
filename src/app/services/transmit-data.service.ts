@@ -12,6 +12,22 @@ import {
 export class TransmitDataService {
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '27.01.2025',
+      country: 'Russia',
+      tips: '4800 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '26.01.2025',
+      country: 'Russia',
+      tips: '9800 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '25.01.2025',
       country: 'Russia',
       tips: '900 ₽  ',
@@ -35,14 +51,7 @@ export class TransmitDataService {
       email: 'mail@mail.ru',
       card: '4563****2569',
     },
-    {
-      data: '22.01.2025',
-      country: 'Russia',
-      tips: '5300 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
+
     {
       data: '22.01.2025',
       country: 'Russia',
@@ -190,7 +199,7 @@ export class TransmitDataService {
     {
       data: '10.09.2024',
       country: 'Russia',
-      tips: '6000 ₽  ',
+      tips: '3400 ₽  ',
       commission: '12 ₽',
       email: 'mail@mail.ru',
       card: '4563****2569',
@@ -198,7 +207,7 @@ export class TransmitDataService {
     {
       data: '09.08.2024',
       country: 'Russia',
-      tips: '6000 ₽  ',
+      tips: '9000 ₽  ',
       commission: '12 ₽',
       email: 'mail@mail.ru',
       card: '4563****2569',
@@ -213,7 +222,7 @@ export class TransmitDataService {
     },
   ];
 
-  private index: number = 3;
+  private id: number = 3;
   private now = new Date();
   arrDate: string[] = [];
   arrDateItem: string[] = [];
@@ -225,12 +234,12 @@ export class TransmitDataService {
 
   #tmp?: DateTimeUserOperations;
 
-  getDataUserTab(index: number) {
-    this.index = index;
+  getDataUserTab(id: number) {
+    this.id = id;
 
     let arrUserActualOperations;
 
-    if (this.index == 0) {
+    if (this.id == 0) {
       this.arrCorrectElements = [];
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
@@ -242,7 +251,7 @@ export class TransmitDataService {
       }
       console.log('ready to transmit ', this.arrCorrectElements);
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index == 1) {
+    } else if (this.id == 1) {
       this.arrCorrectElements = [];
 
       for (let item of this.dataUserOperations) {
@@ -254,7 +263,7 @@ export class TransmitDataService {
       }
 
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index == 2) {
+    } else if (this.id == 2) {
       this.arrCorrectElements = [];
       let currentDay: number = this.now.getDay() - 1;
 
@@ -267,14 +276,14 @@ export class TransmitDataService {
       });
       this.arrCorrectElements = arrUserOperationForWeek;
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index == 3) {
+    } else if (this.id == 3) {
       this.arrCorrectElements = [];
       const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
       });
       this.arrCorrectElements = arrOperationsForMonth;
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index == 4) {
+    } else if (this.id == 4) {
       this.arrCorrectElements = [];
       this.now.setMonth(-1);
 
@@ -286,7 +295,7 @@ export class TransmitDataService {
 
       this.arrCorrectElements = arrOperationsForLastMonth;
       this._correctData.next(this.arrCorrectElements);
-    } else if (this.index == 5) {
+    } else if (this.id == 5) {
       this.service.DateFromInput$.subscribe((data) => {
         this.#tmp = data.obj as DateTimeUserOperations;
 
@@ -321,7 +330,7 @@ export class TransmitDataService {
     this.arrDate = this.now.toLocaleDateString().split('.');
 
     // Интервал - месяц
-    if (this.index == 3) {
+    if (this.id == 3) {
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
 

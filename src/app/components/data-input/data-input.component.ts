@@ -1,9 +1,10 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
@@ -20,7 +21,9 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
   styleUrl: './data-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataInputComponent implements OnChanges, OnInit {
+export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
+  readonly #buttonService = inject(ButtonService);
+
   @Input() dateForBTN!: ButtonData;
   btnText2!: ButtonData;
 
@@ -35,12 +38,12 @@ export class DataInputComponent implements OnChanges, OnInit {
     this.btnText2 = this.dateForBTN;
 
     // принимаем клик с сервиса btn
-    this.#clickSubscription = this.buttonService.eventClick$.subscribe(
+    this.#clickSubscription = this.#buttonService.eventClick$.subscribe(
       (data) => {
         if (data.id === 2) {
           console.log('Кнопка нажата с ID:', data.id);
 
-          this.buttonService.transmitData(this.myInputForm.value);
+          this.#buttonService.transmitData(this.myInputForm.value);
         }
       }
     );
@@ -59,8 +62,5 @@ export class DataInputComponent implements OnChanges, OnInit {
     }
   }
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private buttonService: ButtonService
-  ) {}
+  constructor() {}
 }

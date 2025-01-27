@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  inject,
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
+import { Tabs } from '../../types/interfaces/Tabs';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
 
@@ -19,13 +20,16 @@ import { DataInputComponent } from '../data-input/data-input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent implements OnInit {
-  public tab: string[] = [
-    'За сегодня',
-    'За вчера',
-    'За неделю',
-    'За месяц',
-    'За прошлый месяц',
-    'За период',
+  readonly #myService = inject(TransmitDataService);
+  readonly #myServiceGetData = inject(TransmitDataService);
+
+  public tabs: Tabs[] = [
+    { name: 'За сегодня', id: 0 },
+    { name: 'За вчера', id: 1 },
+    { name: 'За неделю', id: 2 },
+    { name: 'За месяц', id: 3 },
+    { name: 'За прошлый месяц', id: 4 },
+    { name: 'За период', id: 5 },
   ];
 
   public btnText: ButtonData = {
@@ -35,7 +39,6 @@ export class TableComponent implements OnInit {
     color: '#101112',
     id: 1,
   };
-  // public classFromTableComponent: ButtonClass= {background : '#F7F9FB', color: '#101112'};
 
   transmitToBTN: ButtonData = {
     text: 'Ok',
@@ -44,21 +47,17 @@ export class TableComponent implements OnInit {
   };
 
   private dataSubscription!: Subscription;
-  public dataUserOperations: DataUserOperation[] = [];
+  public operations: DataUserOperation[] = [];
 
-  constructor(
-    private myServiceTips: TransmitDataService,
-    private transmitData: TransmitDataService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor() {}
 
   // get class on tab.start
-  private numberActiveTab: number = 3;
+  private IDActiveTab: number = 3;
   clickOnTab(index: number) {
-    this.numberActiveTab = index;
-    this.myServiceTips.getDataUserTab(this.numberActiveTab);
+    this.IDActiveTab = index;
+    this.#myService.getDataUserTab(this.IDActiveTab);
 
-    if (this.numberActiveTab === 5) {
+    if (this.IDActiveTab === 5) {
       this.transmitToBTN = {
         text: 'Ok',
         disabled: false,
@@ -73,8 +72,8 @@ export class TableComponent implements OnInit {
     }
   }
 
-  getClass(index: number): string {
-    if (index == this.numberActiveTab) {
+  classActiveTab(index: number): string {
+    if (index == this.IDActiveTab) {
       return 'isActive';
     } else {
       return 'isUnactive';
@@ -83,9 +82,11 @@ export class TableComponent implements OnInit {
   // get class on tab.end
 
   ngOnInit(): void {
-    this.dataSubscription = this.transmitData.dataObject$.subscribe((data) => {
-      this.dataUserOperations = data;
-    });
+    this.dataSubscription = this.#myServiceGetData.dataObject$.subscribe(
+      (data) => {
+        this.operations = data;
+      }
+    );
   }
 
   ngOnDestroy(): void {

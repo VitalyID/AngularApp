@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared.module';
-import { ButtonDataInput } from '../../types/sectionItem';
+import { DateTimeUserOperations } from '../../types/sectionItem';
 
 @Component({
   selector: 'user-forms',
@@ -16,7 +16,7 @@ import { ButtonDataInput } from '../../types/sectionItem';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormsComponent {
-  @Input() buttonDataInput!: ButtonDataInput;
+  @Input() buttonDataInput!: DateTimeUserOperations;
 
   sectionInputDate = new FormGroup({
     dateFrom: new FormControl('2025-01-01'),

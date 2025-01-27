@@ -2,11 +2,11 @@
   <div class="tabs">
     <div
       class="tab-element"
-      *ngFor="let item of tab; let i = index"
-      (click)="clickOnTab(i)"
-      [ngClass]="getClass(i)"
+      *ngFor="let item of tabs"
+      (click)="clickOnTab(item.id)"
+      [ngClass]="classActiveTab(item.id)"
     >
-      {{ item }}
+      {{ item.name }}
     </div>
     <data-input [dateForBTN]="transmitToBTN"></data-input>
   </div>
@@ -14,12 +14,12 @@
 </div>
 
 <div class="bodyTable">
-  <div class="rowTable" *ngFor="let item of dataUserOperations">
-    <div class="cellTable">{{ item.data }}</div>
-    <div class="cellTable">{{ item.country }}</div>
-    <div class="cellTable">{{ item.tips }}</div>
-    <div class="cellTable">{{ item.commission }}</div>
-    <div class="cellTable">{{ item.email }}</div>
-    <div class="cellTable">{{ item.card }}</div>
+  <div class="rowTable" *ngFor="let operation of operations">
+    <div class="cellTable">{{ operation.data }}</div>
+    <div class="cellTable">{{ operation.country }}</div>
+    <div class="cellTable">{{ operation.tips }}</div>
+    <div class="cellTable">{{ operation.commission }}</div>
+    <div class="cellTable">{{ operation.email }}</div>
+    <div class="cellTable">{{ operation.card }}</div>
   </div>
 </div>
