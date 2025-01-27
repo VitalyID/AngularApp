@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ButtonService } from '../components/buttons/service/buttons.component.service';
 import {
   DataUserOperation,
@@ -9,7 +9,9 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class TransmitDataService {
+export class TransmitDataService implements OnDestroy {
+  readonly #service = inject(ButtonService);
+
   public dataUserOperations: DataUserOperation[] = [
     {
       data: '27.01.2025',
@@ -233,6 +235,7 @@ export class TransmitDataService {
     this._correctData.asObservable();
 
   #tmp?: DateTimeUserOperations;
+  private dateFromInput!: Subscription;
 
   getDataUserTab(id: number) {
     this.id = id;
@@ -296,7 +299,7 @@ export class TransmitDataService {
       this.arrCorrectElements = arrOperationsForLastMonth;
       this._correctData.next(this.arrCorrectElements);
     } else if (this.id == 5) {
-      this.service.DateFromInput$.subscribe((data) => {
+      this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
         this.#tmp = data.obj as DateTimeUserOperations;
 
         let dataStart = new Date(this.#tmp.dateFrom);
@@ -326,7 +329,7 @@ export class TransmitDataService {
     }
   }
 
-  constructor(private service: ButtonService) {
+  constructor() {
     this.arrDate = this.now.toLocaleDateString().split('.');
 
     // Интервал - месяц
@@ -340,6 +343,12 @@ export class TransmitDataService {
         }
       }
       this._correctData.next(this.arrCorrectElements);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.dateFromInput) {
+      this.dateFromInput.unsubscribe();
     }
   }
 }
