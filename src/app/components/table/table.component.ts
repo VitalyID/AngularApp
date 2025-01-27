@@ -8,13 +8,15 @@ import {
 import { Subscription } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
+import { TitleFilter } from '../../types/enums/nameFilter';
 import { Tabs } from '../../types/interfaces/Tabs';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'table',
-  imports: [SharedModule, CommonModule, DataInputComponent],
+  imports: [SharedModule, CommonModule, DataInputComponent, FilterComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,6 +83,8 @@ export class TableComponent implements OnInit {
   }
   // get class on tab.end
 
+  // private filters: string[] = []
+  public filters: string[] = Object.values(TitleFilter);
   ngOnInit(): void {
     this.dataSubscription = this.#myServiceGetData.dataObject$.subscribe(
       (data) => {

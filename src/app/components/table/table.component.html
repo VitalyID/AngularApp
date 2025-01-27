@@ -13,6 +13,12 @@
   <app-buttons [buttonData]="btnText"></app-buttons>
 </div>
 
+<div class="containerFilter">
+  <div class="cellFilter" *ngFor="let filter of filters">
+    <filter [title_filter]="filter"></filter>
+  </div>
+</div>
+
 <div class="bodyTable">
   <div class="rowTable" *ngFor="let operation of operations">
     <div class="cellTable">{{ operation.data }}</div>
