@@ -50,6 +50,7 @@ export class TableComponent implements OnInit {
 
   private dataSubscription!: Subscription;
   public operations: DataUserOperation[] = [];
+  public keys: string[] = [];
 
   constructor() {}
 
@@ -86,6 +87,7 @@ export class TableComponent implements OnInit {
   // private filters: string[] = []
   public filters: string[] = Object.values(TitleFilter);
   ngOnInit(): void {
+    this.keys = ['data', 'country', 'tips', 'commission', 'email', 'card'];
     this.dataSubscription = this.#myServiceGetData.dataObject$.subscribe(
       (data) => {
         this.operations = data;

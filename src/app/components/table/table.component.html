@@ -21,11 +21,8 @@
 
 <div class="bodyTable">
   <div class="rowTable" *ngFor="let operation of operations">
-    <div class="cellTable">{{ operation.data }}</div>
-    <div class="cellTable">{{ operation.country }}</div>
-    <div class="cellTable">{{ operation.tips }}</div>
-    <div class="cellTable">{{ operation.commission }}</div>
-    <div class="cellTable">{{ operation.email }}</div>
-    <div class="cellTable">{{ operation.card }}</div>
+    <div class="cellTable" *ngFor="let key of keys">
+      {{ operation[key] }}
+    </div>
   </div>
 </div>
