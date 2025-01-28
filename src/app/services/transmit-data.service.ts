@@ -332,7 +332,7 @@ export class TransmitDataService implements OnDestroy {
   constructor() {
     this.arrDate = this.now.toLocaleDateString().split('.');
 
-    // Интервал - месяц
+    // Интервал по умолчанию - месяц
     if (this.id == 3) {
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');

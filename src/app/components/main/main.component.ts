@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SharedModule } from '../../shared.module';
 import { ChartComponent } from '../chart/chart.component';
 import { TableComponent } from '../table/table.component';
@@ -20,7 +19,7 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
 
   public btnText: ButtonData = {
@@ -34,21 +33,17 @@ export class MainComponent implements OnInit, OnDestroy {
     this.#btnService.clickOnButton(this.btnText.id);
   }
 
-  private btnSubscription!: Subscription;
+  // private btnSubscription!: Subscription;
 
   ngOnInit(): void {
-    this.btnSubscription = this.#btnService.eventClick$.subscribe((data) => {
-      if (data.id == 3) {
-        console.log('Кнопка нажата с ID:', data.id);
-        // пишем логику клика по кнопке
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.btnSubscription) {
-      this.btnSubscription.unsubscribe();
-    }
+    this.#btnService.eventClick$
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        if (data.id == 3) {
+          console.log('Кнопка нажата с ID:', data.id);
+          // пишем логику клика по кнопке
+        }
+      });
   }
 
   constructor() {}

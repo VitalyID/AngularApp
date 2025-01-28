@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Subscription } from 'rxjs';
@@ -72,9 +73,10 @@ export class ChartComponent {
   // private dataFromService : [{}] = [{}]
 
   ngOnInit() {
-    let dataFromService: any[];
-    this.dataXSubscription = this.dataX.dataObject$.subscribe(
-      (dataFromService) => {
+    // let dataFromService: any[];
+    this.dataX.dataObject$
+      .pipe(takeUntilDestroyed())
+      .subscribe((dataFromService) => {
         const getDateFromService = dataFromService.map((item) => item.data);
 
         // У чаевых удаляем симввол валюты в значении
@@ -111,14 +113,6 @@ export class ChartComponent {
           this.cdr.detectChanges();
           console.log('Даты: ', this.barChartData.labels);
         }
-      }
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.dataXSubscription && this.dataYSubscription) {
-      this.dataXSubscription.unsubscribe;
-      // this.dataYSubscription.unsubscribe;
-    }
+      });
   }
 }

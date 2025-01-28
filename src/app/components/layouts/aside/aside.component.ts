@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonData, SectionItem } from '../../../types/sectionItem';
+import { ButtonService } from '../../buttons/service/buttons.component.service';
 
 @Component({
   selector: 'app-aside',
@@ -9,6 +11,8 @@ import { ButtonData, SectionItem } from '../../../types/sectionItem';
   styleUrl: './aside.component.scss',
 })
 export class AsideComponent {
+  readonly #btnService = inject(ButtonService);
+
   public title2: SectionItem[] = [
     {
       title: 'Главная',
@@ -69,7 +73,21 @@ export class AsideComponent {
   public othergroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
 
-  public btnText: ButtonData = { text: 'Служба поддержки', id: 4 };
+  public btnText: ButtonData = {
+    text: 'Служба поддержки',
+    id: 4,
+  };
+
+  constructor() {
+    this.#btnService.eventClick$
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        if (data.id == 4) {
+          console.log('Кнопка нажата с ID:', data.id);
+          // пишем логику клика по кнопке
+        }
+      });
+  }
 
   ngOnInit(): void {
     this.generalGroup = this.title2.slice(0, 9);

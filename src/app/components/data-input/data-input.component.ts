@@ -4,12 +4,11 @@ import {
   inject,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { SharedModule } from '../../shared.module';
 import { ButtonData } from './../../types/sectionItem';
 import { ButtonService } from './../buttons/service/buttons.component.service';
@@ -21,7 +20,7 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
   styleUrl: './data-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
+export class DataInputComponent implements OnChanges, OnInit {
   readonly #buttonService = inject(ButtonService);
 
   @Input() dateForBTN!: ButtonData;
@@ -32,21 +31,19 @@ export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
     dateEnd: new FormControl('2025-01-24'),
   });
 
-  #clickSubscription!: Subscription;
-
   ngOnInit(): void {
     this.btnText2 = this.dateForBTN;
 
     // принимаем клик с сервиса btn
-    this.#clickSubscription = this.#buttonService.eventClick$.subscribe(
-      (data) => {
+    this.#buttonService.eventClick$
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
         if (data.id === 2) {
           console.log('Кнопка нажата с ID:', data.id);
 
           this.#buttonService.transmitData(this.myInputForm.value);
         }
-      }
-    );
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -54,12 +51,6 @@ export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
       this.btnText2 = this.dateForBTN;
     }
     if (changes['clickSubscription']) console.log(222222);
-  }
-
-  ngOnDestroy(): void {
-    if (this.#clickSubscription) {
-      this.#clickSubscription.unsubscribe;
-    }
   }
 
   constructor() {}

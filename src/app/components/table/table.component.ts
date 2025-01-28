@@ -5,7 +5,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { TitleFilter } from '../../types/enums/nameFilter';
@@ -48,7 +48,6 @@ export class TableComponent implements OnInit {
     id: 2,
   };
 
-  private dataSubscription!: Subscription;
   public operations: DataUserOperation[] = [];
   public keys: string[] = [];
 
@@ -88,16 +87,10 @@ export class TableComponent implements OnInit {
   public filters: string[] = Object.values(TitleFilter);
   ngOnInit(): void {
     this.keys = ['data', 'country', 'tips', 'commission', 'email', 'card'];
-    this.dataSubscription = this.#myServiceGetData.dataObject$.subscribe(
-      (data) => {
+    this.#myServiceGetData.dataObject$
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
         this.operations = data;
-      }
-    );
-  }
-
-  ngOnDestroy(): void {
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe;
-    }
+      });
   }
 }

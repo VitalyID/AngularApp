@@ -9,8 +9,9 @@ export class ButtonService {
 
   clickOnButton(id: number): void {
     this.eventClick$.next({ id });
+    // console.log(id);
   }
-
+  // -------------------------------------------
   public DateFromInput$ = new Subject<{ obj: object }>();
 
   transmitData(obj: object): void {
