@@ -33,7 +33,16 @@ export class DataInputComponent implements OnChanges, OnInit {
 
   ngOnInit(): void {
     this.btnText2 = this.dateForBTN;
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dateForBTN']) {
+      this.btnText2 = this.dateForBTN;
+    }
+    if (changes['clickSubscription']) console.log(222222);
+  }
+
+  constructor() {
     // принимаем клик с сервиса btn
     this.#buttonService.eventClick$
       .pipe(takeUntilDestroyed())
@@ -45,13 +54,4 @@ export class DataInputComponent implements OnChanges, OnInit {
         }
       });
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['dateForBTN']) {
-      this.btnText2 = this.dateForBTN;
-    }
-    if (changes['clickSubscription']) console.log(222222);
-  }
-
-  constructor() {}
 }

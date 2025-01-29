@@ -51,7 +51,13 @@ export class TableComponent implements OnInit {
   public operations: DataUserOperation[] = [];
   public keys: string[] = [];
 
-  constructor() {}
+  constructor() {
+    this.#myServiceGetData.dataObject$
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        this.operations = data;
+      });
+  }
 
   // get class on tab.start
   private IDActiveTab: number = 3;
@@ -87,10 +93,5 @@ export class TableComponent implements OnInit {
   public filters: string[] = Object.values(TitleFilter);
   ngOnInit(): void {
     this.keys = ['data', 'country', 'tips', 'commission', 'email', 'card'];
-    this.#myServiceGetData.dataObject$
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => {
-        this.operations = data;
-      });
   }
 }

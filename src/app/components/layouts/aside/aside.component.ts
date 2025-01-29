@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 import { ButtonData, SectionItem } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
 
@@ -72,6 +72,7 @@ export class AsideComponent {
   public myGroup: SectionItem[] = [];
   public othergroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
+  #btnSubscription!: Subscription;
 
   public btnText: ButtonData = {
     text: 'Служба поддержки',
@@ -79,14 +80,12 @@ export class AsideComponent {
   };
 
   constructor() {
-    this.#btnService.eventClick$
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => {
-        if (data.id == 4) {
-          console.log('Кнопка нажата с ID:', data.id);
-          // пишем логику клика по кнопке
-        }
-      });
+    this.#btnSubscription = this.#btnService.eventClick$.subscribe((data) => {
+      if (data.id == 4) {
+        console.log('Кнопка нажата с ID:', data.id);
+        // пишем логику клика по кнопке
+      }
+    });
   }
 
   ngOnInit(): void {

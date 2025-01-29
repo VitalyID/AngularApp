@@ -1,4 +1,5 @@
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -6,7 +7,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { Subscription } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 
 @Component({
@@ -61,19 +61,13 @@ export class ChartComponent {
     },
   };
 
-  private dataXSubscription?: Subscription;
-  private dataYSubscription?: Subscription;
-
   constructor(
     private DataService: TransmitDataService,
     private dataX: TransmitDataService,
     // private dataY: TransmitDataService,
+    private appRef: ApplicationRef,
     private cdr: ChangeDetectorRef
-  ) {}
-  // private dataFromService : [{}] = [{}]
-
-  ngOnInit() {
-    // let dataFromService: any[];
+  ) {
     this.dataX.dataObject$
       .pipe(takeUntilDestroyed())
       .subscribe((dataFromService) => {
@@ -89,30 +83,37 @@ export class ChartComponent {
             'Массив дат, которые пришли с сервиса ',
             getDateFromService
           );
-          this.barChartData.labels = getDateFromService;
-          this.barChartData.datasets[0].data = getTipsFromService;
-          // console.log(this.barChartData.datasets[0].data);
 
-          // Применение новых данных не изменило график, делаем дубли всех данных из-за onPush
-          const doubleBarChartData = { ...this.barChartData };
-          const newLabels = [...getDateFromService];
-          doubleBarChartData.labels = newLabels;
+          Promise.resolve().then(() => {
+            this.barChartData.labels = getDateFromService;
+            this.barChartData.datasets[0].data = getTipsFromService;
+            // console.log(this.barChartData.datasets[0].data);
 
-          // для второй оси
-          const newDataset = [...getTipsFromService];
-          doubleBarChartData.datasets[0].data = newDataset;
-          this.barChartData = doubleBarChartData;
+            // Применение новых данных не изменило график, делаем дубли всех данных из-за onPush
+            const doubleBarChartData = { ...this.barChartData };
+            const newLabels = [...getDateFromService];
+            doubleBarChartData.labels = newLabels;
 
-          // Этот код тоже работает
-          // ----------------------
-          // this.barChartData = {
-          //   ...this.barChartData,
-          //   labels: [...getDateFromService],
-          // };
+            // для второй оси
+            const newDataset = [...getTipsFromService];
+            doubleBarChartData.datasets[0].data = newDataset;
+            this.barChartData = doubleBarChartData;
 
-          this.cdr.detectChanges();
-          console.log('Даты: ', this.barChartData.labels);
+            // Этот код тоже работает
+            // ----------------------
+            // this.barChartData = {
+            //   ...this.barChartData,
+
+            //   labels: [...getDateFromService],
+            // };
+
+            // this.cdr.detectChanges();
+            console.log('Даты: ', this.barChartData.labels);
+          });
         }
       });
   }
+  // private dataFromService : [{}] = [{}]
+
+  ngOnInit() {}
 }

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SharedModule } from '../../shared.module';
 import { ChartComponent } from '../chart/chart.component';
@@ -19,7 +14,7 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent implements OnInit {
+export class MainComponent {
   readonly #btnService = inject(ButtonService);
 
   public btnText: ButtonData = {
@@ -32,10 +27,7 @@ export class MainComponent implements OnInit {
     // отправляем в сервис клик по кнопке с ее идентификатором "3".
     this.#btnService.clickOnButton(this.btnText.id);
   }
-
-  // private btnSubscription!: Subscription;
-
-  ngOnInit(): void {
+  constructor() {
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
@@ -45,6 +37,4 @@ export class MainComponent implements OnInit {
         }
       });
   }
-
-  constructor() {}
 }
