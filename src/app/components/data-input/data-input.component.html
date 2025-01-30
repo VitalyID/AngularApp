@@ -1,7 +1,30 @@
 <div class="wrapComponent" [formGroup]="myInputForm">
   <div class="wrapInput">
-    <input type="date" formControlName="dateFrom" />
-    <input type="date" formControlName="dateEnd" />
+    <input
+      type="date"
+      formControlName="dateFrom"
+      [ngStyle]="{
+        'border-color':
+          myInputForm.get('dateFrom')?.invalid &&
+          myInputForm.get('dateFrom')?.touched &&
+          myInputForm.get('dateFrom')?.hasError('dateEndInvalid')
+            ? 'red'
+            : 'black'
+      }"
+    />
+
+    <input
+      type="date"
+      formControlName="dateEnd"
+      [ngStyle]="{
+        'border-color':
+          (myInputForm.get('dateEnd')?.invalid &&
+            myInputForm.get('dateEnd')?.touched) ||
+          myInputForm.get('dateEnd')?.hasError('dateEndInvalid')
+            ? 'red'
+            : 'black'
+      }"
+    />
   </div>
   <app-buttons [buttonData]="btnText2"></app-buttons>
 </div>

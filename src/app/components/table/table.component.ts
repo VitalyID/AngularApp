@@ -12,6 +12,7 @@ import { TitleFilter } from '../../types/enums/nameFilter';
 import { Tabs } from '../../types/interfaces/Tabs';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
+import { switchOnService } from '../data-input/services/switchOnInput';
 import { FilterComponent } from '../filter/filter.component';
 
 @Component({
@@ -24,6 +25,7 @@ import { FilterComponent } from '../filter/filter.component';
 export class TableComponent implements OnInit {
   readonly #myService = inject(TransmitDataService);
   readonly #myServiceGetData = inject(TransmitDataService);
+  readonly #inputService = inject(switchOnService);
 
   public tabs: Tabs[] = [
     { name: 'За сегодня', id: 0 },
@@ -64,6 +66,7 @@ export class TableComponent implements OnInit {
   clickOnTab(index: number) {
     this.IDActiveTab = index;
     this.#myService.getDataUserTab(this.IDActiveTab);
+    this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
 
     if (this.IDActiveTab === 5) {
       this.transmitToBTN = {
