@@ -14,6 +14,46 @@ export class TransmitDataService implements OnDestroy {
 
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '03.02.2025',
+      country: 'Russia',
+      tips: '500 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '02.02.2025',
+      country: 'Russia',
+      tips: '5250 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '01.02.2025',
+      country: 'Russia',
+      tips: '8100 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '31.01.2025',
+      country: 'Russia',
+      tips: '800 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '30.01.2025',
+      country: 'Russia',
+      tips: '1250 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '27.01.2025',
       country: 'Russia',
       tips: '4800 ₽  ',
@@ -243,6 +283,7 @@ export class TransmitDataService implements OnDestroy {
     let arrUserActualOperations;
 
     if (this.id == 0) {
+      console.log(id);
       this.arrCorrectElements = [];
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
@@ -255,6 +296,7 @@ export class TransmitDataService implements OnDestroy {
       console.log('ready to transmit ', this.arrCorrectElements);
       this._correctData.next(this.arrCorrectElements);
     } else if (this.id == 1) {
+      console.log(id);
       this.arrCorrectElements = [];
 
       for (let item of this.dataUserOperations) {
@@ -267,6 +309,7 @@ export class TransmitDataService implements OnDestroy {
 
       this._correctData.next(this.arrCorrectElements);
     } else if (this.id == 2) {
+      console.log(id);
       this.arrCorrectElements = [];
       let currentDay: number = this.now.getDay() - 1;
 
@@ -280,6 +323,7 @@ export class TransmitDataService implements OnDestroy {
       this.arrCorrectElements = arrUserOperationForWeek;
       this._correctData.next(this.arrCorrectElements);
     } else if (this.id == 3) {
+      console.log(id);
       this.arrCorrectElements = [];
       const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
@@ -287,6 +331,7 @@ export class TransmitDataService implements OnDestroy {
       this.arrCorrectElements = arrOperationsForMonth;
       this._correctData.next(this.arrCorrectElements);
     } else if (this.id == 4) {
+      console.log(id);
       this.arrCorrectElements = [];
       this.now.setMonth(-1);
 
@@ -299,6 +344,7 @@ export class TransmitDataService implements OnDestroy {
       this.arrCorrectElements = arrOperationsForLastMonth;
       this._correctData.next(this.arrCorrectElements);
     } else if (this.id == 5) {
+      console.log(id);
       this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
         this.#tmp = data.obj as DateTimeUserOperations;
 

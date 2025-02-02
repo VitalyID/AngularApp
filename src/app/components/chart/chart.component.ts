@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
@@ -61,6 +62,7 @@ export class ChartComponent {
     },
   };
 
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
   constructor(
     private DataService: TransmitDataService,
     private dataX: TransmitDataService,
@@ -81,35 +83,21 @@ export class ChartComponent {
         if (dataFromService) {
           console.log(
             'Массив дат, которые пришли с сервиса ',
-            getDateFromService
+            getDateFromService,
+            getTipsFromService
           );
 
-          Promise.resolve().then(() => {
-            this.barChartData.labels = getDateFromService;
-            this.barChartData.datasets[0].data = getTipsFromService;
-            // console.log(this.barChartData.datasets[0].data);
+          // Создаем новый граик с новыми данными и обновляемся
 
-            // Применение новых данных не изменило график, делаем дубли всех данных из-за onPush
-            const doubleBarChartData = { ...this.barChartData };
-            const newLabels = [...getDateFromService];
-            doubleBarChartData.labels = newLabels;
+          const newBarChartData = structuredClone(this.barChartData);
+          newBarChartData.labels = getDateFromService;
+          newBarChartData.datasets[0].data = getTipsFromService;
 
-            // для второй оси
-            const newDataset = [...getTipsFromService];
-            doubleBarChartData.datasets[0].data = newDataset;
-            this.barChartData = doubleBarChartData;
-
-            // Этот код тоже работает
-            // ----------------------
-            // this.barChartData = {
-            //   ...this.barChartData,
-
-            //   labels: [...getDateFromService],
-            // };
-
-            // this.cdr.detectChanges();
-            console.log('Даты: ', this.barChartData.labels);
-          });
+          this.barChartData = newBarChartData;
+          if (this.chart?.chart) {
+            this.chart.chart.data = this.barChartData;
+            this.chart.update();
+          }
         }
       });
   }

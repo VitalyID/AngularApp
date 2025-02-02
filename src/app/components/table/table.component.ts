@@ -9,11 +9,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { TitleFilter } from '../../types/enums/nameFilter';
-import { Tabs } from '../../types/interfaces/Tabs';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { FilterComponent } from '../filter/filter.component';
+import { Tabs } from './../../types/interfaces/Tabs';
 
 @Component({
   selector: 'table',
@@ -23,7 +23,7 @@ import { FilterComponent } from '../filter/filter.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent implements OnInit {
-  readonly #myService = inject(TransmitDataService);
+  // readonly #myService = inject(TransmitDataService);
   readonly #myServiceGetData = inject(TransmitDataService);
   readonly #inputService = inject(switchOnService);
 
@@ -65,7 +65,7 @@ export class TableComponent implements OnInit {
   private IDActiveTab: number = 3;
   clickOnTab(index: number) {
     this.IDActiveTab = index;
-    this.#myService.getDataUserTab(this.IDActiveTab);
+    this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
 
     if (this.IDActiveTab === 5) {

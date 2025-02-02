@@ -20,6 +20,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SharedModule } from '../../shared.module';
+import { ListenerService } from '../buttons/service/buttonListenerStatus.compoent.service';
 import { ButtonData } from './../../types/sectionItem';
 import { ButtonService } from './../buttons/service/buttons.component.service';
 import { switchOnService } from './services/switchOnInput';
@@ -57,7 +58,9 @@ export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
   readonly #buttonService = inject(ButtonService);
   readonly #fb = inject(FormBuilder);
   readonly #switchInputService = inject(switchOnService);
+  readonly #listenerBTNservice = inject(ListenerService);
   #statusValidDataStart!: Subscription | undefined;
+  #valueChangesSubscription!: Subscription;
 
   @Input() dateForBTN!: ButtonData;
   btnText2!: ButtonData;
@@ -120,6 +123,25 @@ export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
         }
       });
     // Enabled/Disabled dateEnd end
+
+    this.#valueChangesSubscription;
+    this.myInputForm.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        if (this.myInputForm.valid) {
+          const enableBTN: ButtonData = {
+            id: 2,
+            disabled: false,
+          };
+          this.#listenerBTNservice.getStatusForBTN(enableBTN);
+        } else {
+          const enableBTN: ButtonData = {
+            id: 2,
+            disabled: true,
+          };
+          this.#listenerBTNservice.getStatusForBTN(enableBTN);
+        }
+      });
   }
 
   ngOnDestroy(): void {
