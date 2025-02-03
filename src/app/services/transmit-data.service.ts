@@ -280,7 +280,6 @@ export class TransmitDataService implements OnDestroy {
     let arrUserActualOperations;
 
     if (this.id == 0) {
-      console.log(id);
       this.arrCorrectElements = [];
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
@@ -290,10 +289,8 @@ export class TransmitDataService implements OnDestroy {
         } else {
         }
       }
-      console.log('ready to transmit ', this.arrCorrectElements);
       this.dataObject$.next(this.arrCorrectElements);
     } else if (this.id == 1) {
-      console.log(id);
       this.arrCorrectElements = [];
 
       for (let item of this.dataUserOperations) {
@@ -306,8 +303,6 @@ export class TransmitDataService implements OnDestroy {
 
       this.dataObject$.next(this.arrCorrectElements);
     } else if (this.id == 2) {
-      console.log(id);
-      this.arrCorrectElements = [];
       let currentDay: number = new Date().getDay() - 1;
 
       const arrUserOperationForWeek = this.dataUserOperations.filter((item) => {
@@ -317,38 +312,30 @@ export class TransmitDataService implements OnDestroy {
             Number(this.arrDate[0]) - currentDay
         );
       });
-      this.arrCorrectElements = arrUserOperationForWeek;
-      this.dataObject$.next(this.arrCorrectElements);
+      this.dataObject$.next(arrUserOperationForWeek);
     } else if (this.id == 3) {
-      console.log(id);
-      this.arrCorrectElements = [];
+      // this.arrCorrectElements = [];
       const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
       });
-      this.arrCorrectElements = arrOperationsForMonth;
-      this.dataObject$.next(this.arrCorrectElements);
+      // this.arrCorrectElements = arrOperationsForMonth;
+      this.dataObject$.next(arrOperationsForMonth);
     } else if (this.id == 4) {
-      console.log(id);
-      this.arrCorrectElements = [];
       new Date().setMonth(-1);
 
       const arrOperationsForLastMonth = this.dataUserOperations.filter(
         (item) => {
-          return Number(item.data.split('.')[1]) === new Date().getMonth() + 1;
+          return Number(item.data.split('.')[1]) === new Date().getMonth();
         }
       );
 
-      this.arrCorrectElements = arrOperationsForLastMonth;
-      this.dataObject$.next(this.arrCorrectElements);
+      this.dataObject$.next(arrOperationsForLastMonth);
     } else if (this.id == 5) {
-      console.log(id);
       this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
         this.#tmp = data.obj as DateTimeUserOperations;
 
         let dataStart = new Date(this.#tmp.dateFrom);
         let dataEnd = new Date(this.#tmp.dateEnd);
-        console.log(this.#tmp.dateFrom, this.#tmp.dateEnd);
-        console.log(dataEnd, dataStart);
 
         arrUserActualOperations = this.dataUserOperations.filter((item) => {
           const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
@@ -367,7 +354,7 @@ export class TransmitDataService implements OnDestroy {
           return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
         });
 
-        this.dataObject$.next(this.arrCorrectElements);
+        this.dataObject$.next(arrUserActualOperations);
       });
     }
   }

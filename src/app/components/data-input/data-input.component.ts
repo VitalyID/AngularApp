@@ -75,6 +75,8 @@ export class DataInputComponent implements OnInit, OnDestroy {
     ],
   });
 
+  public data: number = 2;
+
   ngOnInit(): void {
     // this.btnText2 = this.dateForBTN;
     // this.btnText2 = this.dateForBTN;
@@ -132,14 +134,13 @@ export class DataInputComponent implements OnInit, OnDestroy {
             id: 2,
             disabled: false,
           };
-          // this.myInputForm.get('dateEnd')?.enable();
+
           this.#listenerBTNservice.getStatusForBTN(enableBTN);
         } else {
           const enableBTN: ButtonData = {
             id: 2,
             disabled: true,
           };
-          // this.myInputForm.get('dateEnd')?.disable();
 
           this.#listenerBTNservice.getStatusForBTN(enableBTN);
         }
