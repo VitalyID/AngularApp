@@ -58,7 +58,7 @@
                 "output": "/"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": ["src/normalize.css", "src/styles.scss"],
             "scripts": []
           },
           "configurations": {

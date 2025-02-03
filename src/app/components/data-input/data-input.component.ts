@@ -4,10 +4,8 @@ import {
   Component,
   inject,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -54,7 +52,7 @@ export function customValidator(): ValidatorFn {
   styleUrl: './data-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
+export class DataInputComponent implements OnInit, OnDestroy {
   readonly #buttonService = inject(ButtonService);
   readonly #fb = inject(FormBuilder);
   readonly #switchInputService = inject(switchOnService);
@@ -63,7 +61,8 @@ export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
   #valueChangesSubscription!: Subscription;
 
   @Input() dateForBTN!: ButtonData;
-  btnText2!: ButtonData;
+  // btnText2: ButtonData = this.dateForBTN;
+  // public buttonData: ButtonData = this.dateForBTN;
 
   readonly myInputForm = this.#fb.group({
     dateFrom: [
@@ -77,16 +76,16 @@ export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.btnText2 = this.dateForBTN;
-    this.btnText2 = this.dateForBTN;
+    // this.btnText2 = this.dateForBTN;
+    // this.btnText2 = this.dateForBTN;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['dateForBTN']) {
-      this.btnText2 = this.dateForBTN;
-    }
-    if (changes['clickSubscription']) console.log(222222);
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['dateForBTN']) {
+  //     this.btnText2 = this.dateForBTN;
+  //   }
+  //   if (changes['clickSubscription']) console.log(222222);
+  // }
 
   constructor() {
     // принимаем клик с сервиса btn
@@ -124,7 +123,7 @@ export class DataInputComponent implements OnChanges, OnInit, OnDestroy {
       });
     // Enabled/Disabled dateEnd end
 
-    this.#valueChangesSubscription;
+    // this.#valueChangesSubscription;
     this.myInputForm.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {

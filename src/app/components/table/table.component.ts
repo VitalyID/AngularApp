@@ -9,11 +9,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { TitleFilter } from '../../types/enums/nameFilter';
+import { Tabs } from './../../types/interfaces/Tabs';
+// import { Tabs } from '../../types/interfaces/Tabs';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { FilterComponent } from '../filter/filter.component';
-import { Tabs } from './../../types/interfaces/Tabs';
 
 @Component({
   selector: 'table',
@@ -96,5 +97,6 @@ export class TableComponent implements OnInit {
   public filters: string[] = Object.values(TitleFilter);
   ngOnInit(): void {
     this.keys = ['data', 'country', 'tips', 'commission', 'email', 'card'];
+    // this.#myServiceGetData.getDataUserTab(this.tabs.id)
   }
 }

@@ -1,5 +1,5 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ButtonService } from '../components/buttons/service/buttons.component.service';
 import {
   DataUserOperation,
@@ -269,10 +269,7 @@ export class TransmitDataService implements OnDestroy {
   arrDate: string[] = [];
   arrDateItem: string[] = [];
   private arrCorrectElements: DataUserOperation[] = [];
-  private _correctData: BehaviorSubject<DataUserOperation[]> =
-    new BehaviorSubject<DataUserOperation[]>([]);
-  public dataObject$: Observable<DataUserOperation[]> =
-    this._correctData.asObservable();
+  public dataObject$ = new BehaviorSubject<DataUserOperation[]>([]);
 
   #tmp?: DateTimeUserOperations;
   private dateFromInput!: Subscription;
@@ -294,7 +291,7 @@ export class TransmitDataService implements OnDestroy {
         }
       }
       console.log('ready to transmit ', this.arrCorrectElements);
-      this._correctData.next(this.arrCorrectElements);
+      this.dataObject$.next(this.arrCorrectElements);
     } else if (this.id == 1) {
       console.log(id);
       this.arrCorrectElements = [];
@@ -307,7 +304,7 @@ export class TransmitDataService implements OnDestroy {
         }
       }
 
-      this._correctData.next(this.arrCorrectElements);
+      this.dataObject$.next(this.arrCorrectElements);
     } else if (this.id == 2) {
       console.log(id);
       this.arrCorrectElements = [];
@@ -321,7 +318,7 @@ export class TransmitDataService implements OnDestroy {
         );
       });
       this.arrCorrectElements = arrUserOperationForWeek;
-      this._correctData.next(this.arrCorrectElements);
+      this.dataObject$.next(this.arrCorrectElements);
     } else if (this.id == 3) {
       console.log(id);
       this.arrCorrectElements = [];
@@ -329,7 +326,7 @@ export class TransmitDataService implements OnDestroy {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
       });
       this.arrCorrectElements = arrOperationsForMonth;
-      this._correctData.next(this.arrCorrectElements);
+      this.dataObject$.next(this.arrCorrectElements);
     } else if (this.id == 4) {
       console.log(id);
       this.arrCorrectElements = [];
@@ -342,7 +339,7 @@ export class TransmitDataService implements OnDestroy {
       );
 
       this.arrCorrectElements = arrOperationsForLastMonth;
-      this._correctData.next(this.arrCorrectElements);
+      this.dataObject$.next(this.arrCorrectElements);
     } else if (this.id == 5) {
       console.log(id);
       this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
@@ -370,7 +367,7 @@ export class TransmitDataService implements OnDestroy {
           return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
         });
 
-        this._correctData.next(arrUserActualOperations);
+        this.dataObject$.next(this.arrCorrectElements);
       });
     }
   }
@@ -388,7 +385,7 @@ export class TransmitDataService implements OnDestroy {
           this.arrCorrectElements.push(item);
         }
       }
-      this._correctData.next(this.arrCorrectElements);
+      this.dataObject$.next(this.arrCorrectElements);
     }
   }
 
