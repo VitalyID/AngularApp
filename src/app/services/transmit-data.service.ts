@@ -279,83 +279,94 @@ export class TransmitDataService implements OnDestroy {
 
     let arrUserActualOperations;
 
-    if (this.name == 'today') {
-      this.arrCorrectElements = [];
-      for (let item of this.dataUserOperations) {
-        this.arrDateItem = item.data.split('.');
+    switch (this.name) {
+      case 'today':
+        this.arrCorrectElements = [];
+        for (let item of this.dataUserOperations) {
+          this.arrDateItem = item.data.split('.');
 
-        if (this.arrDate[0] === this.arrDateItem[0]) {
-          this.arrCorrectElements.push(item);
-        } else {
-        }
-      }
-      this.dataObject$.next(this.arrCorrectElements);
-    } else if (this.name == 'yestarday') {
-      this.arrCorrectElements = [];
-
-      for (let item of this.dataUserOperations) {
-        this.arrDateItem = item.data.split('.');
-        if (Number(this.arrDate[0]) - 1 === Number(this.arrDateItem[0])) {
-          this.arrCorrectElements.push(item);
-        } else {
-        }
-      }
-
-      this.dataObject$.next(this.arrCorrectElements);
-    } else if (this.name == 'forWeek') {
-      let currentDay: number = new Date().getDay() - 1;
-
-      const arrUserOperationForWeek = this.dataUserOperations.filter((item) => {
-        return (
-          Number(item.data.split('.')[0]) <= Number(this.arrDate[0]) &&
-          Number(item.data.split('.')[0]) >=
-            Number(this.arrDate[0]) - currentDay
-        );
-      });
-      this.dataObject$.next(arrUserOperationForWeek);
-    } else if (this.name == 'forMonth') {
-      // this.arrCorrectElements = [];
-      const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
-        return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
-      });
-      // this.arrCorrectElements = arrOperationsForMonth;
-      this.dataObject$.next(arrOperationsForMonth);
-    } else if (this.name == 'forLastMonth') {
-      new Date().setMonth(-1);
-
-      const arrOperationsForLastMonth = this.dataUserOperations.filter(
-        (item) => {
-          return Number(item.data.split('.')[1]) === new Date().getMonth();
-        }
-      );
-
-      this.dataObject$.next(arrOperationsForLastMonth);
-    } else if (this.name == 'forPeriod') {
-      this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
-        this.#tmp = data.obj as DateTimeUserOperations;
-
-        let dataStart = new Date(this.#tmp.dateFrom);
-        let dataEnd = new Date(this.#tmp.dateEnd);
-
-        arrUserActualOperations = this.dataUserOperations.filter((item) => {
-          const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
-          const match = item.data.match(regex);
-
-          let dataActual;
-          if (match) {
-            const day = match[1];
-            const month = match[2];
-            const year = match[3];
-            dataActual = `${year}-${month}-${day}`;
+          if (this.arrDate[0] === this.arrDateItem[0]) {
+            this.arrCorrectElements.push(item);
+          } else {
           }
+        }
+        this.dataObject$.next(this.arrCorrectElements);
 
-          const dataActualFormat = new Date(`${dataActual}`);
+        break;
+      case 'yestarday':
+        this.arrCorrectElements = [];
 
-          return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
+        for (let item of this.dataUserOperations) {
+          this.arrDateItem = item.data.split('.');
+          if (Number(this.arrDate[0]) - 1 === Number(this.arrDateItem[0])) {
+            this.arrCorrectElements.push(item);
+          }
+        }
+        break;
+      case 'forWeek':
+        let currentDay: number = new Date().getDay() - 1;
+
+        const arrUserOperationForWeek = this.dataUserOperations.filter(
+          (item) => {
+            return (
+              Number(item.data.split('.')[0]) <= Number(this.arrDate[0]) &&
+              Number(item.data.split('.')[0]) >=
+                Number(this.arrDate[0]) - currentDay
+            );
+          }
+        );
+        this.dataObject$.next(arrUserOperationForWeek);
+
+        break;
+      case 'forMonth':
+        // this.arrCorrectElements = [];
+        const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
+          return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
+        });
+        // this.arrCorrectElements = arrOperationsForMonth;
+        this.dataObject$.next(arrOperationsForMonth);
+
+        break;
+      case 'forLastMonth':
+        new Date().setMonth(-1);
+
+        const arrOperationsForLastMonth = this.dataUserOperations.filter(
+          (item) => {
+            return Number(item.data.split('.')[1]) === new Date().getMonth();
+          }
+        );
+
+        this.dataObject$.next(arrOperationsForLastMonth);
+
+        break;
+      case 'forPeriod':
+        this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
+          this.#tmp = data.obj as DateTimeUserOperations;
+
+          let dataStart = new Date(this.#tmp.dateFrom);
+          let dataEnd = new Date(this.#tmp.dateEnd);
+
+          arrUserActualOperations = this.dataUserOperations.filter((item) => {
+            const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
+            const match = item.data.match(regex);
+
+            let dataActual;
+            if (match) {
+              const day = match[1];
+              const month = match[2];
+              const year = match[3];
+              dataActual = `${year}-${month}-${day}`;
+            }
+
+            const dataActualFormat = new Date(`${dataActual}`);
+
+            return dataActualFormat >= dataStart && dataActualFormat <= dataEnd;
+          });
+
+          this.dataObject$.next(arrUserActualOperations);
         });
 
-        this.dataObject$.next(arrUserActualOperations);
-      });
+        break;
     }
   }
 
