@@ -265,7 +265,7 @@ export class TransmitDataService implements OnDestroy {
   ];
 
   private id: number = 3;
-  private now = new Date();
+  // private now = new Date();
   arrDate: string[] = [];
   arrDateItem: string[] = [];
   private arrCorrectElements: DataUserOperation[] = [];
@@ -308,7 +308,7 @@ export class TransmitDataService implements OnDestroy {
     } else if (this.id == 2) {
       console.log(id);
       this.arrCorrectElements = [];
-      let currentDay: number = this.now.getDay() - 1;
+      let currentDay: number = new Date().getDay() - 1;
 
       const arrUserOperationForWeek = this.dataUserOperations.filter((item) => {
         return (
@@ -330,11 +330,11 @@ export class TransmitDataService implements OnDestroy {
     } else if (this.id == 4) {
       console.log(id);
       this.arrCorrectElements = [];
-      this.now.setMonth(-1);
+      new Date().setMonth(-1);
 
       const arrOperationsForLastMonth = this.dataUserOperations.filter(
         (item) => {
-          return Number(item.data.split('.')[1]) === this.now.getMonth() + 1;
+          return Number(item.data.split('.')[1]) === new Date().getMonth() + 1;
         }
       );
 
@@ -373,7 +373,7 @@ export class TransmitDataService implements OnDestroy {
   }
 
   constructor() {
-    this.arrDate = this.now.toLocaleDateString().split('.');
+    this.arrDate = new Date().toLocaleDateString().split('.');
 
     // Интервал по умолчанию - месяц
     if (this.id == 3) {

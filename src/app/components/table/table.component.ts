@@ -69,19 +69,19 @@ export class TableComponent implements OnInit {
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
 
-    if (this.IDActiveTab === 5) {
-      this.transmitToBTN = {
-        text: 'Ok',
-        disabled: false,
-        id: 2,
-      };
-    } else {
-      this.transmitToBTN = {
-        text: 'Ok',
-        disabled: true,
-        id: 2,
-      };
-    }
+    // if (this.IDActiveTab === 5) {
+    //   this.transmitToBTN = {
+    //     text: 'Ok',
+    //     disabled: false,
+    //     id: 2,
+    //   };
+    // } else {
+    //   this.transmitToBTN = {
+    //     text: 'Ok',
+    //     disabled: true,
+    //     id: 2,
+    //   };
+    // }
   }
 
   classActiveTab(index: number): string {

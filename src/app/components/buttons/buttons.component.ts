@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { ButtonData } from '../../types/sectionItem';
+import { Component, inject, Input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ButtonData } from './../../types/sectionItem';
+import { ListenerService } from './service/buttonListenerStatus.compoent.service';
 import { ButtonService } from './service/buttons.component.service';
 
 @Component({
@@ -11,8 +13,18 @@ import { ButtonService } from './service/buttons.component.service';
 })
 export class ButtonsComponent {
   @Input() buttonData?: ButtonData;
+  // @Input() data?: number = 2
+  readonly #listenerService = inject(ListenerService);
 
-  constructor(private service: ButtonService) {}
+  // public id : number = 2
+
+  constructor(private service: ButtonService) {
+    this.#listenerService.aboutBTN$
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        this.buttonData = data.data;
+      });
+  }
 
   clickOn() {
     if (this.buttonData) {
