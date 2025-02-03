@@ -132,16 +132,16 @@ export class DataInputComponent implements OnInit, OnDestroy {
             id: 2,
             disabled: false,
           };
-          this.myInputForm.get('dateEnd')?.enable();
-          // this.#listenerBTNservice.getStatusForBTN(enableBTN);
+          // this.myInputForm.get('dateEnd')?.enable();
+          this.#listenerBTNservice.getStatusForBTN(enableBTN);
         } else {
           const enableBTN: ButtonData = {
             id: 2,
             disabled: true,
           };
-          this.myInputForm.get('dateEnd')?.disable();
+          // this.myInputForm.get('dateEnd')?.disable();
 
-          // this.#listenerBTNservice.getStatusForBTN(enableBTN);
+          this.#listenerBTNservice.getStatusForBTN(enableBTN);
         }
       });
   }
