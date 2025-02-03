@@ -2,11 +2,11 @@
   <div class="tabs">
     <div
       class="tab-element"
-      *ngFor="let item of tabs"
-      (click)="clickOnTab(item.id)"
-      [ngClass]="classActiveTab(item.id)"
+      *ngFor="let tab of tabsArray"
+      (click)="clickOnTab(tab.key)"
+      [ngClass]="classActiveTab(tab.key)"
     >
-      {{ item.name }}
+      {{ tab.value }}
     </div>
     <data-input [dateForBTN]="transmitToBTN"></data-input>
   </div>

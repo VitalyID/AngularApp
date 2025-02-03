@@ -58,11 +58,8 @@ export class DataInputComponent implements OnInit, OnDestroy {
   readonly #switchInputService = inject(switchOnService);
   readonly #listenerBTNservice = inject(ListenerService);
   #statusValidDataStart!: Subscription | undefined;
-  #valueChangesSubscription!: Subscription;
 
   @Input() dateForBTN!: ButtonData;
-  // btnText2: ButtonData = this.dateForBTN;
-  // public buttonData: ButtonData = this.dateForBTN;
 
   readonly myInputForm = this.#fb.group({
     dateFrom: [
@@ -77,17 +74,7 @@ export class DataInputComponent implements OnInit, OnDestroy {
 
   public data: number = 2;
 
-  ngOnInit(): void {
-    // this.btnText2 = this.dateForBTN;
-    // this.btnText2 = this.dateForBTN;
-  }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['dateForBTN']) {
-  //     this.btnText2 = this.dateForBTN;
-  //   }
-  //   if (changes['clickSubscription']) console.log(222222);
-  // }
+  ngOnInit(): void {}
 
   constructor() {
     // принимаем клик с сервиса btn

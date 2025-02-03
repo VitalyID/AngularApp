@@ -8,8 +8,8 @@ export class switchOnService {
   statusInput?: boolean;
   eventChangeInput$ = new Subject<boolean>();
 
-  handleClickOnPerioidTab(id: number) {
-    if (id === 5) {
+  handleClickOnPerioidTab(name: string) {
+    if (name === 'forPeriod') {
       this.statusInput = true;
       this.eventChangeInput$.next(this.statusInput);
     } else {

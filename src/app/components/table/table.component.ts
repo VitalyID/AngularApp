@@ -9,8 +9,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { TitleFilter } from '../../types/enums/nameFilter';
-import { Tabs } from './../../types/interfaces/Tabs';
 // import { Tabs } from '../../types/interfaces/Tabs';
+import { TabsName } from '../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
@@ -24,18 +24,10 @@ import { FilterComponent } from '../filter/filter.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent implements OnInit {
-  // readonly #myService = inject(TransmitDataService);
   readonly #myServiceGetData = inject(TransmitDataService);
   readonly #inputService = inject(switchOnService);
 
-  public tabs: Tabs[] = [
-    { name: 'За сегодня', id: 0 },
-    { name: 'За вчера', id: 1 },
-    { name: 'За неделю', id: 2 },
-    { name: 'За месяц', id: 3 },
-    { name: 'За прошлый месяц', id: 4 },
-    { name: 'За период', id: 5 },
-  ];
+  public tabs = TabsName;
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -54,6 +46,17 @@ export class TableComponent implements OnInit {
   public operations: DataUserOperation[] = [];
   public keys: string[] = [];
 
+  // меняем enum to obj чтобы корректно отображать порядок tabs
+  public tabsArray: { key: string; value: string }[] =
+    this.convertEnumToArray(TabsName);
+
+  convertEnumToArray(myEnum: any): { key: string; value: string }[] {
+    return Object.keys(myEnum).map((key) => ({
+      key: key,
+      value: myEnum[key as keyof typeof myEnum],
+    }));
+  }
+
   constructor() {
     this.#myServiceGetData.dataObject$
       .pipe(takeUntilDestroyed())
@@ -63,29 +66,15 @@ export class TableComponent implements OnInit {
   }
 
   // get class on tab.start
-  private IDActiveTab: number = 3;
-  clickOnTab(index: number) {
-    this.IDActiveTab = index;
+  private IDActiveTab: string = 'forMonth';
+  clickOnTab(name: string) {
+    this.IDActiveTab = name;
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
-
-    // if (this.IDActiveTab === 5) {
-    //   this.transmitToBTN = {
-    //     text: 'Ok',
-    //     disabled: false,
-    //     id: 2,
-    //   };
-    // } else {
-    //   this.transmitToBTN = {
-    //     text: 'Ok',
-    //     disabled: true,
-    //     id: 2,
-    //   };
-    // }
   }
 
-  classActiveTab(index: number): string {
-    if (index == this.IDActiveTab) {
+  classActiveTab(name: string): string {
+    if (name == this.IDActiveTab) {
       return 'isActive';
     } else {
       return 'isUnactive';

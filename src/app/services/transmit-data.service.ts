@@ -264,7 +264,7 @@ export class TransmitDataService implements OnDestroy {
     },
   ];
 
-  private id: number = 3;
+  private name: string = 'forMonth';
   // private now = new Date();
   arrDate: string[] = [];
   arrDateItem: string[] = [];
@@ -274,12 +274,12 @@ export class TransmitDataService implements OnDestroy {
   #tmp?: DateTimeUserOperations;
   private dateFromInput!: Subscription;
 
-  getDataUserTab(id: number) {
-    this.id = id;
+  getDataUserTab(name: string) {
+    this.name = name;
 
     let arrUserActualOperations;
 
-    if (this.id == 0) {
+    if (this.name == 'today') {
       this.arrCorrectElements = [];
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
@@ -290,7 +290,7 @@ export class TransmitDataService implements OnDestroy {
         }
       }
       this.dataObject$.next(this.arrCorrectElements);
-    } else if (this.id == 1) {
+    } else if (this.name == 'yestarday') {
       this.arrCorrectElements = [];
 
       for (let item of this.dataUserOperations) {
@@ -302,7 +302,7 @@ export class TransmitDataService implements OnDestroy {
       }
 
       this.dataObject$.next(this.arrCorrectElements);
-    } else if (this.id == 2) {
+    } else if (this.name == 'forWeek') {
       let currentDay: number = new Date().getDay() - 1;
 
       const arrUserOperationForWeek = this.dataUserOperations.filter((item) => {
@@ -313,14 +313,14 @@ export class TransmitDataService implements OnDestroy {
         );
       });
       this.dataObject$.next(arrUserOperationForWeek);
-    } else if (this.id == 3) {
+    } else if (this.name == 'forMonth') {
       // this.arrCorrectElements = [];
       const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
         return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
       });
       // this.arrCorrectElements = arrOperationsForMonth;
       this.dataObject$.next(arrOperationsForMonth);
-    } else if (this.id == 4) {
+    } else if (this.name == 'forLastMonth') {
       new Date().setMonth(-1);
 
       const arrOperationsForLastMonth = this.dataUserOperations.filter(
@@ -330,7 +330,7 @@ export class TransmitDataService implements OnDestroy {
       );
 
       this.dataObject$.next(arrOperationsForLastMonth);
-    } else if (this.id == 5) {
+    } else if (this.name == 'forPeriod') {
       this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
         this.#tmp = data.obj as DateTimeUserOperations;
 
@@ -363,7 +363,7 @@ export class TransmitDataService implements OnDestroy {
     this.arrDate = new Date().toLocaleDateString().split('.');
 
     // Интервал по умолчанию - месяц
-    if (this.id == 3) {
+    if (this.name == 'forMonth') {
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
 
