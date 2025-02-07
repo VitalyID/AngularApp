@@ -1,8 +1,13 @@
 <div class="wrapFilter">
-  <span>{{ title_filter }}</span>
+  <span>{{ titleFilter }}</span>
   <div class="filterIcons">
-    <svg-icon [svgSetting]="dataIcon"></svg-icon>
-    <span>up</span>
-    <span>down</span>
+    <svg-icon
+      [svgSetting]="dataIconUp"
+      (click)="clickSortUp($event)"
+    ></svg-icon>
+    <svg-icon
+      [svgSetting]="dataIconDown"
+      (click)="clickSortDown($event)"
+    ></svg-icon>
   </div>
 </div>

@@ -1,10 +1,4 @@
-import {
-  ApplicationRef,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -65,11 +59,11 @@ export class ChartComponent {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
   constructor(
     private DataService: TransmitDataService,
-    private dataX: TransmitDataService,
-    // private dataY: TransmitDataService,
-    private appRef: ApplicationRef,
-    private cdr: ChangeDetectorRef
-  ) {
+    private dataX: TransmitDataService
+  ) // private dataY: TransmitDataService,
+  // private appRef: ApplicationRef,
+  // private cdr: ChangeDetectorRef
+  {
     this.dataX.dataObject$
       .pipe(takeUntilDestroyed())
       .subscribe((dataFromService) => {

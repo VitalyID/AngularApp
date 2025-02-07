@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
+// import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 
 @Component({
   selector: 'svg-icon',
