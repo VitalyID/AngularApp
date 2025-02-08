@@ -1,4 +1,4 @@
 export interface CheckFilter {
-  textContent: string;
+  nameFilter: string;
   type: string;
 }

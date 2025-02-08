@@ -16,7 +16,7 @@ export interface ButtonData {
   id: number;
 }
 export interface DataUserOperation {
-  // [key: string]: any;
+  [key: string]: any;
   data: string;
   country: string;
   tips: string;

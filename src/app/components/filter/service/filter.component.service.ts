@@ -2,13 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject } from 'rxjs';
 import { TransmitDataService } from '../../../services/transmit-data.service';
+import { CheckFilter } from '../types/interface/checkFilter';
 import { DataUserOperation } from './../../../types/sectionItem';
-import { CheckFilter } from './../types/interface/checkFilter';
 
 @Injectable({ providedIn: 'root' })
 export class SortDataService {
   #defaultFilter: CheckFilter = {
-    textContent: 'Дата',
+    nameFilter: 'date',
     type: 'Up',
   };
 
@@ -17,21 +17,21 @@ export class SortDataService {
 
   readonly #dataFromService = inject(TransmitDataService);
 
-  #aboutTips?: DataUserOperation[];
+  #aboutTips!: DataUserOperation[];
+  sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
+  // #sortedData?: DataUserOperation[];
+
   constructor() {
     this.#dataFromService.dataObject$
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
-        this.#aboutTips = data;
+        this.#aboutTips = [...data];
       });
 
     // get defaultFilter | userFilter by #innerService
     // we get here filter settings and data from server
     this.#innerService.pipe(takeUntilDestroyed()).subscribe((data) => {
-      console.log(data);
-      console.log(this.#aboutTips);
-
-      if (this.#aboutTips && data.textContent === 'Дата') {
+      if (this.#aboutTips && data.nameFilter === 'date') {
         // console.log(this.#aboutTips[0].data);
         this.#aboutTips.sort((a, b) => {
           const dateA = new Date(
@@ -43,24 +43,49 @@ export class SortDataService {
 
           return data.type === 'Up' ? dateA - dateB : dateB - dateA;
         });
-      } else if (this.#aboutTips && data.textContent === 'Страна') {
+        // console.log(this.#aboutTips);
+        this.sortedData$.next(this.#aboutTips);
+      } else if (this.#aboutTips && data.nameFilter === 'country') {
         this.#aboutTips.sort((a, b) => {
           return data.type === 'Up'
             ? a.country.localeCompare(b.country)
             : b.country.localeCompare(a.country);
         });
-      } else if (this.#aboutTips && data.textContent === 'Размер чаевых') {
-        this.#aboutTips.sort((a, b) => {
-          const tipA = a.tips.slice(0, a.tips.length);
-          const tipB = a.tips.slice(0, b.tips.length);
+        this.sortedData$.next(this.#aboutTips);
+      } else if (this.#aboutTips && data.nameFilter === 'tips') {
+        // console.log(111111111);
 
-          return data.type === 'Up'
-            ? a.tips.localeCompare(b.tips)
-            : b.tips.localeCompare(a.tips);
+        this.#aboutTips.sort((a, b) => {
+          const tipA = Number(a.tips.split(' ')[0]);
+          const tipB = Number(b.tips.split(' ')[0]);
+
+          return data.type === 'Up' ? tipA - tipB : tipB - tipA;
         });
+        this.sortedData$.next(this.#aboutTips);
+      } else if (this.#aboutTips && data.nameFilter === 'commission') {
+        this.#aboutTips.sort((a, b) => {
+          const tipA = Number(a.tips.split(' ')[0]);
+          const tipB = Number(b.tips.split(' ')[0]);
+
+          return data.type === 'Up' ? tipA - tipB : tipB - tipA;
+        });
+        this.sortedData$.next(this.#aboutTips);
+      } else if (this.#aboutTips && data.nameFilter === 'user') {
+        this.#aboutTips.sort((a, b) => {
+          return data.type === 'Up'
+            ? a.country.localeCompare(b.country)
+            : b.country.localeCompare(a.country);
+        });
+        this.sortedData$.next(this.#aboutTips);
+      } else if (this.#aboutTips && data.nameFilter === 'card') {
+        this.#aboutTips.sort((a, b) => {
+          return data.type === 'Up'
+            ? a.country.localeCompare(b.country)
+            : b.country.localeCompare(a.country);
+        });
+        this.sortedData$.next(this.#aboutTips);
       }
     });
-
     // end
   }
 

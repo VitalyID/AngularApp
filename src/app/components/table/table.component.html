@@ -2,7 +2,7 @@
   <div class="tabs">
     <div
       class="tab-element"
-      *ngFor="let tab of tabsArray"
+      *ngFor="let tab of tabs"
       (click)="clickOnTab(tab.key)"
       [ngClass]="classActiveTab(tab.key)"
     >
@@ -15,7 +15,7 @@
 
 <div class="containerFilter">
   <div class="cellFilter" *ngFor="let filter of filters">
-    <filter [titleFilter]="filter"></filter>
+    <filter [titleFilter]="filter.value"></filter>
   </div>
 </div>
 

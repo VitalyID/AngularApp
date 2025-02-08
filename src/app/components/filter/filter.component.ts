@@ -8,6 +8,7 @@ import {
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SortDataService } from './service/filter.component.service';
+import { TitleFilter } from './types/enum/nameFilter';
 
 @Component({
   selector: 'filter',
@@ -41,22 +42,17 @@ export class FilterComponent {
 
     if (nameFilter?.textContent) {
       let textContent: string = nameFilter?.textContent;
+      // console.log(textContent);
 
-      // objFromTextContent (CheckFilter, textContent)
-      // function objFromTextContent ( obj: any, value: string) : string | undefined{
-      //   for (let key of obj) {
-      //     if (Object.hasOwnProperty(key)) {
-      //       if (obj[key] === value ) {
-      //         return key
-      //       }
-      //     }
-      //   }
-      //   return undefined
-      // }
-      this.#sortDataService.changeUserFilter({
-        textContent: textContent,
-        type: type,
-      });
+      for (let item of Object.keys(TitleFilter)) {
+        if (TitleFilter[item as keyof typeof TitleFilter] === textContent) {
+          console.log(item);
+          this.#sortDataService.changeUserFilter({
+            nameFilter: item,
+            type: type,
+          });
+        }
+      }
     } else {
       console.log("Name filter is null, it's err");
     }
