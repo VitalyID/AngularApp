@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
@@ -8,13 +9,14 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
-import { TitleFilter } from '../../types/enums/nameFilter';
+import { TitleFilter } from '../filter/types/enum/nameFilter';
 // import { Tabs } from '../../types/interfaces/Tabs';
 import { TabsName } from '../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { FilterComponent } from '../filter/filter.component';
+import { SortDataService } from '../filter/service/filter.component.service';
 
 @Component({
   selector: 'table',
@@ -26,8 +28,10 @@ import { FilterComponent } from '../filter/filter.component';
 export class TableComponent implements OnInit {
   readonly #myServiceGetData = inject(TransmitDataService);
   readonly #inputService = inject(switchOnService);
+  readonly #filterService = inject(SortDataService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
-  public tabs = TabsName;
+  // public tabs = TabsName;
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -46,9 +50,12 @@ export class TableComponent implements OnInit {
   public operations: DataUserOperation[] = [];
   public keys: string[] = [];
 
-  // меняем enum to obj чтобы корректно отображать порядок tabs
-  public tabsArray: { key: string; value: string }[] =
+  // меняем enum to obj чтобы корректно отображать порядок
+  public tabs: { key: string; value: string }[] =
     this.convertEnumToArray(TabsName);
+
+  public filters: { key: string; value: string }[] =
+    this.convertEnumToArray(TitleFilter);
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
     return Object.keys(myEnum).map((key) => ({
@@ -58,11 +65,19 @@ export class TableComponent implements OnInit {
   }
 
   constructor() {
-    this.#myServiceGetData.dataObject$
+    this.#filterService.sortedData$
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
         this.operations = data;
+        // this.#cdr.detectChanges();
+        console.log(this.operations);
       });
+  }
+
+  ngOnInit(): void {
+    if (this.operations.length > 0) {
+      this.keys = Object.keys(this.operations[0]);
+    }
   }
 
   // get class on tab.start
@@ -81,11 +96,4 @@ export class TableComponent implements OnInit {
     }
   }
   // get class on tab.end
-
-  // private filters: string[] = []
-  public filters: string[] = Object.values(TitleFilter);
-  ngOnInit(): void {
-    this.keys = ['data', 'country', 'tips', 'commission', 'email', 'card'];
-    // this.#myServiceGetData.getDataUserTab(this.tabs.id)
-  }
 }

@@ -1,14 +1,14 @@
 import {
-  ApplicationRef,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { TransmitDataService } from '../../services/transmit-data.service';
+import { SortDataService } from '../filter/service/filter.component.service';
 
 @Component({
   selector: 'chart',
@@ -20,6 +20,7 @@ import { TransmitDataService } from '../../services/transmit-data.service';
 export class ChartComponent {
   public barChartLegend = false;
   public barChartPlugins = [Legend];
+  readonly #filterService = inject(SortDataService);
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
@@ -63,14 +64,8 @@ export class ChartComponent {
   };
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-  constructor(
-    private DataService: TransmitDataService,
-    private dataX: TransmitDataService,
-    // private dataY: TransmitDataService,
-    private appRef: ApplicationRef,
-    private cdr: ChangeDetectorRef
-  ) {
-    this.dataX.dataObject$
+  constructor(private dataX: TransmitDataService) {
+    this.#filterService.sortedData$
       .pipe(takeUntilDestroyed())
       .subscribe((dataFromService) => {
         const getDateFromService = dataFromService.map((item) => item.data);
