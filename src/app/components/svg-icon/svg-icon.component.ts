@@ -1,14 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
+import { SortDataService } from '../filter/service/filter.component.service';
 import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
-// import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 
 @Component({
   selector: 'svg-icon',
   imports: [CommonModule],
   template: `<svg
     *ngIf="svgSetting"
-    [ngClass]="svgSetting.isActive ? 'isActive' : 'noActive'"
     [style.width]="svgSetting.width"
     [style.height]="svgSetting.height"
   >
@@ -23,4 +27,8 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
 })
 export class SvgIconComponent {
   @Input({ required: true }) svgSetting!: SvgSpriteSetting;
+
+  readonly #filterService = inject(SortDataService);
+
+  constructor() {}
 }

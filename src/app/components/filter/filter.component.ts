@@ -48,7 +48,7 @@ export class FilterComponent {
 
       for (let item of Object.keys(TitleFilter)) {
         if (TitleFilter[item as keyof typeof TitleFilter] === textContent) {
-          console.log(item);
+          // console.log(item);
           this.#sortDataService.changeUserFilter({
             nameFilter: item,
             type: type,
