@@ -6,8 +6,18 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
 @Component({
   selector: 'svg-icon',
   imports: [CommonModule],
-  template:
-    '<svg *ngIf="svgSetting" [style.width]="svgSetting.width" [style.height]="svgSetting.height" [style.fill]="svgSetting.fill"> <use attr.xlink:href="/assets/icons/svg-sprite/symbol-defs.svg#{{svgSetting.iconID}}"></use> </svg>',
+  template: `<svg
+    *ngIf="svgSetting"
+    [ngClass]="svgSetting.isActive ? 'isActive' : 'noActive'"
+    [style.width]="svgSetting.width"
+    [style.height]="svgSetting.height"
+  >
+    <use
+      attr.xlink:href="/assets/icons/svg-sprite/symbol-defs.svg#{{
+        svgSetting.iconID
+      }}"
+    ></use>
+  </svg>`,
   styleUrl: './svg-icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

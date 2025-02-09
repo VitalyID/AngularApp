@@ -19,7 +19,6 @@ export class SortDataService {
 
   #aboutTips!: DataUserOperation[];
   sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
-  // #sortedData?: DataUserOperation[];
 
   constructor() {
     this.#dataFromService.dataObject$

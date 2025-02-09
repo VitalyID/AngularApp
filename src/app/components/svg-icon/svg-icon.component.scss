@@ -6,3 +6,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.isActive {
+  fill: red;
+}
+
+svg:not(.isActive) {
+  fill: green;
+}

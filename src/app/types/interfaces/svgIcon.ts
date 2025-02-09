@@ -2,6 +2,7 @@ export interface SvgSpriteSetting {
   iconID: string;
   width?: string;
   height?: string;
-  fill?: string;
+  // fill?: string;
   display?: string;
+  isActive: boolean;
 }

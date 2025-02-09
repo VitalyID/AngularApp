@@ -31,8 +31,6 @@ export class TableComponent implements OnInit {
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
 
-  // public tabs = TabsName;
-
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
     iconClass: 'icon-PaperDownload',
