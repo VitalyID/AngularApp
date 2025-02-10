@@ -14,6 +14,22 @@ export class TransmitDataService implements OnDestroy {
 
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '10.02.2025',
+      country: 'Turkey',
+      tips: '6190 ₽  ',
+      commission: '7.26 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '09.02.2025',
+      country: 'Ukraine',
+      tips: '1190 ₽  ',
+      commission: '3.6 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '08.02.2025',
       country: 'Ukraine',
       tips: '100 ₽  ',
@@ -322,14 +338,26 @@ export class TransmitDataService implements OnDestroy {
     switch (this.name) {
       case 'today':
         this.arrCorrectElements = [];
+        // console.log(this.arrDate);
+
         for (let item of this.dataUserOperations) {
           this.arrDateItem = item.data.split('.');
 
-          if (this.arrDate[0] === this.arrDateItem[0]) {
+          if (
+            this.arrDate[0] === this.arrDateItem[0] &&
+            this.arrDate[1] === this.arrDateItem[1] &&
+            this.arrDate[2] === this.arrDateItem[2]
+          ) {
+            console.log(this.arrDate[0], ' ', this.arrDateItem[0]);
+            console.log(this.arrDate[1], ' ', this.arrDateItem[1]);
+            console.log(this.arrDate[2], ' ', this.arrDateItem[2]);
+
             this.arrCorrectElements.push(item);
           } else {
           }
         }
+        console.log(this.arrCorrectElements);
+
         this.dataObject$.next(this.arrCorrectElements);
 
         break;
@@ -337,26 +365,64 @@ export class TransmitDataService implements OnDestroy {
         this.arrCorrectElements = [];
 
         for (let item of this.dataUserOperations) {
-          this.arrDateItem = item.data.split('.');
-          if (Number(this.arrDate[0]) - 1 === Number(this.arrDateItem[0])) {
+          // this.arrDateItem = item.data.split('.').reverse().join('-');
+          const dataFromServerString = item.data.split('.').reverse().join('-');
+          const dataFromServerObj = new Date(dataFromServerString);
+
+          const today = new Date();
+          const setYesterday = new Date(today.setDate(today.getDate() - 1));
+          // console.log(today.toLocaleString().split(',')[0]);
+
+          if (
+            setYesterday.toLocaleString().split(',')[0] ===
+            dataFromServerObj.toLocaleString().split(',')[0]
+          ) {
+            // console.log(item.data);
             this.arrCorrectElements.push(item);
+            // console.log(this.arrCorrectElements);
           }
         }
+        this.dataObject$.next(this.arrCorrectElements);
         break;
       case 'forWeek':
-        let currentDay: number = new Date().getDay() - 1;
+        let dayWeek: number = new Date().getDay();
 
-        const arrUserOperationForWeek = this.dataUserOperations.filter(
-          (item) => {
-            return (
-              Number(item.data.split('.')[0]) <= Number(this.arrDate[0]) &&
-              Number(item.data.split('.')[0]) >=
-                Number(this.arrDate[0]) - currentDay
-            );
+        if (dayWeek === 0) {
+          dayWeek = 7;
+        } else {
+          dayWeek -= 1;
+        }
+
+        // startDay
+        const dayZero = new Date();
+        const startDay = new Date(
+          dayZero.getTime() - dayWeek * 24 * 60 * 60 * 1000
+        )
+          .toLocaleString()
+          .split(',')[0]
+          .split('.');
+
+        // EndDay
+        const currentDay = new Date().toLocaleString().split(',')[0].split('.');
+
+        const arrUserOperationsForWeek: DataUserOperation[] = [];
+
+        for (let item of this.dataUserOperations) {
+          const arrData = item.data.split('.');
+
+          if (
+            arrData[2] >= startDay[2] &&
+            arrData[2] <= startDay[2] &&
+            arrData[1] >= startDay[1] &&
+            arrData[1] <= startDay[1] &&
+            arrData[0] >= startDay[0] &&
+            arrData[0] <= startDay[0]
+          ) {
+            arrUserOperationsForWeek.push(item);
           }
-        );
-        this.dataObject$.next(arrUserOperationForWeek);
+        }
 
+        this.dataObject$.next(arrUserOperationsForWeek);
         break;
       case 'forMonth':
         // this.arrCorrectElements = [];

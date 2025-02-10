@@ -38,6 +38,8 @@ export class FilterComponent {
     isActive: false,
   };
 
+  isActive: boolean = false;
+
   private SortData(event: MouseEvent, type: 'Up' | 'Down') {
     const nameFilter = (event.target as HTMLElement)
       .closest('div.wrapFilter')
@@ -60,13 +62,13 @@ export class FilterComponent {
     }
   }
 
-  clickSortUp(event: MouseEvent) {
-    this.SortData(event, 'Up');
-    this.dataIconUp.isActive = true;
+  clickSort(event: MouseEvent, from: 'Up' | 'Down') {
+    this.SortData(event, from);
+    this.isActive = true;
   }
 
-  clickSortDown(event: MouseEvent) {
-    this.SortData(event, 'Down');
-    this.dataIconDown.isActive = true;
-  }
+  // clickSortDown(event: MouseEvent) {
+  //   this.SortData(event, 'Down');
+  //   this.dataIconDown.isActive = true;
+  // }
 }

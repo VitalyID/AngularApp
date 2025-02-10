@@ -7,10 +7,10 @@
   align-items: center;
 }
 
-.isActive {
-  fill: red;
-}
+// .isActive {
+//   fill: red !important;
+// }
 
-svg:not(.isActive) {
-  fill: green;
-}
+// svg-icon:not(.isActive) {
+//   fill: green;
+// }

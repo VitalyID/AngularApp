@@ -62,13 +62,18 @@ export class TableComponent implements OnInit {
     }));
   }
 
+  // tableData: DataUserOperation[] = [];
   constructor() {
     this.#filterService.sortedData$
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
         this.operations = data;
+
+        console.log('222222222', data);
+
+        // this.tableData = [...data];
         // this.#cdr.detectChanges();
-        console.log(this.operations);
+        // console.log(this.operations);
       });
   }
 
