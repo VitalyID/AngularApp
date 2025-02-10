@@ -321,7 +321,6 @@ export class TransmitDataService implements OnDestroy {
   ];
 
   private name: string = 'forMonth';
-  // private now = new Date();
   arrDate: string[] = [];
   arrDateItem: string[] = [];
   private arrCorrectElements: DataUserOperation[] = [];
@@ -348,15 +347,10 @@ export class TransmitDataService implements OnDestroy {
             this.arrDate[1] === this.arrDateItem[1] &&
             this.arrDate[2] === this.arrDateItem[2]
           ) {
-            console.log(this.arrDate[0], ' ', this.arrDateItem[0]);
-            console.log(this.arrDate[1], ' ', this.arrDateItem[1]);
-            console.log(this.arrDate[2], ' ', this.arrDateItem[2]);
-
             this.arrCorrectElements.push(item);
           } else {
           }
         }
-        console.log(this.arrCorrectElements);
 
         this.dataObject$.next(this.arrCorrectElements);
 

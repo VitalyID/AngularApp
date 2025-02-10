@@ -76,11 +76,11 @@ export class ChartComponent {
         );
 
         if (dataFromService) {
-          console.log(
-            'Массив дат, которые пришли с сервиса ',
-            getDateFromService,
-            getTipsFromService
-          );
+          // console.log(
+          //   'Массив дат, которые пришли с сервиса ',
+          //   getDateFromService,
+          //   getTipsFromService
+          // );
 
           // Создаем новый граик с новыми данными и обновляемся
 

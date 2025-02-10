@@ -15,6 +15,7 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
     *ngIf="svgSetting"
     [style.width]="svgSetting.width"
     [style.height]="svgSetting.height"
+    [style.fill]="svgSetting.fill"
   >
     <use
       attr.xlink:href="/assets/icons/svg-sprite/symbol-defs.svg#{{

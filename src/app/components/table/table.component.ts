@@ -6,11 +6,11 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { TitleFilter } from '../filter/types/enum/nameFilter';
 // import { Tabs } from '../../types/interfaces/Tabs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TabsName } from '../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
@@ -68,18 +68,14 @@ export class TableComponent implements OnInit {
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
         this.operations = data;
-
-        console.log('222222222', data);
-
-        // this.tableData = [...data];
-        // this.#cdr.detectChanges();
-        // console.log(this.operations);
+        // this.operations = structuredClone(data);
       });
   }
 
   ngOnInit(): void {
     if (this.operations.length > 0) {
-      this.keys = Object.keys(this.operations[0]);
+      const doubleOperations = structuredClone(this.operations);
+      this.keys = Object.keys(doubleOperations[0]);
     }
   }
 
@@ -89,6 +85,7 @@ export class TableComponent implements OnInit {
     this.IDActiveTab = name;
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
+    this.#cdr.markForCheck();
   }
 
   classActiveTab(name: string): string {

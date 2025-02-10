@@ -4,12 +4,14 @@ import {
   Component,
   inject,
   Input,
+  OnInit,
 } from '@angular/core';
-import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
-// import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
+import { SvgIconService } from './service/ svgIconActiv.component.service';
 import { SortDataService } from './service/filter.component.service';
 import { TitleFilter } from './types/enum/nameFilter';
+import { svgActive } from './types/interface/svgActivIcon';
 
 @Component({
   selector: 'filter',
@@ -18,8 +20,9 @@ import { TitleFilter } from './types/enum/nameFilter';
   styleUrl: './filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent {
+export class FilterComponent implements OnInit {
   readonly #sortDataService = inject(SortDataService);
+  readonly #svgActiveService = inject(SvgIconService);
 
   @Input() titleFilter: string = '';
 
@@ -27,18 +30,14 @@ export class FilterComponent {
     iconID: 'icon-triangle-up',
     width: '12px',
     height: '12px',
-    // fill: '#777d82',
-    isActive: false,
+    fill: '#777d82',
   };
   dataIconDown: SvgSpriteSetting = {
     iconID: 'icon-triangle-down',
     width: '12px',
     height: '12px',
-    // fill: '#777d82',
-    isActive: false,
+    fill: '#777d82',
   };
-
-  isActive: boolean = false;
 
   private SortData(event: MouseEvent, type: 'Up' | 'Down') {
     const nameFilter = (event.target as HTMLElement)
@@ -50,7 +49,6 @@ export class FilterComponent {
 
       for (let item of Object.keys(TitleFilter)) {
         if (TitleFilter[item as keyof typeof TitleFilter] === textContent) {
-          // console.log(item);
           this.#sortDataService.changeUserFilter({
             nameFilter: item,
             type: type,
@@ -62,13 +60,21 @@ export class FilterComponent {
     }
   }
 
+  classSVG: 'Up' | 'Down' = 'Up';
   clickSort(event: MouseEvent, from: 'Up' | 'Down') {
     this.SortData(event, from);
-    this.isActive = true;
+    this.#svgActiveService.getClickFromFilter(event, from);
   }
 
-  // clickSortDown(event: MouseEvent) {
-  //   this.SortData(event, 'Down');
-  //   this.dataIconDown.isActive = true;
-  // }
+  svgActive: svgActive[] = [];
+  ngOnInit(): void {
+    for (let item of Object.keys(TitleFilter)) {
+      this.svgActive.push({
+        nameFilter: item,
+        up: '#777d82',
+        down: '#777d82',
+      });
+    }
+    this.#svgActiveService.getSVGFromComponent(this.svgActive);
+  }
 }
