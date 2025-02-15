@@ -15,7 +15,11 @@
 
 <div class="containerFilter">
   <div class="cellFilter" *ngFor="let filter of filters">
-    <filter [titleFilter]="filter.value"></filter>
+    <filter
+      [titleFilter]="filter.value"
+      [userFilterFromParent]="setUserFilter"
+      (titleFilterFromChild)="titleFilterSort($event)"
+    ></filter>
   </div>
 </div>
 

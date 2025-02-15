@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   inject,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
@@ -25,6 +27,8 @@ export class FilterComponent implements OnInit {
   // readonly #svgActiveService = inject(SvgIconService);
 
   @Input() titleFilter: string = '';
+  @Input() userFilterFromParent: string = '';
+  @Output() titleFilterFromChild = new EventEmitter<string>();
 
   dataIconUp: SvgSpriteSetting = {
     iconID: 'icon-triangle-up',
@@ -45,7 +49,10 @@ export class FilterComponent implements OnInit {
       ?.querySelector('span');
 
     if (nameFilter?.textContent) {
-      let textContent: string = nameFilter?.textContent;
+      let textContent: string = nameFilter?.textContent ?? '';
+      // transmit data to parent for check color svg
+      this.titleFilterFromChild.emit(textContent);
+      // -------------------------------------------
 
       for (let item of Object.keys(TitleFilter)) {
         if (TitleFilter[item as keyof typeof TitleFilter] === textContent) {
@@ -60,21 +67,18 @@ export class FilterComponent implements OnInit {
     }
   }
 
-  classSVG: 'Up' | 'Down' = 'Up';
-  clickSort(event: MouseEvent, from: 'Up' | 'Down') {
-    this.SortData(event, from);
-    // this.#svgActiveService.getClickFromFilter(event, from);
+  typeSVG: 'Up' | 'Down' = 'Up';
+  clickSort(event: MouseEvent, typeSVG: 'Up' | 'Down') {
+    this.SortData(event, typeSVG);
+    this.typeSVG = typeSVG;
   }
 
   svgActive: svgActive[] = [];
-  ngOnInit(): void {
-    for (let item of Object.keys(TitleFilter)) {
-      this.svgActive.push({
-        nameFilter: item,
-        up: '#777d82',
-        down: '#777d82',
-      });
-    }
-    // this.#svgActiveService.getSVGFromComponent(this.svgActive);
+
+  // удалить он инит
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.titleFilterFromChild.emit(TitleFilter.date);
   }
 }

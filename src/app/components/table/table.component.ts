@@ -62,6 +62,12 @@ export class TableComponent implements OnInit {
     }));
   }
 
+  setUserFilter: string = TitleFilter.date;
+  titleFilterSort(setUserFilter: string) {
+    // console.log('get data from filter', setUserFilter);
+    this.setUserFilter = setUserFilter;
+  }
+
   // tableData: DataUserOperation[] = [];
   constructor() {
     this.#filterService.sortedData$

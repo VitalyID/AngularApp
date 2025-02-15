@@ -4,10 +4,12 @@
     <svg-icon
       [svgSetting]="dataIconUp"
       (click)="clickSort($event, 'Up')"
+      [isActive]="typeSVG === 'Up' && titleFilter === userFilterFromParent"
     ></svg-icon>
     <svg-icon
       [svgSetting]="dataIconDown"
       (click)="clickSort($event, 'Down')"
+      [isActive]="typeSVG === 'Down' && titleFilter === userFilterFromParent"
     ></svg-icon>
   </div>
 </div>

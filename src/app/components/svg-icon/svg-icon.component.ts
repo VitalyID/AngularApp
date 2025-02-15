@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-} from '@angular/core';
-import { SortDataService } from '../filter/service/filter.component.service';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+// import { SortDataService } from '../filter/service/filter.component.service';
 import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
 
 @Component({
@@ -15,7 +10,7 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
     *ngIf="svgSetting"
     [style.width]="svgSetting.width"
     [style.height]="svgSetting.height"
-    [style.fill]="svgSetting.fill"
+    [style.fill]="isActive ? 'red' : '#777d82'"
   >
     <use
       attr.xlink:href="/assets/icons/svg-sprite/symbol-defs.svg#{{
@@ -28,8 +23,9 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
 })
 export class SvgIconComponent {
   @Input({ required: true }) svgSetting!: SvgSpriteSetting;
+  @Input({ required: true }) isActive: boolean = false;
 
-  readonly #filterService = inject(SortDataService);
+  // readonly #filterService = inject(SortDataService);
 
   constructor() {}
 }
