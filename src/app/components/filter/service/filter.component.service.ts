@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject } from 'rxjs';
 import { TransmitDataService } from '../../../services/transmit-data.service';
@@ -6,20 +6,22 @@ import { DataUserOperation } from './../../../types/sectionItem';
 import { CheckFilter } from './../types/interface/checkFilter';
 
 @Injectable({ providedIn: 'root' })
-export class SortDataService {
+export class SortDataService implements OnInit {
+  readonly #dataFromService = inject(TransmitDataService);
+
   #defaultFilter: CheckFilter = {
     nameFilter: 'date',
     type: 'Up',
   };
 
-  readonly #dataFromService = inject(TransmitDataService);
   #aboutTips!: DataUserOperation[];
-  sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
-
   // innerService transmitted default or user filter into sort fn start
   #innerService = new BehaviorSubject<CheckFilter>(this.#defaultFilter);
+  sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
+
   CheckFilter: CheckFilter = this.#defaultFilter;
 
+  ngOnInit(): void {}
   constructor() {
     this.#dataFromService.dataObject$
       .pipe(takeUntilDestroyed())

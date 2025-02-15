@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnDestroy,
@@ -53,13 +54,13 @@ export function customValidator(): ValidatorFn {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataInputComponent implements OnInit, OnDestroy {
+  @Input() dateForBTN!: ButtonData;
+
   readonly #buttonService = inject(ButtonService);
   readonly #fb = inject(FormBuilder);
   readonly #switchInputService = inject(switchOnService);
   readonly #listenerBTNservice = inject(ListenerService);
-  #statusValidDataStart!: Subscription | undefined;
-
-  @Input() dateForBTN!: ButtonData;
+  readonly #destroyRef = inject(DestroyRef);
 
   readonly myInputForm = this.#fb.group({
     dateFrom: [
@@ -74,23 +75,22 @@ export class DataInputComponent implements OnInit, OnDestroy {
 
   public data: number = 2;
 
-  ngOnInit(): void {}
+  #statusValidDataStart!: Subscription | undefined;
 
-  constructor() {
+  ngOnInit(): void {
     // принимаем клик с сервиса btn
     this.#buttonService.eventClick$
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 2) {
           console.log('Кнопка нажата с ID:', data.id);
-
           this.#buttonService.transmitData(this.myInputForm.value);
         }
       });
 
     // Enabled/Disabled dateFrom start
     this.#switchInputService.eventChangeInput$
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         console.log(data);
         if (data == true) {
@@ -114,7 +114,7 @@ export class DataInputComponent implements OnInit, OnDestroy {
 
     // this.#valueChangesSubscription;
     this.myInputForm.valueChanges
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (this.myInputForm.valid) {
           const enableBTN: ButtonData = {

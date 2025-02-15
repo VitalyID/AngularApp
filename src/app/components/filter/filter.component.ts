@@ -10,10 +10,8 @@ import {
 } from '@angular/core';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
-// import { SvgIconService } from './service/ svgIconActiv.component.service';
 import { SortDataService } from './service/filter.component.service';
 import { TitleFilter } from './types/enum/nameFilter';
-import { svgActive } from './types/interface/svgActivIcon';
 
 @Component({
   selector: 'filter',
@@ -23,12 +21,11 @@ import { svgActive } from './types/interface/svgActivIcon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent implements OnInit {
-  readonly #sortDataService = inject(SortDataService);
-  // readonly #svgActiveService = inject(SvgIconService);
-
   @Input() titleFilter: string = '';
   @Input() userFilterFromParent: string = '';
   @Output() titleFilterFromChild = new EventEmitter<string>();
+
+  readonly #sortDataService = inject(SortDataService);
 
   dataIconUp: SvgSpriteSetting = {
     iconID: 'icon-triangle-up',
@@ -42,6 +39,8 @@ export class FilterComponent implements OnInit {
     height: '12px',
     fill: '#777d82',
   };
+
+  typeSVG: 'Up' | 'Down' = 'Up';
 
   private SortData(event: MouseEvent, type: 'Up' | 'Down') {
     const nameFilter = (event.target as HTMLElement)
@@ -67,15 +66,15 @@ export class FilterComponent implements OnInit {
     }
   }
 
-  typeSVG: 'Up' | 'Down' = 'Up';
+  // ----------------------------------------------------------
+
   clickSort(event: MouseEvent, typeSVG: 'Up' | 'Down') {
     this.SortData(event, typeSVG);
     this.typeSVG = typeSVG;
   }
 
-  svgActive: svgActive[] = [];
+  // ----------------------------------------------------------
 
-  // удалить он инит
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {

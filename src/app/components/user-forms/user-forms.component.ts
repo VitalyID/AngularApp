@@ -22,6 +22,7 @@ export class UserFormsComponent {
     dateFrom: new FormControl('2025-01-01'),
     dateTo: new FormControl('2025-05-10'),
   });
+
   constructor(private cdr: ChangeDetectorRef) {}
 
   sendValue() {

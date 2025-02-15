@@ -27,6 +27,7 @@ export class MainComponent {
     // отправляем в сервис клик по кнопке с ее идентификатором "3".
     this.#btnService.clickOnButton(this.btnText.id);
   }
+
   constructor() {
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed())

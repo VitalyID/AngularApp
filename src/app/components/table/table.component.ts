@@ -11,6 +11,7 @@ import { SharedModule } from '../../shared.module';
 import { TitleFilter } from '../filter/types/enum/nameFilter';
 // import { Tabs } from '../../types/interfaces/Tabs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 import { TabsName } from '../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
@@ -46,14 +47,22 @@ export class TableComponent implements OnInit {
   };
 
   public operations: DataUserOperation[] = [];
-  public keys: string[] = [];
 
+  public keys: string[] = [];
   // меняем enum to obj чтобы корректно отображать порядок
   public tabs: { key: string; value: string }[] =
     this.convertEnumToArray(TabsName);
-
   public filters: { key: string; value: string }[] =
     this.convertEnumToArray(TitleFilter);
+  private IDActiveTab: string = 'forMonth';
+  setUserFilter: string = TitleFilter.date;
+
+  ngOnInit(): void {
+    if (this.operations.length > 0) {
+      const doubleOperations = structuredClone(this.operations);
+      this.keys = Object.keys(doubleOperations[0]);
+    }
+  }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
     return Object.keys(myEnum).map((key) => ({
@@ -62,7 +71,6 @@ export class TableComponent implements OnInit {
     }));
   }
 
-  setUserFilter: string = TitleFilter.date;
   titleFilterSort(setUserFilter: string) {
     // console.log('get data from filter', setUserFilter);
     this.setUserFilter = setUserFilter;
@@ -74,19 +82,15 @@ export class TableComponent implements OnInit {
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
         this.operations = data;
-        // this.operations = structuredClone(data);
       });
   }
 
-  ngOnInit(): void {
-    if (this.operations.length > 0) {
-      const doubleOperations = structuredClone(this.operations);
-      this.keys = Object.keys(doubleOperations[0]);
-    }
+  getSortedData$(): Observable<DataUserOperation[]> {
+    return this.#filterService.sortedData$;
   }
 
   // get class on tab.start
-  private IDActiveTab: string = 'forMonth';
+
   clickOnTab(name: string) {
     this.IDActiveTab = name;
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);

@@ -1,13 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { TransmitDataService } from '../../services/transmit-data.service';
 import { SortDataService } from '../filter/service/filter.component.service';
 
 @Component({
@@ -18,9 +18,13 @@ import { SortDataService } from '../filter/service/filter.component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartComponent {
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
+  readonly #filterService = inject(SortDataService);
+  readonly #destroyRef = inject(DestroyRef);
+
   public barChartLegend = false;
   public barChartPlugins = [Legend];
-  readonly #filterService = inject(SortDataService);
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
@@ -63,10 +67,9 @@ export class ChartComponent {
     },
   };
 
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-  constructor(private dataX: TransmitDataService) {
+  ngOnInit() {
     this.#filterService.sortedData$
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((dataFromService) => {
         const getDateFromService = dataFromService.map((item) => item.data);
 
@@ -76,14 +79,7 @@ export class ChartComponent {
         );
 
         if (dataFromService) {
-          // console.log(
-          //   'Массив дат, которые пришли с сервиса ',
-          //   getDateFromService,
-          //   getTipsFromService
-          // );
-
-          // Создаем новый граик с новыми данными и обновляемся
-
+          // Создаем новый график с новыми данными и обновляемся
           const newBarChartData = structuredClone(this.barChartData);
           newBarChartData.labels = getDateFromService;
           newBarChartData.datasets[0].data = getTipsFromService;
@@ -96,7 +92,4 @@ export class ChartComponent {
         }
       });
   }
-  // private dataFromService : [{}] = [{}]
-
-  ngOnInit() {}
 }

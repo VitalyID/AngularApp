@@ -366,15 +366,15 @@ export class TransmitDataService implements OnDestroy {
       card: '4563****2569',
     },
   ];
-
-  private name: string = 'forMonth';
   arrDate: string[] = [];
   arrDateItem: string[] = [];
-  private arrCorrectElements: DataUserOperation[] = [];
-  public dataObject$ = new BehaviorSubject<DataUserOperation[]>([]);
 
-  #tmp?: DateTimeUserOperations;
+  private name: string = 'forMonth';
+  private arrCorrectElements: DataUserOperation[] = [];
   private dateFromInput!: Subscription;
+  #tmp?: DateTimeUserOperations;
+
+  public dataObject$ = new BehaviorSubject<DataUserOperation[]>([]);
 
   getDataUserTab(name: string) {
     this.name = name;

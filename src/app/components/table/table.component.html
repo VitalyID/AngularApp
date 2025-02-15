@@ -24,7 +24,7 @@
 </div>
 
 <div class="bodyTable">
-  <div class="rowTable" *ngFor="let operation of operations">
+  <div class="rowTable" *ngFor="let operation of getSortedData$() | async">
     <div class="cellTable" *ngFor="let key of keys">
       {{ operation[key] }}
     </div>
