@@ -14,6 +14,54 @@ export class TransmitDataService implements OnDestroy {
 
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '15.02.2025',
+      country: 'Turkey',
+      tips: '3000 ₽  ',
+      commission: '4.6 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '15.02.2025',
+      country: 'Goergiya',
+      tips: '4560 ₽  ',
+      commission: '5.4 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '14.02.2025',
+      country: 'Russia',
+      tips: '6990 ₽  ',
+      commission: '6.4 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '13.02.2025',
+      country: 'China',
+      tips: '4000 ₽  ',
+      commission: '3.5 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '12.02.2025',
+      country: 'USA',
+      tips: '6540 ₽  ',
+      commission: '8 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '11.02.2025',
+      country: 'Ireland',
+      tips: '7200 ₽  ',
+      commission: '8.65 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '10.02.2025',
       country: 'Turkey',
       tips: '6190 ₽  ',
@@ -149,7 +197,6 @@ export class TransmitDataService implements OnDestroy {
       email: 'mail@mail.ru',
       card: '4563****2569',
     },
-
     {
       data: '22.01.2025',
       country: 'Russia',
@@ -396,8 +443,9 @@ export class TransmitDataService implements OnDestroy {
           .split(',')[0]
           .split('.');
 
+        console.log(startDay);
+
         // EndDay
-        const currentDay = new Date().toLocaleString().split(',')[0].split('.');
 
         const arrUserOperationsForWeek: DataUserOperation[] = [];
 
@@ -409,8 +457,7 @@ export class TransmitDataService implements OnDestroy {
             arrData[2] <= startDay[2] &&
             arrData[1] >= startDay[1] &&
             arrData[1] <= startDay[1] &&
-            arrData[0] >= startDay[0] &&
-            arrData[0] <= startDay[0]
+            arrData[0] >= startDay[0]
           ) {
             arrUserOperationsForWeek.push(item);
           }

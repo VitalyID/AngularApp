@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
-import { SvgIconService } from './service/ svgIconActiv.component.service';
+// import { SvgIconService } from './service/ svgIconActiv.component.service';
 import { SortDataService } from './service/filter.component.service';
 import { TitleFilter } from './types/enum/nameFilter';
 import { svgActive } from './types/interface/svgActivIcon';
@@ -22,7 +22,7 @@ import { svgActive } from './types/interface/svgActivIcon';
 })
 export class FilterComponent implements OnInit {
   readonly #sortDataService = inject(SortDataService);
-  readonly #svgActiveService = inject(SvgIconService);
+  // readonly #svgActiveService = inject(SvgIconService);
 
   @Input() titleFilter: string = '';
 
@@ -63,7 +63,7 @@ export class FilterComponent implements OnInit {
   classSVG: 'Up' | 'Down' = 'Up';
   clickSort(event: MouseEvent, from: 'Up' | 'Down') {
     this.SortData(event, from);
-    this.#svgActiveService.getClickFromFilter(event, from);
+    // this.#svgActiveService.getClickFromFilter(event, from);
   }
 
   svgActive: svgActive[] = [];
@@ -75,6 +75,6 @@ export class FilterComponent implements OnInit {
         down: '#777d82',
       });
     }
-    this.#svgActiveService.getSVGFromComponent(this.svgActive);
+    // this.#svgActiveService.getSVGFromComponent(this.svgActive);
   }
 }
