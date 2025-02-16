@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+// import { Subscription } from 'rxjs';
 import { ButtonData, SectionItem } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
 
@@ -10,8 +11,10 @@ import { ButtonService } from '../../buttons/service/buttons.component.service';
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss',
 })
-export class AsideComponent {
+export class AsideComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
+  readonly #destroyRef = inject(DestroyRef);
+  readonly activeMenuItem: number[] = [6, 7, 8];
 
   public title2: SectionItem[] = [
     {
@@ -72,34 +75,35 @@ export class AsideComponent {
   public myGroup: SectionItem[] = [];
   public othergroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
-  #btnSubscription!: Subscription;
+  // #btnSubscription!: Subscription;
 
   public btnText: ButtonData = {
     text: 'Служба поддержки',
     id: 4,
   };
 
-  constructor() {
-    this.#btnSubscription = this.#btnService.eventClick$.subscribe((data) => {
-      if (data.id == 4) {
-        console.log('Кнопка нажата с ID:', data.id);
-        // пишем логику клика по кнопке
-      }
-    });
-  }
+  activeItemID: number | null = null;
 
   ngOnInit(): void {
     this.generalGroup = this.title2.slice(0, 9);
     this.logOut = this.title2.slice(9, 10);
+
+    this.#btnService.eventClick$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        if (data.id == 4) {
+          console.log('Кнопка нажата с ID:', data.id);
+          // пишем логику клика по кнопке
+        }
+      });
   }
 
-  activeItemID: number | null = null;
   selectItem(item: SectionItem) {
     this.activeItemID = item.ID;
   }
 
   // добавляем класс только к элементам с этими id
-  readonly activeMenuItem: number[] = [6, 7, 8];
+
   getClassForSectionItem(id: number): boolean {
     if (this.activeMenuItem.indexOf(id) != -1) {
       return true;

@@ -5,7 +5,6 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -20,7 +19,7 @@ import { TitleFilter } from './types/enum/nameFilter';
   styleUrl: './filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent {
   @Input() titleFilter: string = '';
   @Input() userFilterFromParent: string = '';
   @Output() titleFilterFromChild = new EventEmitter<string>();
@@ -74,8 +73,6 @@ export class FilterComponent implements OnInit {
   }
 
   // ----------------------------------------------------------
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.titleFilterFromChild.emit(TitleFilter.date);

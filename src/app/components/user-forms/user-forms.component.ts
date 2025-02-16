@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared.module';
 import { DateTimeUserOperations } from '../../types/sectionItem';
@@ -22,8 +17,6 @@ export class UserFormsComponent {
     dateFrom: new FormControl('2025-01-01'),
     dateTo: new FormControl('2025-05-10'),
   });
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   sendValue() {
     console.log(this.sectionInputDate.value);

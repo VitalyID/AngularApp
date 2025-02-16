@@ -1,53 +1,39 @@
-import { inject, Injectable, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { TransmitDataService } from '../../../services/transmit-data.service';
 import { DataUserOperation } from './../../../types/sectionItem';
 import { CheckFilter } from './../types/interface/checkFilter';
 
 @Injectable({ providedIn: 'root' })
-export class SortDataService implements OnInit {
+export class SortDataService {
   readonly #dataFromService = inject(TransmitDataService);
 
-  #defaultFilter: CheckFilter = {
+  userFilter: CheckFilter = {
     nameFilter: 'date',
     type: 'Up',
   };
 
   #aboutTips!: DataUserOperation[];
-  // innerService transmitted default or user filter into sort fn start
-  #innerService = new BehaviorSubject<CheckFilter>(this.#defaultFilter);
+  #innerService = new BehaviorSubject<CheckFilter>(this.userFilter);
   sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
 
-  CheckFilter: CheckFilter = this.#defaultFilter;
-
-  ngOnInit(): void {}
-  constructor() {
-    this.#dataFromService.dataObject$
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => {
-        this.#aboutTips = [...data];
-        // call this fn for filter after click on tab, type today, lastday etc
-        this.switch(this.#aboutTips, this.CheckFilter);
-        // this.sortedData$.next(this.#aboutTips);
-      });
-
-    // get defaultFilter | userFilter by #innerService
-    // we get here filter settings and data from server
-    this.#innerService.pipe(takeUntilDestroyed()).subscribe((data) => {
-      if (this.#aboutTips.length === 0) return;
-      // call fn for filter data after click
-      this.switch(this.#aboutTips, data);
-    });
-  }
+  dataOperationFromService$: Observable<DataUserOperation[]> = combineLatest([
+    this.#dataFromService.dataObject$,
+    this.#innerService.asObservable(),
+  ]).pipe(
+    map(([getDataFromDateService, filter]) => {
+      return this.switch(getDataFromDateService, filter);
+    })
+  );
 
   // get user filter and transmitting them
   changeUserFilter(data: CheckFilter) {
     this.#innerService.next(data);
+    this.userFilter = data;
   }
 
   // this fn is filter type date, country etc.
-  switch(arr: DataUserOperation[], data: CheckFilter) {
+  switch(arr: DataUserOperation[], data: CheckFilter): DataUserOperation[] {
     switch (data.nameFilter) {
       case 'date':
         // this.test('switch');
@@ -61,7 +47,9 @@ export class SortDataService implements OnInit {
 
           return data.type === 'Up' ? dateA - dateB : dateB - dateA;
         });
+
         this.sortedData$.next(arr);
+        return arr;
 
         break;
       case 'country':
@@ -71,6 +59,7 @@ export class SortDataService implements OnInit {
             : b.country.localeCompare(a.country);
         });
         this.sortedData$.next(arr);
+        return arr;
 
         break;
       case 'tips':
@@ -81,6 +70,7 @@ export class SortDataService implements OnInit {
           return data.type === 'Up' ? tipA - tipB : tipB - tipA;
         });
         this.sortedData$.next(arr);
+        return arr;
 
         break;
       case 'commission':
@@ -91,6 +81,7 @@ export class SortDataService implements OnInit {
           return data.type === 'Up' ? tipA - tipB : tipB - tipA;
         });
         this.sortedData$.next(arr);
+        return arr;
 
         break;
       case 'user':
@@ -100,6 +91,7 @@ export class SortDataService implements OnInit {
             : b.country.localeCompare(a.country);
         });
         this.sortedData$.next(arr);
+        return arr;
 
         break;
       case 'card':
@@ -109,8 +101,12 @@ export class SortDataService implements OnInit {
             : b.country.localeCompare(a.country);
         });
         this.sortedData$.next(arr);
+        return arr;
 
         break;
+      default:
+        console.error(`Unknown nameFilter: ${data.nameFilter}`);
+        return arr;
     }
   }
 }

@@ -24,6 +24,4 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
 export class SvgIconComponent {
   @Input({ required: true }) svgSetting!: SvgSpriteSetting;
   @Input({ required: true }) isActive: boolean = false;
-
-  constructor() {}
 }

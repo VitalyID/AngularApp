@@ -3,21 +3,21 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable, tap } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
-import { TitleFilter } from '../filter/types/enum/nameFilter';
-// import { Tabs } from '../../types/interfaces/Tabs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
 import { TabsName } from '../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { FilterComponent } from '../filter/filter.component';
 import { SortDataService } from '../filter/service/filter.component.service';
+import { TitleFilter } from '../filter/types/enum/nameFilter';
 
 @Component({
   selector: 'table',
@@ -31,6 +31,7 @@ export class TableComponent implements OnInit {
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
+  readonly #destroyRef = inject(DestroyRef);
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -46,7 +47,7 @@ export class TableComponent implements OnInit {
     id: 2,
   };
 
-  public operations: DataUserOperation[] = [];
+  // public operations: DataUserOperation[] = [];
 
   public keys: string[] = [];
   // меняем enum to obj чтобы корректно отображать порядок
@@ -58,10 +59,7 @@ export class TableComponent implements OnInit {
   setUserFilter: string = TitleFilter.date;
 
   ngOnInit(): void {
-    if (this.operations.length > 0) {
-      const doubleOperations = structuredClone(this.operations);
-      this.keys = Object.keys(doubleOperations[0]);
-    }
+    this.getSortedData$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe;
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -72,21 +70,18 @@ export class TableComponent implements OnInit {
   }
 
   titleFilterSort(setUserFilter: string) {
-    // console.log('get data from filter', setUserFilter);
     this.setUserFilter = setUserFilter;
   }
 
-  // tableData: DataUserOperation[] = [];
-  constructor() {
-    this.#filterService.sortedData$
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => {
-        this.operations = data;
-      });
-  }
-
   getSortedData$(): Observable<DataUserOperation[]> {
-    return this.#filterService.sortedData$;
+    return this.#filterService.dataOperationFromService$.pipe(
+      tap((data) => {
+        if (data && data.length > 0) {
+          // Обновляем ключи, когда получаем данные
+          this.keys = Object.keys(data[0]);
+        }
+      })
+    );
   }
 
   // get class on tab.start

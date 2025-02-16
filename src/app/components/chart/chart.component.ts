@@ -68,22 +68,19 @@ export class ChartComponent {
   };
 
   ngOnInit() {
-    this.#filterService.sortedData$
+    this.#filterService.dataOperationFromService$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((dataFromService) => {
         const getDateFromService = dataFromService.map((item) => item.data);
-
         // У чаевых удаляем симввол валюты в значении
         const getTipsFromService = dataFromService.map((item) =>
           Number(item.tips.split(' ')[0])
         );
-
         if (dataFromService) {
           // Создаем новый график с новыми данными и обновляемся
           const newBarChartData = structuredClone(this.barChartData);
           newBarChartData.labels = getDateFromService;
           newBarChartData.datasets[0].data = getTipsFromService;
-
           this.barChartData = newBarChartData;
           if (this.chart?.chart) {
             this.chart.chart.data = this.barChartData;
