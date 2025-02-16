@@ -58,10 +58,9 @@ export class DataInputComponent implements OnInit, OnDestroy {
 
   readonly #buttonService = inject(ButtonService);
   readonly #fb = inject(FormBuilder);
-  readonly #switchInputService = inject(switchOnService);
   readonly #listenerBTNservice = inject(ListenerService);
   readonly #destroyRef = inject(DestroyRef);
-
+  readonly #switchInputService = inject(switchOnService);
   readonly myInputForm = this.#fb.group({
     dateFrom: [
       { value: '', disabled: true },
@@ -113,24 +112,15 @@ export class DataInputComponent implements OnInit, OnDestroy {
     // Enabled/Disabled dateEnd end
 
     // this.#valueChangesSubscription;
-    this.myInputForm.valueChanges
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (this.myInputForm.valid) {
-          const enableBTN: ButtonData = {
-            id: 2,
-            disabled: false,
-          };
-
-          this.#listenerBTNservice.getStatusForBTN(enableBTN);
-        } else {
-          const enableBTN: ButtonData = {
-            id: 2,
-            disabled: true,
-          };
-
-          this.#listenerBTNservice.getStatusForBTN(enableBTN);
-        }
+    this.myInputForm
+      .get('dateEnd')
+      ?.statusChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((status) => {
+        const enableBTN: ButtonData = {
+          id: 2,
+          disabled: status !== 'VALID',
+        };
+        this.#listenerBTNservice.getStatusForBTN(enableBTN);
       });
   }
 

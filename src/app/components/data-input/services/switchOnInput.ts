@@ -10,12 +10,6 @@ export class switchOnService {
   statusInput?: boolean;
 
   handleClickOnPerioidTab(name: string) {
-    if (name === 'forPeriod') {
-      this.statusInput = true;
-      this.eventChangeInput$.next(this.statusInput);
-    } else {
-      this.statusInput = false;
-      this.eventChangeInput$.next(this.statusInput);
-    }
+    this.eventChangeInput$.next(Boolean(name === 'forPeriod'));
   }
 }
