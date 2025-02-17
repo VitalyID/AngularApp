@@ -5,7 +5,9 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
@@ -19,10 +21,10 @@ import { TitleFilter } from './types/enum/nameFilter';
   styleUrl: './filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent {
+export class FilterComponent implements OnChanges {
   @Input() titleFilter: string = '';
-  @Input() userFilterFromParent: string = '';
-  @Output() titleFilterFromChild = new EventEmitter<string>();
+  @Input() userFilterFromParent: string[] = ['', ''];
+  @Output() titleFilterFromChild = new EventEmitter<string[]>();
 
   readonly #sortDataService = inject(SortDataService);
 
@@ -40,20 +42,42 @@ export class FilterComponent {
   };
 
   typeSVG: 'Up' | 'Down' = 'Up';
+  #textContent: string = TitleFilter.date;
+
+  ngOnInit(): void {
+    this.titleFilterFromChild.emit([TitleFilter.date, 'Up']);
+  }
+
+  // change color icon, depending on click
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userFilterFromParent']) {
+      const isSelected = this.userFilterFromParent[0] === this.titleFilter;
+
+      const upFill = isSelected && this.typeSVG === 'Up' ? 'red' : '#777d82';
+      const downFill =
+        isSelected && this.typeSVG === 'Down' ? 'red' : '#777d82';
+
+      this.dataIconUp = { ...this.dataIconUp, fill: upFill };
+      this.dataIconDown = { ...this.dataIconDown, fill: downFill };
+    }
+  }
 
   private SortData(event: MouseEvent, type: 'Up' | 'Down') {
+    this.typeSVG = type;
     const nameFilter = (event.target as HTMLElement)
       .closest('div.wrapFilter')
       ?.querySelector('span');
 
     if (nameFilter?.textContent) {
-      let textContent: string = nameFilter?.textContent ?? '';
+      this.#textContent = nameFilter?.textContent ?? '';
       // transmit data to parent for check color svg
-      this.titleFilterFromChild.emit(textContent);
+      this.titleFilterFromChild.emit([this.#textContent, this.typeSVG]);
       // -------------------------------------------
 
       for (let item of Object.keys(TitleFilter)) {
-        if (TitleFilter[item as keyof typeof TitleFilter] === textContent) {
+        if (
+          TitleFilter[item as keyof typeof TitleFilter] === this.#textContent
+        ) {
           this.#sortDataService.changeUserFilter({
             nameFilter: item,
             type: type,
@@ -70,11 +94,5 @@ export class FilterComponent {
   clickSort(event: MouseEvent, typeSVG: 'Up' | 'Down') {
     this.SortData(event, typeSVG);
     this.typeSVG = typeSVG;
-  }
-
-  // ----------------------------------------------------------
-
-  ngAfterViewInit(): void {
-    this.titleFilterFromChild.emit(TitleFilter.date);
   }
 }

@@ -15,6 +15,5 @@ export class ListenerService {
 
   transmitDataBTN(data: ButtonData): void {
     this.aboutBTN$.next({ data });
-    // }
   }
 }

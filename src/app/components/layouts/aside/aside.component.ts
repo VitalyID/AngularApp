@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { Subscription } from 'rxjs';
+import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData, SectionItem } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
 
@@ -82,7 +83,14 @@ export class AsideComponent implements OnInit {
     id: 4,
   };
 
-  activeItemID: number | null = null;
+  // activeItemID: number | null = null;
+
+  logoSetting: SvgSpriteSetting = {
+    iconID: 'icon-logo',
+    width: '98px',
+    height: '31px',
+    fill: 'black',
+  };
 
   ngOnInit(): void {
     this.generalGroup = this.title2.slice(0, 9);
@@ -98,9 +106,9 @@ export class AsideComponent implements OnInit {
       });
   }
 
-  selectItem(item: SectionItem) {
-    this.activeItemID = item.ID;
-  }
+  // selectItem(item: SectionItem) {
+  //   this.activeItemID = item.ID;
+  // }
 
   // добавляем класс только к элементам с этими id
 

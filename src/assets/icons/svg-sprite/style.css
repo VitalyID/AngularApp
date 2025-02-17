@@ -14,3 +14,11 @@ Single-colored icons can be modified like so:
   color: red;
 }
 ========================================== */
+
+.icon-logo {
+  width: 3.0625em;
+}
+
+.icon-flag {
+  width: 1.2001953125em;
+}

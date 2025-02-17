@@ -1,3 +1,6 @@
+// :host {
+//   padding-top: 27px;
+// }
 .icon-logo {
   width: 3.0625em;
 }
@@ -8,6 +11,7 @@
 
 .title,
 .aside-body {
+  margin-top: 27px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -15,11 +19,6 @@
   margin-bottom: 30px;
 }
 
-.title svg {
-  height: 71px;
-  width: 98px;
-  fill: black;
-}
 .aside-body {
   display: block;
   text-align: center;

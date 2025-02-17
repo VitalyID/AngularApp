@@ -10,10 +10,10 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
     *ngIf="svgSetting"
     [style.width]="svgSetting.width"
     [style.height]="svgSetting.height"
-    [style.fill]="isActive ? 'red' : '#777d82'"
+    [style.fill]="svgSetting.fill"
   >
     <use
-      attr.xlink:href="/assets/icons/svg-sprite/symbol-defs.svg#{{
+      attr.xlink:href="assets/icons/svg-sprite/symbol-defs.svg#{{
         svgSetting.iconID
       }}"
     ></use>
@@ -23,5 +23,6 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
 })
 export class SvgIconComponent {
   @Input({ required: true }) svgSetting!: SvgSpriteSetting;
-  @Input({ required: true }) isActive: boolean = false;
+  // @Input({ required: true }) isActive: boolean = false;
 }
+//

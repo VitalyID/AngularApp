@@ -56,7 +56,7 @@ export class TableComponent implements OnInit {
   public filters: { key: string; value: string }[] =
     this.convertEnumToArray(TitleFilter);
   private IDActiveTab: string = 'forMonth';
-  setUserFilter: string = TitleFilter.date;
+  setUserFilter: string[] = [TitleFilter.date, 'Up'];
 
   ngOnInit(): void {
     this.getSortedData$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe;
@@ -69,7 +69,7 @@ export class TableComponent implements OnInit {
     }));
   }
 
-  titleFilterSort(setUserFilter: string) {
+  titleFilterSort(setUserFilter: string[]) {
     this.setUserFilter = setUserFilter;
   }
 
