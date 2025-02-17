@@ -14,6 +14,14 @@ export class TransmitDataService implements OnDestroy {
 
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '17.02.2025',
+      country: 'Turkey',
+      tips: '6550 ₽  ',
+      commission: '7.1 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '16.02.2025',
       country: 'Turkey',
       tips: '3950 ₽  ',

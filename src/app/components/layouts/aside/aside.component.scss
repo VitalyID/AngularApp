@@ -1,6 +1,3 @@
-// :host {
-//   padding-top: 27px;
-// }
 .icon-logo {
   width: 3.0625em;
 }
@@ -22,11 +19,7 @@
 .aside-body {
   display: block;
   text-align: center;
-}
-
-.aside-body app-section:nth-child(1) {
-  /* Стили для первого компонента */
-  background-color: red;
+  cursor: pointer;
 }
 
 .aside-body app-section:nth-child(2) {

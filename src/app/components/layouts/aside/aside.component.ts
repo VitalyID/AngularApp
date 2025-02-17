@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData, SectionItem } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
@@ -16,74 +17,72 @@ export class AsideComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
+  readonly #route = inject(ActivatedRoute);
+
+  asideID?: number;
 
   public title2: SectionItem[] = [
     {
       title: 'Главная',
-      icon: '/assets/icons/symbol-defs.svg#icon-icons',
+      icon: 'icon-icons',
       ID: 1,
     },
     {
       title: 'Moй QR',
-      icon: '/assets/icons/symbol-defs.svg#icon-Scan',
+      icon: 'icon-Scan',
       ID: 2,
     },
     {
       title: 'Агентам',
-      icon: '/assets/icons/symbol-defs.svg#icon-Work',
+      icon: 'icon-Work',
       ID: 3,
     },
     {
       title: 'Мои реквизиты',
-      icon: '/assets/icons/symbol-defs.svg#icon-Credit-card',
+      icon: 'icon-Credit-card',
       ID: 4,
     },
     {
       title: 'Персональные данные',
-      icon: '/assets/icons/symbol-defs.svg#icon-Profile',
+      icon: 'icon-Profile',
       ID: 5,
     },
     {
       title: 'Мои площадки',
-      icon: '/assets/icons/symbol-defs.svg#icon-myPlace',
+      icon: 'icon-myPlace',
       ID: 6,
     },
     {
       title: 'Мои сотрудники',
-      icon: '/assets/icons/symbol-defs.svg#icon-myStaff',
+      icon: 'icon-myStaff',
       ID: 7,
     },
     {
       title: 'Мои отзывы',
-      icon: '/assets/icons/symbol-defs.svg#icon-myFeedbacks',
+      icon: 'icon-myFeedbacks',
       ID: 8,
     },
     {
       title: 'Программа лояльности',
-      icon: '/assets/icons/symbol-defs.svg#loyalty',
+      icon: 'icon-loyalty',
       ID: 9,
     },
     {
       title: 'Выйти',
-      icon: '/assets/icons/symbol-defs.svg#logout',
+      icon: 'icon-Logout',
       ID: 10,
     },
   ];
 
-  activePath: string | null = null;
-
   public generalGroup: SectionItem[] = [];
   public myGroup: SectionItem[] = [];
-  public othergroup: SectionItem[] = [];
+  public otherGroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
-  // #btnSubscription!: Subscription;
 
   public btnText: ButtonData = {
     text: 'Служба поддержки',
     id: 4,
   };
-
-  // activeItemID: number | null = null;
 
   logoSetting: SvgSpriteSetting = {
     iconID: 'icon-logo',
@@ -92,7 +91,13 @@ export class AsideComponent implements OnInit {
     fill: 'black',
   };
 
+  activePath: string | null = null;
+  activeItemID: number | null = null;
+
   ngOnInit(): void {
+    this.asideID = this.#route.snapshot.data['asideID'];
+    // console.log('home^ ', this.asideID);
+
     this.generalGroup = this.title2.slice(0, 9);
     this.logOut = this.title2.slice(9, 10);
 
@@ -106,9 +111,9 @@ export class AsideComponent implements OnInit {
       });
   }
 
-  // selectItem(item: SectionItem) {
-  //   this.activeItemID = item.ID;
-  // }
+  selectItem(item: SectionItem) {
+    this.activeItemID = item.ID;
+  }
 
   // добавляем класс только к элементам с этими id
 

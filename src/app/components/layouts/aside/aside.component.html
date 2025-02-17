@@ -4,7 +4,11 @@
 
 <div class="aside-body">
   <div *ngFor="let item of generalGroup">
-    <app-section [item]="item" [isActive]="getClassForSectionItem(item.ID)">
+    <app-section
+      [item]="item"
+      [ngClass]="{ isActive: item.ID === this.asideID }"
+    >
+      {{ item }}
     </app-section>
   </div>
 
@@ -22,3 +26,4 @@
     <app-section [item]="item"> </app-section>
   </div>
 </div>
+<!-- [asideID]="IDroute" -->
