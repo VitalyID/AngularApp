@@ -7,6 +7,7 @@
     <app-section
       [item]="item"
       [ngClass]="{ isActive: item.ID === this.asideID }"
+      [class.isMyGroup]="getClassForSectionItem(item.ID)"
     >
       {{ item }}
     </app-section>
@@ -26,4 +27,3 @@
     <app-section [item]="item"> </app-section>
   </div>
 </div>
-<!-- [asideID]="IDroute" -->

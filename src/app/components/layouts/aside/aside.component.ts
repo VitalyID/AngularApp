@@ -95,8 +95,8 @@ export class AsideComponent implements OnInit {
   activeItemID: number | null = null;
 
   ngOnInit(): void {
+    // link section with activeRout
     this.asideID = this.#route.snapshot.data['asideID'];
-    // console.log('home^ ', this.asideID);
 
     this.generalGroup = this.title2.slice(0, 9);
     this.logOut = this.title2.slice(9, 10);
@@ -118,8 +118,6 @@ export class AsideComponent implements OnInit {
   // добавляем класс только к элементам с этими id
 
   getClassForSectionItem(id: number): boolean {
-    if (this.activeMenuItem.indexOf(id) != -1) {
-      return true;
-    } else return false;
+    return this.activeMenuItem.indexOf(id) != -1 ? true : false;
   }
 }
