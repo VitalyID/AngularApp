@@ -3,11 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   inject,
-  OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, tap } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
@@ -26,12 +23,11 @@ import { TitleFilter } from '../filter/types/enum/nameFilter';
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   readonly #myServiceGetData = inject(TransmitDataService);
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
-  readonly #destroyRef = inject(DestroyRef);
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -56,11 +52,7 @@ export class TableComponent implements OnInit {
   public filters: { key: string; value: string }[] =
     this.convertEnumToArray(TitleFilter);
   private IDActiveTab: string = 'forMonth';
-  setUserFilter: string[] = [TitleFilter.date, 'Up'];
-
-  ngOnInit(): void {
-    this.getSortedData$().pipe(takeUntilDestroyed(this.#destroyRef)).subscribe;
-  }
+  userFilter: string[] = [TitleFilter.date, 'Up'];
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
     return Object.keys(myEnum).map((key) => ({
@@ -69,8 +61,8 @@ export class TableComponent implements OnInit {
     }));
   }
 
-  titleFilterSort(setUserFilter: string[]) {
-    this.setUserFilter = setUserFilter;
+  setUserFilter(userFilter: string[]) {
+    this.userFilter = userFilter;
   }
 
   getSortedData$(): Observable<DataUserOperation[]> {

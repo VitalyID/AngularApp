@@ -26,29 +26,20 @@ export class SectionComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item']) {
-      // console.log(this.item);
+      const fillActive = '#54a75c';
+      const fillDefault = '#777d82';
+
       this.sectionIcons = {
         iconID: this.item.icon,
-        width: '21px',
-        height: '21px',
-        fill: '#777d82',
+        fill:
+          this.#route.snapshot.data['asideID'] === this.item.ID
+            ? fillActive
+            : fillDefault,
       };
-
-      // change local style color for svg-icon
-      if (this.#route.snapshot.data['asideID'] === this.item.ID) {
-        this.sectionIcons = {
-          iconID: this.item.icon,
-          fill: '#54a75c',
-          width: '21px',
-          height: '21px',
-        };
-      }
     }
   }
 
   sectionIcons: SvgSpriteSetting = {
     iconID: this.item.icon,
-    width: '21px',
-    height: '21px',
   };
 }

@@ -1,6 +1,14 @@
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 
+<symbol id="icon-triangle-up" viewBox="0 0 32 32">
+<path d="M24 22.4h-16l8-14.4 8 14.4z"></path>
+</symbol>
+
+<symbol id="icon-triangle-down" viewBox="0 0 32 32">
+<path d="M8 9.6h16l-8 14.4-8-14.4z"></path>
+</symbol>
+
 <symbol id="icon-loyalty" viewBox="0 0 32 32">
 <path d="M6.454 1.212l9.908 0.381c1.272 0.049 2.479 0.576 3.379 1.476l10.404 10.404c1.973 1.973 1.973 5.172 0 7.145l-9.527 9.527c-1.973 1.973-5.172 1.973-7.145 0l-10.404-10.404c-0.9-0.9-1.427-2.107-1.476-3.379l-0.381-9.908c-0.113-2.941 2.302-5.356 5.243-5.243zM13.882 13.882c1.315-1.315 1.315-3.448 0-4.764s-3.448-1.315-4.764 0c-1.315 1.315-1.315 3.448 0 4.764s3.448 1.315 4.764 0z"></path>
 </symbol>

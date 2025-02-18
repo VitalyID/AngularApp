@@ -118,6 +118,6 @@ export class AsideComponent implements OnInit {
   // добавляем класс только к элементам с этими id
 
   getClassForSectionItem(id: number): boolean {
-    return this.activeMenuItem.indexOf(id) != -1 ? true : false;
+    return this.activeMenuItem.indexOf(id) != -1;
   }
 }

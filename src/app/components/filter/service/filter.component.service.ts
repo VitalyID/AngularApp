@@ -14,12 +14,12 @@ export class SortDataService {
   };
 
   #aboutTips: DataUserOperation[] = [];
-  #innerService = new BehaviorSubject<CheckFilter>(this.userFilter);
+  #innerService$ = new BehaviorSubject<CheckFilter>(this.userFilter);
   sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
 
   dataOperationFromService$: Observable<DataUserOperation[]> = combineLatest([
     this.#dataFromService.dataObject$,
-    this.#innerService.asObservable(),
+    this.#innerService$,
   ]).pipe(
     map(([getDataFromDateService, filter]) => {
       return this.switch(getDataFromDateService, filter);
@@ -28,7 +28,7 @@ export class SortDataService {
 
   // get user filter and transmitting them
   changeUserFilter(data: CheckFilter) {
-    this.#innerService.next(data);
+    this.#innerService$.next(data);
     this.userFilter = data;
   }
 

@@ -8,6 +8,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { DataUserOperation } from '../../types/sectionItem';
 import { SortDataService } from '../filter/service/filter.component.service';
 
 @Component({
@@ -70,7 +71,8 @@ export class ChartComponent {
   ngOnInit() {
     this.#filterService.dataOperationFromService$
       .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((dataFromService) => {
+      .subscribe((dataFromService: DataUserOperation[]) => {
+        if (dataFromService.length === 0) return;
         const getDateFromService = dataFromService.map((item) => item.data);
         // У чаевых удаляем симввол валюты в значении
         const getTipsFromService = dataFromService.map((item) =>
