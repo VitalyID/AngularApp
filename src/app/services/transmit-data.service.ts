@@ -14,6 +14,14 @@ export class TransmitDataService implements OnDestroy {
 
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '18.02.2025',
+      country: 'Poland',
+      tips: '9350 ₽  ',
+      commission: '10.4 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '17.02.2025',
       country: 'Turkey',
       tips: '6550 ₽  ',
@@ -415,56 +423,39 @@ export class TransmitDataService implements OnDestroy {
 
     switch (this.name) {
       case 'today':
-        this.arrCorrectElements = [];
-        // console.log(this.arrDate);
-
-        for (let item of this.dataUserOperations) {
+        const filterToday = this.dataUserOperations.filter((item) => {
           this.arrDateItem = item.data.split('.');
 
-          if (
+          return (
             this.arrDate[0] === this.arrDateItem[0] &&
             this.arrDate[1] === this.arrDateItem[1] &&
             this.arrDate[2] === this.arrDateItem[2]
-          ) {
-            this.arrCorrectElements.push(item);
-          } else {
-          }
-        }
-
-        this.dataObject$.next(this.arrCorrectElements);
+          );
+        });
+        this.dataObject$.next(filterToday);
 
         break;
       case 'yestarday':
-        this.arrCorrectElements = [];
+        const today = new Date();
+        const setYesterday = new Date(today.setDate(today.getDate() - 1));
 
-        for (let item of this.dataUserOperations) {
-          // this.arrDateItem = item.data.split('.').reverse().join('-');
+        const filterYestarday = this.dataUserOperations.filter((item) => {
           const dataFromServerString = item.data.split('.').reverse().join('-');
           const dataFromServerObj = new Date(dataFromServerString);
 
-          const today = new Date();
-          const setYesterday = new Date(today.setDate(today.getDate() - 1));
-          // console.log(today.toLocaleString().split(',')[0]);
-
-          if (
+          return (
             setYesterday.toLocaleString().split(',')[0] ===
             dataFromServerObj.toLocaleString().split(',')[0]
-          ) {
-            // console.log(item.data);
-            this.arrCorrectElements.push(item);
-            // console.log(this.arrCorrectElements);
-          }
-        }
-        this.dataObject$.next(this.arrCorrectElements);
+          );
+        });
+        this.dataObject$.next(filterYestarday);
+
         break;
       case 'forWeek':
         let dayWeek: number = new Date().getDay();
 
-        if (dayWeek === 0) {
-          dayWeek = 7;
-        } else {
-          dayWeek -= 1;
-        }
+        // change first day in week
+        dayWeek === 0 ? (dayWeek = 7) : (dayWeek -= 1);
 
         // startDay
         const dayZero = new Date();
@@ -475,34 +466,25 @@ export class TransmitDataService implements OnDestroy {
           .split(',')[0]
           .split('.');
 
-        console.log(startDay);
-
         // EndDay
-
-        const arrUserOperationsForWeek: DataUserOperation[] = [];
-
-        for (let item of this.dataUserOperations) {
+        const filterWeek = this.dataUserOperations.filter((item) => {
           const arrData = item.data.split('.');
-
-          if (
+          return (
             arrData[2] >= startDay[2] &&
             arrData[2] <= startDay[2] &&
             arrData[1] >= startDay[1] &&
             arrData[1] <= startDay[1] &&
             arrData[0] >= startDay[0]
-          ) {
-            arrUserOperationsForWeek.push(item);
-          }
-        }
+          );
+        });
 
-        this.dataObject$.next(arrUserOperationsForWeek);
+        this.dataObject$.next(filterWeek);
+
         break;
       case 'forMonth':
-        // this.arrCorrectElements = [];
         const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
           return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
         });
-        // this.arrCorrectElements = arrOperationsForMonth;
         this.dataObject$.next(arrOperationsForMonth);
 
         break;

@@ -40,8 +40,6 @@ export function customValidator(): ValidatorFn {
 
     if (dateFrom > dateEnd) {
       return { dateEndInvalid: true };
-    } else {
-      // console.log('Ошибки дат нет');
     }
     return null;
   };

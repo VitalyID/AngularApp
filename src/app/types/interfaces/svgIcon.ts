@@ -3,5 +3,4 @@ export interface SvgSpriteSetting {
   width?: string;
   height?: string;
   fill?: string;
-  // display?: string;
 }

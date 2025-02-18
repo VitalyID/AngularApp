@@ -94,11 +94,7 @@ export class TableComponent implements OnInit {
   }
 
   classActiveTab(name: string): string {
-    if (name == this.IDActiveTab) {
-      return 'isActive';
-    } else {
-      return 'isUnactive';
-    }
+    return name == this.IDActiveTab ? 'isActive' : 'isUnactive';
   }
   // get class on tab.end
 }

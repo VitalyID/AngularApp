@@ -13,7 +13,7 @@ export class SortDataService {
     type: 'Up',
   };
 
-  #aboutTips!: DataUserOperation[];
+  #aboutTips: DataUserOperation[] = [];
   #innerService = new BehaviorSubject<CheckFilter>(this.userFilter);
   sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
 

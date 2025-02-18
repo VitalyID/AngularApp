@@ -18,11 +18,8 @@ export class UserFormsComponent {
     dateTo: new FormControl('2025-05-10'),
   });
 
+  // it's be send data to server later
   sendValue() {
     console.log(this.sectionInputDate.value);
-  }
-
-  ngOnChanges(): void {
-    console.log(this.buttonDataInput);
   }
 }
