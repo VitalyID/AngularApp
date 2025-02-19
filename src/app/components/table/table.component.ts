@@ -3,9 +3,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
+  OnInit,
 } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { TabsName } from '../../types/enums/tabsName';
@@ -23,11 +25,12 @@ import { TitleFilter } from '../filter/types/enum/nameFilter';
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
   readonly #myServiceGetData = inject(TransmitDataService);
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
+  readonly #destroyRef = inject(DestroyRef);
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -53,6 +56,15 @@ export class TableComponent {
     this.convertEnumToArray(TitleFilter);
   private IDActiveTab: string = 'forMonth';
   userFilter: string[] = [TitleFilter.date, 'Up'];
+  operations: DataUserOperation[] = [];
+  key: string[] = [];
+  // amount: number = 0;
+  // commission: number = 0;
+  bill: number = 0;
+  count: number = 0;
+  amountLocalRU: string = '';
+  commissionLocaleRU: string = '';
+  billLocaleRU: string = '';
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
     return Object.keys(myEnum).map((key) => ({
@@ -65,18 +77,45 @@ export class TableComponent {
     this.userFilter = userFilter;
   }
 
-  getSortedData$(): Observable<DataUserOperation[]> {
-    return this.#filterService.dataOperationFromService$.pipe(
-      tap((data) => {
+  ngOnInit(): void {
+    this.#filterService.dataOperationFromService$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        this.operations = data;
+
+        let amount = 0;
+        let commission = 0;
+        let bill = 0;
+
+        // counting total
         if (data && data.length > 0) {
-          // Обновляем ключи, когда получаем данные
           this.keys = Object.keys(data[0]);
+          this.count = 0;
+
+          data.forEach((item) => {
+            amount += Number(item.tips.split(' ')[0]);
+            commission += Number(item.commission.split(' ')[0]);
+            this.count++;
+          });
+        } else {
+          this.keys = [];
         }
-      })
-    );
+
+        bill = amount / this.count;
+        this.amountLocalRU = this.#formatCurrent(amount);
+        this.commissionLocaleRU = this.#formatCurrent(commission);
+        this.billLocaleRU = this.#formatCurrent(bill);
+      });
   }
 
   // get class on tab.start
+
+  #formatCurrent(data: number): string {
+    return new Intl.NumberFormat('ru', {
+      style: 'currency',
+      currency: 'RUB',
+    }).format(data);
+  }
 
   clickOnTab(name: string) {
     this.IDActiveTab = name;
@@ -88,5 +127,4 @@ export class TableComponent {
   classActiveTab(name: string): string {
     return name == this.IDActiveTab ? 'isActive' : 'isUnactive';
   }
-  // get class on tab.end
 }
