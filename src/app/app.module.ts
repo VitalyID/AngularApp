@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { DatePipe } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,7 +16,6 @@ import { MainComponent } from './components/main/main.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
 import { SharedModule } from './shared.module';
-// import { TransmitDataService } from './services/transmit-data.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,11 @@ import { SharedModule } from './shared.module';
     SharedModule,
     MainComponent,
   ],
-  providers: [provideCharts(withDefaultRegisterables())],
+  providers: [
+    provideCharts(withDefaultRegisterables()),
+    provideHttpClient(),
+    DatePipe,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

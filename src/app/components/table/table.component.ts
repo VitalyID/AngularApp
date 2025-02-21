@@ -46,8 +46,6 @@ export class TableComponent implements OnInit {
     id: 2,
   };
 
-  // public operations: DataUserOperation[] = [];
-
   public keys: string[] = [];
   // меняем enum to obj чтобы корректно отображать порядок
   public tabs: { key: string; value: string }[] =
@@ -58,8 +56,6 @@ export class TableComponent implements OnInit {
   userFilter: string[] = [TitleFilter.date, 'Up'];
   operations: DataUserOperation[] = [];
   key: string[] = [];
-  // amount: number = 0;
-  // commission: number = 0;
   bill: number = 0;
   count: number = 0;
   amountLocalRU: string = '';
@@ -82,6 +78,7 @@ export class TableComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         this.operations = data;
+        this.#cdr.markForCheck();
 
         let amount = 0;
         let commission = 0;

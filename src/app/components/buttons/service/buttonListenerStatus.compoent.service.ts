@@ -10,7 +10,7 @@ export class ListenerService {
 
   getStatusForBTN(data: ButtonData) {
     this.transmitDataBTN(data);
-    console.log(data);
+    // console.log(data);
   }
 
   transmitDataBTN(data: ButtonData): void {
