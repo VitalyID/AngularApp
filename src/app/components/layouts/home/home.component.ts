@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {}
+export class HomeComponent implements OnInit {
+  readonly #route = inject(ActivatedRoute);
+
+  asideID?: number;
+
+  ngOnInit(): void {
+    this.asideID = this.#route.snapshot.data['asideID'];
+    console.log('asideID ', this.asideID);
+  }
+}

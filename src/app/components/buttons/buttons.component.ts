@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonData } from './../../types/sectionItem';
 import { ListenerService } from './service/buttonListenerStatus.compoent.service';
@@ -11,16 +11,19 @@ import { ButtonService } from './service/buttons.component.service';
   templateUrl: './buttons.component.html',
   styleUrl: './buttons.component.scss',
 })
-export class ButtonsComponent {
+export class ButtonsComponent implements OnInit {
   @Input() buttonData?: ButtonData;
+
   readonly #listenerService = inject(ListenerService);
+  readonly #service = inject(ButtonService);
+  readonly #destroyRef: DestroyRef = inject(DestroyRef);
 
   // id необходим для проверки, чтобы снимать disabled с кнопки формы
   public id: number = 2;
 
-  constructor(private service: ButtonService) {
+  ngOnInit(): void {
     this.#listenerService.aboutBTN$
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (this.buttonData && data.data.id === this.id) {
           this.buttonData.disabled = data.data.disabled;
@@ -31,7 +34,7 @@ export class ButtonsComponent {
 
   clickOn() {
     if (this.buttonData) {
-      this.service.clickOnButton(this.buttonData.id);
+      this.#service.clickOnButton(this.buttonData.id);
     }
   }
 }

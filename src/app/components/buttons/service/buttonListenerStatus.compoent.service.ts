@@ -8,7 +8,6 @@ import { ButtonData } from './../../../types/sectionItem';
 export class ListenerService {
   public aboutBTN$ = new Subject<{ data: ButtonData }>();
 
-  // ngOnInit(): void {
   getStatusForBTN(data: ButtonData) {
     this.transmitDataBTN(data);
     console.log(data);
@@ -16,10 +15,5 @@ export class ListenerService {
 
   transmitDataBTN(data: ButtonData): void {
     this.aboutBTN$.next({ data });
-    // }
   }
 }
-
-// transmitData(obj: object): void {
-//   this.DateFromInput$.next({ obj });
-// }

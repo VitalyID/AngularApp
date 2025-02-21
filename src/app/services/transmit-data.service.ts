@@ -14,6 +14,110 @@ export class TransmitDataService implements OnDestroy {
 
   public dataUserOperations: DataUserOperation[] = [
     {
+      data: '18.02.2025',
+      country: 'Poland',
+      tips: '9350 ₽  ',
+      commission: '10.4 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '17.02.2025',
+      country: 'Turkey',
+      tips: '6550 ₽  ',
+      commission: '7.1 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '16.02.2025',
+      country: 'Turkey',
+      tips: '3950 ₽  ',
+      commission: '4.6 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '16.02.2025',
+      country: 'China',
+      tips: '6700 ₽  ',
+      commission: '7.4 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '16.02.2025',
+      country: 'Japan',
+      tips: '9500 ₽  ',
+      commission: '12 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '15.02.2025',
+      country: 'Turkey',
+      tips: '3000 ₽  ',
+      commission: '4.6 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '15.02.2025',
+      country: 'Goergiya',
+      tips: '4560 ₽  ',
+      commission: '5.4 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '14.02.2025',
+      country: 'Russia',
+      tips: '6990 ₽  ',
+      commission: '6.4 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '13.02.2025',
+      country: 'China',
+      tips: '4000 ₽  ',
+      commission: '3.5 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '12.02.2025',
+      country: 'USA',
+      tips: '6540 ₽  ',
+      commission: '8 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '11.02.2025',
+      country: 'Ireland',
+      tips: '7200 ₽  ',
+      commission: '8.65 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '10.02.2025',
+      country: 'Turkey',
+      tips: '6190 ₽  ',
+      commission: '7.26 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
+      data: '09.02.2025',
+      country: 'Ukraine',
+      tips: '1190 ₽  ',
+      commission: '3.6 ₽',
+      email: 'mail@mail.ru',
+      card: '4563****2569',
+    },
+    {
       data: '08.02.2025',
       country: 'Ukraine',
       tips: '100 ₽  ',
@@ -133,7 +237,6 @@ export class TransmitDataService implements OnDestroy {
       email: 'mail@mail.ru',
       card: '4563****2569',
     },
-
     {
       data: '22.01.2025',
       country: 'Russia',
@@ -303,16 +406,15 @@ export class TransmitDataService implements OnDestroy {
       card: '4563****2569',
     },
   ];
-
-  private name: string = 'forMonth';
-  // private now = new Date();
   arrDate: string[] = [];
   arrDateItem: string[] = [];
-  private arrCorrectElements: DataUserOperation[] = [];
-  public dataObject$ = new BehaviorSubject<DataUserOperation[]>([]);
 
-  #tmp?: DateTimeUserOperations;
+  private name: string = 'forMonth';
+  private arrCorrectElements: DataUserOperation[] = [];
   private dateFromInput!: Subscription;
+  #tmp?: DateTimeUserOperations;
+
+  public dataObject$ = new BehaviorSubject<DataUserOperation[]>([]);
 
   getDataUserTab(name: string) {
     this.name = name;
@@ -321,49 +423,68 @@ export class TransmitDataService implements OnDestroy {
 
     switch (this.name) {
       case 'today':
-        this.arrCorrectElements = [];
-        for (let item of this.dataUserOperations) {
+        const filterToday = this.dataUserOperations.filter((item) => {
           this.arrDateItem = item.data.split('.');
 
-          if (this.arrDate[0] === this.arrDateItem[0]) {
-            this.arrCorrectElements.push(item);
-          } else {
-          }
-        }
-        this.dataObject$.next(this.arrCorrectElements);
+          return (
+            this.arrDate[0] === this.arrDateItem[0] &&
+            this.arrDate[1] === this.arrDateItem[1] &&
+            this.arrDate[2] === this.arrDateItem[2]
+          );
+        });
+        this.dataObject$.next(filterToday);
 
         break;
       case 'yestarday':
-        this.arrCorrectElements = [];
+        const today = new Date();
+        const setYesterday = new Date(today.setDate(today.getDate() - 1));
 
-        for (let item of this.dataUserOperations) {
-          this.arrDateItem = item.data.split('.');
-          if (Number(this.arrDate[0]) - 1 === Number(this.arrDateItem[0])) {
-            this.arrCorrectElements.push(item);
-          }
-        }
+        const filterYestarday = this.dataUserOperations.filter((item) => {
+          const dataFromServerString = item.data.split('.').reverse().join('-');
+          const dataFromServerObj = new Date(dataFromServerString);
+
+          return (
+            setYesterday.toLocaleString().split(',')[0] ===
+            dataFromServerObj.toLocaleString().split(',')[0]
+          );
+        });
+        this.dataObject$.next(filterYestarday);
+
         break;
       case 'forWeek':
-        let currentDay: number = new Date().getDay() - 1;
+        let dayWeek: number = new Date().getDay();
 
-        const arrUserOperationForWeek = this.dataUserOperations.filter(
-          (item) => {
-            return (
-              Number(item.data.split('.')[0]) <= Number(this.arrDate[0]) &&
-              Number(item.data.split('.')[0]) >=
-                Number(this.arrDate[0]) - currentDay
-            );
-          }
-        );
-        this.dataObject$.next(arrUserOperationForWeek);
+        // change first day in week
+        dayWeek === 0 ? (dayWeek = 7) : (dayWeek -= 1);
+
+        // startDay
+        const dayZero = new Date();
+        const startDay = new Date(
+          dayZero.getTime() - dayWeek * 24 * 60 * 60 * 1000
+        )
+          .toLocaleString()
+          .split(',')[0]
+          .split('.');
+
+        // EndDay
+        const filterWeek = this.dataUserOperations.filter((item) => {
+          const arrData = item.data.split('.');
+          return (
+            arrData[2] >= startDay[2] &&
+            arrData[2] <= startDay[2] &&
+            arrData[1] >= startDay[1] &&
+            arrData[1] <= startDay[1] &&
+            arrData[0] >= startDay[0]
+          );
+        });
+
+        this.dataObject$.next(filterWeek);
 
         break;
       case 'forMonth':
-        // this.arrCorrectElements = [];
         const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
           return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
         });
-        // this.arrCorrectElements = arrOperationsForMonth;
         this.dataObject$.next(arrOperationsForMonth);
 
         break;

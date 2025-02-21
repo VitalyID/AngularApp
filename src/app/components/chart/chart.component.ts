@@ -1,13 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { TransmitDataService } from '../../services/transmit-data.service';
+import { DataUserOperation } from '../../types/sectionItem';
 import { SortDataService } from '../filter/service/filter.component.service';
 
 @Component({
@@ -18,9 +19,13 @@ import { SortDataService } from '../filter/service/filter.component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartComponent {
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
+  readonly #filterService = inject(SortDataService);
+  readonly #destroyRef = inject(DestroyRef);
+
   public barChartLegend = false;
   public barChartPlugins = [Legend];
-  readonly #filterService = inject(SortDataService);
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
@@ -63,31 +68,21 @@ export class ChartComponent {
     },
   };
 
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-  constructor(private dataX: TransmitDataService) {
-    this.#filterService.sortedData$
-      .pipe(takeUntilDestroyed())
-      .subscribe((dataFromService) => {
+  ngOnInit() {
+    this.#filterService.dataOperationFromService$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((dataFromService: DataUserOperation[]) => {
+        if (dataFromService.length === 0) return;
         const getDateFromService = dataFromService.map((item) => item.data);
-
         // У чаевых удаляем симввол валюты в значении
         const getTipsFromService = dataFromService.map((item) =>
           Number(item.tips.split(' ')[0])
         );
-
         if (dataFromService) {
-          console.log(
-            'Массив дат, которые пришли с сервиса ',
-            getDateFromService,
-            getTipsFromService
-          );
-
-          // Создаем новый граик с новыми данными и обновляемся
-
+          // Создаем новый график с новыми данными и обновляемся
           const newBarChartData = structuredClone(this.barChartData);
           newBarChartData.labels = getDateFromService;
           newBarChartData.datasets[0].data = getTipsFromService;
-
           this.barChartData = newBarChartData;
           if (this.chart?.chart) {
             this.chart.chart.data = this.barChartData;
@@ -96,7 +91,4 @@ export class ChartComponent {
         }
       });
   }
-  // private dataFromService : [{}] = [{}]
-
-  ngOnInit() {}
 }

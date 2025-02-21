@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SharedModule } from '../../shared.module';
 import { ChartComponent } from '../chart/chart.component';
@@ -14,8 +20,9 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
+  readonly #destroyRef = inject(DestroyRef);
 
   public btnText: ButtonData = {
     text: 'Создать QR-Code',
@@ -23,18 +30,19 @@ export class MainComponent {
     id: 3,
   };
 
-  clickOn() {
-    // отправляем в сервис клик по кнопке с ее идентификатором "3".
-    this.#btnService.clickOnButton(this.btnText.id);
-  }
-  constructor() {
+  ngOnInit(): void {
     this.#btnService.eventClick$
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id == 3) {
           console.log('Кнопка нажата с ID:', data.id);
           // пишем логику клика по кнопке
         }
       });
+  }
+
+  clickOn() {
+    // отправляем в сервис клик по кнопке с ее идентификатором "3".
+    this.#btnService.clickOnButton(this.btnText.id);
   }
 }

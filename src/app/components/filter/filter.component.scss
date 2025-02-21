@@ -1,10 +1,15 @@
 .wrapFilter {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
 }
 
 .filterIcons {
   display: block;
   margin-left: 7px;
+}
+
+.filterIcons .svg-icon {
+  width: 12px;
+  height: 12px;
 }

@@ -15,8 +15,21 @@
 
 <div class="containerFilter">
   <div class="cellFilter" *ngFor="let filter of filters">
-    <filter [titleFilter]="filter.value"></filter>
+    <filter
+      [titleFilter]="filter.value"
+      [userFilterFromParent]="userFilter"
+      (titleFilterFromChild)="setUserFilter($event)"
+    ></filter>
   </div>
+</div>
+
+<div class="tableTotal">
+  <span>Всего чаевых:</span>
+  <span>{{ amountLocalRU }}</span>
+  <span>Всего комиссия:</span>
+  <span>{{ commissionLocaleRU }}</span>
+  <span>Средний чек:</span>
+  <span>{{ billLocaleRU }}</span>
 </div>
 
 <div class="bodyTable">

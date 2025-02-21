@@ -3,20 +3,20 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
-import { TitleFilter } from '../filter/types/enum/nameFilter';
-// import { Tabs } from '../../types/interfaces/Tabs';
 import { TabsName } from '../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { FilterComponent } from '../filter/filter.component';
 import { SortDataService } from '../filter/service/filter.component.service';
+import { TitleFilter } from '../filter/types/enum/nameFilter';
 
 @Component({
   selector: 'table',
@@ -30,8 +30,7 @@ export class TableComponent implements OnInit {
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
-
-  // public tabs = TabsName;
+  readonly #destroyRef = inject(DestroyRef);
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -47,15 +46,25 @@ export class TableComponent implements OnInit {
     id: 2,
   };
 
-  public operations: DataUserOperation[] = [];
-  public keys: string[] = [];
+  // public operations: DataUserOperation[] = [];
 
+  public keys: string[] = [];
   // меняем enum to obj чтобы корректно отображать порядок
   public tabs: { key: string; value: string }[] =
     this.convertEnumToArray(TabsName);
-
   public filters: { key: string; value: string }[] =
     this.convertEnumToArray(TitleFilter);
+  private IDActiveTab: string = 'forMonth';
+  userFilter: string[] = [TitleFilter.date, 'Up'];
+  operations: DataUserOperation[] = [];
+  key: string[] = [];
+  // amount: number = 0;
+  // commission: number = 0;
+  bill: number = 0;
+  count: number = 0;
+  amountLocalRU: string = '';
+  commissionLocaleRU: string = '';
+  billLocaleRU: string = '';
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
     return Object.keys(myEnum).map((key) => ({
@@ -64,36 +73,58 @@ export class TableComponent implements OnInit {
     }));
   }
 
-  constructor() {
-    this.#filterService.sortedData$
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => {
-        this.operations = data;
-        // this.#cdr.detectChanges();
-        console.log(this.operations);
-      });
+  setUserFilter(userFilter: string[]) {
+    this.userFilter = userFilter;
   }
 
   ngOnInit(): void {
-    if (this.operations.length > 0) {
-      this.keys = Object.keys(this.operations[0]);
-    }
+    this.#filterService.dataOperationFromService$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        this.operations = data;
+
+        let amount = 0;
+        let commission = 0;
+        let bill = 0;
+
+        // counting total
+        if (data && data.length > 0) {
+          this.keys = Object.keys(data[0]);
+          this.count = 0;
+
+          data.forEach((item) => {
+            amount += Number(item.tips.split(' ')[0]);
+            commission += Number(item.commission.split(' ')[0]);
+            this.count++;
+          });
+        } else {
+          this.keys = [];
+        }
+
+        bill = amount / this.count;
+        this.amountLocalRU = this.#formatCurrent(amount);
+        this.commissionLocaleRU = this.#formatCurrent(commission);
+        this.billLocaleRU = this.#formatCurrent(bill);
+      });
   }
 
   // get class on tab.start
-  private IDActiveTab: string = 'forMonth';
+
+  #formatCurrent(data: number): string {
+    return new Intl.NumberFormat('ru', {
+      style: 'currency',
+      currency: 'RUB',
+    }).format(data);
+  }
+
   clickOnTab(name: string) {
     this.IDActiveTab = name;
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
+    this.#cdr.markForCheck();
   }
 
   classActiveTab(name: string): string {
-    if (name == this.IDActiveTab) {
-      return 'isActive';
-    } else {
-      return 'isUnactive';
-    }
+    return name == this.IDActiveTab ? 'isActive' : 'isUnactive';
   }
-  // get class on tab.end
 }

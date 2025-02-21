@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnDestroy,
@@ -39,8 +40,6 @@ export function customValidator(): ValidatorFn {
 
     if (dateFrom > dateEnd) {
       return { dateEndInvalid: true };
-    } else {
-      // console.log('Ошибки дат нет');
     }
     return null;
   };
@@ -53,14 +52,13 @@ export function customValidator(): ValidatorFn {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataInputComponent implements OnInit, OnDestroy {
-  readonly #buttonService = inject(ButtonService);
-  readonly #fb = inject(FormBuilder);
-  readonly #switchInputService = inject(switchOnService);
-  readonly #listenerBTNservice = inject(ListenerService);
-  #statusValidDataStart!: Subscription | undefined;
-
   @Input() dateForBTN!: ButtonData;
 
+  readonly #buttonService = inject(ButtonService);
+  readonly #fb = inject(FormBuilder);
+  readonly #listenerBTNservice = inject(ListenerService);
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #switchInputService = inject(switchOnService);
   readonly myInputForm = this.#fb.group({
     dateFrom: [
       { value: '', disabled: true },
@@ -74,23 +72,22 @@ export class DataInputComponent implements OnInit, OnDestroy {
 
   public data: number = 2;
 
-  ngOnInit(): void {}
+  #statusValidDataStart!: Subscription | undefined;
 
-  constructor() {
+  ngOnInit(): void {
     // принимаем клик с сервиса btn
     this.#buttonService.eventClick$
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 2) {
           console.log('Кнопка нажата с ID:', data.id);
-
           this.#buttonService.transmitData(this.myInputForm.value);
         }
       });
 
     // Enabled/Disabled dateFrom start
     this.#switchInputService.eventChangeInput$
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         console.log(data);
         if (data == true) {
@@ -113,24 +110,15 @@ export class DataInputComponent implements OnInit, OnDestroy {
     // Enabled/Disabled dateEnd end
 
     // this.#valueChangesSubscription;
-    this.myInputForm.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => {
-        if (this.myInputForm.valid) {
-          const enableBTN: ButtonData = {
-            id: 2,
-            disabled: false,
-          };
-
-          this.#listenerBTNservice.getStatusForBTN(enableBTN);
-        } else {
-          const enableBTN: ButtonData = {
-            id: 2,
-            disabled: true,
-          };
-
-          this.#listenerBTNservice.getStatusForBTN(enableBTN);
-        }
+    this.myInputForm
+      .get('dateEnd')
+      ?.statusChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((status) => {
+        const enableBTN: ButtonData = {
+          id: 2,
+          disabled: status !== 'VALID',
+        };
+        this.#listenerBTNservice.getStatusForBTN(enableBTN);
       });
   }
 

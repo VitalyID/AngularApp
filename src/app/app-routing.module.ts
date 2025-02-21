@@ -7,6 +7,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    data: { asideID: 1 },
   },
   {
     path: '',
