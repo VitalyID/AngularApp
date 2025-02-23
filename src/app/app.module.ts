@@ -13,6 +13,7 @@ import { HeaderUserComponent } from './components/layouts/header-user/header-use
 import { HeaderComponent } from './components/layouts/header/header.component';
 import { HomeComponent } from './components/layouts/home/home.component';
 import { MainComponent } from './components/main/main.component';
+import { MyQRComponent } from './components/my-qr/my-qr.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
 import { SharedModule } from './shared.module';
@@ -34,6 +35,7 @@ import { SharedModule } from './shared.module';
     RouterModule,
     SharedModule,
     MainComponent,
+    MyQRComponent,
   ],
   providers: [
     provideCharts(withDefaultRegisterables()),

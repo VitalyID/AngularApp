@@ -7,6 +7,18 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    // children: [
+    //   { path: 'my-qr', component: MyQRComponent },
+    //   {
+    //     path: '',
+    //     redirectTo: 'default',
+    //     pathMatch: 'full',
+    //   },
+    //   {
+    //     path: 'default',
+    //     component: MainComponent,
+    //   },
+    // ],
     data: { asideID: 1 },
   },
   {

@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { TitleAside } from '../../../types/enums/titleAside';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData, SectionItem } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
@@ -23,52 +24,52 @@ export class AsideComponent implements OnInit {
 
   public title2: SectionItem[] = [
     {
-      title: 'Главная',
+      title: TitleAside.main,
       icon: 'icon-icons',
       ID: 1,
     },
     {
-      title: 'Moй QR',
+      title: TitleAside.myQR,
       icon: 'icon-Scan',
       ID: 2,
     },
     {
-      title: 'Агентам',
+      title: TitleAside.agents,
       icon: 'icon-Work',
       ID: 3,
     },
     {
-      title: 'Мои реквизиты',
+      title: TitleAside.requisites,
       icon: 'icon-Credit-card',
       ID: 4,
     },
     {
-      title: 'Персональные данные',
+      title: TitleAside.personalData,
       icon: 'icon-Profile',
       ID: 5,
     },
     {
-      title: 'Мои площадки',
+      title: TitleAside.myPlace,
       icon: 'icon-myPlace',
       ID: 6,
     },
     {
-      title: 'Мои сотрудники',
+      title: TitleAside.myStaff,
       icon: 'icon-myStaff',
       ID: 7,
     },
     {
-      title: 'Мои отзывы',
+      title: TitleAside.myFeedbacks,
       icon: 'icon-myFeedbacks',
       ID: 8,
     },
     {
-      title: 'Программа лояльности',
+      title: TitleAside.loyalty,
       icon: 'icon-loyalty',
       ID: 9,
     },
     {
-      title: 'Выйти',
+      title: TitleAside.logOut,
       icon: 'icon-Logout',
       ID: 10,
     },
