@@ -5,9 +5,8 @@ import {
   Component,
   DestroyRef,
   inject,
-  OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
 import { SharedModule } from '../../shared.module';
 import { TabsName } from '../../types/enums/tabsName';
@@ -25,7 +24,7 @@ import { TitleFilter } from '../filter/types/enum/nameFilter';
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   readonly #myServiceGetData = inject(TransmitDataService);
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
@@ -55,12 +54,10 @@ export class TableComponent implements OnInit {
   private IDActiveTab: string = 'forMonth';
   userFilter: string[] = [TitleFilter.date, 'Up'];
   operations: DataUserOperation[] = [];
-  key: string[] = [];
-  bill: number = 0;
-  count: number = 0;
-  amountLocalRU: string = '';
-  commissionLocaleRU: string = '';
-  billLocaleRU: string = '';
+
+  tableTotal$: Observable<string[]> = this.#filterService.totalFromService$;
+  tableBody$: Observable<DataUserOperation[]> =
+    this.#filterService.dataOperationFromService$;
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
     return Object.keys(myEnum).map((key) => ({
@@ -73,47 +70,6 @@ export class TableComponent implements OnInit {
     this.userFilter = userFilter;
   }
 
-  ngOnInit(): void {
-    this.#filterService.dataOperationFromService$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        this.operations = data;
-        this.#cdr.markForCheck();
-
-        let amount = 0;
-        let commission = 0;
-        let bill = 0;
-
-        // counting total
-        if (data && data.length > 0) {
-          this.keys = Object.keys(data[0]);
-          this.count = 0;
-
-          data.forEach((item) => {
-            amount += Number(item.tips.split(' ')[0]);
-            commission += Number(item.commission.split(' ')[0]);
-            this.count++;
-          });
-        } else {
-          this.keys = [];
-        }
-
-        bill = amount / this.count;
-        this.amountLocalRU = this.#formatCurrent(amount);
-        this.commissionLocaleRU = this.#formatCurrent(commission);
-        this.billLocaleRU = this.#formatCurrent(bill);
-      });
-  }
-
-  // get class on tab.start
-
-  #formatCurrent(data: number): string {
-    return new Intl.NumberFormat('ru', {
-      style: 'currency',
-      currency: 'RUB',
-    }).format(data);
-  }
-
   clickOnTab(name: string) {
     this.IDActiveTab = name;
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
@@ -123,5 +79,11 @@ export class TableComponent implements OnInit {
 
   classActiveTab(name: string): string {
     return name == this.IDActiveTab ? 'isActive' : 'isUnactive';
+  }
+
+  getKeys(item: DataUserOperation[] | null) {
+    if (!item || item.length === 0) return;
+
+    return Object.keys(item[0]);
   }
 }
