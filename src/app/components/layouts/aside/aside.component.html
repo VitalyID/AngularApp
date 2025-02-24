@@ -8,7 +8,7 @@
       [item]="item"
       [routerLink]="item.route"
       [ngClass]="{
-        isActive: item.ID === asideID,
+        isActive: item.ID === (routeID$ | async),
         isMyGroup: getClassForSectionItem(item.ID)
       }"
     >
@@ -34,7 +34,7 @@
       [item]="item"
       [routerLink]="item.route"
       [ngClass]="{
-        isActive: item.ID === asideID
+        isActive: item.ID === (routeID$ | async)
       }"
     >
       <div class="section-icon">

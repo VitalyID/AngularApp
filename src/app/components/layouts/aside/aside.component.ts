@@ -2,10 +2,10 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 // import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { TitleAside } from '../../../types/enums/titleAside';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
 // import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
+import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../services/transmitDataRout.service';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
@@ -22,10 +22,8 @@ export class AsideComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
-  readonly #route = inject(ActivatedRoute);
   readonly #getRoutFromService = inject(RoutIDservice);
-
-  asideID?: number;
+  routeID$: Observable<number> = this.#getRoutFromService.SendRouteService$;
 
   public listSections: SectionItem[] = [
     {
@@ -120,13 +118,6 @@ export class AsideComponent implements OnInit {
   activeItemID: number | null = null;
 
   ngOnInit(): void {
-    // get dataRout from service
-    this.#getRoutFromService.SendRouteService$.pipe(
-      takeUntilDestroyed(this.#destroyRef)
-    ).subscribe((data) => {
-      this.asideID = data;
-    });
-
     this.generalGroup = this.listSections.slice(0, 9);
     this.logOut = this.listSections.slice(9, 10);
 
@@ -139,10 +130,6 @@ export class AsideComponent implements OnInit {
         }
       });
   }
-
-  // selectItem(item: SectionItem) {
-  //   this.activeItemID = item.ID;
-  // }
 
   // добавляем класс только к элементам с этими id
   getClassForSectionItem(id: number): boolean {
