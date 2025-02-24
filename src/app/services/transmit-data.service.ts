@@ -77,36 +77,24 @@ export class TransmitDataService implements OnDestroy {
         dayWeek = dayWeek === 0 ? 6 : dayWeek - 1;
         // get first and end day of week
         const currentData = new Date();
+
         const startOfWeek = new Date(currentData);
         startOfWeek.setDate(currentData.getDate() - dayWeek);
+        startOfWeek.setHours(0, 0, 0, 0);
         const dayOfWeek = new Date(currentData);
-        dayOfWeek.setDate(currentData.getDate() - dayWeek + 6);
-        // transform data in right format
-        const startDayWeek = this.#datePipe.transform(
-          startOfWeek,
-          'dd.MM.yyyy'
-        );
-        const endDayWeek = this.#datePipe.transform(dayOfWeek, 'dd.MM.yyyy');
+        dayOfWeek.setDate(currentData.getDate() - dayWeek + 7);
+        dayOfWeek.setHours(0, 0, 0, 0);
 
-        if (!startDayWeek || !endDayWeek) return;
-
-        const arrStartWeek = startDayWeek.split('.');
-        const arrEndWeek = endDayWeek.split('.');
-
-        // EndDay
         const filterWeek = this.dataUserOperations.filter((item) => {
-          const arrData = item.data.split('.');
+          console.log(item.data.split('.').reverse().join('-'));
+          const actualData = new Date(item.data.split('.').reverse().join('-'));
 
+          console.log(actualData.getTime(), ' ', startOfWeek.getTime());
           return (
-            +arrData[2] >= +arrStartWeek[2] &&
-            +arrData[2] <= +arrEndWeek[2] &&
-            +arrData[1] >= +arrStartWeek[1] &&
-            +arrData[1] <= +arrEndWeek[1] &&
-            +arrData[0] >= +arrStartWeek[0] &&
-            +arrData[0] <= +arrEndWeek[0]
+            actualData.getTime() >= startOfWeek.getTime() &&
+            actualData.getTime() <= dayOfWeek.getTime()
           );
         });
-        console.log('hvbfhvbfbv', filterWeek);
         this.dataObject$.next(filterWeek);
 
         break;
