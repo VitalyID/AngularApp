@@ -6,12 +6,16 @@
   <div *ngFor="let item of generalGroup">
     <app-section
       [item]="item"
+      [routerLink]="item.route"
       [ngClass]="{
         isActive: item.ID === this.asideID,
         isMyGroup: getClassForSectionItem(item.ID)
       }"
     >
-      {{ item }}
+      <div class="section-icon">
+        <svg-icon [svgSetting]="svgSetting"></svg-icon>
+      </div>
+      <span class="section-title">{{ item.title }}</span>
     </app-section>
   </div>
 

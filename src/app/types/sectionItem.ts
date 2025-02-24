@@ -1,9 +1,3 @@
-export interface SectionItem {
-  title: string;
-  icon: string;
-  ID: number;
-}
-
 // Управление btn
 export interface ButtonData {
   text?: string;

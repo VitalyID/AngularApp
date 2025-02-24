@@ -9,11 +9,11 @@ import {
   throwError,
 } from 'rxjs';
 import { ButtonService } from '../components/buttons/service/buttons.component.service';
-import { GetDataService } from './../get-data.service';
 import {
   DataUserOperation,
   DateTimeUserOperations,
 } from './../types/sectionItem';
+import { GetDataService } from './get-data.service';
 
 @Injectable({
   providedIn: 'root',

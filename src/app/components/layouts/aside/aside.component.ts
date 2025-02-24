@@ -3,9 +3,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { TitleAside } from '../../../types/enums/titleAside';
+import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
-import { ButtonData, SectionItem } from '../../../types/sectionItem';
+import { ButtonData } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
+import { LinkAside } from './tupes/enum/routerLink';
 
 @Component({
   selector: 'app-aside',
@@ -22,56 +24,66 @@ export class AsideComponent implements OnInit {
 
   asideID?: number;
 
-  public title2: SectionItem[] = [
+  public listSections: SectionItem[] = [
     {
       title: TitleAside.main,
       icon: 'icon-icons',
       ID: 1,
+      route: LinkAside.main,
     },
     {
       title: TitleAside.myQR,
       icon: 'icon-Scan',
       ID: 2,
+      route: LinkAside.myQR,
     },
     {
       title: TitleAside.agents,
       icon: 'icon-Work',
       ID: 3,
+      route: LinkAside.agents,
     },
     {
       title: TitleAside.requisites,
       icon: 'icon-Credit-card',
       ID: 4,
+      route: LinkAside.requisites,
     },
     {
       title: TitleAside.personalData,
       icon: 'icon-Profile',
       ID: 5,
+      route: LinkAside.personalData,
     },
     {
       title: TitleAside.myPlace,
       icon: 'icon-myPlace',
       ID: 6,
+      route: LinkAside.myPlace,
     },
     {
       title: TitleAside.myStaff,
       icon: 'icon-myStaff',
       ID: 7,
+      route: LinkAside.myStaff,
     },
     {
       title: TitleAside.myFeedbacks,
       icon: 'icon-myFeedbacks',
       ID: 8,
+      route: LinkAside.myFeedbacks,
     },
     {
       title: TitleAside.loyalty,
       icon: 'icon-loyalty',
       ID: 9,
+      route: LinkAside.loyalty,
     },
     {
       title: TitleAside.logOut,
       icon: 'icon-Logout',
       ID: 10,
+      route: LinkAside.logOut,
     },
   ];
 
@@ -99,8 +111,8 @@ export class AsideComponent implements OnInit {
     // link section with activeRout
     this.asideID = this.#route.snapshot.data['asideID'];
 
-    this.generalGroup = this.title2.slice(0, 9);
-    this.logOut = this.title2.slice(9, 10);
+    this.generalGroup = this.listSections.slice(0, 9);
+    this.logOut = this.listSections.slice(9, 10);
 
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))

@@ -6,8 +6,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SectionItem } from '../../types/interfaces/asideSVG';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { SectionItem } from './../../types/sectionItem';
 
 @Component({
   selector: 'app-section',
@@ -20,7 +20,9 @@ export class SectionComponent implements OnChanges {
     title: 'error name',
     icon: 'Error transmit child',
     ID: 999,
+    route: 'error route',
   };
+  @Input() routerLink: string = this.item.route;
 
   readonly #route = inject(ActivatedRoute);
 
