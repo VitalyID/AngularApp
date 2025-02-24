@@ -1,9 +1,10 @@
 :host {
   cursor: pointer;
-  display: block;
-  display: flex;
+
+  display: inline-block;
   justify-content: center;
+  vertical-align: middle;
   align-items: center;
-  // width: 100%;
-  // height: 100%;
+  // width: 10px;
+  // height: 20px;
 }
