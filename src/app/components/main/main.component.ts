@@ -6,6 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { SharedModule } from '../../shared.module';
 import { ChartComponent } from '../chart/chart.component';
 import { TableComponent } from '../table/table.component';
@@ -23,6 +25,10 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
 export class MainComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
+  readonly #route = inject(ActivatedRoute);
+  readonly #routService = inject(RoutIDservice);
+
+  asideID: number = 0;
 
   public btnText: ButtonData = {
     text: 'Создать QR-Code',
@@ -31,6 +37,10 @@ export class MainComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.asideID = this.#route.snapshot.data['asideID'];
+    // send routID to service
+    this.#routService.getDataRoute(this.asideID);
+
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {

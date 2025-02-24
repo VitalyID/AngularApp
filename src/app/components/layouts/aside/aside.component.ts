@@ -1,10 +1,12 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 // import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { TitleAside } from '../../../types/enums/titleAside';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
-import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
+// import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
+import { RoutIDservice } from '../../../services/transmitDataRout.service';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
 import { LinkAside } from './tupes/enum/routerLink';
@@ -21,67 +23,77 @@ export class AsideComponent implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
   readonly #route = inject(ActivatedRoute);
+  readonly #getRoutFromService = inject(RoutIDservice);
 
   asideID?: number;
 
   public listSections: SectionItem[] = [
     {
       title: TitleAside.main,
-      icon: 'icon-icons',
+      iconSetting: { iconID: 'icon-icons', width: '21px', height: '21px' },
       ID: 1,
       route: LinkAside.main,
     },
     {
       title: TitleAside.myQR,
-      icon: 'icon-Scan',
+      iconSetting: { iconID: 'icon-Scan', width: '21px', height: '21px' },
+
       ID: 2,
       route: LinkAside.myQR,
     },
     {
       title: TitleAside.agents,
-      icon: 'icon-Work',
+      iconSetting: { iconID: 'icon-Work', width: '21px', height: '21px' },
       ID: 3,
       route: LinkAside.agents,
     },
     {
       title: TitleAside.requisites,
-      icon: 'icon-Credit-card',
+      iconSetting: {
+        iconID: 'icon-Credit-card',
+        width: '21px',
+        height: '21px',
+      },
       ID: 4,
       route: LinkAside.requisites,
     },
     {
       title: TitleAside.personalData,
-      icon: 'icon-Profile',
+      iconSetting: { iconID: 'icon-Profile', width: '21px', height: '21px' },
       ID: 5,
       route: LinkAside.personalData,
     },
     {
       title: TitleAside.myPlace,
-      icon: 'icon-myPlace',
+      iconSetting: { iconID: 'icon-myPlace', width: '21px', height: '21px' },
       ID: 6,
       route: LinkAside.myPlace,
     },
     {
       title: TitleAside.myStaff,
-      icon: 'icon-myStaff',
+      iconSetting: { iconID: 'icon-myStaff', width: '21px', height: '21px' },
       ID: 7,
       route: LinkAside.myStaff,
     },
     {
       title: TitleAside.myFeedbacks,
-      icon: 'icon-myFeedbacks',
+      iconSetting: {
+        iconID: 'icon-myFeedbacks',
+        width: '21px',
+        height: '21px',
+      },
       ID: 8,
       route: LinkAside.myFeedbacks,
     },
     {
       title: TitleAside.loyalty,
-      icon: 'icon-loyalty',
+      iconSetting: { iconID: 'icon-loyalty', width: '21px', height: '21px' },
       ID: 9,
       route: LinkAside.loyalty,
     },
     {
       title: TitleAside.logOut,
-      icon: 'icon-Logout',
+      iconSetting: { iconID: 'icon-Logout', width: '21px', height: '21px' },
       ID: 10,
       route: LinkAside.logOut,
     },
@@ -108,8 +120,12 @@ export class AsideComponent implements OnInit {
   activeItemID: number | null = null;
 
   ngOnInit(): void {
-    // link section with activeRout
-    this.asideID = this.#route.snapshot.data['asideID'];
+    // get dataRout from service
+    this.#getRoutFromService.SendRouteService$.pipe(
+      takeUntilDestroyed(this.#destroyRef)
+    ).subscribe((data) => {
+      this.asideID = data;
+    });
 
     this.generalGroup = this.listSections.slice(0, 9);
     this.logOut = this.listSections.slice(9, 10);
@@ -124,12 +140,11 @@ export class AsideComponent implements OnInit {
       });
   }
 
-  selectItem(item: SectionItem) {
-    this.activeItemID = item.ID;
-  }
+  // selectItem(item: SectionItem) {
+  //   this.activeItemID = item.ID;
+  // }
 
   // добавляем класс только к элементам с этими id
-
   getClassForSectionItem(id: number): boolean {
     return this.activeMenuItem.indexOf(id) != -1;
   }

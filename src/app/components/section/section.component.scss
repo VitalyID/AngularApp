@@ -1,9 +1,25 @@
 :host {
   display: block;
-  margin: 10px;
+  margin: 0 10px;
+}
+
+app-section .section-title {
+  color: red;
+}
+
+a {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  // margin: 0 10px;
+  gap: 10px;
+  padding: 20px 17px;
+  // color: none;
 }
 
 :host(.isActive) {
+  display: block;
+  // color: red;
   background: linear-gradient(
       0deg,
       rgba(59, 199, 107, 0.05),
@@ -13,47 +29,47 @@
     linear-gradient(0deg, rgba(63, 169, 73, 0.05), rgba(63, 169, 73, 0.05)),
     rgba(84, 167, 92, 0.05);
   border-radius: 10px;
-  color: blueviolet;
 }
 
 :host(.isMyGroup) {
-  margin: 0px 10px;
-  border-radius: 0;
+  // margin: 0px 10px;
+  display: block;
 
+  border-radius: 0;
   background: rgba(248, 57, 57, 0.05);
 }
 
-:host(.isActive) .section__title {
+:host(.isActive) .section-title {
   color: #54a75c;
 }
 
-app-section {
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  gap: 15px;
-  padding: 18px;
+// app-section {
+//   display: flex;
+//   justify-content: start;
+//   align-items: start;
+//   gap: 15px;
+//   padding: 18px;
 
-  &.active {
-    fill: green;
-  }
-  &.hover {
-    cursor: pointer;
-  }
-}
+//   &.active {
+//     fill: green;
+//   }
+//   &.hover {
+//     cursor: pointer;
+//   }
+// }
 
-.section__title {
-  font-family: "Formular";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
+// .section__title {
+//   font-family: "Formular";
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 16px;
+//   line-height: 22px;
 
-  color: #313436;
-}
+//   color: #313436;
+// }
 
-svg {
-  width: 24px;
-  height: 24px;
-  fill: #777d82;
-}
+// svg {
+//   width: 24px;
+//   height: 24px;
+//   fill: #777d82;
+// }

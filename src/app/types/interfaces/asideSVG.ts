@@ -1,6 +1,7 @@
+import { SvgSpriteSetting } from './svgIcon';
 export interface SectionItem {
   title: string;
   ID: number;
   route: string;
-  icon: string;
+  iconSetting: SvgSpriteSetting;
 }
