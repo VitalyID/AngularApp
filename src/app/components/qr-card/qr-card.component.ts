@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { QRcodeService } from './services/qr-code.service';
 
 @Component({
   selector: 'qr-card',
@@ -9,7 +16,13 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   styleUrl: './qr-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QrCardComponent {
+export class QrCardComponent implements OnInit {
+  @Input({ required: true }) src: string = '';
+
+  readonly #qrService = inject(QRcodeService);
+
+  ngOnInit(): void {}
+
   svgSetting: SvgSpriteSetting = {
     iconID: 'Path',
     width: '10px',

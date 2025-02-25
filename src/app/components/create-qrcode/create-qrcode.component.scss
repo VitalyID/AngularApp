@@ -1,0 +1,140 @@
+.createQRcode__title-wrap {
+  margin-bottom: 30px;
+}
+
+.createQRcode__body-wrap {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  gap: 30px;
+
+  width: 100%;
+
+  & .createQRcode__body-center {
+    width: 66%;
+
+    background: #ffffff;
+    box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
+    border-radius: 10px;
+
+    padding: 40px 40px 30px;
+
+    & span {
+      margin-bottom: 20px;
+
+      font-family: "Formular";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+
+      color: #313436;
+    }
+
+    & .createQRcode__body-about {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-template-rows: repeat(3);
+      margin-bottom: 20px;
+
+      & input {
+        width: 0;
+        height: 0;
+        position: absolute;
+        left: -1000px;
+      }
+
+      & .createQRcode__body-customCheckbox {
+        position: relative;
+        display: block;
+
+        &::before {
+          content: "";
+          display: block;
+          width: 64px;
+          height: 32px;
+          border-radius: 18px;
+          // border: solid 1px black;
+
+          background: #e1e3e1;
+          border-radius: 18px;
+
+          transition: background 1s;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0%;
+          left: 0%;
+          border-radius: 50%;
+          overflow: hidden;
+          display: block;
+          width: 24px;
+          height: 24px;
+          background: #ffffff;
+          transform: translate(15%, 15%);
+          transition: transform 1s;
+        }
+      }
+
+      #span1:checked + .createQRcode__body-customCheckbox::after,
+      #span2:checked + .createQRcode__body-customCheckbox::after,
+      #span3:checked + .createQRcode__body-customCheckbox::after {
+        content: "";
+        transform: translate(150%, 15%);
+        transition: all 1s;
+      }
+      #span1:checked + .createQRcode__body-customCheckbox::before,
+      #span2:checked + .createQRcode__body-customCheckbox::before,
+      #span3:checked + .createQRcode__body-customCheckbox::before {
+        content: "";
+        background: #3bc76b;
+        transition: background 1s;
+      }
+    }
+  }
+
+  & .createQRcode__body-right {
+    width: 34%;
+
+    background: #ffffff;
+    border: 2px solid #e1e3e1;
+    box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
+    border-radius: 10px;
+  }
+}
+
+.createQRcode__body-wrapForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  gap: 10px;
+
+  margin-bottom: 20px;
+
+  & .createQRcode__body-inputContainer {
+    width: 33%;
+    position: relative;
+
+    &::after {
+      content: "₽";
+      position: absolute;
+      right: 10%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  & input {
+    width: 100%;
+
+    background: #ffffff;
+    border: 1px solid #c8c9cf;
+    border-radius: 6px;
+
+    padding: 25px;
+  }
+}

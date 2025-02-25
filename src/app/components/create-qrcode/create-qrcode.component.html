@@ -1,0 +1,51 @@
+<div class="createQRcode__title-wrap">
+  <h2>Создать QR-код</h2>
+</div>
+
+<div class="createQRcode__body-wrap">
+  <div class="createQRcode__body-center">
+    <span>Предустановленные суммы чаевых</span>
+    <div class="createQRcode__body-wrapForm" [formGroup]="myForm">
+      <div class="createQRcode__body-inputContainer">
+        <input
+          type="text"
+          formControlName="tips1"
+          mask="separator"
+          [thousandSeparator]="''"
+        />
+      </div>
+      <div class="createQRcode__body-inputContainer">
+        <input
+          type="text"
+          formControlName="tips2"
+          mask="separator"
+          [thousandSeparator]="''"
+        />
+      </div>
+      <div class="createQRcode__body-inputContainer">
+        <input
+          type="text"
+          formControlName="tips3"
+          mask="separator"
+          [thousandSeparator]="''"
+        />
+      </div>
+    </div>
+
+    <div class="createQRcode__body-about">
+      <span>Рейтинг (звездочки)</span>
+      <input type="checkbox" id="span1" />
+      <label class="createQRcode__body-customCheckbox" for="span1"></label>
+
+      <span>Отзывы</span>
+      <input type="checkbox" id="span2" />
+      <label class="createQRcode__body-customCheckbox" for="span2"></label>
+
+      <span>Впечатления</span>
+      <input type="checkbox" id="span3" />
+      <label class="createQRcode__body-customCheckbox" for="span3"></label>
+    </div>
+  </div>
+
+  <div class="createQRcode__body-right"></div>
+</div>
