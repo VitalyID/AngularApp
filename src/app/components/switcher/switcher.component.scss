@@ -1,0 +1,51 @@
+input {
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: -1000px;
+}
+
+.switcher__label {
+  position: relative;
+  display: block;
+}
+
+.switcher__label::before {
+  content: "";
+  display: block;
+  width: var(--outerWidth);
+  height: var(--outerHeight);
+  border-radius: var(--outerBorderRadius);
+  border-color: var(--outerBorderColor);
+  border-width: var(--outerBorderWidth);
+  background: var(--outerBackground);
+
+  transition: background 1s;
+}
+
+.switcher__label::after {
+  content: "";
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  width: var(--innerWidth);
+  height: var(--innerHeight);
+  background: var(--innerBackground);
+  transform: translate(15%, 15%);
+  transition: transform 1s;
+}
+
+// animation checkbox
+input:checked + .switcher__label::after {
+  content: "";
+  transform: translate(150%, 15%);
+  transition: all 1s;
+}
+input:checked + .switcher__label::before {
+  content: "";
+  background: var(--outerBackgroundAfterAnim);
+  transition: background 1s;
+}

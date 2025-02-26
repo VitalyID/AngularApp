@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
@@ -13,10 +14,12 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
+import { SwitcherStyles } from '../switcher/interface/SwitcherStyles';
+import { SwitcherComponent } from '../switcher/switcher.component';
 
 @Component({
   selector: 'create-qrcode',
-  imports: [ReactiveFormsModule, NgxMaskDirective],
+  imports: [ReactiveFormsModule, NgxMaskDirective, SwitcherComponent],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,8 +28,11 @@ import { RoutIDservice } from '../../services/transmitDataRout.service';
 export class CreateQRcodeComponent implements OnInit {
   readonly #routeService = inject(RoutIDservice);
   readonly #route = inject(ActivatedRoute);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   asideID: number = 0;
+
+  newStyles: SwitcherStyles = {};
 
   myForm = new FormGroup({
     tips1: new FormControl('150', Validators.pattern(/^[0-9]*$/)),
@@ -38,5 +44,7 @@ export class CreateQRcodeComponent implements OnInit {
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];
     this.#routeService.getDataRoute(this.asideID);
+    this.#cdr.markForCheck();
+    this.#cdr.detectChanges();
   }
 }
