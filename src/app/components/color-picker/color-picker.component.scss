@@ -1,0 +1,69 @@
+.colorPicker {
+  width: 100%;
+
+  background: #ffffff;
+  border: 1px solid #c8c9cf;
+  border-radius: 8px;
+  padding: 21px;
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 12px;
+
+  position: relative;
+
+  & .selectedColor {
+    width: 24px;
+    aspect-ratio: 1/1;
+
+    background: linear-gradient(0deg, #eeeff2, #eeeff2), #e7e9f0;
+    border: 2px solid #afb0b6;
+    border-radius: 6px;
+  }
+
+  & span {
+    font-family: "Formular";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+
+    color: #777d82;
+  }
+
+  & .colorSection {
+    position: absolute;
+    top: 70px;
+    left: 0;
+
+    border: 2px solid #afb0b6;
+    border-radius: 6px;
+
+    width: 200px;
+    aspect-ratio: 1/1;
+
+    background: linear-gradient(
+      to right,
+      red 0%,
+      orange 20%,
+      yellow 40%,
+      lightgreen 60%,
+      blue 80%,
+      purple 100%
+    );
+  }
+
+  & .open {
+    transform: scaleY(1);
+    transition: transform 1s;
+    transform-origin: top;
+    cursor: pointer;
+  }
+
+  & .close {
+    transform: scaleY(0);
+    transition: transform 1s;
+    transform-origin: top;
+  }
+}

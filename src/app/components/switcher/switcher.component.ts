@@ -26,7 +26,6 @@ export class SwitcherComponent implements OnInit {
     outerBorderRadius: '18px',
     outerBackground: '#e1e3e1',
     outerBackgroundAfterAnim: '#3bc76b',
-
     innerWidth: '24px',
     innerHeight: '24px',
     innerBackground: '#ffffff;',
@@ -48,13 +47,12 @@ export class SwitcherComponent implements OnInit {
       lineStyles = lineStyles + dash + item + ': ' + mixStyles[item] + '; ';
     }
 
-    this.#render.setProperty(this.#elRef.nativeElement, 'style', lineStyles);
+    this.#render.setStyle(this.#elRef.nativeElement, 'background', 'red');
   }
 
   ngOnInit(): void {
     // This code generates unik ID for the component
     this.id = uuidv4();
-
     this.#setCssVariable();
   }
 }

@@ -37,15 +37,16 @@
       <switcher [styles]="newStyles"></switcher>
 
       <span>Отзывы</span>
-      <switcher></switcher>
+      <switcher [styles]="newStyles"></switcher>
 
       <span>Впечатления</span>
-      <switcher></switcher>
+      <switcher [styles]="newStyles"></switcher>
     </div>
 
     <div class="createQRcode__body-background">
       <span>Код цвета для подложки</span>
-      <input type="color" name="colorPicker" id="colorPicker" value="#e1e3e1" />
+      <!-- <input type="color" name="colorPicker" id="colorPicker" value="#e1e3e1" /> -->
+      <color-picker></color-picker>
     </div>
   </div>
 

@@ -41,6 +41,9 @@ input {
 // animation checkbox
 input:checked + .switcher__label::after {
   content: "";
+
+  // perhaps, mistakes will be occure from transform property.
+  // if it will be, add transform to interface and control its by parents
   transform: translate(150%, 15%);
   transition: all 1s;
 }

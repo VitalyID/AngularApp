@@ -14,12 +14,18 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
+import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { SwitcherStyles } from '../switcher/interface/SwitcherStyles';
 import { SwitcherComponent } from '../switcher/switcher.component';
 
 @Component({
   selector: 'create-qrcode',
-  imports: [ReactiveFormsModule, NgxMaskDirective, SwitcherComponent],
+  imports: [
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    SwitcherComponent,
+    ColorPickerComponent,
+  ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
