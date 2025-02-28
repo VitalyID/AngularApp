@@ -10,6 +10,11 @@
 
   width: 100%;
 
+  & span {
+    margin-bottom: 10px;
+    display: block;
+  }
+
   & .createQRcode__body-center {
     width: 66%;
     display: flex;
@@ -49,10 +54,6 @@
       width: 100%;
     }
 
-    & .createQRcode__body-background span {
-      display: block;
-    }
-
     & .createQRcode__body-background input {
       width: 100%;
       height: 56px;
@@ -64,6 +65,14 @@
 
     & .createQRcode__body-uploadLogo {
       width: 100%;
+    }
+
+    & .setupColorBTN {
+      background: #ffffff;
+      width: 100%;
+
+      // border: 1px solid #c8c9cf;
+      // border-radius: 8px;
     }
   }
 

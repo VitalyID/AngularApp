@@ -27,7 +27,7 @@ export class UploadLogoComponent implements AfterViewInit, OnInit {
   btnText: ButtonData = {
     iconClass: 'icon-icon-upload',
     id: 6,
-    text: 'Загруите логотип',
+    text: 'Загрузите логотип',
     background: 'none',
     color: '#313436',
     borderStyle: 'none',

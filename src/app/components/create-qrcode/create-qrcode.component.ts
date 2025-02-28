@@ -14,6 +14,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
+import { SharedModule } from '../../shared.module';
+import { ButtonData } from '../../types/sectionItem';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { SwitcherStyles } from '../switcher/interface/SwitcherStyles';
 import { SwitcherComponent } from '../switcher/switcher.component';
@@ -27,6 +29,7 @@ import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
     SwitcherComponent,
     ColorPickerComponent,
     UploadLogoComponent,
+    SharedModule,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
@@ -44,6 +47,11 @@ export class CreateQRcodeComponent implements OnInit {
   title3 = 'impressions';
 
   newStyles: SwitcherStyles = {};
+
+  btnText: ButtonData = {
+    id: 7,
+    text: 'Создать QR-код',
+  };
 
   myForm = new FormGroup({
     tips1: new FormControl('150', Validators.pattern(/^[0-9]*$/)),
