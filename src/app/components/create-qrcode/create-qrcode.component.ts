@@ -2,8 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   inject,
   OnInit,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -16,6 +19,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { SharedModule } from '../../shared.module';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { UserSettingData } from '../../types/interfaces/userSettingData';
 import { ButtonData } from '../../types/sectionItem';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -39,9 +43,12 @@ import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
   providers: [provideNgxMask()],
 })
 export class CreateQRcodeComponent implements OnInit {
+  @ViewChild('preview') previewIMG!: ElementRef;
+
   readonly #routeService = inject(RoutIDservice);
   readonly #route = inject(ActivatedRoute);
   readonly #cdr = inject(ChangeDetectorRef);
+  readonly #render2 = inject(Renderer2);
 
   asideID: number = 0;
   title1 = 'rate';
@@ -50,7 +57,10 @@ export class CreateQRcodeComponent implements OnInit {
 
   svgLogo: SvgSpriteSetting = {
     iconID: 'Logo',
+    height: '40px',
   };
+
+  UserSettingData: UserSettingData = {};
 
   // used it for changed new styles for switcher
   // newStyles: SwitcherStyles = {};
@@ -72,5 +82,22 @@ export class CreateQRcodeComponent implements OnInit {
     this.#routeService.getDataRoute(this.asideID);
     this.#cdr.markForCheck();
     this.#cdr.detectChanges();
+  }
+
+  uploadedFile(data: File) {
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.previewIMG.nativeElement.src = e.target.result;
+      this.#render2.setProperty(
+        this.previewIMG.nativeElement,
+        'display',
+        'block'
+      );
+    };
+    this.#cdr.markForCheck();
+    reader.readAsDataURL(data);
+
+    this.UserSettingData.picture = data;
   }
 }

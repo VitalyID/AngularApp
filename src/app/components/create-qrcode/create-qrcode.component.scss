@@ -1,12 +1,17 @@
+@mixin flexCenter($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
 .createQRcode__title-wrap {
   margin-bottom: 30px;
 }
 
 .createQRcode__body-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: start;
+  @include flexCenter(center, start);
   gap: 30px;
+  margin-bottom: 20px;
 
   width: 100%;
 
@@ -17,10 +22,8 @@
 
   & .createQRcode__body-center {
     width: 66%;
-    display: flex;
+    @include flexCenter(center, start);
     flex-direction: column;
-    justify-content: center;
-    align-items: start;
 
     background: #ffffff;
     box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
@@ -37,6 +40,39 @@
       line-height: 22px;
 
       color: #313436;
+    }
+
+    & .createQRcode__body-wrapForm {
+      width: 100%;
+      // @include flexCenter(center, center);
+
+      & .createQRcode__body-form {
+        @include flexCenter(center, center);
+        gap: 10px;
+
+        & .createQRcode__body-inputContainer {
+          width: 33%;
+          position: relative;
+
+          &::after {
+            content: "₽";
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+
+        & input {
+          width: 100%;
+
+          background: #ffffff;
+          border: 1px solid #c8c9cf;
+          border-radius: 6px;
+
+          padding: 25px;
+        }
+      }
     }
 
     & .createQRcode__body-about {
@@ -70,9 +106,6 @@
     & .setupColorBTN {
       background: #ffffff;
       width: 100%;
-
-      // border: 1px solid #c8c9cf;
-      // border-radius: 8px;
     }
   }
 
@@ -83,39 +116,34 @@
     border: 2px solid #e1e3e1;
     box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
     border-radius: 10px;
-  }
-}
 
-.createQRcode__body-wrapForm {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    padding: 20px 30px;
 
-  width: 100%;
-  gap: 10px;
-
-  margin-bottom: 20px;
-
-  & .createQRcode__body-inputContainer {
-    width: 33%;
-    position: relative;
-
-    &::after {
-      content: "₽";
-      position: absolute;
-      right: 10%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+    & > span {
+      margin-bottom: 50px;
     }
-  }
 
-  & input {
-    width: 100%;
+    & .createQRcode__right-wrap {
+      @include flexCenter(centerS, start);
+      flex-direction: column;
+      gap: 20px;
 
-    background: #ffffff;
-    border: 1px solid #c8c9cf;
-    border-radius: 6px;
+      & .createQRcode__body-aboutMe {
+        @include flexCenter(center, center);
+        gap: 20px;
 
-    padding: 25px;
+        & .logo {
+          width: 33%;
+          max-width: 90px;
+          height: 90px;
+          // aspect-ratio: 1/1;
+          overflow: hidden;
+        }
+
+        & .createQRcode__body-info {
+          width: 66%;
+        }
+      }
+    }
   }
 }

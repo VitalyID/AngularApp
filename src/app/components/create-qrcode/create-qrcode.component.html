@@ -4,31 +4,33 @@
 
 <div class="createQRcode__body-wrap">
   <div class="createQRcode__body-center">
-    <span>Предустановленные суммы чаевых</span>
     <div class="createQRcode__body-wrapForm" [formGroup]="myForm">
-      <div class="createQRcode__body-inputContainer">
-        <input
-          type="text"
-          formControlName="tips1"
-          mask="separator"
-          [thousandSeparator]="''"
-        />
-      </div>
-      <div class="createQRcode__body-inputContainer">
-        <input
-          type="text"
-          formControlName="tips2"
-          mask="separator"
-          [thousandSeparator]="''"
-        />
-      </div>
-      <div class="createQRcode__body-inputContainer">
-        <input
-          type="text"
-          formControlName="tips3"
-          mask="separator"
-          [thousandSeparator]="''"
-        />
+      <span>Предустановленные суммы чаевых</span>
+      <div class="createQRcode__body-form">
+        <div class="createQRcode__body-inputContainer">
+          <input
+            type="text"
+            formControlName="tips1"
+            mask="separator"
+            [thousandSeparator]="''"
+          />
+        </div>
+        <div class="createQRcode__body-inputContainer">
+          <input
+            type="text"
+            formControlName="tips2"
+            mask="separator"
+            [thousandSeparator]="''"
+          />
+        </div>
+        <div class="createQRcode__body-inputContainer">
+          <input
+            type="text"
+            formControlName="tips3"
+            mask="separator"
+            [thousandSeparator]="''"
+          />
+        </div>
       </div>
     </div>
 
@@ -50,7 +52,7 @@
     </div>
 
     <div class="createQRcode__body-uploadLogo">
-      <upload-logo></upload-logo>
+      <upload-logo (uploadedFile)="uploadedFile($event)"></upload-logo>
     </div>
 
     <div class="setupColorBTN">
@@ -63,6 +65,16 @@
 
   <div class="createQRcode__body-right">
     <span>Так выглядит ваша страница</span>
-    <svg-icon [svgSetting]="svgLogo"></svg-icon>
+    <div class="createQRcode__right-wrap">
+      <svg-icon [svgSetting]="svgLogo"></svg-icon>
+
+      <div class="createQRcode__body-aboutMe">
+        <img src="#" alt="" class="logo" #preview />
+        <div class="createQRcode__body-info">
+          <span><b>Смирнов Виталий</b></span>
+          <span>Сотрудник в Фитнес Территория</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

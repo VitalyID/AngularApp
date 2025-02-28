@@ -4,8 +4,10 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  EventEmitter,
   inject,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -23,6 +25,7 @@ import { ButtonData } from './../../types/sectionItem';
 export class UploadLogoComponent implements AfterViewInit, OnInit {
   @ViewChild('fileInput') input?: ElementRef;
   @ViewChild('customInput') customInput?: ElementRef;
+  @Output() uploadedFile = new EventEmitter<File>();
 
   btnText: ButtonData = {
     iconClass: 'icon-icon-upload',
@@ -33,8 +36,6 @@ export class UploadLogoComponent implements AfterViewInit, OnInit {
     borderStyle: 'none',
     boxShadow: 'none',
   };
-
-  // item!: Event;
 
   readonly #clickOnBTN = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
@@ -55,8 +56,13 @@ export class UploadLogoComponent implements AfterViewInit, OnInit {
     // console.log(this.input);
   }
 
-  openFile(data: Event) {
+  openFile() {
     const file = this.input?.nativeElement.files[0];
+    // console.log(typeof file);
+
     console.log(file);
+    if (file) {
+      this.uploadedFile.emit(file);
+    }
   }
 }
