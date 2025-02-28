@@ -1,9 +1,15 @@
+:host {
+  --width: auto;
+  --height: auto;
+  --padding: 11px 30px;
+}
+
 button {
   background: linear-gradient(0deg, #3bc76b, #3bc76b), #3bc76b;
   box-shadow: 0px 5px 20px rgba(71, 155, 78, 0.15);
   border: 2px solid black;
   border-radius: 54px;
-  padding: 11px 30px;
+  padding: var(--padding);
 
   font-family: "Formular";
   font-style: normal;
@@ -15,6 +21,9 @@ button {
   justify-content: center;
   align-items: center;
   gap: 15px;
+
+  width: var(--width);
+  height: var(--height);
 
   color: #ffffff;
   cursor: pointer;

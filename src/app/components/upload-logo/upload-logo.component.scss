@@ -1,6 +1,6 @@
 :host {
   background: #ffffff;
-  padding: 25px;
+  // padding: 25px;
 
   border: 1px dashed #c8c9cf;
   border-radius: 6px;
@@ -13,6 +13,8 @@
   & .wrapUpload {
     position: relative;
     display: inline-block;
+    width: 100%;
+    height: 100%;
 
     & input {
       display: none;
@@ -20,6 +22,12 @@
 
     & button {
       background: none;
+    }
+
+    & app-buttons {
+      --width: 100%;
+      --height: 100%;
+      --padding: 25px;
     }
   }
 }

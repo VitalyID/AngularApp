@@ -1,4 +1,10 @@
 <div class="wrapUpload">
-  <input type="file" name="fileUserLogo" accept="image/png" #fileInput />
-  <app-buttons [buttonData]="btnText"></app-buttons>
+  <input
+    type="file"
+    name="fileUserLogo"
+    accept="image/png"
+    #fileInput
+    (change)="openFile($event)"
+  />
+  <app-buttons [buttonData]="btnText" #customInput></app-buttons>
 </div>

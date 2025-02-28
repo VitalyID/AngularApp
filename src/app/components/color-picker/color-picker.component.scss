@@ -19,10 +19,12 @@
     // background: linear-gradient(0deg, #eeeff2, #eeeff2), #e7e9f0;
     border: 2px solid #afb0b6;
     border-radius: 6px;
+    cursor: pointer;
   }
 
   & input {
     width: 100%;
+    cursor: pointer;
   }
 
   & span {
