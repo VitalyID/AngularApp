@@ -34,13 +34,14 @@
 
     <div class="createQRcode__body-about">
       <span>Рейтинг (звездочки)</span>
-      <switcher [styles]="newStyles" [title]="title1"></switcher>
+      <!-- [style]="newStyles" added it into switcher for changed styles-->
+      <switcher [title]="title1"></switcher>
 
       <span>Отзывы</span>
-      <switcher [styles]="newStyles" [title]="title2"></switcher>
+      <switcher [title]="title2"></switcher>
 
       <span>Впечатления</span>
-      <switcher [styles]="newStyles" [title]="title3"></switcher>
+      <switcher [title]="title3"></switcher>
     </div>
 
     <div class="createQRcode__body-background">
@@ -60,5 +61,8 @@
     <app-buttons [buttonData]="btnText"></app-buttons>
   </div>
 
-  <div class="createQRcode__body-right"></div>
+  <div class="createQRcode__body-right">
+    <span>Так выглядит ваша страница</span>
+    <svg-icon [svgSetting]="svgLogo"></svg-icon>
+  </div>
 </div>

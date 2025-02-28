@@ -15,9 +15,10 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { SharedModule } from '../../shared.module';
+import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { ButtonData } from '../../types/sectionItem';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
-import { SwitcherStyles } from '../switcher/interface/SwitcherStyles';
+import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
 
@@ -30,6 +31,7 @@ import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
     ColorPickerComponent,
     UploadLogoComponent,
     SharedModule,
+    SvgIconComponent,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
@@ -46,7 +48,12 @@ export class CreateQRcodeComponent implements OnInit {
   title2 = 'feedback';
   title3 = 'impressions';
 
-  newStyles: SwitcherStyles = {};
+  svgLogo: SvgSpriteSetting = {
+    iconID: 'Logo',
+  };
+
+  // used it for changed new styles for switcher
+  // newStyles: SwitcherStyles = {};
 
   btnText: ButtonData = {
     id: 7,
