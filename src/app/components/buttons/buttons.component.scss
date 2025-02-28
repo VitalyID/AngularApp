@@ -17,6 +17,7 @@ button {
   gap: 15px;
 
   color: #ffffff;
+  cursor: pointer;
 }
 
 .icon-add-outline:before {
@@ -40,4 +41,9 @@ button {
   content: "\e902";
   color: black;
   font-size: 24px;
+}
+
+.icon-icon-upload:before {
+  content: "\e900";
+  color: #55595b;
 }

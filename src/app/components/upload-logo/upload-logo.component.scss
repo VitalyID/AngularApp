@@ -1,0 +1,25 @@
+:host {
+  background: #ffffff;
+  padding: 25px;
+
+  border: 1px dashed #c8c9cf;
+  border-radius: 6px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  & .wrapUpload {
+    position: relative;
+    display: inline-block;
+
+    & input {
+      display: none;
+    }
+
+    & button {
+      background: none;
+    }
+  }
+}

@@ -1,14 +1,10 @@
 <div class="colorPicker">
-  <div class="selectedColor" (click)="ColorSection()"></div>
-  <span>#000000</span>
-  <div
-    #colorSection
-    id="1"
-    class="colorSection close"
-    [ngClass]="{
-      open: openColorSection === true,
-      close: openColorSection === false
-    }"
-    (click)="chooseColor($event)"
-  ></div>
+  <div class="selectedColor">
+    <input
+      [(colorPicker)]="color"
+      [style.background]="color"
+      (colorPickerSelect)="setColor(color)"
+    />
+  </div>
+  <span>{{ color }}</span>
 </div>

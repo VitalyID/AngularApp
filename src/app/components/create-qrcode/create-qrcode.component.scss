@@ -12,12 +12,17 @@
 
   & .createQRcode__body-center {
     width: 66%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
 
     background: #ffffff;
     box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
     border-radius: 10px;
 
     padding: 40px 40px 30px;
+    gap: 20px;
 
     & span {
       font-family: "Formular";
@@ -30,6 +35,7 @@
     }
 
     & .createQRcode__body-about {
+      width: 100%;
       display: grid;
       grid-template-columns: 1fr 2fr;
       grid-auto-rows: auto;
@@ -37,6 +43,10 @@
       gap: 20px;
       align-items: center;
       align-self: center;
+    }
+
+    & .createQRcode__body-background {
+      width: 100%;
     }
 
     & .createQRcode__body-background span {
@@ -49,9 +59,11 @@
 
       border: 1px solid #c8c9cf;
       border-radius: 8px;
-      -webkit-appearance: none;
-      -moz-appearance: none;
       appearance: none;
+    }
+
+    & .createQRcode__body-uploadLogo {
+      width: 100%;
     }
   }
 

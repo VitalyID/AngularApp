@@ -34,19 +34,22 @@
 
     <div class="createQRcode__body-about">
       <span>Рейтинг (звездочки)</span>
-      <switcher [styles]="newStyles"></switcher>
+      <switcher [styles]="newStyles" [title]="title1"></switcher>
 
       <span>Отзывы</span>
-      <switcher [styles]="newStyles"></switcher>
+      <switcher [styles]="newStyles" [title]="title2"></switcher>
 
       <span>Впечатления</span>
-      <switcher [styles]="newStyles"></switcher>
+      <switcher [styles]="newStyles" [title]="title3"></switcher>
     </div>
 
     <div class="createQRcode__body-background">
       <span>Код цвета для подложки</span>
-      <!-- <input type="color" name="colorPicker" id="colorPicker" value="#e1e3e1" /> -->
       <color-picker></color-picker>
+    </div>
+
+    <div class="createQRcode__body-uploadLogo">
+      <upload-logo></upload-logo>
     </div>
   </div>
 

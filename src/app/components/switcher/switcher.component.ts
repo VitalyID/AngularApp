@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -19,6 +20,7 @@ import { SwitcherStyles } from './interface/SwitcherStyles';
 })
 export class SwitcherComponent implements OnInit {
   @Input() styles: SwitcherStyles = {};
+  @Input() title: string = '';
 
   defaultStyles: SwitcherStyles = {
     outerWidth: '64px',
@@ -33,8 +35,10 @@ export class SwitcherComponent implements OnInit {
 
   readonly #elRef = inject(ElementRef);
   readonly #render = inject(Renderer2);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   id: string = '';
+  value: boolean = false;
 
   // this method setup some new styles for custom checkbox from parent
   #setCssVariable() {
@@ -47,7 +51,14 @@ export class SwitcherComponent implements OnInit {
       lineStyles = lineStyles + dash + item + ': ' + mixStyles[item] + '; ';
     }
 
-    this.#render.setStyle(this.#elRef.nativeElement, 'background', 'red');
+    this.#render.setProperty(this.#elRef.nativeElement, 'style', lineStyles);
+    this.#cdr.markForCheck();
+  }
+
+  // in this realization we get status checkbox only after changed them.
+  sendValue(data: Event) {
+    this.value = (data.target as HTMLInputElement).checked;
+    console.log({ 'title ': this.title, 'value ': this.value });
   }
 
   ngOnInit(): void {

@@ -17,6 +17,7 @@ import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { SwitcherStyles } from '../switcher/interface/SwitcherStyles';
 import { SwitcherComponent } from '../switcher/switcher.component';
+import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
 
 @Component({
   selector: 'create-qrcode',
@@ -25,6 +26,7 @@ import { SwitcherComponent } from '../switcher/switcher.component';
     NgxMaskDirective,
     SwitcherComponent,
     ColorPickerComponent,
+    UploadLogoComponent,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
@@ -37,6 +39,9 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #cdr = inject(ChangeDetectorRef);
 
   asideID: number = 0;
+  title1 = 'rate';
+  title2 = 'feedback';
+  title3 = 'impressions';
 
   newStyles: SwitcherStyles = {};
 

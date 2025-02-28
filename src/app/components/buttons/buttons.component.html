@@ -3,6 +3,8 @@
   [style.color]="buttonData?.color"
   [disabled]="buttonData?.disabled"
   (click)="clickOn()"
+  [style.border]="buttonData?.borderStyle"
+  [style.boxShadow]="buttonData?.boxShadow"
 >
   <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
   {{ buttonData?.text }}
