@@ -124,20 +124,21 @@
     }
 
     & .createQRcode__right-wrap {
-      @include flexCenter(centerS, start);
+      @include flexCenter(center, start);
       flex-direction: column;
       gap: 20px;
 
       & .createQRcode__body-aboutMe {
-        @include flexCenter(center, center);
+        @include flexCenter(left, center);
         gap: 20px;
 
         & .logo {
           width: 33%;
           max-width: 90px;
           height: 90px;
-          // aspect-ratio: 1/1;
           overflow: hidden;
+          background-color: burlywood;
+          border-radius: 10px;
         }
 
         & .createQRcode__body-info {

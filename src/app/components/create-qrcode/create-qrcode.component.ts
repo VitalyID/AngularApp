@@ -19,7 +19,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { SharedModule } from '../../shared.module';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { UserSettingData } from '../../types/interfaces/userSettingData';
+// import { UserSettingData } from '../../types/interfaces/userSettingData';
 import { ButtonData } from '../../types/sectionItem';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -58,9 +58,10 @@ export class CreateQRcodeComponent implements OnInit {
   svgLogo: SvgSpriteSetting = {
     iconID: 'Logo',
     height: '40px',
+    width: '200px',
   };
 
-  UserSettingData: UserSettingData = {};
+  UserSettingData: any = {};
 
   // used it for changed new styles for switcher
   // newStyles: SwitcherStyles = {};

@@ -15,6 +15,8 @@ export interface ButtonData {
   // type?: string;
   // event?: string;
   id: number;
+  borderStyle?: string;
+  boxShadow?: string;
 }
 export interface DataUserOperation {
   [key: string]: any;
