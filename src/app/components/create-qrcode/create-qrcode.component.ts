@@ -9,10 +9,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  FormArray,
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
@@ -22,6 +23,7 @@ import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 // import { UserSettingData } from '../../types/interfaces/userSettingData';
 import { ButtonData } from '../../types/sectionItem';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
+import { InputUserTipsComponent } from '../input-userTips/input-userTips.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
@@ -36,6 +38,7 @@ import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
     UploadLogoComponent,
     SharedModule,
     SvgIconComponent,
+    InputUserTipsComponent,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
@@ -49,6 +52,7 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #route = inject(ActivatedRoute);
   readonly #cdr = inject(ChangeDetectorRef);
   readonly #render2 = inject(Renderer2);
+  readonly #fb = inject(FormBuilder);
 
   asideID: number = 0;
   title1 = 'rate';
@@ -62,6 +66,7 @@ export class CreateQRcodeComponent implements OnInit {
   };
 
   UserSettingData: any = {};
+  myForm!: FormGroup;
 
   // used it for changed new styles for switcher
   // newStyles: SwitcherStyles = {};
@@ -71,19 +76,32 @@ export class CreateQRcodeComponent implements OnInit {
     text: 'Создать QR-код',
   };
 
-  myForm = new FormGroup({
-    tips1: new FormControl('150', Validators.pattern(/^[0-9]*$/)),
-    tips2: new FormControl('200', Validators.pattern(/^[0-9]*$/)),
-    tips3: new FormControl('250', Validators.pattern(/^[0-9]*$/)),
-  });
-
   ngOnInit(): void {
+    this.myForm = this.newForm();
+
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];
     this.#routeService.getDataRoute(this.asideID);
     this.#cdr.markForCheck();
     this.#cdr.detectChanges();
   }
+
+  newForm(): FormGroup {
+    return this.#fb.group({
+      tipsArray: this.#fb.array([
+        new FormControl('200'),
+        new FormControl('250'),
+        new FormControl('300'),
+      ]),
+    });
+  }
+  get tipsArray(): FormArray {
+    return this.myForm.get('tipsArray') as FormArray;
+  }
+
+  // getTipsControl(): FormControl {
+  //   return this.formGroup.get('tips') as FormControl;
+  // }
 
   uploadedFile(data: File) {
     const reader = new FileReader();

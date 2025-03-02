@@ -1,0 +1,10 @@
+<div class="userInputWrap">
+  <input
+    type="text"
+    mask="separator"
+    [thousandSeparator]="''"
+    [formControl]="formControl"
+    [value]="value"
+    (input)="updateValue($event)"
+  />
+</div>

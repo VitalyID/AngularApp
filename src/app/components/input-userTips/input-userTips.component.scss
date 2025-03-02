@@ -1,0 +1,31 @@
+:host {
+  --width: 100%;
+  display: block;
+  width: 100%;
+}
+
+.userInputWrap {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  &::after {
+    content: "₽";
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  & input {
+    width: var(--width);
+
+    background: #ffffff;
+    border: 1px solid #c8c9cf;
+    border-radius: 6px;
+    flex-grow: 1;
+    flex-shrink: 0;
+
+    padding: 25px;
+  }
+}
