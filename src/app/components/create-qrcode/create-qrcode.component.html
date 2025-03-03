@@ -59,7 +59,9 @@
   </div>
 
   <div class="createQRcode__body-right">
-    <span>Так выглядит ваша страница</span>
+    <span class="spanBold">Так выглядит ваша страница</span>
+    <div class="sectionBorder"></div>
+
     <div class="createQRcode__right-wrap">
       <svg-icon [svgSetting]="svgLogo"></svg-icon>
 
@@ -75,6 +77,15 @@
           <span>Сотрудник в Фитнес Территория</span>
         </div>
       </div>
+    </div>
+    <div class="sectionBorder"></div>
+
+    <span class="spanBold">Сумма чаевых</span>
+    <input-userTips></input-userTips>
+    <div class="createQRcode__body-rightBTNtips">
+      <app-buttons [buttonData]="btnTips1"></app-buttons>
+      <app-buttons [buttonData]="btnTips2"></app-buttons>
+      <app-buttons [buttonData]="btnTips3"></app-buttons>
     </div>
   </div>
 </div>

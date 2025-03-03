@@ -16,7 +16,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { SharedModule } from '../../shared.module';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
@@ -33,7 +33,7 @@ import { EnumSwitcher } from './types/enum/enumSwitcher';
   selector: 'create-qrcode',
   imports: [
     ReactiveFormsModule,
-    NgxMaskDirective,
+    // NgxMaskDirective,
     SwitcherComponent,
     ColorPickerComponent,
     UploadLogoComponent,
@@ -74,12 +74,33 @@ export class CreateQRcodeComponent implements OnInit {
   UserSettingData: any = {};
   myForm!: FormGroup;
 
-  // used it for changed new styles for switcher
-  // newStyles: SwitcherStyles = {};
-
   btnText: ButtonData = {
     id: 7,
     text: 'Создать QR-код',
+  };
+
+  btnTips1: ButtonData = {
+    text: '100 P',
+    background: '#EEEFF2',
+    color: '#313436',
+    id: 8,
+    borderStyle: 'none',
+  };
+
+  btnTips2: ButtonData = {
+    text: '150 P',
+    background: '#EEEFF2',
+    color: '#313436',
+    id: 9,
+    borderStyle: 'none',
+  };
+
+  btnTips3: ButtonData = {
+    text: '200 P',
+    background: '#EEEFF2',
+    color: '#313436',
+    id: 10,
+    borderStyle: 'none',
   };
 
   ngOnInit(): void {
@@ -105,10 +126,6 @@ export class CreateQRcodeComponent implements OnInit {
   get tipsArray(): FormArray {
     return this.myForm.get('tipsArray') as FormArray;
   }
-
-  // getTipsControl(): FormControl {
-  //   return this.formGroup.get('tips') as FormControl;
-  // }
 
   uploadedFile(data: File) {
     const reader = new FileReader();
