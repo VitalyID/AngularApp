@@ -8,22 +8,18 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { SharedModule } from '../../shared.module';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { DataInput } from './../input-userTips/types/interfaces/dataInput';
 // import { UserSettingData } from '../../types/interfaces/userSettingData';
 import { ButtonData } from '../../types/sectionItem';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../input-userTips/input-userTips.component';
+import { UserSetting } from '../input-userTips/types/interfaces/UserDataSetting';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
@@ -49,21 +45,62 @@ import { EnumSwitcher } from './types/enum/enumSwitcher';
 export class CreateQRcodeComponent implements OnInit {
   @ViewChild('preview') previewIMG!: ElementRef;
 
-  readonly #routeService = inject(RoutIDservice);
-  readonly #route = inject(ActivatedRoute);
-  readonly #cdr = inject(ChangeDetectorRef);
-  readonly #render2 = inject(Renderer2);
-  readonly #fb = inject(FormBuilder);
-
   asideID: number = 0;
+  // UserDataSettings send to server
+  UserDataSettings: UserSetting[] = [
+    {
+      'inputID-1': 100,
+    },
+    {
+      'inputID-2': 150,
+    },
+    {
+      'inputID-3': 200,
+    },
+  ];
+
+  dataToInputChild: DataInput[] = [
+    {
+      placeholder: '100',
+      type: 'number',
+      inputID: 'inputID-1',
+      validation: 'yes',
+      unitCurrency: '₽',
+    },
+    {
+      placeholder: '150',
+      type: 'number',
+      inputID: 'inputID-2',
+      validation: 'yes',
+      unitCurrency: '₽',
+    },
+    {
+      placeholder: '200',
+      type: 'number',
+      inputID: 'inputID-3',
+      validation: 'yes',
+      unitCurrency: '₽',
+    },
+  ];
+
+  setUpTips: DataInput = {
+    placeholder: 'от 100 до 600',
+    type: 'number',
+    inputID: 'inputID-4',
+    validation: 'yes',
+    unitCurrency: '₽',
+    validFrom: 100,
+    validTo: 600,
+  };
+
+  // Its data from input about amount user-tips
+  dataFromInput(data: {}) {
+    console.log('Data from Input: ', data);
+    this.updateUserSetting(data);
+  }
 
   listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
   enumSwitcher = EnumSwitcher;
-  listItemSwitch() {
-    for (let item of Object.keys(EnumSwitcher)) {
-      this.listSwitchKeys.push(item as keyof typeof EnumSwitcher);
-    }
-  }
 
   svgLogo: SvgSpriteSetting = {
     iconID: 'Logo',
@@ -102,9 +139,14 @@ export class CreateQRcodeComponent implements OnInit {
     id: 10,
     borderStyle: 'none',
   };
+  readonly #routeService = inject(RoutIDservice);
+  readonly #route = inject(ActivatedRoute);
+  readonly #cdr = inject(ChangeDetectorRef);
+  readonly #render2 = inject(Renderer2);
+  readonly #fb = inject(FormBuilder);
 
   ngOnInit(): void {
-    this.myForm = this.newForm();
+    // this.myForm = this.newForm();
     this.listItemSwitch();
 
     // here is control to active menu on aside-bar
@@ -114,17 +156,10 @@ export class CreateQRcodeComponent implements OnInit {
     this.#cdr.detectChanges();
   }
 
-  newForm(): FormGroup {
-    return this.#fb.group({
-      tipsArray: this.#fb.array([
-        new FormControl('200'),
-        new FormControl('250'),
-        new FormControl('300'),
-      ]),
-    });
-  }
-  get tipsArray(): FormArray {
-    return this.myForm.get('tipsArray') as FormArray;
+  listItemSwitch() {
+    for (let item of Object.keys(EnumSwitcher)) {
+      this.listSwitchKeys.push(item as keyof typeof EnumSwitcher);
+    }
   }
 
   uploadedFile(data: File) {
@@ -142,5 +177,23 @@ export class CreateQRcodeComponent implements OnInit {
     reader.readAsDataURL(data);
 
     this.UserSettingData.picture = data;
+  }
+
+  updateUserSetting(data: { [key: string]: number }) {
+    const newUserKey = Object.keys(data)[0];
+    console.log(typeof newUserKey);
+
+    const itemToUpdate = this.UserDataSettings?.find((item) => {
+      return newUserKey === Object.keys(item)[0];
+    });
+
+    console.log('найден ', itemToUpdate);
+
+    if (itemToUpdate) {
+      const typedItem = itemToUpdate as { [key: string]: number };
+      typedItem[newUserKey] = data[newUserKey];
+    }
+
+    console.log(this.UserDataSettings);
   }
 }

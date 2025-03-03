@@ -1,5 +1,6 @@
 :host {
   --width: 100%;
+  --content: none
   display: block;
   width: 100%;
 }
@@ -10,11 +11,11 @@
   width: 100%;
 
   &::after {
-    content: "₽";
+    content: var(--content);
     position: absolute;
     right: 10%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -100%);
   }
 
   & input {
@@ -27,5 +28,6 @@
     flex-shrink: 0;
 
     padding: 25px;
+    margin-bottom: 20px;
   }
 }

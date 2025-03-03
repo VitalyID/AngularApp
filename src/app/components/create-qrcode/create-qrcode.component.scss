@@ -46,7 +46,7 @@
       width: 100%;
       // @include flexCenter(center, center);
 
-      & .array {
+      & .inputTips {
         display: flex;
         flex-direction: row;
         gap: 10px;
@@ -54,10 +54,10 @@
         align-items: center;
         width: 100%;
 
-        & input-usertips {
-          --width: 100%;
-          flex: 1;
-        }
+        // & input-usertips {
+        //   --width: 100%;
+        //   flex: 1;
+        // }
       }
 
       & .createQRcode__body-form {

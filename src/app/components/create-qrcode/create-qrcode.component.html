@@ -10,12 +10,16 @@
   <div class="createQRcode__body-center">
     <div class="createQRcode__body-wrapForm">
       <span>Предустановленные суммы чаевых</span>
-      <form class="group" [formGroup]="myForm">
-        <div class="array" formArrayName="tipsArray">
-          @for (tip of tipsArray.controls; track $index){
-          <input-userTips [formControl]="$any(tip)"></input-userTips>}
-        </div>
-      </form>
+
+      <div class="inputTips">
+        @for(input of dataToInputChild; track input.inputID) {
+        <input-userTips
+          [dataToInput]="input"
+          (dataFromInput)="dataFromInput($event)"
+          #input
+        ></input-userTips
+        >}
+      </div>
     </div>
 
     <!-- ---------------- -->
@@ -73,15 +77,19 @@
           #preview
         />
         <div class="createQRcode__body-info">
-          <span><b>Смирнов Виталий</b></span>
-          <span>Сотрудник в Фитнес Территория</span>
+          <span class="spanBold"><b>Смирнов Виталий</b></span>
+          <span class="spanThink">Сотрудник в Фитнес Территория</span>
         </div>
       </div>
     </div>
     <div class="sectionBorder"></div>
 
     <span class="spanBold">Сумма чаевых</span>
-    <input-userTips></input-userTips>
+    <input-userTips
+      [dataToInput]="setUpTips"
+      (dataFromInput)="dataFromInput($event)"
+      #input
+    ></input-userTips>
     <div class="createQRcode__body-rightBTNtips">
       <app-buttons [buttonData]="btnTips1"></app-buttons>
       <app-buttons [buttonData]="btnTips2"></app-buttons>

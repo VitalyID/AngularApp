@@ -1,69 +1,103 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  forwardRef,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  inject,
+  // forwardRef,
   Input,
+  OnInit,
+  Output,
+  Renderer2,
 } from '@angular/core';
 import {
-  ControlValueAccessor,
+  FormBuilder,
   FormControl,
-  NG_VALUE_ACCESSOR,
+  // NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgxMaskDirective } from 'ngx-mask';
+import { DataInput } from './types/interfaces/dataInput';
 
 @Component({
   selector: 'input-userTips',
-  imports: [NgxMaskDirective, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './input-userTips.component.html',
   styleUrl: './input-userTips.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputUserTipsComponent),
-      multi: true,
-    },
-  ],
 })
-export class InputUserTipsComponent implements ControlValueAccessor {
-  @Input() formControl!: FormControl;
+export class InputUserTipsComponent implements OnInit, AfterViewInit {
+  @Input() dataToInput: DataInput = {
+    placeholder: '200',
+    type: 'number',
+    inputID: 'inputID-1',
+  };
+  @Output() dataFromInput = new EventEmitter();
+  // If user press wrong key, we  are intercept and stop it
+  @HostListener('keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    // validation by key-number
+    if (this.dataToInput.type === 'number') {
+      const correctKey = [
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '.',
+        ',',
+        'Backspace',
+        'ArrowLeft',
+        'ArrowRight',
+        'Delete',
+        'Tab',
+      ];
+      if (!correctKey.includes(event.key)) {
+        event.preventDefault();
+      }
 
-  // Внутреннее значение компонента
-  value: any;
-
-  // Функции, которые будут вызваны при изменении значения
-  onChange: any = () => {};
-  onTouched: any = () => {};
-
-  // Метод, вызываемый Angular для установки значения
-  writeValue(value: any): void {
-    this.value = value;
-    this.onChange(this.value);
-    console.log(value);
+      // validation by key-string
+    } else if (this.dataToInput.type === 'string') {
+      const forbiddenLetter = ['<', '>', ';', '"', "'", '\\'];
+      if (!forbiddenLetter.includes(event.key)) {
+        event.preventDefault();
+      }
+    }
   }
 
-  // Метод, вызываемый Angular для регистрации функции обратного вызова при изменении значения
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
+  myForm?: FormControl;
+
+  readonly #fb = inject(FormBuilder);
+  readonly #render = inject(Renderer2);
+  readonly #elfRef = inject(ElementRef);
+
+  ngOnInit(): void {
+    const controlName = String(this.dataToInput.inputID);
+    this.myForm = this.#fb.control({ name: '' });
   }
 
-  // Метод, вызываемый Angular для регистрации функции обратного вызова при "касании" элемента
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+  ngAfterViewInit(): void {
+    // console.log(this.placeholder);
+    this.#render.setProperty(
+      this.#elfRef.nativeElement,
+      'style',
+      `--content:"${this.dataToInput.unitCurrency}"`
+    );
   }
 
-  // // Метод, вызываемый Angular для отключения элемента (если нужно)
-  // setDisabledState?(isDisabled: boolean): void {
-  //   // Логика для отключения элемента, если требуется
-  // }
+  userInput(data: Event) {
+    const userNumber = (data.target as HTMLInputElement).value;
+    console.log(typeof userNumber);
 
-  // Метод для обновления значения при изменении ввода
-  updateValue(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.value = value;
-    this.onChange(this.value);
-    this.onTouched();
-    console.log(value);
+    const valueInput = { [this.dataToInput.inputID]: Number(userNumber) };
+    // console.log(valueInput);
+
+    this.dataFromInput.emit(valueInput);
   }
 }
