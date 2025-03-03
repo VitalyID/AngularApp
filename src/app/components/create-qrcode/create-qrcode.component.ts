@@ -27,6 +27,7 @@ import { InputUserTipsComponent } from '../input-userTips/input-userTips.compone
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
+import { EnumSwitcher } from './types/enum/enumSwitcher';
 
 @Component({
   selector: 'create-qrcode',
@@ -55,9 +56,14 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #fb = inject(FormBuilder);
 
   asideID: number = 0;
-  title1 = 'rate';
-  title2 = 'feedback';
-  title3 = 'impressions';
+
+  listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
+  enumSwitcher = EnumSwitcher;
+  listItemSwitch() {
+    for (let item of Object.keys(EnumSwitcher)) {
+      this.listSwitchKeys.push(item as keyof typeof EnumSwitcher);
+    }
+  }
 
   svgLogo: SvgSpriteSetting = {
     iconID: 'Logo',
@@ -78,6 +84,7 @@ export class CreateQRcodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.myForm = this.newForm();
+    this.listItemSwitch();
 
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];

@@ -2,6 +2,10 @@
   <h2>Создать QR-код</h2>
 </div>
 
+<!-- ---------------- -->
+<!-- section input -->
+<!-- ---------------- -->
+
 <div class="createQRcode__body-wrap">
   <div class="createQRcode__body-center">
     <div class="createQRcode__body-wrapForm">
@@ -14,26 +18,37 @@
       </form>
     </div>
 
+    <!-- ---------------- -->
+    <!-- section checkbox -->
+    <!-- ---------------- -->
+
     <div class="createQRcode__body-about">
-      <span>Рейтинг (звездочки)</span>
-      <!-- [style]="newStyles" added it into switcher for changed styles-->
-      <switcher [title]="title1"></switcher>
-
-      <span>Отзывы</span>
-      <switcher [title]="title2"></switcher>
-
-      <span>Впечатления</span>
-      <switcher [title]="title3"></switcher>
+      @for(item of listSwitchKeys; track $index) {
+      <span>{{ enumSwitcher[item] }}</span>
+      <switcher [title]="item"></switcher>
+      }
     </div>
+
+    <!-- ------------------- -->
+    <!-- section colorPicker -->
+    <!-- ------------------- -->
 
     <div class="createQRcode__body-background">
       <span>Код цвета для подложки</span>
       <color-picker></color-picker>
     </div>
 
+    <!-- ------------------ -->
+    <!-- section uploadLogo -->
+    <!-- ------------------ -->
+
     <div class="createQRcode__body-uploadLogo">
       <upload-logo (uploadedFile)="uploadedFile($event)"></upload-logo>
     </div>
+
+    <!------------------- -->
+    <!-- section colorBTN -->
+    <!-- ---------------- -->
 
     <div class="setupColorBTN">
       <span>Код цвета для кнопки</span>
