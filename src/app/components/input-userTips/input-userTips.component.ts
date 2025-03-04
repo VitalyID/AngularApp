@@ -78,12 +78,12 @@ export class InputUserTipsComponent implements OnInit, AfterViewInit {
   readonly #elfRef = inject(ElementRef);
 
   ngOnInit(): void {
-    const controlName = String(this.dataToInput.inputID);
-    this.myForm = this.#fb.control({ name: '' });
+    if (this.dataToInput.validation === true) {
+      this.myForm = this.#fb.control({ name: '' });
+    }
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.placeholder);
     this.#render.setProperty(
       this.#elfRef.nativeElement,
       'style',
@@ -93,11 +93,7 @@ export class InputUserTipsComponent implements OnInit, AfterViewInit {
 
   userInput(data: Event) {
     const userNumber = (data.target as HTMLInputElement).value;
-    console.log(typeof userNumber);
-
     const valueInput = { [this.dataToInput.inputID]: Number(userNumber) };
-    // console.log(valueInput);
-
     this.dataFromInput.emit(valueInput);
   }
 }

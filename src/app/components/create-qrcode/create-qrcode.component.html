@@ -3,7 +3,7 @@
 </div>
 
 <!-- ---------------- -->
-<!-- section input -->
+<!-- section input ----->
 <!-- ---------------- -->
 
 <div class="createQRcode__body-wrap">
@@ -91,9 +91,9 @@
       #input
     ></input-userTips>
     <div class="createQRcode__body-rightBTNtips">
-      <app-buttons [buttonData]="btnTips1"></app-buttons>
-      <app-buttons [buttonData]="btnTips2"></app-buttons>
-      <app-buttons [buttonData]="btnTips3"></app-buttons>
+      @for (btn of arrBTN; track btn.id){
+      <app-buttons [buttonData]="btn"></app-buttons>
+      }
     </div>
   </div>
 </div>

@@ -10,7 +10,7 @@ export interface DataInput {
   placeholder: string;
   type: 'string' | 'number';
   inputID: string;
-  validation?: 'yes' | 'no';
+  validation?: boolean;
   validFrom?: number;
   validTo?: number;
   unitCurrency?: '₽' | '$' | '';

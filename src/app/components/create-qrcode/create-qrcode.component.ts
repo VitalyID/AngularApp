@@ -64,21 +64,21 @@ export class CreateQRcodeComponent implements OnInit {
       placeholder: '100',
       type: 'number',
       inputID: 'inputID-1',
-      validation: 'yes',
+      validation: true,
       unitCurrency: '₽',
     },
     {
       placeholder: '150',
       type: 'number',
       inputID: 'inputID-2',
-      validation: 'yes',
+      validation: true,
       unitCurrency: '₽',
     },
     {
       placeholder: '200',
       type: 'number',
       inputID: 'inputID-3',
-      validation: 'yes',
+      validation: true,
       unitCurrency: '₽',
     },
   ];
@@ -87,7 +87,7 @@ export class CreateQRcodeComponent implements OnInit {
     placeholder: 'от 100 до 600',
     type: 'number',
     inputID: 'inputID-4',
-    validation: 'yes',
+    validation: true,
     unitCurrency: '₽',
     validFrom: 100,
     validTo: 600,
@@ -96,7 +96,8 @@ export class CreateQRcodeComponent implements OnInit {
   // Its data from input about amount user-tips
   dataFromInput(data: {}) {
     console.log('Data from Input: ', data);
-    this.updateUserSetting(data);
+    // this.updateUserSetting(data);
+    this.updateBTNtext(data);
   }
 
   listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
@@ -116,29 +117,29 @@ export class CreateQRcodeComponent implements OnInit {
     text: 'Создать QR-код',
   };
 
-  btnTips1: ButtonData = {
-    text: '100 P',
-    background: '#EEEFF2',
-    color: '#313436',
-    id: 8,
-    borderStyle: 'none',
-  };
-
-  btnTips2: ButtonData = {
-    text: '150 P',
-    background: '#EEEFF2',
-    color: '#313436',
-    id: 9,
-    borderStyle: 'none',
-  };
-
-  btnTips3: ButtonData = {
-    text: '200 P',
-    background: '#EEEFF2',
-    color: '#313436',
-    id: 10,
-    borderStyle: 'none',
-  };
+  arrBTN: ButtonData[] = [
+    {
+      text: '100 ₽',
+      background: '#EEEFF2',
+      color: '#313436',
+      id: 8,
+      borderStyle: 'none',
+    },
+    {
+      text: '150 ₽',
+      background: '#EEEFF2',
+      color: '#313436',
+      id: 9,
+      borderStyle: 'none',
+    },
+    {
+      text: '200 ₽',
+      background: '#EEEFF2',
+      color: '#313436',
+      id: 10,
+      borderStyle: 'none',
+    },
+  ];
   readonly #routeService = inject(RoutIDservice);
   readonly #route = inject(ActivatedRoute);
   readonly #cdr = inject(ChangeDetectorRef);
@@ -146,7 +147,6 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #fb = inject(FormBuilder);
 
   ngOnInit(): void {
-    // this.myForm = this.newForm();
     this.listItemSwitch();
 
     // here is control to active menu on aside-bar
@@ -179,21 +179,40 @@ export class CreateQRcodeComponent implements OnInit {
     this.UserSettingData.picture = data;
   }
 
-  updateUserSetting(data: { [key: string]: number }) {
-    const newUserKey = Object.keys(data)[0];
-    console.log(typeof newUserKey);
+  // updateUserSetting(data: { [key: string]: number }) {
+  //   const newUserKey = Object.keys(data)[0];
+  //   console.log(typeof newUserKey);
 
-    const itemToUpdate = this.UserDataSettings?.find((item) => {
-      return newUserKey === Object.keys(item)[0];
-    });
+  //   const itemToUpdate = this.UserDataSettings?.find((item) => {
+  //     return newUserKey === Object.keys(item)[0];
+  //   });
 
-    console.log('найден ', itemToUpdate);
+  //   console.log('найден ', itemToUpdate);
 
-    if (itemToUpdate) {
-      const typedItem = itemToUpdate as { [key: string]: number };
-      typedItem[newUserKey] = data[newUserKey];
+  //   if (itemToUpdate) {
+  //     const typedItem = itemToUpdate as { [key: string]: number };
+  //     typedItem[newUserKey] = data[newUserKey];
+  //   }
+
+  //   console.log(this.UserDataSettings);
+  // }
+
+  updateBTNtext(data: { [key: string]: number }) {
+    const key = Object.keys(data);
+    if (key[0] === 'inputID-1') {
+      this.arrBTN[0].text = String(data[key[0]]);
     }
 
-    console.log(this.UserDataSettings);
+    switch (key[0]) {
+      case 'inputID-1':
+        this.arrBTN[0].text = String(data[key[0]]) + ' ₽';
+        break;
+      case 'inputID-2':
+        this.arrBTN[1].text = String(data[key[0]]) + ' ₽';
+        break;
+      case 'inputID-3':
+        this.arrBTN[2].text = String(data[key[0]]) + ' ₽';
+        break;
+    }
   }
 }
