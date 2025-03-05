@@ -11,7 +11,8 @@ export interface DataInput {
   type: 'string' | 'number';
   inputID: string;
   validation?: boolean;
-  validFrom?: number;
-  validTo?: number;
+  validFrom?: string;
+  validTo?: string;
   unitCurrency?: '₽' | '$' | '';
+  value: string;
 }

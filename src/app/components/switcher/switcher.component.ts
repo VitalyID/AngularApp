@@ -3,13 +3,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   inject,
   Input,
   OnInit,
+  Output,
   Renderer2,
 } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import { SwitcherStyles } from './interface/SwitcherStyles';
+import { SwitcherData } from './interface/switcherDataTransmit';
 
 @Component({
   selector: 'switcher',
@@ -21,6 +24,12 @@ import { SwitcherStyles } from './interface/SwitcherStyles';
 export class SwitcherComponent implements OnInit {
   @Input() styles: SwitcherStyles = {};
   @Input() title: string = '';
+  @Output() statusSwitcher = new EventEmitter();
+
+  switcherForParent: SwitcherData = {
+    title: '',
+    value: false,
+  };
 
   defaultStyles: SwitcherStyles = {
     outerWidth: '64px',
@@ -58,7 +67,8 @@ export class SwitcherComponent implements OnInit {
   // in this realization we get status checkbox only after changed them.
   sendValue(data: Event) {
     this.value = (data.target as HTMLInputElement).checked;
-    console.log({ 'title ': this.title, 'value ': this.value });
+    this.switcherForParent = { title: this.title, value: this.value };
+    this.statusSwitcher.emit(this.switcherForParent);
   }
 
   ngOnInit(): void {

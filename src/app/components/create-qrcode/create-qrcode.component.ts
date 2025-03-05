@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
@@ -16,11 +17,15 @@ import { SharedModule } from '../../shared.module';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { DataInput } from './../input-userTips/types/interfaces/dataInput';
 // import { UserSettingData } from '../../types/interfaces/userSettingData';
+import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonData } from '../../types/sectionItem';
+import { ButtonService } from '../buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../input-userTips/input-userTips.component';
 import { UserSetting } from '../input-userTips/types/interfaces/UserDataSetting';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { SwitcherData } from '../switcher/interface/switcherDataTransmit';
 import { SwitcherComponent } from '../switcher/switcher.component';
 import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
 import { EnumSwitcher } from './types/enum/enumSwitcher';
@@ -36,6 +41,7 @@ import { EnumSwitcher } from './types/enum/enumSwitcher';
     SharedModule,
     SvgIconComponent,
     InputUserTipsComponent,
+    CommonModule,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
@@ -46,6 +52,10 @@ export class CreateQRcodeComponent implements OnInit {
   @ViewChild('preview') previewIMG!: ElementRef;
 
   asideID: number = 0;
+  isValidInput: boolean = false;
+  isOpen: boolean = false;
+  isClose: boolean = true;
+
   // UserDataSettings send to server
   UserDataSettings: UserSetting[] = [
     {
@@ -66,6 +76,9 @@ export class CreateQRcodeComponent implements OnInit {
       inputID: 'inputID-1',
       validation: true,
       unitCurrency: '₽',
+      validFrom: '0',
+      validTo: '1000',
+      value: '',
     },
     {
       placeholder: '150',
@@ -73,6 +86,9 @@ export class CreateQRcodeComponent implements OnInit {
       inputID: 'inputID-2',
       validation: true,
       unitCurrency: '₽',
+      validFrom: '0',
+      validTo: '1000',
+      value: '',
     },
     {
       placeholder: '200',
@@ -80,6 +96,9 @@ export class CreateQRcodeComponent implements OnInit {
       inputID: 'inputID-3',
       validation: true,
       unitCurrency: '₽',
+      validFrom: '0',
+      validTo: '1000',
+      value: '',
     },
   ];
 
@@ -89,13 +108,14 @@ export class CreateQRcodeComponent implements OnInit {
     inputID: 'inputID-4',
     validation: true,
     unitCurrency: '₽',
-    validFrom: 100,
-    validTo: 600,
+    validFrom: '0',
+    validTo: '1000',
+    value: '',
   };
 
   // Its data from input about amount user-tips
   dataFromInput(data: {}) {
-    console.log('Data from Input: ', data);
+    // console.log('Data from Input: ', data);
     // this.updateUserSetting(data);
     this.updateBTNtext(data);
   }
@@ -145,6 +165,9 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #cdr = inject(ChangeDetectorRef);
   readonly #render2 = inject(Renderer2);
   readonly #fb = inject(FormBuilder);
+  readonly #destroyRef = inject(DestroyRef);
+  // readonly #btnService = inject(ListenerService);
+  readonly #btnClick = inject(ButtonService);
 
   ngOnInit(): void {
     this.listItemSwitch();
@@ -152,8 +175,40 @@ export class CreateQRcodeComponent implements OnInit {
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];
     this.#routeService.getDataRoute(this.asideID);
-    this.#cdr.markForCheck();
-    this.#cdr.detectChanges();
+    // this.#cdr.markForCheck();
+    // this.#cdr.detectChanges();
+
+    this.#btnClick.eventClick$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        switch (data.id) {
+          case 8:
+            console.log(2222222, this.arrBTN[0].text?.split(' ')[0]);
+            this.setUpTips.value = String(this.arrBTN[0].text?.split(' ')[0]);
+            const setUpTips1 = {
+              ...this.setUpTips,
+              value: this.setUpTips.value,
+            };
+            this.setUpTips = setUpTips1;
+            break;
+          case 9:
+            this.setUpTips.value = String(this.arrBTN[1].text?.split(' ')[0]);
+            const setUpTips2 = {
+              ...this.setUpTips,
+              value: this.setUpTips.value,
+            };
+            this.setUpTips = setUpTips2;
+            break;
+          case 10:
+            this.setUpTips.value = String(this.arrBTN[2].text?.split(' ')[0]);
+            const setUpTips3 = {
+              ...this.setUpTips,
+              value: this.setUpTips.value,
+            };
+            this.setUpTips = setUpTips3;
+            break;
+        }
+      });
   }
 
   listItemSwitch() {
@@ -179,23 +234,24 @@ export class CreateQRcodeComponent implements OnInit {
     this.UserSettingData.picture = data;
   }
 
-  // updateUserSetting(data: { [key: string]: number }) {
-  //   const newUserKey = Object.keys(data)[0];
-  //   console.log(typeof newUserKey);
+  inValid(data: {}) {
+    this.isValidInput = data ? true : false;
+    this.#cdr.detectChanges();
+  }
 
-  //   const itemToUpdate = this.UserDataSettings?.find((item) => {
-  //     return newUserKey === Object.keys(item)[0];
-  //   });
-
-  //   console.log('найден ', itemToUpdate);
-
-  //   if (itemToUpdate) {
-  //     const typedItem = itemToUpdate as { [key: string]: number };
-  //     typedItem[newUserKey] = data[newUserKey];
-  //   }
-
-  //   console.log(this.UserDataSettings);
-  // }
+  switcherFromChild(data: SwitcherData) {
+    console.log(data);
+    // data.value === true ? (this.isOpen = true) : (this.isClose = false);
+    // this.isOpen = data.value ? true : false;
+    if (data.value === true) {
+      this.isOpen = true;
+      this.isClose = false;
+    } else {
+      this.isOpen = false;
+      this.isClose = true;
+    }
+    this.#cdr.detectChanges();
+  }
 
   updateBTNtext(data: { [key: string]: number }) {
     const key = Object.keys(data);

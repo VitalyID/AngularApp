@@ -16,7 +16,6 @@
         <input-userTips
           [dataToInput]="input"
           (dataFromInput)="dataFromInput($event)"
-          #input
         ></input-userTips
         >}
       </div>
@@ -29,7 +28,10 @@
     <div class="createQRcode__body-about">
       @for(item of listSwitchKeys; track $index) {
       <span>{{ enumSwitcher[item] }}</span>
-      <switcher [title]="item"></switcher>
+      <switcher
+        [title]="item"
+        (statusSwitcher)="switcherFromChild($event)"
+      ></switcher>
       }
     </div>
 
@@ -88,12 +90,17 @@
     <input-userTips
       [dataToInput]="setUpTips"
       (dataFromInput)="dataFromInput($event)"
-      #input
+      (inValid)="inValid($event)"
+      [class.inValid]="isValidInput"
     ></input-userTips>
     <div class="createQRcode__body-rightBTNtips">
       @for (btn of arrBTN; track btn.id){
       <app-buttons [buttonData]="btn"></app-buttons>
       }
+    </div>
+
+    <div class="rate" [ngClass]="{ open: isOpen, close: isClose }">
+      <span class="spanBold">Ваш рейтинг</span>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@
   --content: none
   display: block;
   width: 100%;
+  --borderColor:#c8c9cf
 }
 
 .userInputWrap {
@@ -23,6 +24,7 @@
 
     background: #ffffff;
     border: 1px solid #c8c9cf;
+    border-color: var(--borderColor);
     border-radius: 6px;
     flex-grow: 1;
     flex-shrink: 0;

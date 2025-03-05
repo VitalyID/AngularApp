@@ -77,15 +77,16 @@
           }
         }
 
-        & input {
-          width: 100%;
+        // & input {
+        //   width: 100%;
 
-          background: #ffffff;
-          border: 1px solid #c8c9cf;
-          border-radius: 6px;
+        //   background: #ffffff;
+        //   border: 1px solid #c8c9cf;
+        //   border-color: var(--borderColor);
+        //   border-radius: 6px;
 
-          padding: 25px;
-        }
+        //   padding: 25px;
+        // }
         // --------------------------------------
       }
     }
@@ -172,10 +173,30 @@
     & input-userTips {
       margin-bottom: 20px;
     }
+    & input-userTips.inValid {
+      --borderColor: #ff3c00;
+    }
     & .createQRcode__body-rightBTNtips {
       @include flexCenter(center, center);
       gap: 11px;
       margin-bottom: 20px;
+    }
+
+    & .close {
+      height: 10px;
+      transform: scaleY(0);
+      border: 1px solid black;
+      transition: transform 1s;
+      transform-origin: top;
+      overflow: hidden;
+    }
+
+    & .open {
+      height: 84px;
+      transform: scaleY(1);
+      border: 1px solid black;
+      transition: transform 1s;
+      transform-origin: top;
     }
   }
 }
