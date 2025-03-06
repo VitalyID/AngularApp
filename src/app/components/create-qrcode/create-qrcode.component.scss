@@ -6,6 +6,7 @@
 
 .createQRcode__title-wrap {
   margin-bottom: 30px;
+  height: auto;
 }
 
 .createQRcode__body-wrap {
@@ -183,20 +184,46 @@
     }
 
     & .close {
-      height: 10px;
+      // max-height: 0;
+      padding: 20px;
       transform: scaleY(0);
-      border: 1px solid black;
-      transition: transform 1s;
+      transition: all 1s;
       transform-origin: top;
-      overflow: hidden;
+      opacity: 0;
     }
 
     & .open {
-      height: 84px;
+      // max-height: 75px;
+      padding: 20px;
+
       transform: scaleY(1);
-      border: 1px solid black;
-      transition: transform 1s;
+      transition: all 1s;
       transform-origin: top;
+      opacity: 1;
+    }
+
+    & .rate > span {
+      display: block;
+      text-align: center;
+    }
+
+    & .feedbacks {
+      padding: 20px;
+      text-align: center;
+
+      & .feedbacks > span {
+        display: block;
+        text-align: center;
+      }
+
+      & textarea {
+        width: 100%;
+        resize: none;
+        height: 100px;
+        overflow: hidden;
+        padding: 10px;
+        border-radius: 10px;
+      }
     }
   }
 }

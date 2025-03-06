@@ -24,6 +24,7 @@ import { ButtonService } from '../buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../input-userTips/input-userTips.component';
 import { UserSetting } from '../input-userTips/types/interfaces/UserDataSetting';
+import { StarsRateComponent } from '../stars-rate/stars-rate.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SwitcherData } from '../switcher/interface/switcherDataTransmit';
 import { SwitcherComponent } from '../switcher/switcher.component';
@@ -42,6 +43,7 @@ import { EnumSwitcher } from './types/enum/enumSwitcher';
     SvgIconComponent,
     InputUserTipsComponent,
     CommonModule,
+    StarsRateComponent,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
@@ -243,7 +245,7 @@ export class CreateQRcodeComponent implements OnInit {
     console.log(data);
     // data.value === true ? (this.isOpen = true) : (this.isClose = false);
     // this.isOpen = data.value ? true : false;
-    if (data.value === true) {
+    if (data.title === 'rate' && data.value === true) {
       this.isOpen = true;
       this.isClose = false;
     } else {

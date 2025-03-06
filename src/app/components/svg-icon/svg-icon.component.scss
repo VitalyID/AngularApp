@@ -7,4 +7,9 @@
   align-items: center;
   // width: 10px;
   // height: 20px;
+  --fill: #777d82;
+}
+
+.isActive {
+  fill: var(--fill);
 }

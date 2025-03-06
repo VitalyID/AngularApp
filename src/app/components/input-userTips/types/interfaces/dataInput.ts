@@ -5,6 +5,7 @@
 // validFrom: the number, which is start for validations (number);
 // validTo: the number, which is end for validations (number);
 // unitCurrency: type currency. It work via ::before '₽' | '$' | '';
+// value :the default means
 
 export interface DataInput {
   placeholder: string;
