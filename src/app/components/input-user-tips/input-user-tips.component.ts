@@ -24,10 +24,10 @@ import { CustomRangeValidator } from '../data-input/customVakidators/customRange
 import { DataInput } from './types/interfaces/dataInput';
 
 @Component({
-  selector: 'input-userTips',
+  selector: 'input-user-tips',
   imports: [ReactiveFormsModule],
-  templateUrl: './input-userTips.component.html',
-  styleUrl: './input-userTips.component.scss',
+  templateUrl: './input-user-tips.component.html',
+  styleUrl: './input-user-tips.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputUserTipsComponent

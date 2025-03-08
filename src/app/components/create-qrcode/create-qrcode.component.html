@@ -13,10 +13,10 @@
 
       <div class="inputTips">
         @for(input of dataToInputChild; track input.inputID) {
-        <input-userTips
+        <input-user-tips
           [dataToInput]="input"
           (dataFromInput)="dataFromInput($event)"
-        ></input-userTips
+        ></input-user-tips
         >}
       </div>
     </div>
@@ -87,12 +87,12 @@
     <div class="sectionBorder"></div>
 
     <span class="spanBold">Сумма чаевых</span>
-    <input-userTips
+    <input-user-tips
       [dataToInput]="setUpTips"
       (dataFromInput)="dataFromInput($event)"
       (inValid)="inValid($event)"
       [class.inValid]="isValidInput"
-    ></input-userTips>
+    ></input-user-tips>
     <div class="createQRcode__body-rightBTNtips">
       @for (btn of arrBTN; track btn.id){
       <app-buttons [buttonData]="btn"></app-buttons>
