@@ -215,15 +215,25 @@
         display: block;
         text-align: center;
       }
+    }
 
-      & textarea {
-        width: 100%;
-        resize: none;
-        height: 100px;
-        overflow: hidden;
-        padding: 10px;
-        border-radius: 10px;
-      }
+    & .feedbackClose {
+      // max-height: 0;
+      padding: 20px;
+      transform: scaleY(0);
+      transition: all 1s;
+      opacity: 0;
+      transform-origin: top;
+    }
+
+    & .feedbackOpen {
+      // max-height: 75px;
+      padding: 20px;
+
+      transform: scaleY(1);
+      transition: all 1s;
+      opacity: 1;
+      transform-origin: top;
     }
   }
 }

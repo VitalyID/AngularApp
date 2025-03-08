@@ -104,9 +104,12 @@
       <stars-rate></stars-rate>
     </div>
 
-    <div class="feedbacks">
+    <div
+      class="feedbacks"
+      [ngClass]="{ feedbackOpen: feedbackOpen, feedbackClose: feedbackClose }"
+    >
       <span class="spanBold">Ваш отзыв</span>
-      <textarea name="feedbacks" id="feedbacks"></textarea>
+      <text-area></text-area>
     </div>
   </div>
 </div>

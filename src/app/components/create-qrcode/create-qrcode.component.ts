@@ -28,6 +28,7 @@ import { StarsRateComponent } from '../stars-rate/stars-rate.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SwitcherData } from '../switcher/interface/switcherDataTransmit';
 import { SwitcherComponent } from '../switcher/switcher.component';
+import { TextAreaComponent } from '../text-area/text-area.component';
 import { UploadLogoComponent } from '../upload-logo/upload-logo.component';
 import { EnumSwitcher } from './types/enum/enumSwitcher';
 
@@ -44,6 +45,7 @@ import { EnumSwitcher } from './types/enum/enumSwitcher';
     InputUserTipsComponent,
     CommonModule,
     StarsRateComponent,
+    TextAreaComponent,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',
@@ -57,6 +59,8 @@ export class CreateQRcodeComponent implements OnInit {
   isValidInput: boolean = false;
   isOpen: boolean = false;
   isClose: boolean = true;
+  feedbackOpen: boolean = false;
+  feedbackClose: boolean = true;
 
   // UserDataSettings send to server
   UserDataSettings: UserSetting[] = [
@@ -113,6 +117,14 @@ export class CreateQRcodeComponent implements OnInit {
     validFrom: '0',
     validTo: '1000',
     value: '',
+  };
+
+  textarea: DataInput = {
+    placeholder: '',
+    type: 'string',
+    inputID: '5',
+    value: '',
+    unitCurrency: '',
   };
 
   // Its data from input about amount user-tips
@@ -185,7 +197,7 @@ export class CreateQRcodeComponent implements OnInit {
       .subscribe((data) => {
         switch (data.id) {
           case 8:
-            console.log(2222222, this.arrBTN[0].text?.split(' ')[0]);
+            // console.log(2222222, this.arrBTN[0].text?.split(' ')[0]);
             this.setUpTips.value = String(this.arrBTN[0].text?.split(' ')[0]);
             const setUpTips1 = {
               ...this.setUpTips,
@@ -243,16 +255,23 @@ export class CreateQRcodeComponent implements OnInit {
 
   switcherFromChild(data: SwitcherData) {
     console.log(data);
-    // data.value === true ? (this.isOpen = true) : (this.isClose = false);
-    // this.isOpen = data.value ? true : false;
     if (data.title === 'rate' && data.value === true) {
       this.isOpen = true;
       this.isClose = false;
-    } else {
+    } else if (data.title === 'rate' && data.value === false) {
+      console.log(111);
+
       this.isOpen = false;
       this.isClose = true;
     }
-    this.#cdr.detectChanges();
+
+    if (data.title === 'feedback' && data.value === true) {
+      this.feedbackOpen = true;
+      this.feedbackClose = false;
+    } else if (data.title === 'feedback' && data.value === false) {
+      this.feedbackOpen = false;
+      this.feedbackClose = true;
+    }
   }
 
   updateBTNtext(data: { [key: string]: number }) {

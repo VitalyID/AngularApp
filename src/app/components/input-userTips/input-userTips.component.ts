@@ -73,8 +73,10 @@ export class InputUserTipsComponent
 
       // validation by key-string
     } else if (this.dataToInput.type === 'string') {
+      console.log('string');
+
       const forbiddenLetter = ['<', '>', ';', '"', "'", '\\'];
-      if (!forbiddenLetter.includes(event.key)) {
+      if (forbiddenLetter.includes(event.key)) {
         event.preventDefault();
       }
     }
