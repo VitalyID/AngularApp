@@ -54,41 +54,6 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-
-        // & input-usertips {
-        //   --width: 100%;
-        //   flex: 1;
-        // }
-      }
-
-      & .createQRcode__body-form {
-        @include flexCenter(center, center);
-        gap: 10px;
-        // --------------------------------------
-        & .createQRcode__body-inputContainer {
-          width: 33%;
-          position: relative;
-
-          &::after {
-            content: "₽";
-            position: absolute;
-            right: 10%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-          }
-        }
-
-        // & input {
-        //   width: 100%;
-
-        //   background: #ffffff;
-        //   border: 1px solid #c8c9cf;
-        //   border-color: var(--borderColor);
-        //   border-radius: 6px;
-
-        //   padding: 25px;
-        // }
-        // --------------------------------------
       }
     }
 

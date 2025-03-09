@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -9,21 +10,18 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { SharedModule } from '../../shared.module';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { DataInput } from '../input-user-tips/types/interfaces/dataInput';
-// import { UserSettingData } from '../../types/interfaces/userSettingData';
-import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonData } from '../../types/sectionItem';
 import { ButtonService } from '../buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../input-user-tips/input-user-tips.component';
-import { UserSetting } from '../input-user-tips/types/interfaces/UserDataSetting';
+import { DataInput } from '../input-user-tips/types/interfaces/dataInput';
 import { StarsRateComponent } from '../stars-rate/stars-rate.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SwitcherData } from '../switcher/interface/switcherDataTransmit';
@@ -36,7 +34,6 @@ import { EnumSwitcher } from './types/enum/enumSwitcher';
   selector: 'create-qrcode',
   imports: [
     ReactiveFormsModule,
-    // NgxMaskDirective,
     SwitcherComponent,
     ColorPickerComponent,
     UploadLogoComponent,
@@ -61,90 +58,63 @@ export class CreateQRcodeComponent implements OnInit {
   isClose: boolean = true;
   feedbackOpen: boolean = false;
   feedbackClose: boolean = true;
+  listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
+  enumSwitcher = EnumSwitcher;
+  userSettingData: any = {};
+  myForm!: FormGroup;
 
   // UserDataSettings send to server
-  UserDataSettings: UserSetting[] = [
-    {
-      'inputID-1': 100,
-    },
-    {
-      'inputID-2': 150,
-    },
-    {
-      'inputID-3': 200,
-    },
-  ];
+  // userDataSettings: UserSetting[] = [
+  //   {
+  //     'inputID-1': 100,
+  //   },
+  //   {
+  //     'inputID-2': 150,
+  //   },
+  //   {
+  //     'inputID-3': 200,
+  //   },
+  // ];
 
   dataToInputChild: DataInput[] = [
     {
       placeholder: '100',
-      type: 'number',
+
       inputID: 'inputID-1',
       validation: true,
-      unitCurrency: '₽',
-      validFrom: '0',
-      validTo: '1000',
+      unitCurrency: 'rub',
+
       value: '',
     },
     {
       placeholder: '150',
-      type: 'number',
       inputID: 'inputID-2',
       validation: true,
-      unitCurrency: '₽',
-      validFrom: '0',
-      validTo: '1000',
+      unitCurrency: 'rub',
       value: '',
     },
     {
       placeholder: '200',
-      type: 'number',
       inputID: 'inputID-3',
       validation: true,
-      unitCurrency: '₽',
-      validFrom: '0',
-      validTo: '1000',
+      unitCurrency: 'rub',
       value: '',
     },
   ];
 
   setUpTips: DataInput = {
     placeholder: 'от 100 до 600',
-    type: 'number',
     inputID: 'inputID-4',
     validation: true,
-    unitCurrency: '₽',
-    validFrom: '0',
-    validTo: '1000',
+    unitCurrency: 'rub',
     value: '',
   };
-
-  textarea: DataInput = {
-    placeholder: '',
-    type: 'string',
-    inputID: '5',
-    value: '',
-    unitCurrency: '',
-  };
-
-  // Its data from input about amount user-tips
-  dataFromInput(data: {}) {
-    // console.log('Data from Input: ', data);
-    // this.updateUserSetting(data);
-    this.updateBTNtext(data);
-  }
-
-  listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
-  enumSwitcher = EnumSwitcher;
 
   svgLogo: SvgSpriteSetting = {
     iconID: 'Logo',
     height: '40px',
     width: '200px',
   };
-
-  UserSettingData: any = {};
-  myForm!: FormGroup;
 
   btnText: ButtonData = {
     id: 7,
@@ -174,13 +144,13 @@ export class CreateQRcodeComponent implements OnInit {
       borderStyle: 'none',
     },
   ];
+
   readonly #routeService = inject(RoutIDservice);
   readonly #route = inject(ActivatedRoute);
   readonly #cdr = inject(ChangeDetectorRef);
   readonly #render2 = inject(Renderer2);
-  readonly #fb = inject(FormBuilder);
+  // readonly #fb = inject(FormBuilder);
   readonly #destroyRef = inject(DestroyRef);
-  // readonly #btnService = inject(ListenerService);
   readonly #btnClick = inject(ButtonService);
 
   ngOnInit(): void {
@@ -189,15 +159,12 @@ export class CreateQRcodeComponent implements OnInit {
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];
     this.#routeService.getDataRoute(this.asideID);
-    // this.#cdr.markForCheck();
-    // this.#cdr.detectChanges();
 
     this.#btnClick.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         switch (data.id) {
           case 8:
-            // console.log(2222222, this.arrBTN[0].text?.split(' ')[0]);
             this.setUpTips.value = String(this.arrBTN[0].text?.split(' ')[0]);
             const setUpTips1 = {
               ...this.setUpTips,
@@ -245,7 +212,7 @@ export class CreateQRcodeComponent implements OnInit {
     this.#cdr.markForCheck();
     reader.readAsDataURL(data);
 
-    this.UserSettingData.picture = data;
+    this.userSettingData.picture = data;
   }
 
   inValid(data: {}) {
@@ -259,8 +226,6 @@ export class CreateQRcodeComponent implements OnInit {
       this.isOpen = true;
       this.isClose = false;
     } else if (data.title === 'rate' && data.value === false) {
-      console.log(111);
-
       this.isOpen = false;
       this.isClose = true;
     }

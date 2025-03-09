@@ -15,7 +15,7 @@
         @for(input of dataToInputChild; track input.inputID) {
         <input-user-tips
           [dataToInput]="input"
-          (dataFromInput)="dataFromInput($event)"
+          (dataFromInput)="updateBTNtext($event)"
         ></input-user-tips
         >}
       </div>
@@ -89,7 +89,7 @@
     <span class="spanBold">Сумма чаевых</span>
     <input-user-tips
       [dataToInput]="setUpTips"
-      (dataFromInput)="dataFromInput($event)"
+      (dataFromInput)="updateBTNtext($event)"
       (inValid)="inValid($event)"
       [class.inValid]="isValidInput"
     ></input-user-tips>

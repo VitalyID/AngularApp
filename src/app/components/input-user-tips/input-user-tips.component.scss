@@ -4,7 +4,19 @@
   display: block;
   width: 100%;
   --borderColor:#c8c9cf
+
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 
 .userInputWrap {
   position: relative;
@@ -12,7 +24,7 @@
   width: 100%;
 
   &::after {
-    content: var(--content);
+    // content: var(--content);
     position: absolute;
     right: 10%;
     top: 50%;
@@ -33,3 +45,15 @@
     margin-bottom: 20px;
   }
 }
+
+.rub {
+
+  &::after {
+    content: '₽';
+  }}
+
+  .usd {
+
+    &::after {
+      content: '$';
+    }}

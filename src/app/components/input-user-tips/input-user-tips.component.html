@@ -1,6 +1,15 @@
-<div class="userInputWrap">
+<div
+  class="userInputWrap"
+  [class]="{
+    rub: isCurrency === 'rub',
+    usd: isCurrency === 'usd',
+    noneCurrency: isCurrency === 'none'
+  }"
+>
   <input
-    type="text"
+    type="number"
+    min="0"
+    max="10000"
     [placeholder]="dataToInput.placeholder"
     [formControl]="myForm"
   />
