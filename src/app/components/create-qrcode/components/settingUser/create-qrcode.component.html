@@ -13,11 +13,7 @@
 
       <div class="inputTips">
         @for(input of dataToInputChild; track input.inputID) {
-        <input-user-tips
-          [dataToInput]="input"
-          (dataFromInput)="updateBTNtext($event)"
-        ></input-user-tips
-        >}
+        <input-user-tips [dataToInput]="input"></input-user-tips>}
       </div>
     </div>
 
@@ -49,7 +45,9 @@
     <!-- ------------------ -->
 
     <div class="createQRcode__body-uploadLogo">
-      <upload-logo (uploadedFile)="uploadedFile($event)"></upload-logo>
+      <upload-logo></upload-logo>
+
+      <!-- <upload-logo (uploadedFile)="uploadedFile($event)"></upload-logo> -->
     </div>
 
     <!------------------- -->
@@ -65,7 +63,9 @@
   </div>
 
   <div class="createQRcode__body-right">
-    <span class="spanBold">Так выглядит ваша страница</span>
+    <user-preview></user-preview>
+
+    <!-- <span class="spanBold">Так выглядит ваша страница</span>
     <div class="sectionBorder"></div>
 
     <div class="createQRcode__right-wrap">
@@ -73,7 +73,7 @@
 
       <div class="createQRcode__body-aboutMe">
         <img
-          src="../../../assets/images/Avatarz_white_156 1.png"
+          src="../../../assets/images/logoDefault.png"
           alt=""
           class="logo"
           #preview
@@ -110,6 +110,6 @@
     >
       <span class="spanBold">Ваш отзыв</span>
       <text-area></text-area>
-    </div>
+    </div> -->
   </div>
 </div>

@@ -1,0 +1,38 @@
+<div class="userPreview__Span">
+  <span class="spanBold">Так выглядит ваша страница</span>
+</div>
+
+<div class="sectionBorder"></div>
+
+<div class="userPreview__about">
+  <svg-icon [svgSetting]="svgLogo"></svg-icon>
+
+  <div class="userPreview__about--me">
+    <img
+      src="../../../assets/images/logoDefault.png"
+      alt=""
+      class="logo"
+      #preview
+    />
+    <div class="userPreview__about--info">
+      <span class="spanBold"><b>Смирнов Виталий</b></span>
+      <span class="spanThink">Сотрудник в Фитнес Территория</span>
+    </div>
+  </div>
+</div>
+
+<div class="sectionBorder"></div>
+
+<div class="userPreview__setTips">
+  <span class="spanBold">Сумма чаевых</span>
+  <input-user-tips [dataToInput]="setUpTips"></input-user-tips>
+
+  <div class="userPreview__setTips--btn">
+    @for (btn of arrBTN; track btn.id){
+    <app-buttons [buttonData]="btn"></app-buttons>
+    }
+  </div>
+</div>
+<!-- (dataFromInput)="updateBTNtext($event)" -->
+<!-- (inValid)="inValid($event)"
+[class.inValid]="isValidInput" -->

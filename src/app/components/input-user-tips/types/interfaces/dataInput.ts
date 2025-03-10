@@ -8,6 +8,8 @@ export interface DataInput {
   placeholder: string;
   inputID: string;
   validation?: boolean;
+  validationFrom?: string;
+  validationTo?: string;
   unitCurrency?: string;
   value: string;
 }

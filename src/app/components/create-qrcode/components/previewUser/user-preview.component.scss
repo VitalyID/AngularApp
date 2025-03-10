@@ -1,0 +1,62 @@
+@mixin flexCenter($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+.userPreview__Span {
+  padding: 25px 30px 0px;
+
+  & span {
+    margin-bottom: 25px;
+    display: block;
+  }
+}
+
+.sectionBorder {
+  background: #e1e3e1;
+  height: 2px;
+  margin-bottom: 30px;
+}
+
+.userPreview__about,
+.userPreview__setTips {
+  @include flexCenter(center, start);
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 0px 30px;
+
+  & .userPreview__about--me {
+    @include flexCenter(left, center);
+    gap: 20px;
+
+    & .logo {
+      width: 33%;
+      max-width: 90px;
+      height: 90px;
+      overflow: hidden;
+      background-color: burlywood;
+      border-radius: 10px;
+    }
+
+    & .userPreview__about--info {
+      width: 66%;
+
+      & span {
+        display: block;
+
+        &:nth-child(1) {
+          margin-bottom: 18px;
+        }
+      }
+    }
+  }
+
+  & .userPreview__setTips--btn {
+    @include flexCenter(center, center);
+    gap: 11px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+}

@@ -10,7 +10,9 @@
     type="number"
     min="0"
     max="10000"
-    [placeholder]="dataToInput.placeholder"
     [formControl]="myForm"
+    [class.inValid]="myForm.hasError('rangeErr')"
+    [placeholder]="dataToInput.placeholder"
   />
 </div>
+<!-- [placeholder]="dataToInput.placeholder" -->
