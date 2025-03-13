@@ -1,0 +1,11 @@
+<div class="container">
+  @for(img of arrImg; track img.grade){
+  <div
+    class="amodzieWrap"
+    [class.active]="gradeActive === img.grade"
+    (click)="onClick(img.grade)"
+  >
+    <img [src]="img.path" alt="#" />
+  </div>
+  }
+</div>

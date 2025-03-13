@@ -6,6 +6,8 @@ export function CustomRangeValidator(
 ): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const inputValue = Number(control.value);
+    // console.log(inputValue);
+
     const numberFrom = Number(rangeFrom);
     const numberTo = Number(rangeTo);
 

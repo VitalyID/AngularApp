@@ -24,10 +24,7 @@
     <div class="createQRcode__body-about">
       @for(item of listSwitchKeys; track $index) {
       <span>{{ enumSwitcher[item] }}</span>
-      <switcher
-        [title]="item"
-        (statusSwitcher)="switcherFromChild($event)"
-      ></switcher>
+      <switcher [title]="item"></switcher>
       }
     </div>
 
@@ -113,3 +110,5 @@
     </div> -->
   </div>
 </div>
+
+<!-- (statusSwitcher)="switcherFromChild($event)" -->

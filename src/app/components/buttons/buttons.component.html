@@ -5,6 +5,7 @@
   (click)="clickOn()"
   [style.border]="buttonData?.borderStyle"
   [style.boxShadow]="buttonData?.boxShadow"
+  [class.isActive]="buttonData?.isActive"
 >
   <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
   {{ buttonData?.text }}

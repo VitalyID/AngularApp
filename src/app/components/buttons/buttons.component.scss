@@ -27,6 +27,18 @@ button {
 
   color: #ffffff;
   cursor: pointer;
+
+  // & :disabled {
+  //   background: gray !important;
+  //   color: black;
+  //   cursor: none;
+  //   opacity: 0.6;
+  // }
+}
+
+.isActive {
+  background-color: #3bc76b !important;
+  border: 1px solid black !important;
 }
 
 .icon-add-outline:before {

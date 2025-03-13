@@ -1,14 +1,20 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  EventEmitter,
   inject,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UserSetButtonService } from '../create-qrcode/components/services/userSetUpTips.service';
 import { CustomRangeValidator } from './customVakidators/customRangeValidator';
 import { DataInput } from './types/interfaces/dataInput';
@@ -27,12 +33,12 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
     value: '',
     unitCurrency: '',
   };
+  @Output() isValid = new EventEmitter();
 
   isCurrency?: string;
 
   readonly #fb = inject(FormBuilder);
   readonly #btnTipsService = inject(UserSetButtonService);
-  readonly #cdr = inject(ChangeDetectorRef);
 
   myForm: FormControl = this.#fb.control('');
 
@@ -40,14 +46,16 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
     if (this.dataToInput.validation === true) {
       this.myForm = this.#fb.control(this.dataToInput.value, [
         CustomRangeValidator('0', '1000'),
+        Validators.min(1),
       ]);
     }
 
     this.myForm.valueChanges.subscribe((value) => {
       const userNumber = Number(value);
-      console.log('user ввел данные', userNumber);
 
-      const valueInput = { [this.dataToInput.inputID]: userNumber };
+      const valueInput = {
+        [this.dataToInput.inputID]: userNumber,
+      };
 
       this.#btnTipsService.getTipsFromInput(valueInput);
 
@@ -55,32 +63,23 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
       if (this.myForm.hasError('rangeErr')) {
         this.myForm.setValue(1000);
       }
+
+      this.isValid.emit({ [this.dataToInput.inputID]: this.myForm.value });
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let newValue = '';
+    // setUp text to btn, after loading page (input=none)
+
     if (changes['dataToInput']) {
-      console.log('ngOnChanges срабатывает');
+      const newValue = changes['dataToInput'].currentValue.placeholder;
+      this.#btnTipsService.getTipsFromInput({
+        [this.dataToInput.inputID]: newValue,
+      });
 
-      if (changes['dataToInput'].currentValue.value === '') {
-        newValue = changes['dataToInput'].currentValue.value;
-        console.log('плейсхлдер: ', newValue);
-
-        console.log(this.dataToInput);
+      if (changes['dataToInput'].currentValue.value) {
+        this.myForm.setValue(this.dataToInput.value);
       }
-      this.#cdr.detectChanges();
-      this.#cdr.markForCheck();
-      this.myForm.setValue(this.dataToInput);
     }
-    // else {
-    //     console.log('значение', changes['dataToInput'].currentValue.value);
-    //     newValue = changes['dataToInput'].currentValue.value;
-    //   }
-    //   this.isCurrency = this.dataToInput.unitCurrency;
-    //   // this.#btnTipsService.getTipsFromInput({
-    //   //   [this.dataToInput.inputID]: newValue,
-    //   // });
-    // }
   }
 }

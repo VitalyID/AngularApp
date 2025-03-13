@@ -25,7 +25,10 @@
 
 <div class="userPreview__setTips">
   <span class="spanBold">Сумма чаевых</span>
-  <input-user-tips [dataToInput]="setUpTips"></input-user-tips>
+  <input-user-tips
+    [dataToInput]="setUpTips"
+    (isValid)="validInput($event)"
+  ></input-user-tips>
 
   <div class="userPreview__setTips--btn">
     @for (btn of arrBTN; track btn.id){
@@ -33,6 +36,28 @@
     }
   </div>
 </div>
-<!-- (dataFromInput)="updateBTNtext($event)" -->
-<!-- (inValid)="inValid($event)"
-[class.inValid]="isValidInput" -->
+
+<div class="userPreview__rate" [ngClass]="{ open: isOpen, close: isClose }">
+  <span class="spanBold">Ваш рейтинг</span>
+  <stars-rate></stars-rate>
+</div>
+
+<div
+  class="userPreview__feedbacks"
+  [ngClass]="{ feedbackOpen: isFeedbackOpen, feedbackClose: isFeedbackClose }"
+>
+  <span class="spanBold">Ваш отзыв</span>
+  <feedbacks></feedbacks>
+</div>
+
+<div
+  class="userPreview__feeling"
+  [ngClass]="{ amodzieClose: isAmodzieClose, amodzieOpen: isAmodzieOpen }"
+>
+  <span class="spanBold">Ваши впечатления</span>
+  <amodzie></amodzie>
+</div>
+
+<div class="userPreview__sendData">
+  <app-buttons [buttonData]="btnSendData"></app-buttons>
+</div>

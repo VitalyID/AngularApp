@@ -1,7 +1,18 @@
+:host {
+  height: auto;
+}
+
 @mixin flexCenter($justify: center, $align: center) {
   display: flex;
   justify-content: $justify;
   align-items: $align;
+}
+
+@mixin general($direction: column, $gap: 20px, $mb: 30px, $p: 0px 30px) {
+  flex-direction: $direction;
+  gap: $gap;
+  margin-bottom: $mb;
+  padding: $p;
 }
 
 .userPreview__Span {
@@ -22,10 +33,7 @@
 .userPreview__about,
 .userPreview__setTips {
   @include flexCenter(center, start);
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 30px;
-  padding: 0px 30px;
+  @include general(column);
 
   & .userPreview__about--me {
     @include flexCenter(left, center);
@@ -58,5 +66,98 @@
     gap: 11px;
     margin-bottom: 20px;
     width: 100%;
+
+    & .isActive {
+      background-color: green;
+      border: 1px solid black;
+    }
   }
+}
+
+.userPreview__rate {
+  @include flexCenter(center, center);
+  @include general(column);
+  overflow: hidden;
+}
+
+.open {
+  height: 85px;
+  transition: all 1s;
+  transform-origin: top;
+}
+
+.close {
+  height: 0;
+  transition: all 1s;
+  transform-origin: top;
+  margin: 0;
+}
+
+.userPreview__rate > span {
+  display: block;
+  text-align: center;
+}
+
+.userPreview__feedbacks {
+  @include general(column, 0px);
+  @include flexCenter($align: "stretch");
+  overflow: hidden;
+  width: 100%;
+
+  & span {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+
+.feedbackClose {
+  height: 0px;
+  transform-origin: top;
+  margin-bottom: 0;
+  transition: all 1s;
+  width: 100%;
+}
+
+.feedbackOpen {
+  height: 202px;
+  transform-origin: top;
+  margin-bottom: 30px;
+  transition: all 1s;
+  width: 100%;
+  // align-items: stretch;
+}
+
+.userPreview__feeling {
+  @include general(column, 0px);
+  @include flexCenter($align: "stretch");
+  overflow: hidden;
+  width: 100%;
+
+  & span {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+
+.amodzieClose {
+  height: 0px;
+  transform-origin: top;
+  margin-bottom: 0;
+  transition: all 1s;
+  width: 100%;
+}
+
+.amodzieOpen {
+  height: 96px;
+  transform-origin: top;
+  margin-bottom: 30px;
+  transition: all 1s;
+  width: 100%;
+}
+
+.userPreview__sendData {
+  @include flexCenter();
+  margin-bottom: 30px;
 }

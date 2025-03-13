@@ -19,7 +19,6 @@ import { InputUserTipsComponent } from '../../../input-user-tips/input-user-tips
 import { DataInput } from '../../../input-user-tips/types/interfaces/dataInput';
 import { StarsRateComponent } from '../../../stars-rate/stars-rate.component';
 import { SvgIconComponent } from '../../../svg-icon/svg-icon.component';
-import { SwitcherData } from '../../../switcher/interface/switcherDataTransmit';
 import { SwitcherComponent } from '../../../switcher/switcher.component';
 import { TextAreaComponent } from '../../../text-area/text-area.component';
 import { UploadLogoComponent } from '../../../upload-logo/upload-logo.component';
@@ -141,24 +140,5 @@ export class CreateQRcodeComponent implements OnInit {
   inValid(data: {}) {
     this.isValidInput = data ? true : false;
     this.#cdr.detectChanges();
-  }
-
-  switcherFromChild(data: SwitcherData) {
-    console.log(data);
-    if (data.title === 'rate' && data.value === true) {
-      this.isOpen = true;
-      this.isClose = false;
-    } else if (data.title === 'rate' && data.value === false) {
-      this.isOpen = false;
-      this.isClose = true;
-    }
-
-    if (data.title === 'feedback' && data.value === true) {
-      this.feedbackOpen = true;
-      this.feedbackClose = false;
-    } else if (data.title === 'feedback' && data.value === false) {
-      this.feedbackOpen = false;
-      this.feedbackClose = true;
-    }
   }
 }

@@ -13,6 +13,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { SwitcherStyles } from './interface/SwitcherStyles';
 import { SwitcherData } from './interface/switcherDataTransmit';
+import { SwitcherStateService } from './service/switch.service';
 
 @Component({
   selector: 'switcher',
@@ -45,6 +46,7 @@ export class SwitcherComponent implements OnInit {
   readonly #elRef = inject(ElementRef);
   readonly #render = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
+  readonly #switcherService = inject(SwitcherStateService);
 
   id: string = '';
   value: boolean = false;
@@ -68,7 +70,8 @@ export class SwitcherComponent implements OnInit {
   sendValue(data: Event) {
     this.value = (data.target as HTMLInputElement).checked;
     this.switcherForParent = { title: this.title, value: this.value };
-    this.statusSwitcher.emit(this.switcherForParent);
+    // this.statusSwitcher.emit(this.switcherForParent);
+    this.#switcherService.getStatusSwitcher(this.switcherForParent);
   }
 
   ngOnInit(): void {
