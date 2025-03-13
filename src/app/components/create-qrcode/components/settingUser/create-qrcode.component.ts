@@ -54,7 +54,9 @@ export class CreateQRcodeComponent implements OnInit {
   isClose: boolean = true;
   feedbackOpen: boolean = false;
   feedbackClose: boolean = true;
-  listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
+  // listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
+  listSwitchKeys = Object.keys(EnumSwitcher);
+
   enumSwitcher = EnumSwitcher;
   userSettingData: any = {};
   myForm!: FormGroup;

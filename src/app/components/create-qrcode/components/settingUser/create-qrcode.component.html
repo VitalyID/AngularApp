@@ -22,10 +22,12 @@
     <!-- ---------------- -->
 
     <div class="createQRcode__body-about">
-      @for(item of listSwitchKeys; track $index) {
-      <span>{{ enumSwitcher[item] }}</span>
-      <switcher [title]="item"></switcher>
-      }
+      <span>{{ enumSwitcher.rate }}</span>
+      <switcher [title]="listSwitchKeys[0]"></switcher>
+      <span>{{ enumSwitcher.feedback }}</span>
+      <switcher [title]="listSwitchKeys[1]"></switcher>
+      <span>{{ enumSwitcher.impressions }}</span>
+      <switcher [title]="listSwitchKeys[2]"></switcher>
     </div>
 
     <!-- ------------------- -->
