@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   Input,
   OnInit,
 } from '@angular/core';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
-import { QRcodeService } from './services/qr-code.service';
 
 @Component({
   selector: 'qr-card',
@@ -19,7 +17,7 @@ import { QRcodeService } from './services/qr-code.service';
 export class QrCardComponent implements OnInit {
   @Input({ required: true }) src: string = '';
 
-  readonly #qrService = inject(QRcodeService);
+  // readonly #qrService = inject(QRcodeService);
 
   ngOnInit(): void {}
 
@@ -29,25 +27,25 @@ export class QrCardComponent implements OnInit {
     height: '20px',
     fill: 'black',
   };
-  svgSettingFooter1: SvgSpriteSetting = {
+  svgChartIcon: SvgSpriteSetting = {
     iconID: 'icon-Chart',
     width: '24px',
     height: '24px',
     fill: 'black',
   };
-  svgSettingFooter2: SvgSpriteSetting = {
+  svgShareIcon: SvgSpriteSetting = {
     iconID: 'icon-share',
     width: '24px',
     height: '24px',
     fill: 'black',
   };
-  svgSettingFooter3: SvgSpriteSetting = {
+  svgEditIcon: SvgSpriteSetting = {
     iconID: 'icon-Edit',
     width: '24px',
     height: '24px',
     fill: 'black',
   };
-  svgSettingFooter4: SvgSpriteSetting = {
+  svgDeleteIcon: SvgSpriteSetting = {
     iconID: 'icon-delete',
     width: '24px',
     height: '24px',

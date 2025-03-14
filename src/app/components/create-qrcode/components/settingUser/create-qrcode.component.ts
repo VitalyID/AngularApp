@@ -130,7 +130,7 @@ export class CreateQRcodeComponent implements OnInit {
 
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];
-    this.#routeService.getDataRoute(this.asideID);
+    this.#routeService.getIDroute(this.asideID);
   }
 
   listItemSwitch() {

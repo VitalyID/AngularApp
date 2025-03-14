@@ -40,7 +40,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];
     // send routID to service
-    this.#routService.getDataRoute(this.asideID);
+    this.#routService.getIDroute(this.asideID);
 
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))

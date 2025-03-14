@@ -41,7 +41,7 @@ export class MyQRComponent implements OnInit {
 
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];
-    this.#routService.getDataRoute(this.asideID);
+    this.#routService.getIDroute(this.asideID);
 
     this.#buttonService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))

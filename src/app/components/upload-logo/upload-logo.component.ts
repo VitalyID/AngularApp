@@ -22,10 +22,8 @@ import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.servi
 })
 export class UploadLogoComponent implements OnInit {
   @ViewChild('fileInput') input?: ElementRef;
-  // @ViewChild('customInput') customInput?: ElementRef;
-  // @Output() uploadedFile = new EventEmitter<File>();
 
-  btnText: ButtonData = {
+  uploadPhoto: ButtonData = {
     iconClass: 'icon-icon-upload',
     id: 6,
     text: 'Загрузите логотип',
