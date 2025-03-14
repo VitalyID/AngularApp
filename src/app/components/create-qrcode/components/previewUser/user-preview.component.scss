@@ -15,7 +15,7 @@
   padding: $p;
 }
 
-.userPreview__Span {
+.userPreview__top {
   padding: 25px 30px 0px;
 
   & span {
@@ -24,53 +24,52 @@
   }
 }
 
-.sectionBorder {
+.userPreview__sectionBorder {
   background: #e1e3e1;
   height: 2px;
   margin-bottom: 30px;
 }
 
-.userPreview__about,
+.userPreview__about {
+  @include flexCenter(center, start);
+  @include general(column);
+
+  &--me {
+    @include flexCenter(left, center);
+    gap: 20px;
+  }
+
+  &--meLogo {
+    width: 33%;
+    max-width: 90px;
+    height: 90px;
+    overflow: hidden;
+    background-color: burlywood;
+    border-radius: 10px;
+  }
+
+  &--meInfo {
+    width: 66%;
+
+    & span {
+      display: block;
+
+      &:nth-child(1) {
+        margin-bottom: 18px;
+      }
+    }
+  }
+}
+
 .userPreview__setTips {
   @include flexCenter(center, start);
   @include general(column);
 
-  & .userPreview__about--me {
-    @include flexCenter(left, center);
-    gap: 20px;
-
-    & .logo {
-      width: 33%;
-      max-width: 90px;
-      height: 90px;
-      overflow: hidden;
-      background-color: burlywood;
-      border-radius: 10px;
-    }
-
-    & .userPreview__about--info {
-      width: 66%;
-
-      & span {
-        display: block;
-
-        &:nth-child(1) {
-          margin-bottom: 18px;
-        }
-      }
-    }
-  }
-
-  & .userPreview__setTips--btn {
+  &--btn {
     @include flexCenter(center, center);
     gap: 11px;
     margin-bottom: 20px;
     width: 100%;
-
-    & .isActive {
-      background-color: green;
-      border: 1px solid black;
-    }
   }
 }
 
@@ -78,24 +77,24 @@
   @include flexCenter(center, center);
   @include general(column);
   overflow: hidden;
-}
 
-.open {
-  height: 85px;
-  transition: all 1s;
-  transform-origin: top;
-}
+  &--open {
+    height: 85px;
+    transition: all 1s;
+    transform-origin: top;
+  }
 
-.close {
-  height: 0;
-  transition: all 1s;
-  transform-origin: top;
-  margin: 0;
-}
+  &--close {
+    height: 0;
+    transition: all 1s;
+    transform-origin: top;
+    margin: 0;
+  }
 
-.userPreview__rate > span {
-  display: block;
-  text-align: center;
+  & > span {
+    display: block;
+    text-align: center;
+  }
 }
 
 .userPreview__feedbacks {
@@ -109,23 +108,22 @@
     text-align: center;
     margin-bottom: 30px;
   }
-}
 
-.feedbackClose {
-  height: 0px;
-  transform-origin: top;
-  margin-bottom: 0;
-  transition: all 1s;
-  width: 100%;
-}
+  &--close {
+    height: 0px;
+    transform-origin: top;
+    margin-bottom: 0;
+    transition: all 1s;
+    width: 100%;
+  }
 
-.feedbackOpen {
-  height: 202px;
-  transform-origin: top;
-  margin-bottom: 30px;
-  transition: all 1s;
-  width: 100%;
-  // align-items: stretch;
+  &--open {
+    height: 202px;
+    transform-origin: top;
+    margin-bottom: 30px;
+    transition: all 1s;
+    width: 100%;
+  }
 }
 
 .userPreview__feeling {
@@ -139,25 +137,26 @@
     text-align: center;
     margin-bottom: 30px;
   }
-}
 
-.amodzieClose {
-  height: 0px;
-  transform-origin: top;
-  margin-bottom: 0;
-  transition: all 1s;
-  width: 100%;
-}
+  &--close {
+    height: 0px;
+    transform-origin: top;
+    margin-bottom: 0;
+    transition: all 1s;
+    width: 100%;
+  }
 
-.amodzieOpen {
-  height: 96px;
-  transform-origin: top;
-  margin-bottom: 30px;
-  transition: all 1s;
-  width: 100%;
+  &--open {
+    height: 96px;
+    transform-origin: top;
+    margin-bottom: 30px;
+    transition: all 1s;
+    width: 100%;
+  }
 }
 
 .userPreview__sendData {
-  @include flexCenter();
+  @include flexCenter(start);
   margin-bottom: 30px;
+  padding: 0 30px;
 }

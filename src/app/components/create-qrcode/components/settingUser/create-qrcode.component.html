@@ -11,7 +11,7 @@
     <div class="createQRcode__body-wrapForm">
       <span>Предустановленные суммы чаевых</span>
 
-      <div class="inputTips">
+      <div class="createQRcode__body-wrapForm-tips">
         @for(input of dataToInputChild; track input.inputID) {
         <input-user-tips [dataToInput]="input"></input-user-tips>}
       </div>
@@ -45,15 +45,13 @@
 
     <div class="createQRcode__body-uploadLogo">
       <upload-logo></upload-logo>
-
-      <!-- <upload-logo (uploadedFile)="uploadedFile($event)"></upload-logo> -->
     </div>
 
     <!------------------- -->
     <!-- section colorBTN -->
     <!-- ---------------- -->
 
-    <div class="setupColorBTN">
+    <div class="createQRcode__body-setupColorBTN">
       <span>Код цвета для кнопки</span>
       <color-picker></color-picker>
     </div>
@@ -63,54 +61,5 @@
 
   <div class="createQRcode__body-right">
     <user-preview></user-preview>
-
-    <!-- <span class="spanBold">Так выглядит ваша страница</span>
-    <div class="sectionBorder"></div>
-
-    <div class="createQRcode__right-wrap">
-      <svg-icon [svgSetting]="svgLogo"></svg-icon>
-
-      <div class="createQRcode__body-aboutMe">
-        <img
-          src="../../../assets/images/logoDefault.png"
-          alt=""
-          class="logo"
-          #preview
-        />
-        <div class="createQRcode__body-info">
-          <span class="spanBold"><b>Смирнов Виталий</b></span>
-          <span class="spanThink">Сотрудник в Фитнес Территория</span>
-        </div>
-      </div>
-    </div>
-    <div class="sectionBorder"></div>
-
-    <span class="spanBold">Сумма чаевых</span>
-    <input-user-tips
-      [dataToInput]="setUpTips"
-      (dataFromInput)="updateBTNtext($event)"
-      (inValid)="inValid($event)"
-      [class.inValid]="isValidInput"
-    ></input-user-tips>
-    <div class="createQRcode__body-rightBTNtips">
-      @for (btn of arrBTN; track btn.id){
-      <app-buttons [buttonData]="btn"></app-buttons>
-      }
-    </div>
-
-    <div class="rate" [ngClass]="{ open: isOpen, close: isClose }">
-      <span class="spanBold">Ваш рейтинг</span>
-      <stars-rate></stars-rate>
-    </div>
-
-    <div
-      class="feedbacks"
-      [ngClass]="{ feedbackOpen: feedbackOpen, feedbackClose: feedbackClose }"
-    >
-      <span class="spanBold">Ваш отзыв</span>
-      <text-area></text-area>
-    </div> -->
   </div>
 </div>
-
-<!-- (statusSwitcher)="switcherFromChild($event)" -->

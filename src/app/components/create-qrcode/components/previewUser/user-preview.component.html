@@ -1,8 +1,8 @@
-<div class="userPreview__Span">
+<div class="userPreview__top">
   <span class="spanBold">Так выглядит ваша страница</span>
 </div>
 
-<div class="sectionBorder"></div>
+<div class="userPreview__sectionBorder"></div>
 
 <div class="userPreview__about">
   <svg-icon [svgSetting]="svgLogo"></svg-icon>
@@ -11,17 +11,17 @@
     <img
       src="../../../assets/images/logoDefault.png"
       alt=""
-      class="logo"
+      class="userPreview__about--meLogo"
       #preview
     />
-    <div class="userPreview__about--info">
+    <div class="userPreview__about--meInfo">
       <span class="spanBold"><b>Смирнов Виталий</b></span>
       <span class="spanThink">Сотрудник в Фитнес Территория</span>
     </div>
   </div>
 </div>
 
-<div class="sectionBorder"></div>
+<div class="userPreview__sectionBorder"></div>
 
 <div class="userPreview__setTips">
   <span class="spanBold">Сумма чаевых</span>
@@ -37,14 +37,23 @@
   </div>
 </div>
 
-<div class="userPreview__rate" [ngClass]="{ open: isOpen, close: isClose }">
+<div
+  class="userPreview__rate"
+  [ngClass]="{
+    'userPreview__rate--open': isOpen,
+    'userPreview__rate--close': isClose
+  }"
+>
   <span class="spanBold">Ваш рейтинг</span>
   <stars-rate></stars-rate>
 </div>
 
 <div
   class="userPreview__feedbacks"
-  [ngClass]="{ feedbackOpen: isFeedbackOpen, feedbackClose: isFeedbackClose }"
+  [ngClass]="{
+    'userPreview__feedbacks--open': isFeedbackOpen,
+    'userPreview__feedbacks--close': isFeedbackClose
+  }"
 >
   <span class="spanBold">Ваш отзыв</span>
   <feedbacks></feedbacks>
@@ -52,7 +61,10 @@
 
 <div
   class="userPreview__feeling"
-  [ngClass]="{ amodzieClose: isAmodzieClose, amodzieOpen: isAmodzieOpen }"
+  [ngClass]="{
+    'userPreview__feeling--close': isAmodzieClose,
+    'userPreview__feeling--open': isAmodzieOpen
+  }"
 >
   <span class="spanBold">Ваши впечатления</span>
   <amodzie></amodzie>

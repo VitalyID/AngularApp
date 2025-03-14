@@ -4,201 +4,87 @@
   align-items: $align;
 }
 
-.createQRcode__title-wrap {
-  margin-bottom: 30px;
-  height: auto;
-}
-
-.createQRcode__body-wrap {
-  @include flexCenter(center, start);
-  gap: 30px;
-  margin-bottom: 20px;
-
-  width: 100%;
-
-  & span {
-    margin-bottom: 10px;
-    display: block;
+.createQRcode {
+  &__title-wrap {
+    margin-bottom: 30px;
+    height: auto;
   }
 
-  & .createQRcode__body-center {
-    width: 66%;
+  &__body-wrap {
     @include flexCenter(center, start);
-    flex-direction: column;
-
-    background: #ffffff;
-    box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
-    border-radius: 10px;
-
-    padding: 40px 40px 30px;
-    gap: 20px;
+    gap: 30px;
+    margin-bottom: 20px;
+    width: 100%;
 
     & span {
+      margin-bottom: 10px;
+      display: block;
       font-family: "Formular";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
       line-height: 22px;
-
       color: #313436;
-    }
-
-    & .createQRcode__body-wrapForm {
-      width: 100%;
-      // @include flexCenter(center, center);
-
-      & .inputTips {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-      }
-    }
-
-    & .createQRcode__body-about {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      grid-auto-rows: auto;
-      margin-bottom: 20px;
-      gap: 20px;
-      align-items: center;
-      align-self: center;
-    }
-
-    & .createQRcode__body-background {
-      width: 100%;
-    }
-
-    & .createQRcode__body-background input {
-      width: 100%;
-      height: 56px;
-
-      border: 1px solid #c8c9cf;
-      border-radius: 8px;
-      appearance: none;
-    }
-
-    & .createQRcode__body-uploadLogo {
-      width: 100%;
-    }
-
-    & .setupColorBTN {
-      background: #ffffff;
-      width: 100%;
     }
   }
 
-  & .createQRcode__body-right {
-    width: 34%;
+  &__body-center {
+    width: 66%;
+    @include flexCenter(center, start);
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
+    border-radius: 10px;
+    padding: 40px 40px 30px;
+    gap: 20px;
+  }
 
+  &__body-wrapForm {
+    width: 100%;
+  }
+
+  &__body-wrapForm-tips {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__body-about {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-auto-rows: auto;
+    margin-bottom: 20px;
+    gap: 20px;
+    align-items: center;
+    align-self: center;
+  }
+
+  &__body-background {
+    width: 100%;
+  }
+
+  &__body-uploadLogo {
+    width: 100%;
+  }
+
+  &__body-setupColorBTN {
+    background: #ffffff;
+    width: 100%;
+  }
+
+  // ----------------->
+  // --right section-->
+  // ----------------->
+
+  &__body-right {
+    width: 34%;
     background: #ffffff;
     border: 2px solid #e1e3e1;
     box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
     border-radius: 10px;
-
-    // padding: 20px 30px;
-
-    & .sectionBorder {
-      background: #e1e3e1;
-      height: 2px;
-      margin-bottom: 30px;
-    }
-
-    & > span {
-      margin-bottom: 20px;
-    }
-
-    & .createQRcode__right-wrap {
-      @include flexCenter(center, start);
-      flex-direction: column;
-      gap: 20px;
-      margin-bottom: 30px;
-
-      & .createQRcode__body-aboutMe {
-        @include flexCenter(left, center);
-        gap: 20px;
-
-        & .logo {
-          width: 33%;
-          max-width: 90px;
-          height: 90px;
-          overflow: hidden;
-          background-color: burlywood;
-          border-radius: 10px;
-        }
-
-        & .createQRcode__body-info {
-          width: 66%;
-        }
-      }
-    }
-
-    & input-userTips {
-      margin-bottom: 20px;
-    }
-    & input-userTips.inValid {
-      --borderColor: #ff3c00;
-    }
-    & .createQRcode__body-rightBTNtips {
-      @include flexCenter(center, center);
-      gap: 11px;
-      margin-bottom: 20px;
-    }
-
-    & .close {
-      // max-height: 0;
-      padding: 20px;
-      transform: scaleY(0);
-      transition: all 1s;
-      transform-origin: top;
-      opacity: 0;
-    }
-
-    & .open {
-      // max-height: 75px;
-      padding: 20px;
-
-      transform: scaleY(1);
-      transition: all 1s;
-      transform-origin: top;
-      opacity: 1;
-    }
-
-    & .rate > span {
-      display: block;
-      text-align: center;
-    }
-
-    & .feedbacks {
-      padding: 20px;
-      text-align: center;
-
-      & .feedbacks > span {
-        display: block;
-        text-align: center;
-      }
-    }
-
-    & .feedbackClose {
-      // max-height: 0;
-      padding: 20px;
-      transform: scaleY(0);
-      transition: all 1s;
-      opacity: 0;
-      transform-origin: top;
-    }
-
-    & .feedbackOpen {
-      // max-height: 75px;
-      padding: 20px;
-
-      transform: scaleY(1);
-      transition: all 1s;
-      opacity: 1;
-      transform-origin: top;
-    }
   }
 }
