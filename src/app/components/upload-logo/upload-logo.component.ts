@@ -10,8 +10,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SharedModule } from '../../shared.module';
 import { ButtonService } from '../buttons/service/buttons.component.service';
-import { UploadTransmitPhotoService } from '../create-qrcode/components/services/uploadTransmitPhoto.service';
 import { ButtonData } from './../../types/sectionItem';
+import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.service';
 
 @Component({
   selector: 'upload-logo',
@@ -35,12 +35,12 @@ export class UploadLogoComponent implements OnInit {
     boxShadow: 'none',
   };
 
-  readonly #clickOnBTN = inject(ButtonService);
+  readonly #dataFromButtonService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #transmitLogoService = inject(UploadTransmitPhotoService);
 
   ngOnInit(): void {
-    this.#clickOnBTN.eventClick$
+    this.#dataFromButtonService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 6) {
@@ -52,7 +52,15 @@ export class UploadLogoComponent implements OnInit {
     const file = this.input?.nativeElement.files[0];
 
     if (file) {
-      this.#transmitLogoService.getPhotoFromComponent(file);
+      this.#readFile(file);
     }
+  }
+
+  #readFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.#transmitLogoService.getPhotoFromComponent(e.target.result);
+    };
+    reader.readAsDataURL(file);
   }
 }

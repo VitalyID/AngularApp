@@ -24,7 +24,7 @@ import { StarsRateComponent } from '../../../stars-rate/stars-rate.component';
 import { SvgIconComponent } from '../../../svg-icon/svg-icon.component';
 import { SwitcherData } from '../../../switcher/interface/switcherDataTransmit';
 import { SwitcherStateService } from '../../../switcher/service/switch.service';
-import { UploadTransmitPhotoService } from '../services/uploadTransmitPhoto.service';
+import { UploadTransmitPhotoService } from '../../../upload-logo/services/uploadTransmitPhoto.service';
 import { UserSetButtonService } from '../services/userSetUpTips.service';
 import { DataInput } from './../../../input-user-tips/types/interfaces/dataInput';
 
@@ -112,20 +112,15 @@ export class UserPreviewComponent implements OnInit {
     this.#logoService.getUserPhotoFromService$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
-        const reader = new FileReader();
-
-        reader.onload = (e: any) => {
-          this.previewIMG.nativeElement.src = e.target.result;
+        if (data) {
+          this.previewIMG.nativeElement.src = data;
           this.#render2.setProperty(
             this.previewIMG.nativeElement,
             'display',
             'block'
           );
-        };
+        }
         this.#cdr.markForCheck();
-        reader.readAsDataURL(data);
-
-        this.userSettingData.picture = data;
       });
 
     this.#setBTNService.channelDataInputTips$
