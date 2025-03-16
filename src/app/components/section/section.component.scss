@@ -1,6 +1,11 @@
 :host {
   display: block;
   margin: 0 10px;
+  --borderRadius: 0px;
+  --borderTopLeftRadius: 10px;
+  --borderTopRightRadius: 10px;
+  --borderBottomLeftRadius: 10px;
+  --borderBottomRightRadius: 10px;
 }
 
 app-section .section-title {
@@ -19,7 +24,6 @@ a {
 
 :host(.isActive) {
   display: block;
-  // color: red;
   background: linear-gradient(
       0deg,
       rgba(59, 199, 107, 0.05),
@@ -35,41 +39,21 @@ a {
   // margin: 0px 10px;
   display: block;
 
-  border-radius: 0;
+  border-radius: var(--borderRadius);
+
   background: rgba(248, 57, 57, 0.05);
+}
+
+:host(.firstItem) {
+  border-top-left-radius: var(--borderTopLeftRadius);
+  border-top-right-radius: var(--borderTopRightRadius);
+}
+
+:host(.lastItem) {
+  border-bottom-right-radius: var(--borderBottomLeftRadius);
+  border-bottom-left-radius: var(--borderBottomRightRadius);
 }
 
 :host(.isActive) .section-title {
   color: #54a75c;
 }
-
-// app-section {
-//   display: flex;
-//   justify-content: start;
-//   align-items: start;
-//   gap: 15px;
-//   padding: 18px;
-
-//   &.active {
-//     fill: green;
-//   }
-//   &.hover {
-//     cursor: pointer;
-//   }
-// }
-
-// .section__title {
-//   font-family: "Formular";
-//   font-style: normal;
-//   font-weight: 400;
-//   font-size: 16px;
-//   line-height: 22px;
-
-//   color: #313436;
-// }
-
-// svg {
-//   width: 24px;
-//   height: 24px;
-//   fill: #777d82;
-// }

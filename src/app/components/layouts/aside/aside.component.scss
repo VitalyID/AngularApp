@@ -22,15 +22,15 @@
   cursor: pointer;
 }
 
-.aside-body app-section:nth-child(2) {
-  /* Стили для второго компонента */
-  background-color: blue;
-}
+// .aside-body app-section:nth-child(2) {
+//   /* Стили для второго компонента */
+//   background-color: blue;
+// }
 
-.aside-body app-section:nth-child(3) {
-  /* Стили для третьего компонента */
-  background-color: green;
-}
+// .aside-body app-section:nth-child(3) {
+//   /* Стили для третьего компонента */
+//   background-color: green;
+// }
 
 .support-wrapper {
   width: 100%;
@@ -82,4 +82,10 @@
 
 .section-icon {
   fill: #777d82;
+}
+
+.isMyGroup {
+  display: block;
+  --borderRadius: 0px;
+  background: rgba(248, 57, 57, 0.05);
 }

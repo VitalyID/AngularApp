@@ -1,14 +1,12 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
-// import { Subscription } from 'rxjs';
-import { TitleAside } from '../../../types/enums/titleAside';
-import { SectionItem } from '../../../types/interfaces/asideSVG';
-// import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../services/transmitDataRout.service';
+import { TitleAside } from '../../../types/enums/titleAside';
+import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
+import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 import { LinkAside } from './tupes/enum/routerLink';
 
 @Component({
@@ -98,8 +96,6 @@ export class AsideComponent implements OnInit {
   ];
 
   public generalGroup: SectionItem[] = [];
-  public myGroup: SectionItem[] = [];
-  public otherGroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
 
   public btnText: ButtonData = {
@@ -126,7 +122,7 @@ export class AsideComponent implements OnInit {
       .subscribe((data) => {
         if (data.id == 4) {
           console.log('Кнопка нажата с ID:', data.id);
-          // пишем логику клика по кнопке
+          // пишем логику клика по кнопке support
         }
       });
   }
