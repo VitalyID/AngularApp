@@ -34,7 +34,6 @@ export class MyQRComponent implements OnInit {
     iconClass: 'icon-add-outline',
   };
 
-  gridColumns: string = '';
   gridRows: string = '';
   sumCard: number = 0;
   src: string = '';

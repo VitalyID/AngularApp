@@ -17,10 +17,7 @@ import { ButtonData } from '../../../../types/sectionItem';
 import { ColorPickerComponent } from '../../../color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../../../input-user-tips/input-user-tips.component';
 import { DataInput } from '../../../input-user-tips/types/interfaces/dataInput';
-import { StarsRateComponent } from '../../../stars-rate/stars-rate.component';
-import { SvgIconComponent } from '../../../svg-icon/svg-icon.component';
 import { SwitcherComponent } from '../../../switcher/switcher.component';
-import { TextAreaComponent } from '../../../text-area/text-area.component';
 import { UploadLogoComponent } from '../../../upload-logo/upload-logo.component';
 import { EnumSwitcher } from '../../types/enum/enumSwitcher';
 import { UserPreviewComponent } from '../previewUser/user-preview.component';
@@ -33,11 +30,8 @@ import { UserPreviewComponent } from '../previewUser/user-preview.component';
     ColorPickerComponent,
     UploadLogoComponent,
     SharedModule,
-    SvgIconComponent,
     InputUserTipsComponent,
     CommonModule,
-    StarsRateComponent,
-    TextAreaComponent,
     UserPreviewComponent,
   ],
   templateUrl: './create-qrcode.component.html',

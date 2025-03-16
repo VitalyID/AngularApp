@@ -12,7 +12,7 @@ export interface ButtonData {
   disabled?: boolean;
   background?: string;
   color?: string;
-  // type?: string;
+  isActive?: boolean;
   // event?: string;
   id: number;
   borderStyle?: string;
