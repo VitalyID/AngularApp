@@ -99,6 +99,7 @@ export class UserPreviewComponent implements OnInit {
   isFeedbackClose: boolean = true;
   isAmodzieClose: boolean = true;
   isAmodzieOpen: boolean = false;
+  isActive: number = 0;
 
   readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
@@ -132,36 +133,28 @@ export class UserPreviewComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 8) {
+          this.changeActiveClass(8);
+
           if (!this.arrBTN[0].text) return;
 
-          this.arrBTN[0].isActive = true;
-          this.arrBTN[1].isActive = false;
-          this.arrBTN[2].isActive = false;
-
-          const tmp = this.arrBTN[0].text.split(' ')[0];
+          const tmp = String(parseInt(this.arrBTN[0].text));
           this.setUpTips = { ...this.setUpTips, value: tmp };
 
           this.#cdr.detectChanges();
           this.#cdr.markForCheck();
         } else if (data.id === 9) {
           if (!this.arrBTN[1].text) return;
+          this.changeActiveClass(9);
 
-          this.arrBTN[0].isActive = false;
-          this.arrBTN[1].isActive = true;
-          this.arrBTN[2].isActive = false;
-
-          const tmp = this.arrBTN[1].text.split(' ')[0];
+          const tmp = String(parseInt(this.arrBTN[1].text));
           this.setUpTips = { ...this.setUpTips, value: tmp };
 
           this.#cdr.detectChanges();
         } else if (data.id === 10) {
           if (!this.arrBTN[2].text) return;
+          this.changeActiveClass(10);
 
-          this.arrBTN[0].isActive = false;
-          this.arrBTN[1].isActive = false;
-          this.arrBTN[2].isActive = true;
-
-          const tmp = this.arrBTN[2].text.split(' ')[0];
+          const tmp = String(parseInt(this.arrBTN[2].text));
           this.setUpTips = { ...this.setUpTips, value: tmp };
 
           this.#cdr.detectChanges();
@@ -238,5 +231,12 @@ export class UserPreviewComponent implements OnInit {
         break;
     }
     this.#cdr.detectChanges();
+  }
+
+  changeActiveClass(data: number): void {
+    const activeID = data - 8;
+    this.arrBTN.forEach((item, index) => {
+      item.isActive = index === activeID;
+    });
   }
 }
