@@ -1,0 +1,39 @@
+.colorPicker {
+  width: 100%;
+
+  background: #ffffff;
+  border: 1px solid #c8c9cf;
+  border-radius: 8px;
+  padding: 21px;
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 12px;
+
+  position: relative;
+
+  & .selectedColor {
+    width: 24px;
+
+    // background: linear-gradient(0deg, #eeeff2, #eeeff2), #e7e9f0;
+    border: 2px solid #afb0b6;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  & input {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  & span {
+    font-family: "Formular";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+
+    color: #777d82;
+  }
+}

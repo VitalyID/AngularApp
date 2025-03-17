@@ -27,7 +27,7 @@ export class ButtonsComponent implements OnInit {
       .subscribe((data) => {
         if (this.buttonData && data.data.id === this.id) {
           this.buttonData.disabled = data.data.disabled;
-          console.log(this.buttonData.disabled);
+          // console.log(this.buttonData.disabled);
         }
       });
   }

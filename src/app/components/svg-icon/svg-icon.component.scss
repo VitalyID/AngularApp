@@ -1,9 +1,15 @@
 :host {
   cursor: pointer;
-  display: block;
-  display: flex;
-  justify-content: center;
+
+  display: inline-block;
+  justify-self: left;
+  vertical-align: middle;
   align-items: center;
-  // width: 100%;
-  // height: 100%;
+  // width: var(--width);
+  // height: var(--height);
+  --fill: #777d82;
+}
+
+.isActive {
+  fill: var(--fill);
 }

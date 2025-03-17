@@ -1,0 +1,61 @@
+:host {
+  --width: 100%;
+  --content: none
+  display: block;
+  width: 100%;
+
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+.userInputWrap {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  &::after {
+    // content: var(--content);
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+  }
+
+  & input {
+    width: var(--width);
+
+    background: #ffffff;
+    border: 1px solid #c8c9cf;
+    border-color: #c8c9cf;
+    border-radius: 6px;
+    flex-grow: 1;
+    flex-shrink: 0;
+
+    padding: 25px;
+    margin-bottom: 20px;
+  }
+  & .inValid {
+    border-color: #f13608;
+  }
+}
+
+.rub {
+
+  &::after {
+    content: '₽';
+  }}
+
+  .usd {
+
+    &::after {
+      content: '$';
+    }}

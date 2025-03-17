@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { DatePipe } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,10 +13,10 @@ import { HeaderUserComponent } from './components/layouts/header-user/header-use
 import { HeaderComponent } from './components/layouts/header/header.component';
 import { HomeComponent } from './components/layouts/home/home.component';
 import { MainComponent } from './components/main/main.component';
+import { MyQRComponent } from './components/my-qr/my-qr.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
 import { SharedModule } from './shared.module';
-// import { TransmitDataService } from './services/transmit-data.service';
 
 @NgModule({
   declarations: [
@@ -33,8 +35,13 @@ import { SharedModule } from './shared.module';
     RouterModule,
     SharedModule,
     MainComponent,
+    MyQRComponent,
   ],
-  providers: [provideCharts(withDefaultRegisterables())],
+  providers: [
+    provideCharts(withDefaultRegisterables()),
+    provideHttpClient(),
+    DatePipe,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

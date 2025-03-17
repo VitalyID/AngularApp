@@ -25,16 +25,16 @@
 
 <div class="tableTotal">
   <span>Всего чаевых:</span>
-  <span>{{ amountLocalRU }}</span>
+  <span>{{ (tableTotal$ | async)?.[0] }}</span>
   <span>Всего комиссия:</span>
-  <span>{{ commissionLocaleRU }}</span>
+  <span>{{ (tableTotal$ | async)?.[1] }}</span>
   <span>Средний чек:</span>
-  <span>{{ billLocaleRU }}</span>
+  <span>{{ (tableTotal$ | async)?.[2] }}</span>
 </div>
 
 <div class="bodyTable">
-  <div class="rowTable" *ngFor="let operation of operations">
-    <div class="cellTable" *ngFor="let key of keys">
+  <div class="rowTable" *ngFor="let operation of tableBody$ | async">
+    <div class="cellTable" *ngFor="let key of getKeys(tableBody$ | async)">
       {{ operation[key] }}
     </div>
   </div>

@@ -1,0 +1,90 @@
+@mixin flexCenter($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+.createQRcode {
+  &__title-wrap {
+    margin-bottom: 30px;
+    height: auto;
+  }
+
+  &__body-wrap {
+    @include flexCenter(center, start);
+    gap: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    & span {
+      margin-bottom: 10px;
+      display: block;
+      font-family: "Formular";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+      color: #313436;
+    }
+  }
+
+  &__body-center {
+    width: 66%;
+    @include flexCenter(center, start);
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
+    border-radius: 10px;
+    padding: 40px 40px 30px;
+    gap: 20px;
+  }
+
+  &__body-wrapForm {
+    width: 100%;
+  }
+
+  &__body-wrapForm-tips {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__body-about {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-auto-rows: auto;
+    margin-bottom: 20px;
+    gap: 20px;
+    align-items: center;
+    align-self: center;
+  }
+
+  &__body-background {
+    width: 100%;
+  }
+
+  &__body-uploadLogo {
+    width: 100%;
+  }
+
+  &__body-setupColorBTN {
+    background: #ffffff;
+    width: 100%;
+  }
+
+  // ----------------->
+  // --right section-->
+  // ----------------->
+
+  &__body-right {
+    width: 34%;
+    background: #ffffff;
+    border: 2px solid #e1e3e1;
+    box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
+    border-radius: 10px;
+  }
+}

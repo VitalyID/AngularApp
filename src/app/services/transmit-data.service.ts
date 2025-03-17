@@ -1,411 +1,28 @@
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  retry,
+  Subscription,
+  throwError,
+} from 'rxjs';
 import { ButtonService } from '../components/buttons/service/buttons.component.service';
 import {
   DataUserOperation,
   DateTimeUserOperations,
 } from './../types/sectionItem';
+import { GetDataService } from './get-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransmitDataService implements OnDestroy {
   readonly #service = inject(ButtonService);
+  readonly #getDataServer = inject(GetDataService);
 
-  public dataUserOperations: DataUserOperation[] = [
-    {
-      data: '18.02.2025',
-      country: 'Poland',
-      tips: '9350 ₽  ',
-      commission: '10.4 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '17.02.2025',
-      country: 'Turkey',
-      tips: '6550 ₽  ',
-      commission: '7.1 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '16.02.2025',
-      country: 'Turkey',
-      tips: '3950 ₽  ',
-      commission: '4.6 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '16.02.2025',
-      country: 'China',
-      tips: '6700 ₽  ',
-      commission: '7.4 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '16.02.2025',
-      country: 'Japan',
-      tips: '9500 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '15.02.2025',
-      country: 'Turkey',
-      tips: '3000 ₽  ',
-      commission: '4.6 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '15.02.2025',
-      country: 'Goergiya',
-      tips: '4560 ₽  ',
-      commission: '5.4 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '14.02.2025',
-      country: 'Russia',
-      tips: '6990 ₽  ',
-      commission: '6.4 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '13.02.2025',
-      country: 'China',
-      tips: '4000 ₽  ',
-      commission: '3.5 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '12.02.2025',
-      country: 'USA',
-      tips: '6540 ₽  ',
-      commission: '8 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '11.02.2025',
-      country: 'Ireland',
-      tips: '7200 ₽  ',
-      commission: '8.65 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '10.02.2025',
-      country: 'Turkey',
-      tips: '6190 ₽  ',
-      commission: '7.26 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '09.02.2025',
-      country: 'Ukraine',
-      tips: '1190 ₽  ',
-      commission: '3.6 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '08.02.2025',
-      country: 'Ukraine',
-      tips: '100 ₽  ',
-      commission: '1 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '07.02.2025',
-      country: 'Ukraine',
-      tips: '8700 ₽  ',
-      commission: '13 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '06.02.2025',
-      country: 'Italy',
-      tips: '2950 ₽  ',
-      commission: '4 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '05.02.2025',
-      country: 'Germany',
-      tips: '4500 ₽  ',
-      commission: '6.5 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '04.02.2025',
-      country: 'English',
-      tips: '5005 ₽  ',
-      commission: '7 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '03.02.2025',
-      country: 'Russia',
-      tips: '500 ₽  ',
-      commission: '1.3 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '02.02.2025',
-      country: 'Russia',
-      tips: '5250 ₽  ',
-      commission: '6.25 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '01.02.2025',
-      country: 'Russia',
-      tips: '8100 ₽  ',
-      commission: '9 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '31.01.2025',
-      country: 'Russia',
-      tips: '800 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '30.01.2025',
-      country: 'Russia',
-      tips: '1250 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '27.01.2025',
-      country: 'Russia',
-      tips: '4800 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '26.01.2025',
-      country: 'Russia',
-      tips: '9800 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '25.01.2025',
-      country: 'Russia',
-      tips: '900 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '24.01.2025',
-      country: 'Russia',
-      tips: '1300 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '23.01.2025',
-      country: 'Russia',
-      tips: '0300 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '22.01.2025',
-      country: 'Russia',
-      tips: '5900 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '21.01.2025',
-      country: 'Russia',
-      tips: '6100 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '20.01.2025',
-      country: 'Russia',
-      tips: '1490 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '16.01.2025',
-      country: 'Russia',
-      tips: '1000 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '15.01.2025',
-      country: 'Russia',
-      tips: '1500 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '14.01.2025',
-      country: 'Russia',
-      tips: '5000 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '01.01.2025',
-      country: 'Russia',
-      tips: '1300 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '28.12.2024',
-      country: 'Russia',
-      tips: '9800 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '18.12.2024',
-      country: 'Russia',
-      tips: '1800 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '17.12.2024',
-      country: 'Russia',
-      tips: '800 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '16.12.2024',
-      country: 'Russia',
-      tips: '6000 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '15.12.2024',
-      country: 'Russia',
-      tips: '10000 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '14.11.2024',
-      country: 'Russia',
-      tips: '5900 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '13.11.2024',
-      country: 'Russia',
-      tips: '7800 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '10.11.2024',
-      country: 'Russia',
-      tips: '2300 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '16.10.2024',
-      country: 'Russia',
-      tips: '5500 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '16.09.2024',
-      country: 'Russia',
-      tips: '1100 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '15.09.2024',
-      country: 'Russia',
-      tips: '1950 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '10.09.2024',
-      country: 'Russia',
-      tips: '3400 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '09.08.2024',
-      country: 'Russia',
-      tips: '9000 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-    {
-      data: '08.08.2024',
-      country: 'Russia',
-      tips: '6000 ₽  ',
-      commission: '12 ₽',
-      email: 'mail@mail.ru',
-      card: '4563****2569',
-    },
-  ];
+  public dataUserOperations: DataUserOperation[] = [];
   arrDate: string[] = [];
   arrDateItem: string[] = [];
 
@@ -413,11 +30,13 @@ export class TransmitDataService implements OnDestroy {
   private arrCorrectElements: DataUserOperation[] = [];
   private dateFromInput!: Subscription;
   #tmp?: DateTimeUserOperations;
+  readonly #datePipe = inject(DatePipe);
 
   public dataObject$ = new BehaviorSubject<DataUserOperation[]>([]);
 
   getDataUserTab(name: string) {
     this.name = name;
+    // this.transmitData(name);
 
     let arrUserActualOperations;
 
@@ -454,30 +73,28 @@ export class TransmitDataService implements OnDestroy {
       case 'forWeek':
         let dayWeek: number = new Date().getDay();
 
-        // change first day in week
-        dayWeek === 0 ? (dayWeek = 7) : (dayWeek -= 1);
+        // change number day in week
+        dayWeek = dayWeek === 0 ? 6 : dayWeek - 1;
+        // get first and end day of week
+        const currentData = new Date();
 
-        // startDay
-        const dayZero = new Date();
-        const startDay = new Date(
-          dayZero.getTime() - dayWeek * 24 * 60 * 60 * 1000
-        )
-          .toLocaleString()
-          .split(',')[0]
-          .split('.');
+        const startOfWeek = new Date(currentData);
+        startOfWeek.setDate(currentData.getDate() - dayWeek);
+        startOfWeek.setHours(0, 0, 0, 0);
+        const dayOfWeek = new Date(currentData);
+        dayOfWeek.setDate(currentData.getDate() - dayWeek + 7);
+        dayOfWeek.setHours(0, 0, 0, 0);
 
-        // EndDay
         const filterWeek = this.dataUserOperations.filter((item) => {
-          const arrData = item.data.split('.');
+          console.log(item.data.split('.').reverse().join('-'));
+          const actualData = new Date(item.data.split('.').reverse().join('-'));
+
+          console.log(actualData.getTime(), ' ', startOfWeek.getTime());
           return (
-            arrData[2] >= startDay[2] &&
-            arrData[2] <= startDay[2] &&
-            arrData[1] >= startDay[1] &&
-            arrData[1] <= startDay[1] &&
-            arrData[0] >= startDay[0]
+            actualData.getTime() >= startOfWeek.getTime() &&
+            actualData.getTime() <= dayOfWeek.getTime()
           );
         });
-
         this.dataObject$.next(filterWeek);
 
         break;
@@ -508,6 +125,8 @@ export class TransmitDataService implements OnDestroy {
           let dataEnd = new Date(this.#tmp.dateEnd);
 
           arrUserActualOperations = this.dataUserOperations.filter((item) => {
+            console.log(item);
+
             const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
             const match = item.data.match(regex);
 
@@ -531,11 +150,9 @@ export class TransmitDataService implements OnDestroy {
     }
   }
 
-  constructor() {
+  fnMonth(data: string): void {
     this.arrDate = new Date().toLocaleDateString().split('.');
-
-    // Интервал по умолчанию - месяц
-    if (this.name == 'forMonth') {
+    if (this.name == data) {
       for (let item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
 
@@ -544,8 +161,32 @@ export class TransmitDataService implements OnDestroy {
           this.arrCorrectElements.push(item);
         }
       }
+
       this.dataObject$.next(this.arrCorrectElements);
     }
+  }
+
+  constructor(tmp: HttpClient) {
+    this.#getDataServer
+      .getDataUserOperationAPI()
+      .pipe(
+        retry({ count: 3, delay: 2000 }),
+        catchError((err) => {
+          return throwError(() => err());
+        })
+      )
+      .subscribe({
+        next: (data: DataUserOperation[]) => {
+          this.dataUserOperations = data;
+          for (let item of this.dataUserOperations) {
+            let datePipe = new Date(item.data);
+            const unit = this.#datePipe.transform(datePipe, 'dd.MM.yyyy');
+            item.data = String(unit);
+          }
+          this.fnMonth('forMonth');
+        },
+        error: (err) => console.log('Ошибка в получении данных'),
+      });
   }
 
   ngOnDestroy(): void {

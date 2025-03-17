@@ -15,6 +15,5 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];
-    console.log('asideID ', this.asideID);
   }
 }

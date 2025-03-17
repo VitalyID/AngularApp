@@ -1,19 +1,22 @@
-export interface SectionItem {
-  title: string;
-  icon: string;
-  ID: number;
-}
-
 // Управление btn
+// text -button text
+// iconClass - class icon-fonts
+// disabled - state of button
+// background
+// color?: string;
+// id: id button for control press from service
+
 export interface ButtonData {
   text?: string;
   iconClass?: string;
   disabled?: boolean;
   background?: string;
   color?: string;
-  type?: string;
-  event?: string;
+  isActive?: boolean;
+  // event?: string;
   id: number;
+  borderStyle?: string;
+  boxShadow?: string;
 }
 export interface DataUserOperation {
   [key: string]: any;

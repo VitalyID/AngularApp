@@ -1,9 +1,15 @@
+:host {
+  --width: auto;
+  --height: auto;
+  --padding: 11px 30px;
+}
+
 button {
   background: linear-gradient(0deg, #3bc76b, #3bc76b), #3bc76b;
   box-shadow: 0px 5px 20px rgba(71, 155, 78, 0.15);
   border: 2px solid black;
   border-radius: 54px;
-  padding: 11px 30px;
+  padding: var(--padding);
 
   font-family: "Formular";
   font-style: normal;
@@ -16,23 +22,38 @@ button {
   align-items: center;
   gap: 15px;
 
+  width: var(--width);
+  height: var(--height);
+
   color: #ffffff;
+  cursor: pointer;
+
+  // & :disabled {
+  //   background: gray !important;
+  //   color: black;
+  //   cursor: none;
+  //   opacity: 0.6;
+  // }
 }
 
-.icon-add-outline:before {
-  content: "\e900";
+.isActive {
+  background-color: #3bc76b !important;
+  border: 1px solid black !important;
+}
+d .icon-add-outline:before {
+  content: "\e901";
   color: #ffffff !important;
   font-size: 24px;
   font-size: 24px;
 }
 
 .icon-Paper-Download:before {
-  content: "\e901";
+  content: "\e903";
   color: #777d82;
   font-size: 24px;
 }
 .icon-PaperDownload:before {
-  content: "\e901";
+  content: "\e902";
   color: #777d82;
   font-size: 24px;
 }
@@ -40,4 +61,9 @@ button {
   content: "\e902";
   color: black;
   font-size: 24px;
+}
+
+.icon-icon-upload:before {
+  content: "\e900";
+  color: #55595b;
 }

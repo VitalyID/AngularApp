@@ -1,13 +1,9 @@
-import {
-  Component,
-  inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
+// import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+// import { ActivatedRoute } from '@angular/router';
+// import { RoutIDservice } from '../../services/transmitDataRout.service';
+import { SectionItem } from '../../types/interfaces/asideSVG';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { SectionItem } from './../../types/sectionItem';
 
 @Component({
   selector: 'app-section',
@@ -15,34 +11,17 @@ import { SectionItem } from './../../types/sectionItem';
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss',
 })
-export class SectionComponent implements OnChanges {
+export class SectionComponent {
   @Input() item: SectionItem = {
     title: 'error name',
-    icon: 'Error transmit child',
+    iconSetting: { iconID: 'Error transmit child' },
     ID: 999,
+    route: 'error route',
   };
-
-  readonly #route = inject(ActivatedRoute);
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['item']) {
-      const activeFilter: string = '#54a75c';
-      const defaultFilter: string = '#777d82';
-
-      this.sectionIcons = {
-        iconID: this.item.icon,
-        width: '21px',
-        height: '21px',
-        fill:
-          this.#route.snapshot.data['asideID'] === this.item.ID
-            ? activeFilter
-            : defaultFilter,
-      };
-    }
-  }
+  @Input() routerLink: string = this.item.route;
 
   sectionIcons: SvgSpriteSetting = {
-    iconID: this.item.icon,
+    iconID: this.item.iconSetting.iconID,
     width: '21px',
     height: '21px',
   };

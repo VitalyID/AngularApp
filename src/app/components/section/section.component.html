@@ -1,5 +1,4 @@
-<div class="section">
-  <svg-icon [svgSetting]="sectionIcons"></svg-icon>
-
-  <div class="section__title">{{ item.title }}</div>
-</div>
+<a [routerLink]="routerLink">
+  <ng-content select=".section-icon"></ng-content>
+  <ng-content select=".section-title"></ng-content>
+</a>

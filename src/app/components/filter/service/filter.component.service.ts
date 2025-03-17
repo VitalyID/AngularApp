@@ -16,12 +16,18 @@ export class SortDataService {
   #aboutTips: DataUserOperation[] = [];
   #innerService$ = new BehaviorSubject<CheckFilter>(this.userFilter);
   sortedData$ = new BehaviorSubject<DataUserOperation[]>(this.#aboutTips);
+  totalFromService$ = new BehaviorSubject<string[]>([]);
+  arrAmountTotal: string[] = [];
 
   dataOperationFromService$: Observable<DataUserOperation[]> = combineLatest([
     this.#dataFromService.dataObject$,
     this.#innerService$,
   ]).pipe(
     map(([getDataFromDateService, filter]) => {
+      // Counting Total and send them to table.component.ts
+      this.getTotal(getDataFromDateService);
+      this.totalFromService$.next(this.arrAmountTotal);
+
       return this.switch(getDataFromDateService, filter);
     })
   );
@@ -108,5 +114,35 @@ export class SortDataService {
         console.error(`Unknown nameFilter: ${data.nameFilter}`);
         return arr;
     }
+  }
+
+  getTotal(data: DataUserOperation[]) {
+    let amount = 0;
+    let commission = 0;
+    let bill = 0;
+    let count = 0;
+
+    this.arrAmountTotal = [];
+
+    if (data && data.length > 0) {
+      data.forEach((item) => {
+        amount += Number(item.tips.split(' ')[0]);
+        commission += Number(item.commission.split(' ')[0]);
+        count++;
+      });
+      bill = amount / count;
+
+      const amountLocalRU = this.#formatCurrent(amount);
+      const commissionLocaleRU = this.#formatCurrent(commission);
+      const billLocaleRU = this.#formatCurrent(bill);
+      this.arrAmountTotal.push(amountLocalRU, commissionLocaleRU, billLocaleRU);
+    }
+  }
+
+  #formatCurrent(data: number): string {
+    return new Intl.NumberFormat('ru', {
+      style: 'currency',
+      currency: 'RUB',
+    }).format(data);
   }
 }

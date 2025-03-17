@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 17px;
+  height: 44px;
+}
+
+.amodzieWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 6px;
+  background-color: #e1e3e1;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.active {
+  background-color: #54a75c;
+  transition: background-color 1s;
+}

@@ -1,0 +1,10 @@
+<div class="wrapUpload">
+  <input
+    type="file"
+    name="fileUserLogo"
+    accept="image/png"
+    #fileInput
+    (change)="openFile()"
+  />
+  <app-buttons [buttonData]="uploadPhoto" #customInput></app-buttons>
+</div>

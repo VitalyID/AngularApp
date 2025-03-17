@@ -1,10 +1,13 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-// import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
-import { ButtonData, SectionItem } from '../../../types/sectionItem';
+import { Observable } from 'rxjs';
+import { RoutIDservice } from '../../../services/transmitDataRout.service';
+import { TitleAside } from '../../../types/enums/titleAside';
+import { SectionItem } from '../../../types/interfaces/asideSVG';
+import { ButtonData } from '../../../types/sectionItem';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
+import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
+import { LinkAside } from './tupes/enum/routerLink';
 
 @Component({
   selector: 'app-aside',
@@ -17,66 +20,82 @@ export class AsideComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
-  readonly #route = inject(ActivatedRoute);
+  readonly #getRoutFromService = inject(RoutIDservice);
+  routeID$: Observable<number> = this.#getRoutFromService.SendRouteService$;
 
-  asideID?: number;
-
-  public title2: SectionItem[] = [
+  public listSections: SectionItem[] = [
     {
-      title: 'Главная',
-      icon: 'icon-icons',
+      title: TitleAside.main,
+      iconSetting: { iconID: 'icon-icons', width: '21px', height: '21px' },
       ID: 1,
+      route: LinkAside.main,
     },
     {
-      title: 'Moй QR',
-      icon: 'icon-Scan',
+      title: TitleAside.myQR,
+      iconSetting: { iconID: 'icon-Scan', width: '21px', height: '21px' },
+
       ID: 2,
+      route: LinkAside.myQR,
     },
     {
-      title: 'Агентам',
-      icon: 'icon-Work',
+      title: TitleAside.agents,
+      iconSetting: { iconID: 'icon-Work', width: '21px', height: '21px' },
       ID: 3,
+      route: LinkAside.agents,
     },
     {
-      title: 'Мои реквизиты',
-      icon: 'icon-Credit-card',
+      title: TitleAside.requisites,
+      iconSetting: {
+        iconID: 'icon-Credit-card',
+        width: '21px',
+        height: '21px',
+      },
       ID: 4,
+      route: LinkAside.requisites,
     },
     {
-      title: 'Персональные данные',
-      icon: 'icon-Profile',
+      title: TitleAside.personalData,
+      iconSetting: { iconID: 'icon-Profile', width: '21px', height: '21px' },
       ID: 5,
+      route: LinkAside.personalData,
     },
     {
-      title: 'Мои площадки',
-      icon: 'icon-myPlace',
+      title: TitleAside.myPlace,
+      iconSetting: { iconID: 'icon-myPlace', width: '21px', height: '21px' },
       ID: 6,
+      route: LinkAside.myPlace,
     },
     {
-      title: 'Мои сотрудники',
-      icon: 'icon-myStaff',
+      title: TitleAside.myStaff,
+      iconSetting: { iconID: 'icon-myStaff', width: '21px', height: '21px' },
       ID: 7,
+      route: LinkAside.myStaff,
     },
     {
-      title: 'Мои отзывы',
-      icon: 'icon-myFeedbacks',
+      title: TitleAside.myFeedbacks,
+      iconSetting: {
+        iconID: 'icon-myFeedbacks',
+        width: '21px',
+        height: '21px',
+      },
       ID: 8,
+      route: LinkAside.myFeedbacks,
     },
     {
-      title: 'Программа лояльности',
-      icon: 'icon-loyalty',
+      title: TitleAside.loyalty,
+      iconSetting: { iconID: 'icon-loyalty', width: '21px', height: '21px' },
       ID: 9,
+      route: LinkAside.loyalty,
     },
     {
-      title: 'Выйти',
-      icon: 'icon-Logout',
+      title: TitleAside.logOut,
+      iconSetting: { iconID: 'icon-Logout', width: '21px', height: '21px' },
       ID: 10,
+      route: LinkAside.logOut,
     },
   ];
 
   public generalGroup: SectionItem[] = [];
-  public myGroup: SectionItem[] = [];
-  public otherGroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
 
   public btnText: ButtonData = {
@@ -95,28 +114,20 @@ export class AsideComponent implements OnInit {
   activeItemID: number | null = null;
 
   ngOnInit(): void {
-    // link section with activeRout
-    this.asideID = this.#route.snapshot.data['asideID'];
-
-    this.generalGroup = this.title2.slice(0, 9);
-    this.logOut = this.title2.slice(9, 10);
+    this.generalGroup = this.listSections.slice(0, 9);
+    this.logOut = this.listSections.slice(9, 10);
 
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id == 4) {
           console.log('Кнопка нажата с ID:', data.id);
-          // пишем логику клика по кнопке
+          // пишем логику клика по кнопке support
         }
       });
   }
 
-  selectItem(item: SectionItem) {
-    this.activeItemID = item.ID;
-  }
-
   // добавляем класс только к элементам с этими id
-
   getClassForSectionItem(id: number): boolean {
     return this.activeMenuItem.indexOf(id) != -1;
   }
