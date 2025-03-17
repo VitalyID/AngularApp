@@ -11,9 +11,9 @@ import {
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { provideNgxMask } from 'ngx-mask';
-import { RoutIDservice } from '../../../../services/transmitDataRout.service';
-import { SharedModule } from '../../../../shared.module';
-import { ButtonData } from '../../../../types/sectionItem';
+import { RoutIDservice } from '../../../../../services/transmitDataRout.service';
+import { SharedModule } from '../../../../../shared.module';
+import { ButtonData } from '../../../../../types/sectionItem';
 import { ColorPickerComponent } from '../../../color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../../../input-user-tips/input-user-tips.component';
 import { DataInput } from '../../../input-user-tips/types/interfaces/dataInput';

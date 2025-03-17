@@ -11,17 +11,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SharedModule } from '../../../../shared.module';
-import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
-import { ButtonData } from '../../../../types/sectionItem';
+import { SharedModule } from '../../../../../shared.module';
+import { SvgSpriteSetting } from '../../../../../types/interfaces/svgIcon';
+import { ButtonData } from '../../../../../types/sectionItem';
+import { ButtonService } from '../../../../buttons/service/buttons.component.service';
+import { SvgIconComponent } from '../../../../svg-icon/svg-icon.component';
 import { AmodzieComponent } from '../../../amodzie/amodzie.component';
-import { ButtonService } from '../../../buttons/service/buttons.component.service';
 import { FeedbacksComponent } from '../../../feedbacks/feedbacks.component';
 import { InputUserTipsComponent } from '../../../input-user-tips/input-user-tips.component';
 import { DataFromUserInput } from '../../../input-user-tips/types/interfaces/DataFromUserInput';
 import { UserSetting } from '../../../input-user-tips/types/interfaces/UserDataSetting';
 import { StarsRateComponent } from '../../../stars-rate/stars-rate.component';
-import { SvgIconComponent } from '../../../svg-icon/svg-icon.component';
 import { SwitcherData } from '../../../switcher/interface/switcherDataTransmit';
 import { SwitcherStateService } from '../../../switcher/service/switch.service';
 import { UploadTransmitPhotoService } from '../../../upload-logo/services/uploadTransmitPhoto.service';

@@ -8,9 +8,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SharedModule } from '../../shared.module';
-import { ButtonService } from '../buttons/service/buttons.component.service';
-import { ButtonData } from './../../types/sectionItem';
+import { SharedModule } from '../../../shared.module';
+import { ButtonData } from '../../../types/sectionItem';
+import { ButtonService } from '../../buttons/service/buttons.component.service';
 import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.service';
 
 @Component({

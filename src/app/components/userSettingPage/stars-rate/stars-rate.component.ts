@@ -8,8 +8,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
+import { SvgIconComponent } from '../../svg-icon/svg-icon.component';
 
 @Component({
   selector: 'stars-rate',
