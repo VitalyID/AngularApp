@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { MyQRComponent } from './components/my-qr/my-qr.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
 import { SharedModule } from './shared.module';
+import { StoreModule } from './store.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { SharedModule } from './shared.module';
     SharedModule,
     MainComponent,
     MyQRComponent,
+    NgxsModule,
+    StoreModule,
   ],
   providers: [
     provideCharts(withDefaultRegisterables()),

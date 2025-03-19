@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { SetGradeActive } from '../user-setting-store/user-setting-store.actions';
+import { AmodzieState } from './amodzie.state';
 import { AmodzieSettings } from './types/interfaces/amodzieSettings';
 
 @Component({
@@ -8,7 +17,7 @@ import { AmodzieSettings } from './types/interfaces/amodzieSettings';
   styleUrl: './amodzie.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AmodzieComponent {
+export class AmodzieComponent implements OnInit {
   arrImg: AmodzieSettings[] = [
     {
       path: '../../../assets/images/Slightly Smiling Face.png',
@@ -34,7 +43,20 @@ export class AmodzieComponent {
 
   gradeActive: number = 3;
 
+  readonly #store = inject(Store);
+
+  gradeActive$: Observable<number> = this.#store.select(
+    AmodzieState.getGradeActive
+  );
+
+  ngOnInit(): void {
+    this.gradeActive$.subscribe((gradeActive) => {
+      console.log('Grade Active:', gradeActive);
+    });
+  }
+
   onClick(data: number): void {
     this.gradeActive = data;
+    this.#store.dispatch(new SetGradeActive(this.gradeActive));
   }
 }
