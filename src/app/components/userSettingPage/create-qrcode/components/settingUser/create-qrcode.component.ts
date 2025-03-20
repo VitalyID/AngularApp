@@ -12,8 +12,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { provideNgxMask } from 'ngx-mask';
 import { RoutIDservice } from '../../../../../services/transmitDataRout.service';
-import { SharedModule } from '../../../../../shared.module';
 import { ButtonData } from '../../../../../types/sectionItem';
+import { ButtonsComponent } from '../../../../buttons/buttons.component';
 import { ColorPickerComponent } from '../../../color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../../../input-user-tips/input-user-tips.component';
 import { DataInput } from '../../../input-user-tips/types/interfaces/dataInput';
@@ -29,10 +29,10 @@ import { UserPreviewComponent } from '../previewUser/user-preview.component';
     SwitcherComponent,
     ColorPickerComponent,
     UploadLogoComponent,
-    SharedModule,
     InputUserTipsComponent,
     CommonModule,
     UserPreviewComponent,
+    ButtonsComponent,
   ],
   templateUrl: './create-qrcode.component.html',
   styleUrl: './create-qrcode.component.scss',

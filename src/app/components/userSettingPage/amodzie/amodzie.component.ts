@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
@@ -44,6 +45,7 @@ export class AmodzieComponent implements OnInit {
   gradeActive: number = 3;
 
   readonly #store = inject(Store);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   gradeActive$: Observable<number> = this.#store.select(
     AmodzieState.getGradeActive
@@ -51,12 +53,13 @@ export class AmodzieComponent implements OnInit {
 
   ngOnInit(): void {
     this.gradeActive$.subscribe((gradeActive) => {
-      console.log('Grade Active:', gradeActive);
+      console.log('Grade Active (from store):', gradeActive); // Логирование
+      this.#cdr.markForCheck(); // Уведомляем Angular о необходимости проверки изменений
     });
   }
-
   onClick(data: number): void {
     this.gradeActive = data;
+    console.log('onClick called with data:', data);
     this.#store.dispatch(new SetGradeActive(this.gradeActive));
   }
 }

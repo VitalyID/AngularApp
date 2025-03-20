@@ -8,7 +8,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
-import { SharedModule } from '../../shared.module';
+import { ButtonsComponent } from '../buttons/buttons.component';
 import { ChartComponent } from '../chart/chart.component';
 import { TableComponent } from '../table/table.component';
 import { ButtonData } from './../../types/sectionItem';
@@ -17,7 +17,7 @@ import { ButtonService } from './../buttons/service/buttons.component.service';
 @Component({
   selector: 'main',
   standalone: true,
-  imports: [TableComponent, SharedModule, ChartComponent],
+  imports: [TableComponent, ChartComponent, ButtonsComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

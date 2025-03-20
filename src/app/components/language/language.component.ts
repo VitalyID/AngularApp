@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 interface ListLanguage {
@@ -7,8 +8,8 @@ interface ListLanguage {
 
 @Component({
   selector: 'app-language',
-  standalone: false,
-
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './language.component.html',
   styleUrl: './language.component.scss',
 })

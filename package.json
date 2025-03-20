@@ -21,6 +21,7 @@
     "@ctrl/tinycolor": "^4.1.0",
     "@ngxs/devtools-plugin": "^19.0.0",
     "@ngxs/logger-plugin": "^19.0.0",
+    "@ngxs/storage-plugin": "^19.0.0",
     "@ngxs/store": "^19.0.0",
     "chart.js": "^4.3.0",
     "lorem-ipsum": "^2.0.8",

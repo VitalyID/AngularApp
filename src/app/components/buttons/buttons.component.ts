@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonData } from './../../types/sectionItem';
@@ -6,8 +7,8 @@ import { ButtonService } from './service/buttons.component.service';
 
 @Component({
   selector: 'app-buttons',
-  standalone: false,
-
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './buttons.component.html',
   styleUrl: './buttons.component.scss',
 })

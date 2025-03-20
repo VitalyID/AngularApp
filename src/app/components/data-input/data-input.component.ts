@@ -18,7 +18,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { SharedModule } from '../../shared.module';
+// import { SharedModule } from '../../shared.module';
+import { ButtonsComponent } from '../buttons/buttons.component';
 import { ListenerService } from '../buttons/service/buttonListenerStatus.compoent.service';
 import { ButtonData } from './../../types/sectionItem';
 import { ButtonService } from './../buttons/service/buttons.component.service';
@@ -46,7 +47,7 @@ export function customValidator(): ValidatorFn {
 }
 @Component({
   selector: 'data-input',
-  imports: [SharedModule, ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ButtonsComponent],
   templateUrl: './data-input.component.html',
   styleUrl: './data-input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

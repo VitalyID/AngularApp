@@ -1,18 +1,27 @@
-// import { ApplicationConfig } from '@angular/core';
-// import { provideRouter, Routes } from '@angular/router';
-// import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
-// import { MainComponent } from './components/main/main.component';
-// import { MyQRComponent } from './components/my-qr/my-qr.component';
-
+import { DatePipe } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import {
+  NgxsStoragePluginModule,
+  NgxsStoragePluginOptions,
+} from '@ngxs/storage-plugin';
 import { provideStore } from '@ngxs/store';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { routes } from './ app.routes';
+import { AmodzieState } from './components/userSettingPage/user-setting-store/user-setting-store.state';
 
-// const appRoutes: Routes = [
-//   { path: '', component: MainComponent },
-//   { path: 'my-qr', component: MyQRComponent },
-//   { path: '**', component: EmptyRouteComponent },
-// ];
+const storagePluginOptions: NgxsStoragePluginOptions = {
+  keys: ['amodzie'],
+};
 
-export const AppConfig: ApplicationConfig = {
-  providers: [provideStore()],
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    provideCharts(withDefaultRegisterables()),
+    DatePipe,
+    provideStore([AmodzieState]),
+    NgxsStoragePluginModule.forRoot(storagePluginOptions).providers!,
+  ],
 };

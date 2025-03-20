@@ -4,6 +4,7 @@ import { SvgSpriteSetting } from './../../types/interfaces/svgIcon';
 
 @Component({
   selector: 'svg-icon',
+  standalone: true,
   imports: [CommonModule],
   template: `<svg
     *ngIf="svgSetting"

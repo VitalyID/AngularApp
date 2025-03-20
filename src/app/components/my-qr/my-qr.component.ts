@@ -9,14 +9,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { loremIpsum } from 'lorem-ipsum';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
-import { SharedModule } from '../../shared.module';
 import { ButtonData } from '../../types/sectionItem';
+import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
 import { QrCardComponent } from '../qr-card/qr-card.component';
 
 @Component({
   selector: 'my-qr',
-  imports: [SharedModule, QrCardComponent],
+  imports: [QrCardComponent, ButtonsComponent],
   templateUrl: './my-qr.component.html',
   styleUrl: './my-qr.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

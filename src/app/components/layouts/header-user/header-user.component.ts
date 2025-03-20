@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
+import { LanguageComponent } from '../../language/language.component';
+import { SvgIconComponent } from '../../svg-icon/svg-icon.component';
 
 @Component({
   selector: 'app-header-user',
-  standalone: false,
-
+  standalone: true,
+  imports: [SvgIconComponent, LanguageComponent],
   templateUrl: './header-user.component.html',
   styleUrl: './header-user.component.scss',
 })

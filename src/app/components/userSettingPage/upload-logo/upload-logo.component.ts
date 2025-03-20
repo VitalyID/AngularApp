@@ -8,14 +8,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SharedModule } from '../../../shared.module';
+// import { SharedModule } from '../../../shared.module';
 import { ButtonData } from '../../../types/sectionItem';
+import { ButtonsComponent } from '../../buttons/buttons.component';
 import { ButtonService } from '../../buttons/service/buttons.component.service';
 import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.service';
 
 @Component({
   selector: 'upload-logo',
-  imports: [SharedModule],
+  imports: [ButtonsComponent],
   templateUrl: './upload-logo.component.html',
   styleUrl: './upload-logo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

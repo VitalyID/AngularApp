@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TransmitDataService } from '../../services/transmit-data.service';
-import { SharedModule } from '../../shared.module';
 import { TabsName } from '../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../types/sectionItem';
+import { ButtonsComponent } from '../buttons/buttons.component';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { FilterComponent } from '../filter/filter.component';
@@ -18,7 +18,12 @@ import { TitleFilter } from '../filter/types/enum/nameFilter';
 
 @Component({
   selector: 'table',
-  imports: [SharedModule, CommonModule, DataInputComponent, FilterComponent],
+  imports: [
+    CommonModule,
+    DataInputComponent,
+    FilterComponent,
+    ButtonsComponent,
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

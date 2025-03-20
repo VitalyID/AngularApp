@@ -12,9 +12,9 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgxsModule } from '@ngxs/store';
-import { SharedModule } from '../../../../../shared.module';
 import { SvgSpriteSetting } from '../../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../../types/sectionItem';
+import { ButtonsComponent } from '../../../../buttons/buttons.component';
 import { ButtonService } from '../../../../buttons/service/buttons.component.service';
 import { SvgIconComponent } from '../../../../svg-icon/svg-icon.component';
 import { AmodzieComponent } from '../../../amodzie/amodzie.component';
@@ -34,12 +34,12 @@ import { DataInput } from './../../../input-user-tips/types/interfaces/dataInput
   imports: [
     SvgIconComponent,
     InputUserTipsComponent,
-    SharedModule,
     StarsRateComponent,
     CommonModule,
     FeedbacksComponent,
     AmodzieComponent,
     NgxsModule,
+    ButtonsComponent,
   ],
   templateUrl: './user-preview.component.html',
   styleUrl: './user-preview.component.scss',
@@ -166,7 +166,7 @@ export class UserPreviewComponent implements OnInit {
     this.#switcherService.channelSwitcherFromService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data: SwitcherData) => {
-        console.log(data.title, data.value);
+        // console.log(data.title, data.value);
 
         if (data.title === 'rate' && data.value === true) {
           this.isOpen = true;
@@ -207,7 +207,7 @@ export class UserPreviewComponent implements OnInit {
     const key = Object.keys(data);
     // console.log(key[0], data[key[0]]);
     if (data[key[0]] === 0 || data[key[0]] === null) {
-      console.log('сработало');
+      // console.log('сработало');
       this.btnSendData.background = 'grey';
       this.btnSendData.color = '#696d6a';
       this.btnSendData.disabled = true;
