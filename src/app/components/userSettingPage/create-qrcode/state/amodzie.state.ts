@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { SetGradeActive } from '../user-setting-store/user-setting-store.actions';
+import { SetGradeActive } from './amodzie.action';
 
 export interface AmodzieStateModel {
   gradeActive: number;
@@ -15,11 +15,7 @@ export interface AmodzieStateModel {
 @Injectable()
 export class AmodzieState {
   @Selector()
-  static getGradeActive(state: AmodzieStateModel | null | undefined): number {
-    if (!state) {
-      console.warn('state is null or undefind');
-      return 3;
-    }
+  static getGradeActive(state: AmodzieStateModel): number {
     console.log('selector: ', state.gradeActive);
     return state.gradeActive;
   }

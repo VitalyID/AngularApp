@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { SetGradeActive } from '../user-setting-store/user-setting-store.actions';
-import { AmodzieState } from './amodzie.state';
+import { SetGradeActive } from '../create-qrcode/state/amodzie.action';
+import { AmodzieState } from '../create-qrcode/state/amodzie.state';
 import { AmodzieSettings } from './types/interfaces/amodzieSettings';
 
 @Component({

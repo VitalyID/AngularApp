@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
 import { MainComponent } from './components/main/main.component';
 import { MyQRComponent } from './components/my-qr/my-qr.component';
-import { CreateQRcodeComponent } from './components/userSettingPage/create-qrcode/components/settingUser/create-qrcode.component';
 
 export const routes: Routes = [
   {
@@ -19,7 +18,10 @@ export const routes: Routes = [
   },
   {
     path: 'create-qrcode',
-    component: CreateQRcodeComponent,
+    loadChildren: () =>
+      import(
+        './components/userSettingPage/create-qrcode/create-qrcode.module'
+      ).then((m) => m.CreateQrcodeModule),
     data: { asideID: 1 },
   },
   {
