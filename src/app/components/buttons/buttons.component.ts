@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonData } from './../../types/sectionItem';
 import { ListenerService } from './service/buttonListenerStatus.compoent.service';
@@ -12,7 +20,7 @@ import { ButtonService } from './service/buttons.component.service';
   templateUrl: './buttons.component.html',
   styleUrl: './buttons.component.scss',
 })
-export class ButtonsComponent implements OnInit {
+export class ButtonsComponent implements OnInit, OnChanges {
   @Input() buttonData?: ButtonData;
 
   readonly #listenerService = inject(ListenerService);
@@ -31,6 +39,12 @@ export class ButtonsComponent implements OnInit {
           // console.log(this.buttonData.disabled);
         }
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['buttonData']) {
+      // console.log(this.buttonData?.id);
+    }
   }
 
   clickOn() {

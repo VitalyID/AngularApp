@@ -11,7 +11,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgxsModule } from '@ngxs/store';
 import { SvgSpriteSetting } from '../../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../../types/sectionItem';
 import { ButtonsComponent } from '../../../../buttons/buttons.component';
@@ -38,7 +37,7 @@ import { DataInput } from './../../../input-user-tips/types/interfaces/dataInput
     CommonModule,
     FeedbacksComponent,
     AmodzieComponent,
-    NgxsModule,
+
     ButtonsComponent,
   ],
   templateUrl: './user-preview.component.html',

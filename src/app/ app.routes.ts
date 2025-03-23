@@ -1,4 +1,3 @@
-// import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
 import { MainComponent } from './components/main/main.component';
@@ -10,12 +9,13 @@ export const routes: Routes = [
     component: MainComponent,
     data: { asideID: 1 },
   },
-  { path: 'my-qr', component: MyQRComponent, data: { asideID: 2 } },
+
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  { path: 'my-qr', component: MyQRComponent, data: { asideID: 2 } },
   {
     path: 'create-qrcode',
     loadChildren: () =>
@@ -23,6 +23,12 @@ export const routes: Routes = [
         './components/userSettingPage/create-qrcode/create-qrcode.module'
       ).then((m) => m.CreateQrcodeModule),
     data: { asideID: 1 },
+  },
+  {
+    path: 'agents',
+    loadChildren: () =>
+      import('./agents/agents.module').then((m) => m.AgentsModule),
+    data: { asideID: 3 },
   },
   {
     path: '**',

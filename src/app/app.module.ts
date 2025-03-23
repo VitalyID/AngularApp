@@ -6,30 +6,25 @@ import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { MainComponent } from './components/main/main.component';
-import { MyQRComponent } from './components/my-qr/my-qr.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { AmodzieComponent } from './components/userSettingPage/amodzie/amodzie.component';
-import { WrapFlexComponent } from './components/wrap-flex/wrap-flex.component';
+import { AgentsRoutingModule } from './agents/agents-routing.module';
+import { AgentsModule } from './agents/agents.module';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],
 };
 @NgModule({
-  declarations: [NavigationComponent, WrapFlexComponent],
-  imports: [
-    BrowserModule,
-    RouterModule,
-    MainComponent,
-    MyQRComponent,
-    AmodzieComponent,
-  ],
+  declarations: [],
+  imports: [BrowserModule, RouterModule, AgentsModule, AgentsRoutingModule],
   providers: [
     provideCharts(withDefaultRegisterables()),
     provideHttpClient(),
     DatePipe,
-    // provideStore([AmodzieState]),
-    // NgxsStoragePluginModule.forRoot(storagePluginOptions).providers!,
   ],
+  bootstrap: [],
 })
 export class AppModule {}
+
+// MainComponent,
+//     MyQRComponent,
+//     AmodzieComponent,
+// NavigationComponent, WrapFlexComponent
