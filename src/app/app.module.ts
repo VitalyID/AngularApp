@@ -6,8 +6,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { AgentsRoutingModule } from './agents/agents-routing.module';
-import { AgentsModule } from './agents/agents.module';
+import { AgentsRoutingModule } from './components/agents/agents-routing.module';
+import { AgentsModule } from './components/agents/agents.module';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],

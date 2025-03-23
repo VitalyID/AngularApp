@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { LanguageComponent } from '../../../shared/components/language/language.component';
+import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
-import { LanguageComponent } from '../../language/language.component';
-import { SvgIconComponent } from '../../svg-icon/svg-icon.component';
 
 @Component({
   selector: 'app-header-user',

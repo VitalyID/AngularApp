@@ -8,11 +8,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
-import { ButtonsComponent } from '../buttons/buttons.component';
-import { ChartComponent } from '../chart/chart.component';
-import { TableComponent } from '../table/table.component';
+import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
+import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
+import { ChartComponent } from '../../shared/components/chart/chart.component';
+import { TableComponent } from '../../shared/components/table/table.component';
 import { ButtonData } from './../../types/sectionItem';
-import { ButtonService } from './../buttons/service/buttons.component.service';
 
 @Component({
   selector: 'main',

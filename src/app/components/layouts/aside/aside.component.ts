@@ -3,13 +3,13 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../services/transmitDataRout.service';
+import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
+import { ButtonService } from '../../../shared/components/buttons/service/buttons.component.service';
+import { SectionComponent } from '../../../shared/components/section/section.component';
+import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { TitleAside } from '../../../types/enums/titleAside';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { ButtonData } from '../../../types/sectionItem';
-import { ButtonsComponent } from '../../buttons/buttons.component';
-import { ButtonService } from '../../buttons/service/buttons.component.service';
-import { SectionComponent } from '../../section/section.component';
-import { SvgIconComponent } from '../../svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 import { LinkAside } from './tupes/enum/routerLink';
 
