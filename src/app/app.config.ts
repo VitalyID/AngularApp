@@ -3,9 +3,10 @@ import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, InjectionToken } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
-import { NgxsExecutionStrategy, provideStore } from '@ngxs/store';
+import { NgxsExecutionStrategy, NgxsModule, provideStore } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './ app.routes';
+import { UploadLogoState } from './components/QR-CodeCreator/state/stateUploadLogo/uploadLogo.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
     DatePipe,
     provideStore([]),
     // NgxsStoragePluginModule.forRoot(storagePluginOptions).providers!,
+    NgxsModule.forRoot([UploadLogoState]).providers!,
   ],
 };

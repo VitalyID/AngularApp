@@ -9,7 +9,7 @@
 
   <div class="userPreview__about--me">
     <img
-      src="../../../assets/images/logoDefault.png"
+      [src]="logoSource"
       alt=""
       class="userPreview__about--meLogo"
       #preview
@@ -73,3 +73,5 @@
 <div class="userPreview__sendData">
   <app-buttons [buttonData]="btnSendData"></app-buttons>
 </div>
+
+<!-- [src]="../../../assets/images/logoDefault.png" -->

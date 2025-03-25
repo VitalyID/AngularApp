@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { SharedModule } from '../../../shared.module';
+import { Store } from '@ngxs/store';
+import { AddUploadLogo } from '../../../components/QR-CodeCreator/state/stateUploadLogo/uploadLogo.actions';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
@@ -37,6 +39,7 @@ export class UploadLogoComponent implements OnInit {
   readonly #dataFromButtonService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #transmitLogoService = inject(UploadTransmitPhotoService);
+  readonly #store = inject(Store);
 
   ngOnInit(): void {
     this.#dataFromButtonService.eventClick$
@@ -58,7 +61,9 @@ export class UploadLogoComponent implements OnInit {
   #readFile(file: File) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.#transmitLogoService.getPhotoFromComponent(e.target.result);
+      const dataURL: string = e.target.result as string;
+      // this.#transmitLogoService.getPhotoFromComponent(e.target.result);
+      this.#store.dispatch(new AddUploadLogo(dataURL));
     };
     reader.readAsDataURL(file);
   }

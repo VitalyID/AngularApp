@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -11,6 +12,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngxs/store';
+import { Observable, Subscription } from 'rxjs';
 import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
@@ -24,9 +27,11 @@ import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-ico
 import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit';
 import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
 import { UploadTransmitPhotoService } from '../../../../shared/components/upload-logo/services/uploadTransmitPhoto.service';
+import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import { UserSetButtonService } from '../../services/userSetUpTips.service';
+import { UploadLogoState } from '../../state/stateUploadLogo/uploadLogo.state';
 
 @Component({
   selector: 'user-preview',
@@ -43,8 +48,10 @@ import { UserSetButtonService } from '../../services/userSetUpTips.service';
   styleUrl: './tipPagePreview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserPreviewComponent implements OnInit {
+export class UserPreviewComponent implements OnInit, AfterViewInit {
   @ViewChild('preview') previewIMG!: ElementRef;
+
+  logoSource = LogoProfileDefaultSource.logoSource;
 
   svgLogo: SvgSpriteSetting = {
     iconID: 'Logo',
@@ -100,6 +107,8 @@ export class UserPreviewComponent implements OnInit {
   isAmodzieClose: boolean = true;
   isAmodzieOpen: boolean = false;
   isActive: number = 0;
+  logoFromStore$?: Observable<string>;
+  #logo?: Subscription;
 
   readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
@@ -108,6 +117,7 @@ export class UserPreviewComponent implements OnInit {
   readonly #setBTNService = inject(UserSetButtonService);
   readonly #btnService = inject(ButtonService);
   readonly #switcherService = inject(SwitcherStateService);
+  readonly #store = inject(Store);
 
   ngOnInit(): void {
     this.#logoService.getUserPhotoFromService$
@@ -129,6 +139,7 @@ export class UserPreviewComponent implements OnInit {
       .subscribe((data: UserSetting) => {
         this.updateBTNtext(data);
       });
+
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
@@ -197,6 +208,49 @@ export class UserPreviewComponent implements OnInit {
           this.isAmodzieClose = true;
           this.#cdr.detectChanges();
         }
+      });
+
+    // get user's logo from store
+
+    // this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
+    // this.#logo = this.logoFromStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     console.log('Лого из стора получено превью ', data);
+
+    // if (data) {
+    //   this.previewIMG.nativeElement.src = data;
+    //   this.#render2.setProperty(
+    //     this.previewIMG.nativeElement,
+    //     'display',
+    //     'block'
+    //   );
+    // } else {
+    //   console.log(4444444);
+    // }
+    // this.#cdr.markForCheck();
+    // });
+  }
+
+  ngAfterViewInit(): void {
+    this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
+    this.#logo = this.logoFromStore$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        console.log('Лого из стора получено превью ', data);
+        // });
+
+        if (data) {
+          this.previewIMG.nativeElement.src = data;
+          this.#render2.setProperty(
+            this.previewIMG.nativeElement,
+            'display',
+            'block'
+          );
+        } else {
+          console.log(4444444);
+        }
+        this.#cdr.markForCheck();
       });
   }
 
