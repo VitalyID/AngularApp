@@ -6,7 +6,7 @@ import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
 import { NgxsExecutionStrategy, NgxsModule, provideStore } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './ app.routes';
-import { UploadLogoState } from './components/QR-CodeCreator/state/stateUploadLogo/uploadLogo.state';
+import { UploadLogoState } from './components/QR-CodeCreator/state/qr-code-creator.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],

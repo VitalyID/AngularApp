@@ -56,6 +56,8 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
       const valueInput = {
         [this.dataToInput.inputID]: userNumber,
       };
+      console.log(valueInput);
+      console.log(typeof valueInput['keys']);
 
       this.#btnTipsService.getTipsFromInput(valueInput);
 

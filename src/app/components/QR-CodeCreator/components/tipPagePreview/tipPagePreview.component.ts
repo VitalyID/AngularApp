@@ -31,7 +31,7 @@ import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import { UserSetButtonService } from '../../services/userSetUpTips.service';
-import { UploadLogoState } from '../../state/stateUploadLogo/uploadLogo.state';
+import { UploadLogoState } from '../../state/qr-code-creator.state';
 
 @Component({
   selector: 'user-preview',
@@ -209,27 +209,6 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
           this.#cdr.detectChanges();
         }
       });
-
-    // get user's logo from store
-
-    // this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
-    // this.#logo = this.logoFromStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     console.log('Лого из стора получено превью ', data);
-
-    // if (data) {
-    //   this.previewIMG.nativeElement.src = data;
-    //   this.#render2.setProperty(
-    //     this.previewIMG.nativeElement,
-    //     'display',
-    //     'block'
-    //   );
-    // } else {
-    //   console.log(4444444);
-    // }
-    // this.#cdr.markForCheck();
-    // });
   }
 
   ngAfterViewInit(): void {
@@ -238,7 +217,6 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         console.log('Лого из стора получено превью ', data);
-        // });
 
         if (data) {
           this.previewIMG.nativeElement.src = data;
@@ -255,11 +233,8 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   }
 
   validInput(data: DataFromUserInput): void {
-    // console.log(data);
     const key = Object.keys(data);
-    // console.log(key[0], data[key[0]]);
     if (data[key[0]] === 0 || data[key[0]] === null) {
-      // console.log('сработало');
       this.btnSendData.background = 'grey';
       this.btnSendData.color = '#696d6a';
       this.btnSendData.disabled = true;

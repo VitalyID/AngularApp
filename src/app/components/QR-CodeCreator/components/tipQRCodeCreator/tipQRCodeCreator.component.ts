@@ -15,6 +15,7 @@ import { RoutIDservice } from '../../../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../../../../shared/components/input-user-tips/input-user-tips.component';
+import { PlaceholderTips } from '../../../../shared/components/input-user-tips/types/enum/placeholderTips';
 import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
@@ -57,17 +58,16 @@ export class CreateQRcodeComponent implements OnInit {
 
   dataToInputChild: DataInput[] = [
     {
-      placeholder: '100',
+      placeholder: PlaceholderTips.placeholder1,
       inputID: 'inputID-1',
       validation: true,
       unitCurrency: 'rub',
       validationFrom: '0',
       validationTo: '1000',
-
       value: '',
     },
     {
-      placeholder: '150',
+      placeholder: PlaceholderTips.placeholder2,
       inputID: 'inputID-2',
       validation: true,
       unitCurrency: 'rub',
@@ -76,7 +76,7 @@ export class CreateQRcodeComponent implements OnInit {
       value: '',
     },
     {
-      placeholder: '200',
+      placeholder: PlaceholderTips.placeholder3,
       inputID: 'inputID-3',
       validation: true,
       unitCurrency: 'rub',

@@ -10,7 +10,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { SharedModule } from '../../../shared.module';
 import { Store } from '@ngxs/store';
-import { AddUploadLogo } from '../../../components/QR-CodeCreator/state/stateUploadLogo/uploadLogo.actions';
+import { AddUploadLogo } from '../../../components/QR-CodeCreator/state/qr-code-creator.action';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
@@ -68,3 +68,5 @@ export class UploadLogoComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 }
+
+// import { AddUploadLogo } from '../../../components/QR-CodeCreator/state/stateUploadLogo/uploadLogo.actions';
