@@ -22,6 +22,7 @@ import { InputUserTipsComponent } from '../../../../shared/components/input-user
 import { DataFromUserInput } from '../../../../shared/components/input-user-tips/types/interfaces/DataFromUserInput';
 import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
 import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
+import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
 import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit';
 import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
@@ -31,7 +32,9 @@ import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import {
   InputUsersModel,
+  SetUserStarRate,
   SetUserTips,
+  StarRateModel,
   UploadLogoState,
 } from '../../state/qr-code-creator.state';
 import { InputUsers } from './../../types/interface/inputUsers';
@@ -102,6 +105,11 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     id: 11,
   };
 
+  dataToStarRate: DataStarRate = {
+    disabled: true,
+    rate: 0,
+  };
+
   userSettingData: any = {};
   isOpen: boolean = false;
   isClose: boolean = true;
@@ -112,8 +120,10 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   isActive: number = 0;
   logoFromStore$?: Observable<string>;
   userInputFromStore$?: Observable<InputUsersModel>;
+  userRateFromStore$?: Observable<StarRateModel>;
   #logo?: Subscription;
   #ArrBtnText?: Subscription;
+  #rate?: Subscription;
 
   readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
@@ -144,6 +154,15 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data: InputUsers) => {
         this.updateBTNtext(data);
+      });
+
+    this.userRateFromStore$ = this.#store.select(
+      SetUserStarRate.getUserStarRate
+    );
+    this.#rate = this.userRateFromStore$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        this.dataToStarRate = { ...this.dataToStarRate, rate: data.rate };
       });
 
     this.#btnService.eventClick$

@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LogoProfileDefaultSource } from '../../../types/enums/logoProfile';
 import { InputUsers } from './../types/interface/inputUsers';
-import { AddUploadLogo, AddUserTips } from './qr-code-creator.action';
+import {
+  AddUploadLogo,
+  AddUserStarRate,
+  AddUserTips,
+} from './qr-code-creator.action';
 
 export interface UploadLogo {
   logo: string;
@@ -29,7 +33,6 @@ export class UploadLogoState {
   }
 }
 
-// =================================
 // =================================
 // =================================
 export interface InputUsersModel {
@@ -60,5 +63,36 @@ export class SetUserTips {
     const stateUserTip = ctx.getState();
     console.log('стор получил tip юзер: ', stateUserTip);
     ctx.setState({ ...stateUserTip, ...action.userTip });
+  }
+}
+
+// =================================
+// =================================
+
+export interface StarRateModel {
+  rate: number;
+}
+
+@State<StarRateModel>({
+  name: 'rate',
+  defaults: {
+    rate: 2,
+  },
+})
+@Injectable()
+export class SetUserStarRate {
+  @Selector()
+  static getUserStarRate(state: StarRateModel) {
+    return state;
+  }
+
+  @Action(AddUserStarRate)
+  AddUserStarRate(
+    ctx: StateContext<StarRateModel>,
+    { userRate }: AddUserStarRate
+  ) {
+    const stateRate = ctx.getState();
+    console.log('stars: ', stateRate);
+    ctx.setState({ rate: userRate });
   }
 }

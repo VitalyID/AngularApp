@@ -9,3 +9,8 @@ export class AddUserTips {
   static readonly type = '[inputTip] SetInputTip';
   constructor(public userTip: InputUsersModel) {}
 }
+
+export class AddUserStarRate {
+  static readonly type = '[SetRate] SetStatRate';
+  constructor(public userRate: number) {}
+}

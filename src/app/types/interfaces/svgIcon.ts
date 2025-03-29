@@ -5,4 +5,5 @@ export interface SvgSpriteSetting {
   fill?: string;
   transition?: string;
   tmp?: any;
+  disabled?: boolean;
 }

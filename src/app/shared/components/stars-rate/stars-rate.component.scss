@@ -8,7 +8,7 @@
   gap: 20px;
 
   & .unitRate {
-    fill: #777d82;
+    fill: #9c9c9c;
     transition: all 0.5s;
   }
 
@@ -18,8 +18,7 @@
     transition: all 0.5s;
   }
 
-  & .disabled {
-    fill: #555557;
-    transition: all 0.5s;
+  & .isActive.disabled {
+    fill: #996f31;
   }
 }

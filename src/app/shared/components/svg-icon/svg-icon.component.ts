@@ -11,6 +11,7 @@ import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
     [style.width]="svgSetting.width"
     [style.height]="svgSetting.height"
     [style.fill]="svgSetting.fill"
+    [style.disabled]="svgSetting.disabled"
   >
     <use
       attr.xlink:href="assets/icons/svg-sprite/symbol-defs.svg#{{

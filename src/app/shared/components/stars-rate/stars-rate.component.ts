@@ -5,11 +5,15 @@ import {
   Component,
   forwardRef,
   inject,
+  Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { DataStarRate } from './types/interface/dataToStarRate';
 
 @Component({
   selector: 'stars-rate',
@@ -25,7 +29,14 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
     },
   ],
 })
-export class StarsRateComponent implements ControlValueAccessor, OnInit {
+export class StarsRateComponent
+  implements ControlValueAccessor, OnInit, OnChanges
+{
+  @Input() dataFromParent: DataStarRate = {
+    disabled: false,
+    rate: 0,
+  };
+
   svgSetting: SvgSpriteSetting = {
     iconID: 'star',
     width: '40px',
@@ -36,7 +47,7 @@ export class StarsRateComponent implements ControlValueAccessor, OnInit {
   maxCounter: number = 5;
 
   isDisable: boolean = false;
-  userClick: number = 2;
+  userClick: number = 0;
   onTouch: number = 0;
   tmp: number = 0;
 
@@ -44,6 +55,13 @@ export class StarsRateComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit(): void {
     this.general = Array(this.maxCounter).fill(0);
+    this.isDisable = this.dataFromParent.disabled;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataFromParent']) {
+      this.userClick = this.dataFromParent.rate;
+    }
   }
 
   #onTouched = () => {};
@@ -68,8 +86,8 @@ export class StarsRateComponent implements ControlValueAccessor, OnInit {
 
   setDisabledState(data: boolean) {
     this.isDisable = data;
-    // this.userClick = 0;  save status rate? when is disabled
-    this.onTouch = 0;
+    this.userClick = this.dataFromParent.rate; // save status rate? when is disabled
+    this.onTouch = this.dataFromParent.rate;
   }
 
   onClick(data: number) {
@@ -79,18 +97,21 @@ export class StarsRateComponent implements ControlValueAccessor, OnInit {
     this.#onChange(this.userClick);
     this.#cdr.markForCheck();
     this.#cdr.detectChanges();
+    console.log(data);
+
+    // ===========================
+    // == Подкдючаем стор здесь ==
+    // ===========================
   }
 
   onMouseOver(data: number) {
     this.userClick = 0;
-
     this.onTouch = data;
   }
 
   onMouseLeave() {
     this.userClick = this.tmp;
     this.onTouch = 0;
-    this.#onTouched();
 
     this.#cdr.markForCheck();
   }
