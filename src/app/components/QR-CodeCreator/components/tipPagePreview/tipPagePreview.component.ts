@@ -21,7 +21,6 @@ import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feed
 import { InputUserTipsComponent } from '../../../../shared/components/input-user-tips/input-user-tips.component';
 import { DataFromUserInput } from '../../../../shared/components/input-user-tips/types/interfaces/DataFromUserInput';
 import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
-import { UserSetting } from '../../../../shared/components/input-user-tips/types/interfaces/UserDataSetting';
 import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
 import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit';
@@ -30,8 +29,12 @@ import { UploadTransmitPhotoService } from '../../../../shared/components/upload
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
-import { UserSetButtonService } from '../../services/userSetUpTips.service';
-import { UploadLogoState } from '../../state/qr-code-creator.state';
+import {
+  InputUsersModel,
+  SetUserTips,
+  UploadLogoState,
+} from '../../state/qr-code-creator.state';
+import { InputUsers } from './../../types/interface/inputUsers';
 
 @Component({
   selector: 'user-preview',
@@ -108,13 +111,15 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   isAmodzieOpen: boolean = false;
   isActive: number = 0;
   logoFromStore$?: Observable<string>;
+  userInputFromStore$?: Observable<InputUsersModel>;
   #logo?: Subscription;
+  #ArrBtnText?: Subscription;
 
   readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #render2 = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
-  readonly #setBTNService = inject(UserSetButtonService);
+  // readonly #setBTNService = inject(UserSetButtonService);
   readonly #btnService = inject(ButtonService);
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
@@ -134,9 +139,10 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
         this.#cdr.markForCheck();
       });
 
-    this.#setBTNService.channelDataInputTips$
+    this.userInputFromStore$ = this.#store.select(SetUserTips.getUserTips);
+    this.#ArrBtnText = this.userInputFromStore$
       .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data: UserSetting) => {
+      .subscribe((data: InputUsers) => {
         this.updateBTNtext(data);
       });
 
@@ -175,8 +181,6 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     this.#switcherService.channelSwitcherFromService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data: SwitcherData) => {
-        // console.log(data.title, data.value);
-
         if (data.title === 'rate' && data.value === true) {
           this.isOpen = true;
           this.isClose = false;
@@ -245,20 +249,11 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     }
   }
 
-  updateBTNtext(data: { [key: string]: number }) {
-    const key = Object.keys(data);
+  updateBTNtext(data: InputUsers) {
+    this.arrBTN[0].text = `${data['inputID-1']} ₽`;
+    this.arrBTN[1].text = `${data['inputID-2']} ₽`;
+    this.arrBTN[2].text = `${data['inputID-3']} ₽`;
 
-    switch (key[0]) {
-      case 'inputID-1':
-        this.arrBTN[0].text = String(data[key[0]]) + ' ₽';
-        break;
-      case 'inputID-2':
-        this.arrBTN[1].text = String(data[key[0]]) + ' ₽';
-        break;
-      case 'inputID-3':
-        this.arrBTN[2].text = String(data[key[0]]) + ' ₽';
-        break;
-    }
     this.#cdr.detectChanges();
   }
 

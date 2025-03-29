@@ -33,7 +33,7 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
     value: '',
     unitCurrency: '',
   };
-  @Output() isValid = new EventEmitter();
+  @Output() userInputForParent = new EventEmitter();
 
   isCurrency?: string;
 
@@ -57,7 +57,7 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
         [this.dataToInput.inputID]: userNumber,
       };
       console.log(valueInput);
-      console.log(typeof valueInput['keys']);
+      // console.log(typeof valueInput['keys']);
 
       this.#btnTipsService.getTipsFromInput(valueInput);
 
@@ -66,7 +66,9 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
         this.myForm.setValue(1000);
       }
 
-      this.isValid.emit({ [this.dataToInput.inputID]: this.myForm.value });
+      this.userInputForParent.emit({
+        [this.dataToInput.inputID]: this.myForm.value,
+      });
     });
   }
 
@@ -74,7 +76,9 @@ export class InputUserTipsComponent implements OnInit, OnChanges {
     // setUp text to btn, after loading page (input=none)
 
     if (changes['dataToInput']) {
-      const newValue = changes['dataToInput'].currentValue.placeholder;
+      this.isCurrency = this.dataToInput.unitCurrency;
+
+      const newValue = changes['dataToInput'].currentValue.value;
       this.#btnTipsService.getTipsFromInput({
         [this.dataToInput.inputID]: newValue,
       });

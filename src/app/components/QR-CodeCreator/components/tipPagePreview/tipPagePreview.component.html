@@ -27,7 +27,7 @@
   <span class="spanBold">Сумма чаевых</span>
   <input-user-tips
     [dataToInput]="setUpTips"
-    (isValid)="validInput($event)"
+    (userInputForParent)="validInput($event)"
   ></input-user-tips>
 
   <div class="userPreview__setTips--btn">

@@ -12,8 +12,18 @@
       <span>Предустановленные суммы чаевых</span>
 
       <div class="createQRcode__body-wrapForm-tips">
-        @for(input of dataToInputChild; track input.inputID) {
-        <input-user-tips [dataToInput]="input"></input-user-tips>}
+        <input-user-tips
+          [dataToInput]="inputSmallTip"
+          (userInputForParent)="dataFromInput($event)"
+        ></input-user-tips>
+        <input-user-tips
+          [dataToInput]="inputMiddleTip"
+          (userInputForParent)="dataFromInput($event)"
+        ></input-user-tips>
+        <input-user-tips
+          [dataToInput]="inputBigTip"
+          (userInputForParent)="dataFromInput($event)"
+        ></input-user-tips>
       </div>
     </div>
 

@@ -26,3 +26,5 @@ export const appConfig: ApplicationConfig = {
     NgxsModule.forRoot([UploadLogoState]).providers!,
   ],
 };
+
+// NgxsModule.forRoot([SetUserTips]).providers!,

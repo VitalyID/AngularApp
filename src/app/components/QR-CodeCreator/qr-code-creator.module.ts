@@ -4,6 +4,7 @@ import { NgxsModule, provideStates, provideStore } from '@ngxs/store';
 import { CreateQRcodeComponent } from './components/tipQRCodeCreator/tipQRCodeCreator.component';
 import { CreateQrcodeRoutingModule } from './qr-code-creator-routing.module';
 import { AmodzieState } from './state/amodzie.state';
+import { SetUserTips } from './state/qr-code-creator.state';
 
 // export const CUSTOM_NGXS_EXECUTION_STRATEGY =
 //   new InjectionToken<NgxsExecutionStrategy>('CUSTOM_NGXS_EXECUTION_STRATEGY');
@@ -16,6 +17,6 @@ import { AmodzieState } from './state/amodzie.state';
     CreateQRcodeComponent,
     NgxsModule.forFeature([AmodzieState]),
   ],
-  providers: [provideStore(), provideStates([AmodzieState])],
+  providers: [provideStore(), provideStates([AmodzieState, SetUserTips])],
 })
 export class CreateQrcodeModule {}

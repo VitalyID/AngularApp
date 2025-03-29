@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -10,19 +9,21 @@ import {
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
+import { Observable, Subscription } from 'rxjs';
 import { RoutIDservice } from '../../../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
 import { InputUserTipsComponent } from '../../../../shared/components/input-user-tips/input-user-tips.component';
-import { PlaceholderTips } from '../../../../shared/components/input-user-tips/types/enum/placeholderTips';
 import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
 import { ButtonData } from '../../../../types/sectionItem';
+import { AddUserTips } from '../../state/qr-code-creator.action';
 import { EnumSwitcher } from '../../types/enum/enumSwitcher';
+import { InputUsers } from '../../types/interface/inputUsers';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
-
 @Component({
   selector: 'create-qrcode',
   imports: [
@@ -55,36 +56,44 @@ export class CreateQRcodeComponent implements OnInit {
   enumSwitcher = EnumSwitcher;
   userSettingData: any = {};
   myForm!: FormGroup;
+  inputFromStore$?: Observable<InputUsers>;
+  #placeholder?: Subscription;
 
-  dataToInputChild: DataInput[] = [
-    {
-      placeholder: PlaceholderTips.placeholder1,
-      inputID: 'inputID-1',
-      validation: true,
-      unitCurrency: 'rub',
-      validationFrom: '0',
-      validationTo: '1000',
-      value: '',
-    },
-    {
-      placeholder: PlaceholderTips.placeholder2,
-      inputID: 'inputID-2',
-      validation: true,
-      unitCurrency: 'rub',
-      validationFrom: '0',
-      validationTo: '1000',
-      value: '',
-    },
-    {
-      placeholder: PlaceholderTips.placeholder3,
-      inputID: 'inputID-3',
-      validation: true,
-      unitCurrency: 'rub',
-      validationFrom: '0',
-      validationTo: '1000',
-      value: '',
-    },
-  ];
+  defaultDataInput: InputUsers = {
+    'inputID-1': 100,
+    'inputID-2': 150,
+    'inputID-3': 200,
+  };
+
+  inputSmallTip: DataInput = {
+    inputID: 'inputID-1',
+    validation: true,
+    unitCurrency: 'rub',
+    validationFrom: '0',
+    validationTo: '1000',
+    value: '',
+    placeholder: '100',
+  };
+
+  inputMiddleTip: DataInput = {
+    inputID: 'inputID-2',
+    validation: true,
+    unitCurrency: 'rub',
+    validationFrom: '0',
+    validationTo: '1000',
+    value: '',
+    placeholder: '150',
+  };
+
+  inputBigTip: DataInput = {
+    placeholder: '200',
+    inputID: 'inputID-3',
+    validation: true,
+    unitCurrency: 'rub',
+    validationFrom: '0',
+    validationTo: '1000',
+    value: '',
+  };
 
   btnText: ButtonData = {
     id: 7,
@@ -117,7 +126,9 @@ export class CreateQRcodeComponent implements OnInit {
 
   readonly #routeService = inject(RoutIDservice);
   readonly #route = inject(ActivatedRoute);
-  readonly #cdr = inject(ChangeDetectorRef);
+  // readonly #cdr = inject(ChangeDetectorRef);
+  readonly #store = inject(Store);
+  // readonly #destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.listItemSwitch();
@@ -125,6 +136,38 @@ export class CreateQRcodeComponent implements OnInit {
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];
     this.#routeService.getIDroute(this.asideID);
+
+    // we subscribe to store for get data to input (type placeholder)
+    // this.inputFromStore$ = this.#store.select(SetUserTips.getUserTips);
+    // this.#placeholder = this.inputFromStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     console.log(data);
+
+    //     this.inputSmallTip = {
+    //       ...this.inputSmallTip,
+    //       placeholder: `${data['inputID-1']}`,
+    //     };
+    //     this.inputMiddleTip = {
+    //       ...this.inputMiddleTip,
+    //       placeholder: `${data['inputID-2']}`,
+    //     };
+    //     this.inputBigTip = {
+    //       ...this.inputBigTip,
+    //       placeholder: `${data['inputID-3']}`,
+    //     };
+
+    //     // this.inputSmallTip.placeholder = `${data['inputID-1']}`;
+    //     // this.inputMiddleTip.placeholder = `${data['inputID-2']}`;
+    //     // this.inputBigTip.placeholder = ` ${data['inputID-3']}`;
+
+    //     console.log(this.inputSmallTip);
+    //     console.log(this.inputMiddleTip);
+    //     console.log(this.inputBigTip);
+
+    //     this.#cdr.detectChanges();
+    //     this.#cdr.markForCheck();
+    //   });
   }
 
   listItemSwitch() {
@@ -133,8 +176,10 @@ export class CreateQRcodeComponent implements OnInit {
     }
   }
 
-  inValid(data: {}) {
-    this.isValidInput = data ? true : false;
-    this.#cdr.detectChanges();
+  dataFromInput(data: InputUsers) {
+    console.log('Пришли данные от дочернего инпута: ', data);
+    this.defaultDataInput = { ...this.defaultDataInput, ...data };
+    console.log('Новый объект: ', this.defaultDataInput);
+    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
   }
 }
