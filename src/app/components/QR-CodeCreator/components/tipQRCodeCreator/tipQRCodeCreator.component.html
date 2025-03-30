@@ -46,7 +46,7 @@
 
     <div class="createQRcode__body-background">
       <span>Код цвета для подложки</span>
-      <color-picker></color-picker>
+      <color-picker (userSetColor)="userSetColor($event)"></color-picker>
     </div>
 
     <!-- ------------------ -->
@@ -54,7 +54,7 @@
     <!-- ------------------ -->
 
     <div class="createQRcode__body-uploadLogo">
-      <upload-logo></upload-logo>
+      <upload-logo (uploadDataFromChild)="uploadLogo($event)"></upload-logo>
     </div>
 
     <!------------------- -->
@@ -63,7 +63,7 @@
 
     <div class="createQRcode__body-setupColorBTN">
       <span>Код цвета для кнопки</span>
-      <color-picker></color-picker>
+      <color-picker (userSetColor)="userBTNcolor($event)"></color-picker>
     </div>
 
     <app-buttons [buttonData]="btnText"></app-buttons>

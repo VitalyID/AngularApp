@@ -2,14 +2,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   inject,
+  Input,
+  OnChanges,
   OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { SetGradeActive } from '../../../components/QR-CodeCreator/state/amodzie.action';
-import { AmodzieState } from '../../../components/QR-CodeCreator/state/amodzie.state';
 import { AmodzieSettings } from './types/interfaces/amodzieSettings';
+import { AmodzieData } from './types/interfaces/amodzieStateData';
 
 @Component({
   selector: 'amodzie',
@@ -18,7 +21,13 @@ import { AmodzieSettings } from './types/interfaces/amodzieSettings';
   styleUrl: './amodzie.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AmodzieComponent implements OnInit {
+export class AmodzieComponent implements OnInit, OnChanges {
+  @Input() amodzieParentData: AmodzieData = {
+    rate: 0,
+    readonly: false,
+  };
+  @Output() dataFromAmodzieChild = new EventEmitter();
+
   arrImg: AmodzieSettings[] = [
     {
       path: '../../../assets/images/Slightly Smiling Face.png',
@@ -42,25 +51,25 @@ export class AmodzieComponent implements OnInit {
     },
   ];
 
-  gradeActive: number = 3;
+  gradeActive: number = 1;
 
   readonly #store = inject(Store);
   readonly #cdr = inject(ChangeDetectorRef);
 
-  gradeActive$: Observable<number> = this.#store.select(
-    AmodzieState.getGradeActive
-  );
-
-  ngOnInit(): void {
-    this.gradeActive$.subscribe((gradeActive) => {
-      console.log('Grade Active (from store):', gradeActive);
-      this.#cdr.markForCheck();
-    });
+  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['amodzieParentData']) {
+      this.gradeActive = this.amodzieParentData.rate;
+      console.log(this.amodzieParentData);
+    }
   }
 
   onClick(data: number): void {
+    if (this.amodzieParentData.readonly === true) return;
+
     this.gradeActive = data;
-    console.log('onClick called with data:', data);
-    this.#store.dispatch(new SetGradeActive(this.gradeActive));
+    this.dataFromAmodzieChild.emit(this.gradeActive);
+    // console.log('onClick called with data:', data);
+    // this.#store.dispatch(new AddUserAmodzie(data));
   }
 }

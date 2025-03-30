@@ -3,8 +3,13 @@ import { NgModule } from '@angular/core';
 import { NgxsModule, provideStates, provideStore } from '@ngxs/store';
 import { CreateQRcodeComponent } from './components/tipQRCodeCreator/tipQRCodeCreator.component';
 import { CreateQrcodeRoutingModule } from './qr-code-creator-routing.module';
-import { AmodzieState } from './state/amodzie.state';
-import { SetUserStarRate, SetUserTips } from './state/qr-code-creator.state';
+import {
+  AmodzieState,
+  SetUserStarRate,
+  SetUserTips,
+  SubstrateColor,
+  userFeedbackState,
+} from './state/qr-code-creator.state';
 
 // export const CUSTOM_NGXS_EXECUTION_STRATEGY =
 //   new InjectionToken<NgxsExecutionStrategy>('CUSTOM_NGXS_EXECUTION_STRATEGY');
@@ -19,7 +24,13 @@ import { SetUserStarRate, SetUserTips } from './state/qr-code-creator.state';
   ],
   providers: [
     provideStore(),
-    provideStates([AmodzieState, SetUserTips, SetUserStarRate]),
+    provideStates([
+      SetUserTips,
+      SetUserStarRate,
+      userFeedbackState,
+      AmodzieState,
+      SubstrateColor,
+    ]),
   ],
 })
 export class CreateQrcodeModule {}

@@ -20,7 +20,11 @@ import { DataInput } from '../../../../shared/components/input-user-tips/types/i
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
 import { ButtonData } from '../../../../types/sectionItem';
-import { AddUserTips } from '../../state/qr-code-creator.action';
+import {
+  AddUploadLogo,
+  AddUserSubstrateColor,
+  AddUserTips,
+} from '../../state/qr-code-creator.action';
 import { EnumSwitcher } from '../../types/enum/enumSwitcher';
 import { InputUsers } from '../../types/interface/inputUsers';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
@@ -136,38 +140,6 @@ export class CreateQRcodeComponent implements OnInit {
     // here is control to active menu on aside-bar
     this.asideID = this.#route.snapshot.data['asideID'];
     this.#routeService.getIDroute(this.asideID);
-
-    // we subscribe to store for get data to input (type placeholder)
-    // this.inputFromStore$ = this.#store.select(SetUserTips.getUserTips);
-    // this.#placeholder = this.inputFromStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     console.log(data);
-
-    //     this.inputSmallTip = {
-    //       ...this.inputSmallTip,
-    //       placeholder: `${data['inputID-1']}`,
-    //     };
-    //     this.inputMiddleTip = {
-    //       ...this.inputMiddleTip,
-    //       placeholder: `${data['inputID-2']}`,
-    //     };
-    //     this.inputBigTip = {
-    //       ...this.inputBigTip,
-    //       placeholder: `${data['inputID-3']}`,
-    //     };
-
-    //     // this.inputSmallTip.placeholder = `${data['inputID-1']}`;
-    //     // this.inputMiddleTip.placeholder = `${data['inputID-2']}`;
-    //     // this.inputBigTip.placeholder = ` ${data['inputID-3']}`;
-
-    //     console.log(this.inputSmallTip);
-    //     console.log(this.inputMiddleTip);
-    //     console.log(this.inputBigTip);
-
-    //     this.#cdr.detectChanges();
-    //     this.#cdr.markForCheck();
-    //   });
   }
 
   listItemSwitch() {
@@ -177,9 +149,21 @@ export class CreateQRcodeComponent implements OnInit {
   }
 
   dataFromInput(data: InputUsers) {
-    console.log('Пришли данные от дочернего инпута: ', data);
+    // console.log('Пришли данные от дочернего инпута: ', data);
     this.defaultDataInput = { ...this.defaultDataInput, ...data };
-    console.log('Новый объект: ', this.defaultDataInput);
+    // console.log('Новый объект: ', this.defaultDataInput);
     this.#store.dispatch(new AddUserTips(this.defaultDataInput));
+  }
+
+  userSetColor(data: string) {
+    this.#store.dispatch(new AddUserSubstrateColor(data));
+  }
+
+  uploadLogo(data: string) {
+    this.#store.dispatch(new AddUploadLogo(data));
+  }
+
+  userBTNcolor(data: string) {
+    console.log(data);
   }
 }

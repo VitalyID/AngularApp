@@ -3,14 +3,15 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  EventEmitter,
   inject,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { SharedModule } from '../../../shared.module';
 import { Store } from '@ngxs/store';
-import { AddUploadLogo } from '../../../components/QR-CodeCreator/state/qr-code-creator.action';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
@@ -25,6 +26,7 @@ import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.servi
 })
 export class UploadLogoComponent implements OnInit {
   @ViewChild('fileInput') input?: ElementRef;
+  @Output() uploadDataFromChild = new EventEmitter();
 
   uploadPhoto: ButtonData = {
     iconClass: 'icon-icon-upload',
@@ -62,11 +64,8 @@ export class UploadLogoComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const dataURL: string = e.target.result as string;
-      // this.#transmitLogoService.getPhotoFromComponent(e.target.result);
-      this.#store.dispatch(new AddUploadLogo(dataURL));
+      this.uploadDataFromChild.emit(dataURL);
     };
     reader.readAsDataURL(file);
   }
 }
-
-// import { AddUploadLogo } from '../../../components/QR-CodeCreator/state/stateUploadLogo/uploadLogo.actions';

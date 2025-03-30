@@ -15,9 +15,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
+import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
+import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
 import { InputUserTipsComponent } from '../../../../shared/components/input-user-tips/input-user-tips.component';
 import { DataFromUserInput } from '../../../../shared/components/input-user-tips/types/interfaces/DataFromUserInput';
 import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
@@ -31,11 +33,15 @@ import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import {
+  AmodzieModel,
+  AmodzieState,
   InputUsersModel,
   SetUserStarRate,
   SetUserTips,
   StarRateModel,
   UploadLogoState,
+  userFeedbackModel,
+  userFeedbackState,
 } from '../../state/qr-code-creator.state';
 import { InputUsers } from './../../types/interface/inputUsers';
 
@@ -110,6 +116,13 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     rate: 0,
   };
 
+  feedbackText: FeedbackData = {
+    text: '',
+    readonly: true,
+  };
+
+  amodzieFromParent: AmodzieData = { rate: 0, readonly: false };
+
   userSettingData: any = {};
   isOpen: boolean = false;
   isClose: boolean = true;
@@ -118,12 +131,17 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   isAmodzieClose: boolean = true;
   isAmodzieOpen: boolean = false;
   isActive: number = 0;
+
   logoFromStore$?: Observable<string>;
   userInputFromStore$?: Observable<InputUsersModel>;
   userRateFromStore$?: Observable<StarRateModel>;
+  userFeedbackStore$?: Observable<userFeedbackModel>;
+  userAmodzieStore$?: Observable<AmodzieModel>;
   #logo?: Subscription;
   #ArrBtnText?: Subscription;
   #rate?: Subscription;
+  #userFeedbackText?: Subscription;
+  #userAmodzie?: Subscription;
 
   readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
@@ -163,6 +181,30 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         this.dataToStarRate = { ...this.dataToStarRate, rate: data.rate };
+      });
+
+    this.userFeedbackStore$ = this.#store.select(
+      userFeedbackState.getMyFeedback
+    );
+    this.#userFeedbackText = this.userFeedbackStore$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        this.feedbackText = {
+          ...this.feedbackText,
+          text: data.text,
+          readonly: true,
+        };
+      });
+
+    this.userAmodzieStore$ = this.#store.select(AmodzieState.getAmodzieState);
+    this.#userAmodzie = this.userAmodzieStore$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        this.amodzieFromParent = {
+          ...this.amodzieFromParent,
+          rate: data.rate,
+          readonly: true,
+        };
       });
 
     this.#btnService.eventClick$

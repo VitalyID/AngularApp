@@ -56,7 +56,7 @@
   }"
 >
   <span class="spanBold">Ваш отзыв</span>
-  <feedbacks></feedbacks>
+  <feedbacks [textFromParent]="feedbackText"></feedbacks>
 </div>
 
 <div
@@ -67,11 +67,9 @@
   }"
 >
   <span class="spanBold">Ваши впечатления</span>
-  <amodzie></amodzie>
+  <amodzie [amodzieParentData]="amodzieFromParent"></amodzie>
 </div>
 
 <div class="userPreview__sendData">
   <app-buttons [buttonData]="btnSendData"></app-buttons>
 </div>
-
-<!-- [src]="../../../assets/images/logoDefault.png" -->
