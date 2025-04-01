@@ -22,11 +22,11 @@ import { AmodzieData } from './types/interfaces/amodzieStateData';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmodzieComponent implements OnInit, OnChanges {
-  @Input() amodzieParentData: AmodzieData = {
+  @Input() amodzieSetting: AmodzieData = {
     rate: 0,
     readonly: false,
   };
-  @Output() dataFromAmodzieChild = new EventEmitter();
+  @Output() amodzieSelected = new EventEmitter();
 
   arrImg: AmodzieSettings[] = [
     {
@@ -59,17 +59,15 @@ export class AmodzieComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['amodzieParentData']) {
-      this.gradeActive = this.amodzieParentData.rate;
-      console.log(this.amodzieParentData);
+      this.gradeActive = this.amodzieSetting.rate;
+      console.log(this.amodzieSetting);
     }
   }
 
   onClick(data: number): void {
-    if (this.amodzieParentData.readonly === true) return;
+    if (this.amodzieSetting.readonly === true) return;
 
     this.gradeActive = data;
-    this.dataFromAmodzieChild.emit(this.gradeActive);
-    // console.log('onClick called with data:', data);
-    // this.#store.dispatch(new AddUserAmodzie(data));
+    this.amodzieSelected.emit(this.gradeActive);
   }
 }

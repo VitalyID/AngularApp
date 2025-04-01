@@ -24,7 +24,7 @@ export class ColorPickerComponent {
   newColor: string = this.color;
 
   setColor(newColor: string) {
-    console.log(newColor);
+    // console.log(newColor);
     this.userSetColor.emit(newColor);
   }
 }

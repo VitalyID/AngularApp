@@ -4,6 +4,10 @@
 
 <div class="userPreview__sectionBorder"></div>
 
+<!-- --------------- -->
+<!-- section Preview -->
+<!-- --------------- -->
+
 <div class="userPreview__about">
   <svg-icon [svgSetting]="svgLogo"></svg-icon>
 
@@ -23,6 +27,10 @@
 
 <div class="userPreview__sectionBorder"></div>
 
+<!-- --------------- -->
+<!-- section setTips -->
+<!-- --------------- -->
+
 <div class="userPreview__setTips">
   <span class="spanBold">Сумма чаевых</span>
   <input-user-tips
@@ -37,6 +45,10 @@
   </div>
 </div>
 
+<!-- ------------------ -->
+<!-- section stars-rate -->
+<!-- ------------------ -->
+
 <div
   class="userPreview__rate"
   [ngClass]="{
@@ -45,8 +57,12 @@
   }"
 >
   <span class="spanBold">Ваш рейтинг</span>
-  <stars-rate [dataFromParent]="dataToStarRate"></stars-rate>
+  <stars-rate [starRateSetup]="dataToStarRate"></stars-rate>
 </div>
+
+<!-- ----------------- -->
+<!-- section feedbacks -->
+<!-- ----------------- -->
 
 <div
   class="userPreview__feedbacks"
@@ -56,8 +72,12 @@
   }"
 >
   <span class="spanBold">Ваш отзыв</span>
-  <feedbacks [textFromParent]="feedbackText"></feedbacks>
+  <feedbacks [feedbackData]="feedbackText"></feedbacks>
 </div>
+
+<!-- --------------- -->
+<!-- section amodzie -->
+<!-- --------------- -->
 
 <div
   class="userPreview__feeling"
@@ -67,7 +87,7 @@
   }"
 >
   <span class="spanBold">Ваши впечатления</span>
-  <amodzie [amodzieParentData]="amodzieFromParent"></amodzie>
+  <amodzie [amodzieSetting]="amodzieData"></amodzie>
 </div>
 
 <div class="userPreview__sendData">

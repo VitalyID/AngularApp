@@ -18,8 +18,6 @@ import { ColorPickerStore } from './state/agents.state';
     ColorPickerComponent,
     StarsRateComponent,
     NgxsModule.forRoot([ColorPickerStore]),
-    // NgxsReduxDevtoolsPluginModule.forRoot(),
-    // NgxsLoggerPluginModule.forRoot(),
   ],
   exports: [AgentsComponent],
 })

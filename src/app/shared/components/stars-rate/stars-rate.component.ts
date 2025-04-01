@@ -32,7 +32,7 @@ import { DataStarRate } from './types/interface/dataToStarRate';
 export class StarsRateComponent
   implements ControlValueAccessor, OnInit, OnChanges
 {
-  @Input() dataFromParent: DataStarRate = {
+  @Input() starRateSetup: DataStarRate = {
     disabled: false,
     rate: 0,
   };
@@ -55,12 +55,12 @@ export class StarsRateComponent
 
   ngOnInit(): void {
     this.general = Array(this.maxCounter).fill(0);
-    this.isDisable = this.dataFromParent.disabled;
+    this.isDisable = this.starRateSetup.disabled;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dataFromParent']) {
-      this.userClick = this.dataFromParent.rate;
+      this.userClick = this.starRateSetup.rate;
     }
   }
 
@@ -86,8 +86,8 @@ export class StarsRateComponent
 
   setDisabledState(data: boolean) {
     this.isDisable = data;
-    this.userClick = this.dataFromParent.rate; // save status rate? when is disabled
-    this.onTouch = this.dataFromParent.rate;
+    this.userClick = this.starRateSetup.rate; // save status rate? when is disabled
+    this.onTouch = this.starRateSetup.rate;
   }
 
   onClick(data: number) {

@@ -24,6 +24,55 @@ const inputTips: InputUsersModel = {
   'inputID-3': 200,
 };
 
+export interface StarRateModel {
+  rate: number;
+}
+
+export interface userFeedbackModel {
+  text: string;
+}
+
+export interface AmodzieModel {
+  rate: number;
+}
+
+export interface SubstrateModel {
+  color: string;
+}
+
+export interface UploadLogoModel {
+  logo: string;
+}
+
+export interface btnColorModel {
+  color: string;
+}
+
+// ===================================================
+// ===================================================
+// ===================================================
+
+const userStar: StarRateModel = {
+  rate: 2,
+};
+const userFeedback: userFeedbackModel = {
+  text: 'bla-bla-bla',
+};
+const defaultAmodzie: AmodzieModel = {
+  rate: 3,
+};
+const userSubstrateColor: SubstrateModel = {
+  color: '#eeeff2',
+};
+const userDefaultLogo: UploadLogoModel = {
+  logo: LogoProfileDefaultSource.logoSource,
+};
+const defaultBtnColor: btnColorModel = { color: '#eeeff2' };
+
+// ===================================================
+// ===================================================
+// ===================================================
+
 @State<InputUsersModel>({
   name: 'setTip',
   defaults: inputTips,
@@ -44,17 +93,10 @@ export class SetUserTips {
 }
 
 // =================================
-// =================================
-
-export interface StarRateModel {
-  rate: number;
-}
 
 @State<StarRateModel>({
   name: 'rate',
-  defaults: {
-    rate: 2,
-  },
+  defaults: userStar,
 })
 @Injectable()
 export class SetUserStarRate {
@@ -75,17 +117,10 @@ export class SetUserStarRate {
 }
 
 // =================================
-// =================================
-
-export interface userFeedbackModel {
-  text: string;
-}
 
 @State<userFeedbackModel>({
   name: 'feedbackText',
-  defaults: {
-    text: 'bla-bla-bla',
-  },
+  defaults: userFeedback,
 })
 @Injectable()
 export class userFeedbackState {
@@ -106,17 +141,10 @@ export class userFeedbackState {
 }
 
 // =================================
-// =================================
-
-export interface AmodzieModel {
-  rate: number;
-}
 
 @State<AmodzieModel>({
   name: 'amodzie',
-  defaults: {
-    rate: 3,
-  },
+  defaults: defaultAmodzie,
 })
 @Injectable()
 export class AmodzieState {
@@ -137,17 +165,10 @@ export class AmodzieState {
 }
 
 // =================================
-// =================================
-
-export interface SubstrateModel {
-  color: string;
-}
 
 @State<SubstrateModel>({
   name: 'userColor',
-  defaults: {
-    color: '#eeeff2',
-  },
+  defaults: userSubstrateColor,
 })
 @Injectable()
 export class SubstrateColor {
@@ -168,45 +189,10 @@ export class SubstrateColor {
 }
 
 // =================================
-// =================================
-
-export interface UploadLogo {
-  logo: string;
-}
-
-@State<UploadLogo>({
-  name: 'userlogo',
-  defaults: {
-    logo: LogoProfileDefaultSource.logoSource,
-  },
-})
-@Injectable()
-export class UploadLogoState {
-  @Selector()
-  static getUploadLogo(state: UploadLogo) {
-    return state.logo;
-  }
-
-  @Action(AddUploadLogo)
-  AddUploadLogo(ctx: StateContext<UploadLogo>, { userLogo }: AddUploadLogo) {
-    const stateUploadLogo = ctx.getState();
-    console.log('стор получил лого юзер: ', stateUploadLogo);
-    ctx.setState({ logo: userLogo });
-  }
-}
-
-// =================================
-// =================================
-
-export interface btnColorModel {
-  color: string;
-}
 
 @State<btnColorModel>({
   name: 'userColor',
-  defaults: {
-    color: '#eeeff2',
-  },
+  defaults: defaultBtnColor,
 })
 @Injectable()
 export class btnColor {
@@ -223,5 +209,29 @@ export class btnColor {
     const color = ctx.getState();
     console.log('Цвет подложки: ', color);
     ctx.setState({ color: userBTNcolor });
+  }
+}
+
+// =================================
+
+@State<UploadLogoModel>({
+  name: 'userlogo',
+  defaults: userDefaultLogo,
+})
+@Injectable()
+export class UploadLogoState {
+  @Selector()
+  static getUploadLogo(state: UploadLogoModel) {
+    return state.logo;
+  }
+
+  @Action(AddUploadLogo)
+  AddUploadLogo(
+    ctx: StateContext<UploadLogoModel>,
+    { userLogo }: AddUploadLogo
+  ) {
+    const stateUploadLogo = ctx.getState();
+    console.log('стор получил лого юзер: ', stateUploadLogo);
+    ctx.setState({ logo: userLogo });
   }
 }

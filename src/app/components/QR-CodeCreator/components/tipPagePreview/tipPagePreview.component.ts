@@ -121,7 +121,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     readonly: true,
   };
 
-  amodzieFromParent: AmodzieData = { rate: 0, readonly: false };
+  amodzieData: AmodzieData = { rate: 0, readonly: false };
 
   userSettingData: any = {};
   isOpen: boolean = false;
@@ -200,8 +200,8 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     this.#userAmodzie = this.userAmodzieStore$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
-        this.amodzieFromParent = {
-          ...this.amodzieFromParent,
+        this.amodzieData = {
+          ...this.amodzieData,
           rate: data.rate,
           readonly: true,
         };

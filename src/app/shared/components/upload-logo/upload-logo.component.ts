@@ -26,7 +26,7 @@ import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.servi
 })
 export class UploadLogoComponent implements OnInit {
   @ViewChild('fileInput') input?: ElementRef;
-  @Output() uploadDataFromChild = new EventEmitter();
+  @Output() uploadLogo = new EventEmitter();
 
   uploadPhoto: ButtonData = {
     iconClass: 'icon-icon-upload',
@@ -64,7 +64,7 @@ export class UploadLogoComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const dataURL: string = e.target.result as string;
-      this.uploadDataFromChild.emit(dataURL);
+      this.uploadLogo.emit(dataURL);
     };
     reader.readAsDataURL(file);
   }

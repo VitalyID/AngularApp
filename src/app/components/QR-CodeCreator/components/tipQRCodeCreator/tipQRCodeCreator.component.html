@@ -54,7 +54,13 @@
     <!-- ------------------ -->
 
     <div class="createQRcode__body-uploadLogo">
-      <upload-logo (uploadDataFromChild)="uploadLogo($event)"></upload-logo>
+      <upload-logo
+        (
+        @Output()
+        uploadLogo="new"
+        EventEmitter();
+        )="uploadLogo($event)"
+      ></upload-logo>
     </div>
 
     <!------------------- -->

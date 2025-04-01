@@ -15,16 +15,16 @@ import { FeedbackData } from './types/interfces/feedback';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeedbacksComponent implements OnChanges {
-  @Input() textFromParent: FeedbackData = {
+  @Input() feedbackData: FeedbackData = {
     text: '',
     readonly: false,
   };
 
-  readonly = this.textFromParent.readonly;
+  readonly = this.feedbackData.readonly;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['textFromParent']) {
-      this.readonly = this.textFromParent.readonly;
+      this.readonly = this.feedbackData.readonly;
     }
   }
 }
