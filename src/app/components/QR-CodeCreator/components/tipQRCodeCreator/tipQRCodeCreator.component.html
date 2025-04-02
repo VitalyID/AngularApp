@@ -14,15 +14,15 @@
       <div class="createQRcode__body-wrapForm-tips">
         <input-user-tips
           [dataToInput]="inputSmallTip"
-          (userInputForParent)="dataFromInput($event)"
+          (userInput)="userInputSmall($event)"
         ></input-user-tips>
         <input-user-tips
           [dataToInput]="inputMiddleTip"
-          (userInputForParent)="dataFromInput($event)"
+          (userInput)="userInputMiddle($event)"
         ></input-user-tips>
         <input-user-tips
           [dataToInput]="inputBigTip"
-          (userInputForParent)="dataFromInput($event)"
+          (userInput)="userInputBig($event)"
         ></input-user-tips>
       </div>
     </div>
@@ -54,13 +54,7 @@
     <!-- ------------------ -->
 
     <div class="createQRcode__body-uploadLogo">
-      <upload-logo
-        (
-        @Output()
-        uploadLogo="new"
-        EventEmitter();
-        )="uploadLogo($event)"
-      ></upload-logo>
+      <upload-logo (uploadLogo)="uploadLogo($event)"></upload-logo>
     </div>
 
     <!------------------- -->

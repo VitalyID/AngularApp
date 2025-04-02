@@ -7,9 +7,10 @@
   }"
 >
   <input
-    type="number"
-    [formControl]="myForm"
-    [class.inValid]="myForm.hasError('rangeErr')"
+    [type]="dataToInput.type"
     [placeholder]="dataToInput.placeholder"
+    (input)="inputValue($event)"
+    [disabled]="dataToInput.disabled"
+    myValidator
   />
 </div>

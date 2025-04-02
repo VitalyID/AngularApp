@@ -21,7 +21,6 @@ import { ButtonService } from '../../../../shared/components/buttons/service/but
 import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
 import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
 import { InputUserTipsComponent } from '../../../../shared/components/input-user-tips/input-user-tips.component';
-import { DataFromUserInput } from '../../../../shared/components/input-user-tips/types/interfaces/DataFromUserInput';
 import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
 import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
 import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
@@ -73,10 +72,12 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
 
   setUpTips: DataInput = {
     placeholder: 'от 100 до 600',
-    inputID: 'inputID-4',
+    // inputID: 'inputID-4',
     validation: true,
     unitCurrency: 'rub',
     value: '',
+    type: 'number',
+    disabled: true,
   };
 
   arrBTN: ButtonData[] = [
@@ -297,17 +298,17 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       });
   }
 
-  validInput(data: DataFromUserInput): void {
+  validInput(data: Event): void {
     const key = Object.keys(data);
-    if (data[key[0]] === 0 || data[key[0]] === null) {
-      this.btnSendData.background = 'grey';
-      this.btnSendData.color = '#696d6a';
-      this.btnSendData.disabled = true;
-    } else {
-      this.btnSendData.background = '#3bc76b';
-      this.btnSendData.color = '#ffffff';
-      this.btnSendData.disabled = false;
-    }
+    // if (data[key[0]] === 0 || data[key[0]] === null) {
+    //   this.btnSendData.background = 'grey';
+    //   this.btnSendData.color = '#696d6a';
+    //   this.btnSendData.disabled = true;
+    // } else {
+    //   this.btnSendData.background = '#3bc76b';
+    //   this.btnSendData.color = '#ffffff';
+    //   this.btnSendData.disabled = false;
+    // }
   }
 
   updateBTNtext(data: InputUsers) {

@@ -70,33 +70,39 @@ export class CreateQRcodeComponent implements OnInit {
   };
 
   inputSmallTip: DataInput = {
-    inputID: 'inputID-1',
+    // inputID: 'inputID-1',
     validation: true,
     unitCurrency: 'rub',
     validationFrom: '0',
     validationTo: '1000',
     value: '',
     placeholder: '100',
+    type: 'number',
+    disabled: false,
   };
 
   inputMiddleTip: DataInput = {
-    inputID: 'inputID-2',
+    // inputID: 'inputID-2',
     validation: true,
     unitCurrency: 'rub',
     validationFrom: '0',
     validationTo: '1000',
     value: '',
     placeholder: '150',
+    type: 'number',
+    disabled: false,
   };
 
   inputBigTip: DataInput = {
     placeholder: '200',
-    inputID: 'inputID-3',
+    // inputID: 'inputID-3',
     validation: true,
     unitCurrency: 'rub',
     validationFrom: '0',
     validationTo: '1000',
     value: '',
+    type: 'number',
+    disabled: false,
   };
 
   btnText: ButtonData = {
@@ -148,10 +154,17 @@ export class CreateQRcodeComponent implements OnInit {
     }
   }
 
-  dataFromInput(data: InputUsers) {
-    // console.log('Пришли данные от дочернего инпута: ', data);
-    this.defaultDataInput = { ...this.defaultDataInput, ...data };
-    // console.log('Новый объект: ', this.defaultDataInput);
+  userInputSmall(data: number) {
+    this.defaultDataInput = { ...this.defaultDataInput, 'inputID-1': data };
+    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
+  }
+
+  userInputMiddle(data: number) {
+    this.defaultDataInput = { ...this.defaultDataInput, 'inputID-2': data };
+    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
+  }
+  userInputBig(data: number) {
+    this.defaultDataInput = { ...this.defaultDataInput, 'inputID-3': data };
     this.#store.dispatch(new AddUserTips(this.defaultDataInput));
   }
 
