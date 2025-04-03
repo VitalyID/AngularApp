@@ -163,6 +163,7 @@ export class CreateQRcodeComponent implements OnInit {
     this.defaultDataInput = { ...this.defaultDataInput, 'inputID-2': data };
     this.#store.dispatch(new AddUserTips(this.defaultDataInput));
   }
+
   userInputBig(data: number) {
     this.defaultDataInput = { ...this.defaultDataInput, 'inputID-3': data };
     this.#store.dispatch(new AddUserTips(this.defaultDataInput));

@@ -11,11 +11,12 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserSetButtonService } from '../../../components/QR-CodeCreator/services/userSetUpTips.service';
+import { myValidatorDirective } from './directives/text-input.directive';
 import { DataInput } from './types/interfaces/dataInput';
 
 @Component({
   selector: 'input-user-tips',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, myValidatorDirective],
   templateUrl: './input-user-tips.component.html',
   styleUrl: './input-user-tips.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
