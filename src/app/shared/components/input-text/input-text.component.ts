@@ -15,13 +15,13 @@ import { myValidatorDirective } from './directives/text-input.directive';
 import { DataInput } from './types/interfaces/dataInput';
 
 @Component({
-  selector: 'input-user-tips',
+  selector: 'input-text',
   imports: [ReactiveFormsModule, myValidatorDirective],
-  templateUrl: './input-user-tips.component.html',
-  styleUrl: './input-user-tips.component.scss',
+  templateUrl: './input-text.component.html',
+  styleUrl: './input-text.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputUserTipsComponent implements OnInit, OnChanges {
+export class InputTextComponent implements OnInit, OnChanges {
   @Input() dataToInput: DataInput = {
     placeholder: '',
     // inputID: '',

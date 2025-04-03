@@ -12,18 +12,18 @@
       <span>Предустановленные суммы чаевых</span>
 
       <div class="createQRcode__body-wrapForm-tips">
-        <input-user-tips
+        <input-text
           [dataToInput]="inputSmallTip"
           (userInput)="userInputSmall($event)"
-        ></input-user-tips>
-        <input-user-tips
+        ></input-text>
+        <input-text
           [dataToInput]="inputMiddleTip"
           (userInput)="userInputMiddle($event)"
-        ></input-user-tips>
-        <input-user-tips
+        ></input-text>
+        <input-text
           [dataToInput]="inputBigTip"
           (userInput)="userInputBig($event)"
-        ></input-user-tips>
+        ></input-text>
       </div>
     </div>
 

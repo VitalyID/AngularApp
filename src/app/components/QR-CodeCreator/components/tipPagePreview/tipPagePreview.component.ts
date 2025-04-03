@@ -20,8 +20,8 @@ import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
 import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
-import { InputUserTipsComponent } from '../../../../shared/components/input-user-tips/input-user-tips.component';
-import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
+import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
+import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput';
 import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
 import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
@@ -48,7 +48,7 @@ import { InputUsers } from './../../types/interface/inputUsers';
   selector: 'user-preview',
   imports: [
     SvgIconComponent,
-    InputUserTipsComponent,
+    InputTextComponent,
     StarsRateComponent,
     CommonModule,
     FeedbacksComponent,

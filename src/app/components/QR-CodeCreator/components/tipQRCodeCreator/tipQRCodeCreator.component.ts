@@ -15,8 +15,8 @@ import { Observable, Subscription } from 'rxjs';
 import { RoutIDservice } from '../../../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
-import { InputUserTipsComponent } from '../../../../shared/components/input-user-tips/input-user-tips.component';
-import { DataInput } from '../../../../shared/components/input-user-tips/types/interfaces/dataInput';
+import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
+import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
 import { ButtonData } from '../../../../types/sectionItem';
@@ -35,7 +35,7 @@ import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component
     SwitcherComponent,
     ColorPickerComponent,
     UploadLogoComponent,
-    InputUserTipsComponent,
+    InputTextComponent,
     CommonModule,
     UserPreviewComponent,
     ButtonsComponent,

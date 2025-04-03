@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { UserSetting } from '../../../shared/components/input-user-tips/types/interfaces/UserDataSetting';
+import { UserSetting } from '../../../shared/components/input-text/types/interfaces/UserDataSetting';
 
 @Injectable({ providedIn: 'root' })
 export class UserSetButtonService {
