@@ -31,15 +31,14 @@ import { UploadTransmitPhotoService } from '../../../../shared/components/upload
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
+import { UserSetButtonService } from '../../services/userSetUpTips.service';
 import {
-  AmodzieModel,
   AmodzieState,
   InputUsersModel,
   SetUserStarRate,
   SetUserTips,
   StarRateModel,
   UploadLogoState,
-  userFeedbackModel,
   userFeedbackState,
 } from '../../state/qr-code-creator.state';
 import { InputUsers } from './../../types/interface/inputUsers';
@@ -136,22 +135,25 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   logoFromStore$?: Observable<string>;
   userInputFromStore$?: Observable<InputUsersModel>;
   userRateFromStore$?: Observable<StarRateModel>;
-  userFeedbackStore$?: Observable<userFeedbackModel>;
-  userAmodzieStore$?: Observable<AmodzieModel>;
+  // userFeedbackStore$?: Observable<userFeedbackModel>;
+  // userAmodzieStore$?: Observable<AmodzieModel>;
   #logo?: Subscription;
   #ArrBtnText?: Subscription;
   #rate?: Subscription;
-  #userFeedbackText?: Subscription;
+  // #userFeedbackText?: Subscription;
   #userAmodzie?: Subscription;
 
   readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #render2 = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
-  // readonly #setBTNService = inject(UserSetButtonService);
+  readonly #setBTNService = inject(UserSetButtonService);
   readonly #btnService = inject(ButtonService);
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
+
+  userFeedback$ = this.#store.select(userFeedbackState.getMyFeedback);
+  userAmodzieStore$ = this.#store.select(AmodzieState.getAmodzieState);
 
   ngOnInit(): void {
     this.#logoService.getUserPhotoFromService$
@@ -184,29 +186,29 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
         this.dataToStarRate = { ...this.dataToStarRate, rate: data.rate };
       });
 
-    this.userFeedbackStore$ = this.#store.select(
-      userFeedbackState.getMyFeedback
-    );
-    this.#userFeedbackText = this.userFeedbackStore$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        this.feedbackText = {
-          ...this.feedbackText,
-          text: data.text,
-          readonly: true,
-        };
-      });
+    // this.userFeedbackStore$ = this.#store.select(
+    //   userFeedbackState.getMyFeedback
+    // );
+    // this.#userFeedbackText = this.userFeedbackStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     this.feedbackText = {
+    //       ...this.feedbackText,
+    //       text: data.text,
+    //       readonly: true,
+    //     };
+    //   });
 
-    this.userAmodzieStore$ = this.#store.select(AmodzieState.getAmodzieState);
-    this.#userAmodzie = this.userAmodzieStore$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        this.amodzieData = {
-          ...this.amodzieData,
-          rate: data.rate,
-          readonly: true,
-        };
-      });
+    // this.userAmodzieStore$ = this.#store.select(AmodzieState.getAmodzieState);
+    // this.#userAmodzie = this.userAmodzieStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     this.amodzieData = {
+    //       ...this.amodzieData,
+    //       rate: data.rate,
+    //       readonly: true,
+    //     };
+    //   });
 
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))

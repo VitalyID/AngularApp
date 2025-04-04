@@ -5,7 +5,6 @@ import {
   inject,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -21,8 +20,8 @@ import { DataInput } from './types/interfaces/dataInput';
   styleUrl: './input-text.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputTextComponent implements OnInit, OnChanges {
-  @Input() dataToInput: DataInput = {
+export class InputTextComponent implements OnChanges {
+  @Input() actualData: DataInput = {
     placeholder: '',
     // inputID: '',
     value: '',
@@ -31,53 +30,19 @@ export class InputTextComponent implements OnInit, OnChanges {
     disabled: false,
   };
   @Output() userInput = new EventEmitter();
-  // inputValue?: number | string;
+
   isCurrency?: string;
 
-  // readonly #fb = inject(FormBuilder);
   readonly #btnTipsService = inject(UserSetButtonService);
-
-  // myForm: FormControl = this.#fb.control('');
-
-  ngOnInit(): void {
-    // if (this.dataToInput.validation === true) {
-    //   this.myForm = this.#fb.control(this.dataToInput.value, [
-    //     CustomRangeValidator('0', '1000'),
-    //     Validators.min(1),
-    //   ]);
-    // }
-    // this.myForm.valueChanges.subscribe((value) => {
-    //   const userNumber = Number(value);
-    //   const valueInput = {
-    //     [this.dataToInput.inputID]: userNumber,
-    //   };
-    //   console.log(valueInput);
-    //   // console.log(typeof valueInput['keys']);
-    //   this.#btnTipsService.getTipsFromInput(valueInput);
-    //   // err validations
-    //   if (this.myForm.hasError('rangeErr')) {
-    //     this.myForm.setValue(1000);
-    //   }
-    //   this.userInputForParent.emit({
-    //     [this.dataToInput.inputID]: this.myForm.value,
-    //   });
-    // });
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // setUp text to btn, after loading page (input=none)
 
-    if (changes['dataToInput']) {
-      this.isCurrency = this.dataToInput.unitCurrency;
+    if (changes['actualData']) {
+      this.isCurrency = this.actualData.unitCurrency;
 
-      const newValue = changes['dataToInput'].currentValue.value;
-      this.#btnTipsService.getTipsFromInput({
-        // [this.dataToInput.inputID]: newValue,
-      });
-
-      // if (changes['dataToInput'].currentValue.value) {
-      //   this.myForm.setValue(this.dataToInput.value);
-      // }
+      // const newValue = changes['dataToInput'].currentValue.value;
+      this.#btnTipsService.getTipsFromInput({});
     }
   }
 

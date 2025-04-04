@@ -30,10 +30,12 @@ export interface StarRateModel {
 
 export interface userFeedbackModel {
   text: string;
+  readonly: boolean;
 }
 
 export interface AmodzieModel {
   rate: number;
+  readonly: boolean;
 }
 
 export interface SubstrateModel {
@@ -57,9 +59,11 @@ const userStar: StarRateModel = {
 };
 const userFeedback: userFeedbackModel = {
   text: 'bla-bla-bla',
+  readonly: true,
 };
 const defaultAmodzie: AmodzieModel = {
   rate: 3,
+  readonly: true,
 };
 const userSubstrateColor: SubstrateModel = {
   color: '#eeeff2',
@@ -136,7 +140,7 @@ export class userFeedbackState {
   ) {
     const text = ctx.getState();
     console.log('text: ', text);
-    ctx.setState({ text: userFeedback });
+    ctx.setState({ text: userFeedback, readonly: true });
   }
 }
 
@@ -160,7 +164,7 @@ export class AmodzieState {
   ) {
     const state = ctx.getState();
     console.log('Amodzie: ', state);
-    ctx.setState({ rate: userAmodzie });
+    ctx.setState({ rate: userAmodzie, readonly: true });
   }
 }
 

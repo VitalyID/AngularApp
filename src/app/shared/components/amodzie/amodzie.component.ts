@@ -1,16 +1,13 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
-  inject,
   Input,
   OnChanges,
   OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { AmodzieSettings } from './types/interfaces/amodzieSettings';
 import { AmodzieData } from './types/interfaces/amodzieStateData';
 
@@ -52,9 +49,6 @@ export class AmodzieComponent implements OnInit, OnChanges {
   ];
 
   gradeActive: number = 1;
-
-  readonly #store = inject(Store);
-  readonly #cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {

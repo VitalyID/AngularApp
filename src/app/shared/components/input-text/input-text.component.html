@@ -7,11 +7,11 @@
   }"
 >
   <input
-    [type]="dataToInput.type"
-    [placeholder]="dataToInput.placeholder"
+    [type]="actualData.type"
+    [placeholder]="actualData.placeholder"
     (input)="inputValue($event)"
-    [disabled]="dataToInput.disabled"
+    [disabled]="actualData.disabled"
     myValidator
-    [dataToInput]="dataToInput"
+    [actualData]="actualData"
   />
 </div>

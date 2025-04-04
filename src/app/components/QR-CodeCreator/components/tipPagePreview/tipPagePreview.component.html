@@ -34,7 +34,7 @@
 <div class="userPreview__setTips">
   <span class="spanBold">Сумма чаевых</span>
   <input-text
-    [dataToInput]="setUpTips"
+    [actualData]="setUpTips"
     (userInput)="validInput($event)"
   ></input-text>
 
@@ -72,7 +72,14 @@
   }"
 >
   <span class="spanBold">Ваш отзыв</span>
-  <feedbacks [feedbackData]="feedbackText"></feedbacks>
+
+  <feedbacks
+    [feedbackData]="feedback"
+    *ngIf="userFeedback$ | async as feedback"
+  >
+    {{ feedback.text }}
+  </feedbacks>
+  >
 </div>
 
 <!-- --------------- -->
@@ -87,7 +94,11 @@
   }"
 >
   <span class="spanBold">Ваши впечатления</span>
-  <amodzie [amodzieSetting]="amodzieData"></amodzie>
+
+  <amodzie
+    [amodzieSetting]="amodzieData"
+    *ngIf="userAmodzieStore$ | async as amodzieData"
+  ></amodzie>
 </div>
 
 <div class="userPreview__sendData">

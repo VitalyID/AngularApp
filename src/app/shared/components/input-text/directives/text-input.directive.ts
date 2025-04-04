@@ -14,7 +14,7 @@ import { DataInput } from '../types/interfaces/dataInput';
   ],
 })
 export class myValidatorDirective {
-  @Input({ required: true }) dataToInput?: DataInput;
+  @Input({ required: true }) actualData?: DataInput;
 
   constructor() {}
 
@@ -22,14 +22,14 @@ export class myValidatorDirective {
   onInput(event: any) {
     const inputValue = event.target.value;
 
-    if (!this.dataToInput?.validationFrom) return;
-    if (!this.dataToInput?.validationTo) return;
+    if (!this.actualData?.validationFrom) return;
+    if (!this.actualData?.validationTo) return;
 
     if (
-      Number(inputValue) < Number(this.dataToInput.validationFrom) ||
-      Number(inputValue) > Number(this.dataToInput.validationTo)
+      Number(inputValue) < Number(this.actualData.validationFrom) ||
+      Number(inputValue) > Number(this.actualData.validationTo)
     ) {
-      event.target.value = this.dataToInput.placeholder;
+      event.target.value = this.actualData.placeholder;
     }
   }
 }
