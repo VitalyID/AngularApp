@@ -88,7 +88,6 @@ export class SetUserTips {
   @Selector()
   static getUserTips(state: InputUsers) {
     console.log(state);
-
     return state;
   }
 

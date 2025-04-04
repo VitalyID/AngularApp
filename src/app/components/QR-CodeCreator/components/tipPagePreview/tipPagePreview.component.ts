@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -9,26 +9,26 @@ import {
   inject,
   OnInit,
   ViewChild,
-} from '@angular/core'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import { Store } from '@ngxs/store'
-import { Observable, Subscription } from 'rxjs'
-import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component'
-import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData'
-import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component'
-import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service'
-import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component'
-import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback'
-import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component'
-import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput'
-import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component'
-import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate'
-import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component'
-import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit'
-import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service'
-import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile'
-import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon'
-import { ButtonData } from '../../../../types/sectionItem'
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngxs/store';
+import { Observable, Subscription } from 'rxjs';
+import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
+import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
+import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
+import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
+import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
+import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
+import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
+import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput';
+import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
+import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
+import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
+import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit';
+import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
+import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
+import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
+import { ButtonData } from '../../../../types/sectionItem';
 import {
   AmodzieModel,
   AmodzieState,
@@ -39,8 +39,8 @@ import {
   UploadLogoState,
   userFeedbackModel,
   userFeedbackState,
-} from '../../state/qr-code-creator.state'
-import { InputUsers } from './../../types/interface/inputUsers'
+} from '../../state/qr-code-creator.state';
+import { InputUsers } from './../../types/interface/inputUsers';
 
 @Component({
   selector: 'user-preview',
@@ -85,7 +85,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       color: '#313436',
       id: 8,
       borderStyle: 'none',
-      key:'inputID-1'
+      key: 'inputID-1',
     },
     {
       text: '0 ₽',
@@ -93,7 +93,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       color: '#313436',
       id: 9,
       borderStyle: 'none',
-      key:'inputID-2'
+      key: 'inputID-2',
     },
     {
       text: '0 ₽',
@@ -101,7 +101,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       color: '#313436',
       id: 10,
       borderStyle: 'none',
-      key:'inputID-3'
+      key: 'inputID-3',
     },
   ];
 
@@ -114,7 +114,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   };
 
   dataToStarRate: DataStarRate = {
-    disabled: true,
+    disabled: false,
     rate: 0,
   };
 
@@ -189,7 +189,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     // this.#ArrBtnText = this.userInputFromStore$
     //   .pipe(takeUntilDestroyed(this.#destroyRef))
     //   .subscribe((data: InputUsers) => {
-        // this.updateBTNtext(data);
+    // this.updateBTNtext(data);
     //   });
 
     // this.userRateFromStore$ = this.#store.select(

@@ -3,14 +3,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  forwardRef,
   inject,
   Input,
-  OnChanges,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { AddUserStarRate } from '../../../components/QR-CodeCreator/state/qr-code-creator.action';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { DataStarRate } from './types/interface/dataToStarRate';
@@ -21,17 +19,9 @@ import { DataStarRate } from './types/interface/dataToStarRate';
   templateUrl: './stars-rate.component.html',
   styleUrl: './stars-rate.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => StarsRateComponent),
-      multi: true,
-    },
-  ],
 })
-export class StarsRateComponent
-  implements ControlValueAccessor, OnInit, OnChanges
-{
+// implements ControlValueAccessor, OnInit, OnChanges
+export class StarsRateComponent {
   @Input() starRateSetup: DataStarRate = {
     disabled: false,
     rate: 0,
@@ -52,6 +42,7 @@ export class StarsRateComponent
   tmp: number = 0;
 
   readonly #cdr = inject(ChangeDetectorRef);
+  readonly #store = inject(Store);
 
   ngOnInit(): void {
     this.general = Array(this.maxCounter).fill(0);
@@ -64,44 +55,23 @@ export class StarsRateComponent
     }
   }
 
-  #onTouched = () => {};
-  #onChange = (value: number) => {};
-
-  registerOnTouched(fn: any): void {
-    this.#onTouched = fn;
-  }
-
-  onBlur() {
-    this.#onTouched();
-  }
-
-  writeValue(value: number): void {
-    this.userClick = value;
-    this.onTouch = 0;
-  }
-
-  registerOnChange(fn: any): void {
-    this.#onChange(fn);
-  }
-
   setDisabledState(data: boolean) {
     this.isDisable = data;
-    this.userClick = this.starRateSetup.rate; // save status rate? when is disabled
-    this.onTouch = this.starRateSetup.rate;
+    this.userClick = this.starRateSetup.rate;
   }
 
   onClick(data: number) {
     this.userClick = data;
 
     this.tmp = data;
-    this.#onChange(this.userClick);
     this.#cdr.markForCheck();
     this.#cdr.detectChanges();
-    console.log(data);
 
-    // ===========================
-    // == Подкдючаем стор здесь ==
-    // ===========================
+    // =====================
+    // == Подкдючаем стор ==
+    // =====================
+
+    this.#store.dispatch(new AddUserStarRate(data));
   }
 
   onMouseOver(data: number) {
