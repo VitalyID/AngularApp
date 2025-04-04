@@ -13,10 +13,11 @@
 
   <div class="userPreview__about--me">
     <img
-      [src]="logoSource"
-      alt=""
+      [src]="(logoFromStore$ | async) || logoSource"
+      alt="user logo"
       class="userPreview__about--meLogo"
       #preview
+      *ngIf="(logoFromStore$ | async) !== undefined"
     />
     <div class="userPreview__about--meInfo">
       <span class="spanBold"><b>Смирнов Виталий</b></span>
@@ -57,7 +58,10 @@
   }"
 >
   <span class="spanBold">Ваш рейтинг</span>
-  <stars-rate [starRateSetup]="dataToStarRate"></stars-rate>
+  <stars-rate
+    [starRateSetup]="dataToStarRate"
+    *ngIf="userRateFromStore$ | async as dataToStarRate"
+  ></stars-rate>
 </div>
 
 <!-- ----------------- -->

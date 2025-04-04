@@ -52,9 +52,8 @@ export class AmodzieComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['amodzieParentData']) {
+    if (changes['amodzieSetting']) {
       this.gradeActive = this.amodzieSetting.rate;
-      console.log(this.amodzieSetting);
     }
   }
 

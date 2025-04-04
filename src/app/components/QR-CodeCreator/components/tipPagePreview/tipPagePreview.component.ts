@@ -33,12 +33,14 @@ import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import { UserSetButtonService } from '../../services/userSetUpTips.service';
 import {
+  AmodzieModel,
   AmodzieState,
   InputUsersModel,
   SetUserStarRate,
   SetUserTips,
   StarRateModel,
   UploadLogoState,
+  userFeedbackModel,
   userFeedbackState,
 } from '../../state/qr-code-creator.state';
 import { InputUsers } from './../../types/interface/inputUsers';
@@ -132,16 +134,16 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   isAmodzieOpen: boolean = false;
   isActive: number = 0;
 
-  logoFromStore$?: Observable<string>;
+  // logoFromStore$?: Observable<string>;
   userInputFromStore$?: Observable<InputUsersModel>;
-  userRateFromStore$?: Observable<StarRateModel>;
+  // userRateFromStore$?: Observable<StarRateModel>;
   // userFeedbackStore$?: Observable<userFeedbackModel>;
   // userAmodzieStore$?: Observable<AmodzieModel>;
   #logo?: Subscription;
   #ArrBtnText?: Subscription;
-  #rate?: Subscription;
+  // #rate?: Subscription;
   // #userFeedbackText?: Subscription;
-  #userAmodzie?: Subscription;
+  // #userAmodzie?: Subscription;
 
   readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
@@ -152,23 +154,34 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
 
-  userFeedback$ = this.#store.select(userFeedbackState.getMyFeedback);
-  userAmodzieStore$ = this.#store.select(AmodzieState.getAmodzieState);
+  userFeedback$: Observable<userFeedbackModel> = this.#store.select(
+    userFeedbackState.getMyFeedback
+  );
+  userAmodzieStore$: Observable<AmodzieModel> = this.#store.select(
+    AmodzieState.getAmodzieState
+  );
+  userRateFromStore$?: Observable<StarRateModel> = this.#store.select(
+    SetUserStarRate.getUserStarRate
+  );
+
+  logoFromStore$?: Observable<string> = this.#store.select(
+    UploadLogoState.getUploadLogo
+  );
 
   ngOnInit(): void {
-    this.#logoService.getUserPhotoFromService$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data) {
-          this.previewIMG.nativeElement.src = data;
-          this.#render2.setProperty(
-            this.previewIMG.nativeElement,
-            'display',
-            'block'
-          );
-        }
-        this.#cdr.markForCheck();
-      });
+    // this.#logoService.getUserPhotoFromService$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     if (data) {
+    //       this.previewIMG.nativeElement.src = data;
+    //       this.#render2.setProperty(
+    //         this.previewIMG.nativeElement,
+    //         'display',
+    //         'block'
+    //       );
+    //     }
+    //     this.#cdr.markForCheck();
+    //   });
 
     this.userInputFromStore$ = this.#store.select(SetUserTips.getUserTips);
     this.#ArrBtnText = this.userInputFromStore$
@@ -177,14 +190,14 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
         this.updateBTNtext(data);
       });
 
-    this.userRateFromStore$ = this.#store.select(
-      SetUserStarRate.getUserStarRate
-    );
-    this.#rate = this.userRateFromStore$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        this.dataToStarRate = { ...this.dataToStarRate, rate: data.rate };
-      });
+    // this.userRateFromStore$ = this.#store.select(
+    //   SetUserStarRate.getUserStarRate
+    // );
+    // this.#rate = this.userRateFromStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     this.dataToStarRate = { ...this.dataToStarRate, rate: data.rate };
+    //   });
 
     // this.userFeedbackStore$ = this.#store.select(
     //   userFeedbackState.getMyFeedback
@@ -208,6 +221,25 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     //       rate: data.rate,
     //       readonly: true,
     //     };
+    //   });
+
+    // this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
+    // this.#logo = this.logoFromStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     // console.log('Лого из стора получено превью ', data);
+
+    //     if (data) {
+    //       this.previewIMG.nativeElement.src = data;
+    //       this.#render2.setProperty(
+    //         this.previewIMG.nativeElement,
+    //         'display',
+    //         'block'
+    //       );
+    //     } else {
+    //       // console.log(4444444);
+    //     }
+    //     this.#cdr.markForCheck();
     //   });
 
     this.#btnService.eventClick$
@@ -280,24 +312,23 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
-    this.#logo = this.logoFromStore$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        console.log('Лого из стора получено превью ', data);
-
-        if (data) {
-          this.previewIMG.nativeElement.src = data;
-          this.#render2.setProperty(
-            this.previewIMG.nativeElement,
-            'display',
-            'block'
-          );
-        } else {
-          console.log(4444444);
-        }
-        this.#cdr.markForCheck();
-      });
+    // this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
+    // this.#logo = this.logoFromStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     console.log('Лого из стора получено превью ', data);
+    //     if (data) {
+    //       this.previewIMG.nativeElement.src = data;
+    //       this.#render2.setProperty(
+    //         this.previewIMG.nativeElement,
+    //         'display',
+    //         'block'
+    //       );
+    //     } else {
+    //       console.log(4444444);
+    //     }
+    //     this.#cdr.markForCheck();
+    //   });
   }
 
   validInput(data: Event): void {

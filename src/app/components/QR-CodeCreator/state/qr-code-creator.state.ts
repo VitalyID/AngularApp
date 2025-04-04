@@ -26,6 +26,7 @@ const inputTips: InputUsersModel = {
 
 export interface StarRateModel {
   rate: number;
+  disabled: boolean;
 }
 
 export interface userFeedbackModel {
@@ -56,6 +57,7 @@ export interface btnColorModel {
 
 const userStar: StarRateModel = {
   rate: 2,
+  disabled: false,
 };
 const userFeedback: userFeedbackModel = {
   text: 'bla-bla-bla',
@@ -116,7 +118,7 @@ export class SetUserStarRate {
   ) {
     const stateRate = ctx.getState();
     console.log('stars: ', stateRate);
-    ctx.setState({ rate: userRate });
+    ctx.setState({ rate: userRate, disabled: false });
   }
 }
 
