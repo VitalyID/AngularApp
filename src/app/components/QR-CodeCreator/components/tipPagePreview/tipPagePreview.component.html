@@ -41,7 +41,10 @@
 
   <div class="userPreview__setTips--btn">
     @for (btn of arrBTN; track btn.id){
-    <app-buttons [buttonData]="btn"></app-buttons>
+    <app-buttons
+      [buttonData]="btn"
+      *ngIf="userInputFromStore$ | async"
+    ></app-buttons>
     }
   </div>
 </div>
