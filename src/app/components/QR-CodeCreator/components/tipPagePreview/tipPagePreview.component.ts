@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -8,30 +8,27 @@ import {
   ElementRef,
   inject,
   OnInit,
-  Renderer2,
   ViewChild,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
-import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
-import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
-import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
-import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
-import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
-import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
-import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
-import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput';
-import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
-import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
-import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
-import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit';
-import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
-import { UploadTransmitPhotoService } from '../../../../shared/components/upload-logo/services/uploadTransmitPhoto.service';
-import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
-import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
-import { ButtonData } from '../../../../types/sectionItem';
-import { UserSetButtonService } from '../../services/userSetUpTips.service';
+} from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { Store } from '@ngxs/store'
+import { Observable, Subscription } from 'rxjs'
+import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component'
+import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData'
+import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component'
+import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service'
+import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component'
+import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback'
+import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component'
+import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput'
+import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component'
+import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate'
+import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component'
+import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit'
+import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service'
+import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile'
+import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon'
+import { ButtonData } from '../../../../types/sectionItem'
 import {
   AmodzieModel,
   AmodzieState,
@@ -42,8 +39,8 @@ import {
   UploadLogoState,
   userFeedbackModel,
   userFeedbackState,
-} from '../../state/qr-code-creator.state';
-import { InputUsers } from './../../types/interface/inputUsers';
+} from '../../state/qr-code-creator.state'
+import { InputUsers } from './../../types/interface/inputUsers'
 
 @Component({
   selector: 'user-preview',
@@ -88,6 +85,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       color: '#313436',
       id: 8,
       borderStyle: 'none',
+      key:'inputID-1'
     },
     {
       text: '0 ₽',
@@ -95,6 +93,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       color: '#313436',
       id: 9,
       borderStyle: 'none',
+      key:'inputID-2'
     },
     {
       text: '0 ₽',
@@ -102,6 +101,7 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       color: '#313436',
       id: 10,
       borderStyle: 'none',
+      key:'inputID-3'
     },
   ];
 
@@ -135,21 +135,21 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   isActive: number = 0;
 
   // logoFromStore$?: Observable<string>;
-  userInputFromStore$?: Observable<InputUsersModel>;
+  // userInputFromStore$?: Observable<InputUsersModel>;
   // userRateFromStore$?: Observable<StarRateModel>;
   // userFeedbackStore$?: Observable<userFeedbackModel>;
   // userAmodzieStore$?: Observable<AmodzieModel>;
-  #logo?: Subscription;
+  // #logo?: Subscription;
   #ArrBtnText?: Subscription;
   // #rate?: Subscription;
   // #userFeedbackText?: Subscription;
   // #userAmodzie?: Subscription;
 
-  readonly #logoService = inject(UploadTransmitPhotoService);
+  // readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
-  readonly #render2 = inject(Renderer2);
+  // readonly #render2 = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
-  readonly #setBTNService = inject(UserSetButtonService);
+  // readonly #setBTNService = inject(UserSetButtonService);
   readonly #btnService = inject(ButtonService);
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
@@ -163,9 +163,11 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   userRateFromStore$?: Observable<StarRateModel> = this.#store.select(
     SetUserStarRate.getUserStarRate
   );
-
   logoFromStore$?: Observable<string> = this.#store.select(
     UploadLogoState.getUploadLogo
+  );
+  userInputFromStore$?: Observable<InputUsersModel> = this.#store.select(
+    SetUserTips.getUserTips
   );
 
   ngOnInit(): void {
@@ -183,12 +185,12 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     //     this.#cdr.markForCheck();
     //   });
 
-    this.userInputFromStore$ = this.#store.select(SetUserTips.getUserTips);
-    this.#ArrBtnText = this.userInputFromStore$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data: InputUsers) => {
-        this.updateBTNtext(data);
-      });
+    // this.userInputFromStore$ = this.#store.select(SetUserTips.getUserTips);
+    // this.#ArrBtnText = this.userInputFromStore$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data: InputUsers) => {
+        // this.updateBTNtext(data);
+    //   });
 
     // this.userRateFromStore$ = this.#store.select(
     //   SetUserStarRate.getUserStarRate

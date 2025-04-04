@@ -18,12 +18,6 @@ export interface InputUsersModel {
   'inputID-3': number;
 }
 
-const inputTips: InputUsersModel = {
-  'inputID-1': 100,
-  'inputID-2': 150,
-  'inputID-3': 200,
-};
-
 export interface StarRateModel {
   rate: number;
   disabled: boolean;
@@ -54,6 +48,12 @@ export interface btnColorModel {
 // ===================================================
 // ===================================================
 // ===================================================
+
+const inputTips: InputUsersModel = {
+  'inputID-1': 100,
+  'inputID-2': 150,
+  'inputID-3': 200,
+};
 
 const userStar: StarRateModel = {
   rate: 2,
@@ -87,6 +87,8 @@ const defaultBtnColor: btnColorModel = { color: '#eeeff2' };
 export class SetUserTips {
   @Selector()
   static getUserTips(state: InputUsers) {
+    console.log(state);
+
     return state;
   }
 

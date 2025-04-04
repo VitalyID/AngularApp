@@ -39,13 +39,28 @@
     (userInput)="validInput($event)"
   ></input-text>
 
-  <div class="userPreview__setTips--btn">
-    @for (btn of arrBTN; track btn.id){
+  <div
+    class="userPreview__setTips--btn"
+    *ngIf="userInputFromStore$ | async as userInputFromStore"
+  >
+    @for (item of userInputFromStore | keyvalue; track item.key){ @for (btn of
+    arrBTN; track btn.id){ @if (btn.key === item.key) {
+
     <app-buttons
-      [buttonData]="btn"
-      *ngIf="userInputFromStore$ | async"
+      [buttonData]="{
+        text: item.value.toString(),
+        iconClass: btn.iconClass,
+        disabled: btn.disabled,
+        background: btn.background,
+        color: btn.color,
+        isActive: btn.isActive,
+        id: btn.id,
+        borderStyle: btn.borderStyle,
+        boxShadow: btn.boxShadow,
+        key: btn.key
+      }"
     ></app-buttons>
-    }
+    } }}
   </div>
 </div>
 

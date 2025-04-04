@@ -5,6 +5,7 @@
 // background
 // color?: string;
 // id: id button for control press from service
+// key:string this is analog id, but format 'string'
 
 export interface ButtonData {
   text?: string;
@@ -17,7 +18,9 @@ export interface ButtonData {
   id: number;
   borderStyle?: string;
   boxShadow?: string;
+  key?: string;
 }
+
 export interface DataUserOperation {
   [key: string]: any;
   data: string;
