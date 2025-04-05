@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -12,7 +11,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
 import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
@@ -40,7 +39,6 @@ import {
   userFeedbackModel,
   userFeedbackState,
 } from '../../state/qr-code-creator.state';
-import { InputUsers } from './../../types/interface/inputUsers';
 
 @Component({
   selector: 'user-preview',
@@ -57,7 +55,7 @@ import { InputUsers } from './../../types/interface/inputUsers';
   styleUrl: './tipPagePreview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserPreviewComponent implements OnInit, AfterViewInit {
+export class UserPreviewComponent implements OnInit {
   @ViewChild('preview') previewIMG!: ElementRef;
 
   logoSource = LogoProfileDefaultSource.logoSource;
@@ -134,22 +132,8 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   isAmodzieOpen: boolean = false;
   isActive: number = 0;
 
-  // logoFromStore$?: Observable<string>;
-  // userInputFromStore$?: Observable<InputUsersModel>;
-  // userRateFromStore$?: Observable<StarRateModel>;
-  // userFeedbackStore$?: Observable<userFeedbackModel>;
-  // userAmodzieStore$?: Observable<AmodzieModel>;
-  // #logo?: Subscription;
-  #ArrBtnText?: Subscription;
-  // #rate?: Subscription;
-  // #userFeedbackText?: Subscription;
-  // #userAmodzie?: Subscription;
-
-  // readonly #logoService = inject(UploadTransmitPhotoService);
   readonly #destroyRef = inject(DestroyRef);
-  // readonly #render2 = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
-  // readonly #setBTNService = inject(UserSetButtonService);
   readonly #btnService = inject(ButtonService);
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
@@ -171,79 +155,6 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
   );
 
   ngOnInit(): void {
-    // this.#logoService.getUserPhotoFromService$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     if (data) {
-    //       this.previewIMG.nativeElement.src = data;
-    //       this.#render2.setProperty(
-    //         this.previewIMG.nativeElement,
-    //         'display',
-    //         'block'
-    //       );
-    //     }
-    //     this.#cdr.markForCheck();
-    //   });
-
-    // this.userInputFromStore$ = this.#store.select(SetUserTips.getUserTips);
-    // this.#ArrBtnText = this.userInputFromStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data: InputUsers) => {
-    // this.updateBTNtext(data);
-    //   });
-
-    // this.userRateFromStore$ = this.#store.select(
-    //   SetUserStarRate.getUserStarRate
-    // );
-    // this.#rate = this.userRateFromStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     this.dataToStarRate = { ...this.dataToStarRate, rate: data.rate };
-    //   });
-
-    // this.userFeedbackStore$ = this.#store.select(
-    //   userFeedbackState.getMyFeedback
-    // );
-    // this.#userFeedbackText = this.userFeedbackStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     this.feedbackText = {
-    //       ...this.feedbackText,
-    //       text: data.text,
-    //       readonly: true,
-    //     };
-    //   });
-
-    // this.userAmodzieStore$ = this.#store.select(AmodzieState.getAmodzieState);
-    // this.#userAmodzie = this.userAmodzieStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     this.amodzieData = {
-    //       ...this.amodzieData,
-    //       rate: data.rate,
-    //       readonly: true,
-    //     };
-    //   });
-
-    // this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
-    // this.#logo = this.logoFromStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     // console.log('Лого из стора получено превью ', data);
-
-    //     if (data) {
-    //       this.previewIMG.nativeElement.src = data;
-    //       this.#render2.setProperty(
-    //         this.previewIMG.nativeElement,
-    //         'display',
-    //         'block'
-    //       );
-    //     } else {
-    //       // console.log(4444444);
-    //     }
-    //     this.#cdr.markForCheck();
-    //   });
-
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
@@ -313,26 +224,6 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit(): void {
-    // this.logoFromStore$ = this.#store.select(UploadLogoState.getUploadLogo);
-    // this.#logo = this.logoFromStore$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     console.log('Лого из стора получено превью ', data);
-    //     if (data) {
-    //       this.previewIMG.nativeElement.src = data;
-    //       this.#render2.setProperty(
-    //         this.previewIMG.nativeElement,
-    //         'display',
-    //         'block'
-    //       );
-    //     } else {
-    //       console.log(4444444);
-    //     }
-    //     this.#cdr.markForCheck();
-    //   });
-  }
-
   validInput(data: Event): void {
     const key = Object.keys(data);
     // if (data[key[0]] === 0 || data[key[0]] === null) {
@@ -344,14 +235,6 @@ export class UserPreviewComponent implements OnInit, AfterViewInit {
     //   this.btnSendData.color = '#ffffff';
     //   this.btnSendData.disabled = false;
     // }
-  }
-
-  updateBTNtext(data: InputUsers) {
-    this.arrBTN[0].text = `${data['inputID-1']} ₽`;
-    this.arrBTN[1].text = `${data['inputID-2']} ₽`;
-    this.arrBTN[2].text = `${data['inputID-3']} ₽`;
-
-    this.#cdr.detectChanges();
   }
 
   changeActiveClass(data: number): void {
