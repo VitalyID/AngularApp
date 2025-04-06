@@ -32,8 +32,8 @@ import {
   CreateQRcodeState,
   InputUsers,
   StarRate,
-  userAmodzie,
-  userFeedback,
+  UserAmodzie,
+  UserFeedback,
 } from '../../state/qr-code-creator.state';
 // import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
@@ -135,10 +135,10 @@ export class UserPreviewComponent implements OnInit {
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
 
-  userFeedback$: Observable<userFeedback> = this.#store.select(
+  userFeedback$: Observable<UserFeedback> = this.#store.select(
     CreateQRcodeState.getMyFeedback
   );
-  userAmodzieStore$: Observable<userAmodzie> = this.#store.select(
+  userAmodzieStore$: Observable<UserAmodzie> = this.#store.select(
     CreateQRcodeState.getAmodzieState
   );
   userRateFromStore$?: Observable<StarRate> = this.#store.select(

@@ -1,10 +1,12 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-// import { StarRateModel } from './qr-code-creator.state';
+// import { StarRateModel, btnColor } from './qr-code-creator.state';
 import { Injectable } from '@angular/core';
 import {
   AddUserAmodzie,
+  AddUserBTNcolor,
   AddUserFeedback,
   AddUserStarRate,
+  AddUserSubstrateColor,
   AddUserTips,
 } from './qr-code-creator.action';
 // import { Injectable } from '@angular/core';
@@ -42,18 +44,18 @@ import {
 //   readonly: boolean;
 // }
 
-// ======================================================
-
 // export interface SubstrateModel {
 //   color: string;
 // }
 
-// export interface UploadLogoModel {
-//   logo: string;
-// }
-
 // export interface btnColorModel {
 //   color: string;
+// }
+
+// ======================================================
+
+// export interface UploadLogoModel {
+//   logo: string;
 // }
 
 // // ===================================================
@@ -265,21 +267,31 @@ export interface StarRate {
   disabled: boolean;
 }
 
-export interface userFeedback {
+export interface UserFeedback {
   text: string;
   readonly: boolean;
 }
 
-export interface userAmodzie {
+export interface UserAmodzie {
   rate: number;
   readonly: boolean;
+}
+
+export interface SubstrateColor {
+  color: string;
+}
+
+export interface BTNcolor {
+  color: string;
 }
 
 export interface CreateCodeModel {
   tips: InputUsers;
   star: StarRate;
-  feedback: userFeedback;
-  amodzie: userAmodzie;
+  feedback: UserFeedback;
+  amodzie: UserAmodzie;
+  substrate: SubstrateColor;
+  btnColor: BTNcolor;
 }
 
 const defaultData: CreateCodeModel = {
@@ -300,6 +312,9 @@ const defaultData: CreateCodeModel = {
     rate: 3,
     readonly: true,
   },
+
+  substrate: { color: '#eeeff2' },
+  btnColor: { color: '#eeeff2' },
 };
 
 @State<CreateCodeModel>({
@@ -310,31 +325,40 @@ const defaultData: CreateCodeModel = {
 export class CreateQRcodeState {
   @Selector()
   static getUserTips(state: CreateCodeModel) {
-    // console.log(state.tips);
     return state.tips;
   }
 
   @Selector()
   static getUserStarRate(state: CreateCodeModel) {
-    // console.log(state.star);
     return state.star;
   }
 
   @Selector()
   static getMyFeedback(state: CreateCodeModel) {
-    // console.log(state.feedback);
     return state.feedback;
   }
 
   @Selector()
   static getAmodzieState(state: CreateCodeModel) {
-    console.log(state.amodzie);
     return state.amodzie;
   }
 
+  @Selector()
+  static getColorBTN(state: CreateCodeModel) {
+    return state.substrate;
+  }
+
+  @Selector()
+  static getColorSubstrate(state: CreateCodeModel) {
+    return state.btnColor;
+  }
+
+  // -------------
+  // -- @Action --
+  // -------------
+
   @Action(AddUserTips)
   AddUserTips(ctx: StateContext<CreateCodeModel>, action: AddUserTips) {
-    const stateUserTip = ctx.getState();
     ctx.patchState({
       tips: {
         ...ctx.getState().tips,
@@ -348,8 +372,6 @@ export class CreateQRcodeState {
     ctx: StateContext<CreateCodeModel>,
     { userRate }: AddUserStarRate
   ) {
-    const stateRate = ctx.getState().star;
-    console.log('stars: ', stateRate);
     ctx.patchState({ star: { rate: userRate, disabled: false } });
   }
 
@@ -358,8 +380,6 @@ export class CreateQRcodeState {
     ctx: StateContext<CreateCodeModel>,
     { userFeedback }: AddUserFeedback
   ) {
-    const text = ctx.getState().feedback;
-    console.log('textFeedback: ', text);
     ctx.patchState({ feedback: { text: userFeedback, readonly: false } });
   }
 
@@ -368,9 +388,21 @@ export class CreateQRcodeState {
     ctx: StateContext<CreateCodeModel>,
     { userAmodzie }: AddUserAmodzie
   ) {
-    const state = ctx.getState();
-    console.log('Amodzie: ', state);
-    // ctx.setState({ rate: userAmodzie, readonly: true });
     ctx.patchState({ amodzie: { rate: userAmodzie, readonly: true } });
+  }
+
+  AddUserSubstrateColor(
+    ctx: StateContext<CreateCodeModel>,
+    { userSubstrateColor }: AddUserSubstrateColor
+  ) {
+    ctx.patchState({ substrate: { color: userSubstrateColor } });
+  }
+
+  @Action(AddUserBTNcolor)
+  AddUserBTNcolor(
+    ctx: StateContext<CreateCodeModel>,
+    { userBTNcolor }: AddUserBTNcolor
+  ) {
+    ctx.patchState({ btnColor: { color: userBTNcolor } });
   }
 }
