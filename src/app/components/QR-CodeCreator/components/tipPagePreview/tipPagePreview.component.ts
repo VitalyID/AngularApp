@@ -29,16 +29,11 @@ import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import {
-  AmodzieModel,
-  AmodzieState,
+  CreateQRcodeState,
   InputUsersModel,
-  SetUserStarRate,
-  SetUserTips,
   StarRateModel,
-  UploadLogoState,
-  userFeedbackModel,
-  userFeedbackState,
 } from '../../state/qr-code-creator.state';
+// import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
 @Component({
   selector: 'user-preview',
@@ -138,20 +133,20 @@ export class UserPreviewComponent implements OnInit {
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
 
-  userFeedback$: Observable<userFeedbackModel> = this.#store.select(
-    userFeedbackState.getMyFeedback
-  );
-  userAmodzieStore$: Observable<AmodzieModel> = this.#store.select(
-    AmodzieState.getAmodzieState
-  );
+  // userFeedback$: Observable<userFeedbackModel> = this.#store.select(
+  //   userFeedbackState.getMyFeedback
+  // );
+  // userAmodzieStore$: Observable<AmodzieModel> = this.#store.select(
+  //   AmodzieState.getAmodzieState
+  // );
   userRateFromStore$?: Observable<StarRateModel> = this.#store.select(
-    SetUserStarRate.getUserStarRate
+    CreateQRcodeState.getUserStarRate
   );
-  logoFromStore$?: Observable<string> = this.#store.select(
-    UploadLogoState.getUploadLogo
-  );
+  // logoFromStore$?: Observable<string> = this.#store.select(
+  //   UploadLogoState.getUploadLogo
+  // );
   userInputFromStore$?: Observable<InputUsersModel> = this.#store.select(
-    SetUserTips.getUserTips
+    CreateQRcodeState.getUserTips
   );
 
   ngOnInit(): void {
