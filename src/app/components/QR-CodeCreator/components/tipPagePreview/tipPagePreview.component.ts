@@ -144,9 +144,9 @@ export class UserPreviewComponent implements OnInit {
   userRateFromStore$?: Observable<StarRate> = this.#store.select(
     CreateQRcodeState.getUserStarRate
   );
-  // logoFromStore$?: Observable<string> = this.#store.select(
-  //   UploadLogoState.getUploadLogo
-  // );
+  logoFromStore$?: Observable<string> = this.#store.select(
+    CreateQRcodeState.getUploadLogo
+  );
   userInputFromStore$?: Observable<InputUsers> = this.#store.select(
     CreateQRcodeState.getUserTips
   );
