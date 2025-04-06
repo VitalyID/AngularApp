@@ -86,7 +86,7 @@
 <!-- section feedbacks -->
 <!-- ----------------- -->
 
-<!-- <div
+<div
   class="userPreview__feedbacks"
   [ngClass]="{
     'userPreview__feedbacks--open': isFeedbackOpen,
@@ -102,13 +102,13 @@
     {{ feedback.text }}
   </feedbacks>
   >
-</div> -->
+</div>
 
 <!-- --------------- -->
 <!-- section amodzie -->
 <!-- --------------- -->
 
-<!-- <div
+<div
   class="userPreview__feeling"
   [ngClass]="{
     'userPreview__feeling--close': isAmodzieClose,
@@ -121,7 +121,7 @@
     [amodzieSetting]="amodzieData"
     *ngIf="userAmodzieStore$ | async as amodzieData"
   ></amodzie>
-</div> -->
+</div>
 
 <div class="userPreview__sendData">
   <app-buttons [buttonData]="btnSendData"></app-buttons>

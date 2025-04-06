@@ -1,4 +1,4 @@
-import { InputUsersModel } from './qr-code-creator.state';
+import { InputUsers } from './qr-code-creator.state';
 
 export class AddUploadLogo {
   static readonly type = '[UploadLogo] SetUploadLogo';
@@ -7,7 +7,7 @@ export class AddUploadLogo {
 
 export class AddUserTips {
   static readonly type = '[inputTip] SetInputTip';
-  constructor(public userTip: InputUsersModel) {}
+  constructor(public userTip: InputUsers) {}
 }
 
 export class AddUserStarRate {

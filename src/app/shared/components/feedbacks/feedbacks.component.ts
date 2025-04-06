@@ -23,8 +23,9 @@ export class FeedbacksComponent implements OnChanges {
   readonly = this.feedbackData.readonly;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['textFromParent']) {
+    if (changes['feedbackData']) {
       this.readonly = this.feedbackData.readonly;
+      // console.log('input feedback: ', this.readonly);
     }
   }
 }

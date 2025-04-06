@@ -1,7 +1,12 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 // import { StarRateModel } from './qr-code-creator.state';
 import { Injectable } from '@angular/core';
-import { AddUserStarRate, AddUserTips } from './qr-code-creator.action';
+import {
+  AddUserAmodzie,
+  AddUserFeedback,
+  AddUserStarRate,
+  AddUserTips,
+} from './qr-code-creator.action';
 // import { Injectable } from '@angular/core';
 // import { Action, Selector, State, StateContext } from '@ngxs/store';
 // import { LogoProfileDefaultSource } from '../../../types/enums/logoProfile';
@@ -36,6 +41,8 @@ import { AddUserStarRate, AddUserTips } from './qr-code-creator.action';
 //   rate: number;
 //   readonly: boolean;
 // }
+
+// ======================================================
 
 // export interface SubstrateModel {
 //   color: string;
@@ -247,19 +254,32 @@ import { AddUserStarRate, AddUserTips } from './qr-code-creator.action';
 //   }
 // }
 
-export interface InputUsersModel {
+export interface InputUsers {
   'inputID-1': number;
   'inputID-2': number;
   'inputID-3': number;
 }
 
-export interface StarRateModel {
+export interface StarRate {
   rate: number;
   disabled: boolean;
 }
+
+export interface userFeedback {
+  text: string;
+  readonly: boolean;
+}
+
+export interface userAmodzie {
+  rate: number;
+  readonly: boolean;
+}
+
 export interface CreateCodeModel {
-  tips: InputUsersModel;
-  star: StarRateModel;
+  tips: InputUsers;
+  star: StarRate;
+  feedback: userFeedback;
+  amodzie: userAmodzie;
 }
 
 const defaultData: CreateCodeModel = {
@@ -270,7 +290,15 @@ const defaultData: CreateCodeModel = {
   },
   star: {
     rate: 2,
-    disabled: false,
+    disabled: true,
+  },
+  feedback: {
+    text: 'bla-bla-bla',
+    readonly: true,
+  },
+  amodzie: {
+    rate: 3,
+    readonly: true,
   },
 };
 
@@ -288,8 +316,20 @@ export class CreateQRcodeState {
 
   @Selector()
   static getUserStarRate(state: CreateCodeModel) {
-    console.log(state.star);
+    // console.log(state.star);
     return state.star;
+  }
+
+  @Selector()
+  static getMyFeedback(state: CreateCodeModel) {
+    // console.log(state.feedback);
+    return state.feedback;
+  }
+
+  @Selector()
+  static getAmodzieState(state: CreateCodeModel) {
+    console.log(state.amodzie);
+    return state.amodzie;
   }
 
   @Action(AddUserTips)
@@ -311,5 +351,26 @@ export class CreateQRcodeState {
     const stateRate = ctx.getState().star;
     console.log('stars: ', stateRate);
     ctx.patchState({ star: { rate: userRate, disabled: false } });
+  }
+
+  @Action(AddUserFeedback)
+  AddUserFeedback(
+    ctx: StateContext<CreateCodeModel>,
+    { userFeedback }: AddUserFeedback
+  ) {
+    const text = ctx.getState().feedback;
+    console.log('textFeedback: ', text);
+    ctx.patchState({ feedback: { text: userFeedback, readonly: false } });
+  }
+
+  @Action(AddUserAmodzie)
+  AddUserAmodzie(
+    ctx: StateContext<CreateCodeModel>,
+    { userAmodzie }: AddUserAmodzie
+  ) {
+    const state = ctx.getState();
+    console.log('Amodzie: ', state);
+    // ctx.setState({ rate: userAmodzie, readonly: true });
+    ctx.patchState({ amodzie: { rate: userAmodzie, readonly: true } });
   }
 }

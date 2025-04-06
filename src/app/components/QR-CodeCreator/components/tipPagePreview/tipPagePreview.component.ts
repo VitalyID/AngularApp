@@ -30,8 +30,10 @@ import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import {
   CreateQRcodeState,
-  InputUsersModel,
-  StarRateModel,
+  InputUsers,
+  StarRate,
+  userAmodzie,
+  userFeedback,
 } from '../../state/qr-code-creator.state';
 // import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
@@ -113,7 +115,7 @@ export class UserPreviewComponent implements OnInit {
 
   feedbackText: FeedbackData = {
     text: '',
-    readonly: true,
+    readonly: false,
   };
 
   amodzieData: AmodzieData = { rate: 0, readonly: false };
@@ -133,19 +135,19 @@ export class UserPreviewComponent implements OnInit {
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
 
-  // userFeedback$: Observable<userFeedbackModel> = this.#store.select(
-  //   userFeedbackState.getMyFeedback
-  // );
-  // userAmodzieStore$: Observable<AmodzieModel> = this.#store.select(
-  //   AmodzieState.getAmodzieState
-  // );
-  userRateFromStore$?: Observable<StarRateModel> = this.#store.select(
+  userFeedback$: Observable<userFeedback> = this.#store.select(
+    CreateQRcodeState.getMyFeedback
+  );
+  userAmodzieStore$: Observable<userAmodzie> = this.#store.select(
+    CreateQRcodeState.getAmodzieState
+  );
+  userRateFromStore$?: Observable<StarRate> = this.#store.select(
     CreateQRcodeState.getUserStarRate
   );
   // logoFromStore$?: Observable<string> = this.#store.select(
   //   UploadLogoState.getUploadLogo
   // );
-  userInputFromStore$?: Observable<InputUsersModel> = this.#store.select(
+  userInputFromStore$?: Observable<InputUsers> = this.#store.select(
     CreateQRcodeState.getUserTips
   );
 
