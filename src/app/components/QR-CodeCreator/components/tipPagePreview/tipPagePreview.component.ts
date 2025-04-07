@@ -23,8 +23,8 @@ import { DataInput } from '../../../../shared/components/input-text/types/interf
 import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
 import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
-import { SwitcherData } from '../../../../shared/components/switcher/interface/switcherDataTransmit';
 import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
+import { SwitcherData } from '../../../../shared/components/switcher/types/interface/switcherDataTransmit';
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
@@ -35,6 +35,7 @@ import {
   UserAmodzie,
   UserFeedback,
 } from '../../state/qr-code-creator.state';
+import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 // import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
 @Component({
@@ -187,33 +188,41 @@ export class UserPreviewComponent implements OnInit {
     this.#switcherService.channelSwitcherFromService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data: SwitcherData) => {
-        if (data.title === 'rate' && data.value === true) {
+        console.log(data);
+
+        if (data.title === EnumSwitcher.rate && data.value === true) {
           this.isOpen = true;
           this.isClose = false;
 
           this.#cdr.detectChanges();
-        } else if (data.title === 'rate' && data.value === false) {
+        } else if (data.title === EnumSwitcher.rate && data.value === false) {
           this.isOpen = false;
           this.isClose = true;
 
           this.#cdr.detectChanges();
         }
 
-        if (data.title === 'feedback' && data.value === true) {
+        if (data.title === EnumSwitcher.feedback && data.value === true) {
           this.isFeedbackOpen = true;
           this.isFeedbackClose = false;
           this.#cdr.detectChanges();
-        } else if (data.title === 'feedback' && data.value === false) {
+        } else if (
+          data.title === EnumSwitcher.feedback &&
+          data.value === false
+        ) {
           this.isFeedbackOpen = false;
           this.isFeedbackClose = true;
           this.#cdr.detectChanges();
         }
 
-        if (data.title === 'impressions' && data.value === true) {
+        if (data.title === EnumSwitcher.impressions && data.value === true) {
           this.isAmodzieOpen = true;
           this.isAmodzieClose = false;
           this.#cdr.detectChanges();
-        } else if (data.title === 'impressions' && data.value === false) {
+        } else if (
+          data.title === EnumSwitcher.impressions &&
+          data.value === false
+        ) {
           this.isAmodzieOpen = false;
           this.isAmodzieClose = true;
           this.#cdr.detectChanges();
@@ -223,15 +232,6 @@ export class UserPreviewComponent implements OnInit {
 
   validInput(data: Event): void {
     const key = Object.keys(data);
-    // if (data[key[0]] === 0 || data[key[0]] === null) {
-    //   this.btnSendData.background = 'grey';
-    //   this.btnSendData.color = '#696d6a';
-    //   this.btnSendData.disabled = true;
-    // } else {
-    //   this.btnSendData.background = '#3bc76b';
-    //   this.btnSendData.color = '#ffffff';
-    //   this.btnSendData.disabled = false;
-    // }
   }
 
   changeActiveClass(data: number): void {

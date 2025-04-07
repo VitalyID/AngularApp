@@ -1,13 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  inject,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ButtonData } from '../../../types/sectionItem';
 import { ListenerService } from './service/buttonListenerStatus.compoent.service';
@@ -20,14 +12,14 @@ import { ButtonService } from './service/buttons.component.service';
   templateUrl: './buttons.component.html',
   styleUrl: './buttons.component.scss',
 })
-export class ButtonsComponent implements OnInit, OnChanges {
+export class ButtonsComponent implements OnInit {
   @Input() buttonData?: ButtonData;
 
   readonly #listenerService = inject(ListenerService);
   readonly #service = inject(ButtonService);
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
 
-  // id необходим для проверки, чтобы снимать disabled с кнопки формы
+  // id необходим для проверки и дальнейшей логики
   public id: number = 2;
 
   ngOnInit(): void {
@@ -36,15 +28,8 @@ export class ButtonsComponent implements OnInit, OnChanges {
       .subscribe((data) => {
         if (this.buttonData && data.data.id === this.id) {
           this.buttonData.disabled = data.data.disabled;
-          // console.log(this.buttonData.disabled);
         }
       });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['buttonData']) {
-      // console.log(this.buttonData?.id);
-    }
   }
 
   clickOn() {

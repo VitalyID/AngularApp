@@ -5,9 +5,9 @@
     <svg-icon
       [svgSetting]="svgSetting"
       class="unitRate"
-      (click)="!isDisable && onClick($index)"
-      (mouseover)="!isDisable && onMouseOver($index)"
-      (mouseleave)="!isDisable && onMouseLeave()"
+      (click)="onClick($index)"
+      (mouseover)="onMouseOver($index)"
+      (mouseleave)="onMouseLeave()"
       [ngClass]="{
         isActive: $index <= userClick,
         onTouch: $index <= onTouch,

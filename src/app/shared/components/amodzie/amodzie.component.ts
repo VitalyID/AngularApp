@@ -50,11 +50,13 @@ export class AmodzieComponent implements OnInit, OnChanges {
 
   gradeActive: number = 1;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.gradeActive = this.amodzieSetting.rate;
+  }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['amodzieSetting']) {
-      this.gradeActive = this.amodzieSetting.rate;
-    }
+    // if (changes['amodzieSetting']) {
+    //   this.gradeActive = this.amodzieSetting.rate;
+    // }
   }
 
   onClick(data: number): void {

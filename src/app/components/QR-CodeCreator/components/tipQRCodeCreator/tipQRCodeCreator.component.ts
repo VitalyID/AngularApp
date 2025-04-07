@@ -26,9 +26,9 @@ import {
   AddUserColor,
   AddUserTips,
 } from '../../state/qr-code-creator.action';
-import { EnumSwitcher } from '../../types/enum/enumSwitcher';
 import { InputUsers } from '../../types/interface/inputUsers';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
+import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 @Component({
   selector: 'create-qrcode',
   imports: [
@@ -59,6 +59,7 @@ export class CreateQRcodeComponent implements OnInit {
   listSwitchKeys = Object.keys(EnumSwitcher);
 
   enumSwitcher = EnumSwitcher;
+
   userSettingData: any = {};
   myForm!: FormGroup;
   inputFromStore$?: Observable<InputUsers>;
@@ -160,25 +161,6 @@ export class CreateQRcodeComponent implements OnInit {
     }
   }
 
-  userInputSmall(data: number) {
-    this.defaultDataInput = {
-      ...this.defaultDataInput,
-      'inputID-1': Number(data),
-    };
-
-    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
-  }
-
-  userInputMiddle(data: number) {
-    this.defaultDataInput = { ...this.defaultDataInput, 'inputID-2': data };
-    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
-  }
-
-  userInputBig(data: number) {
-    this.defaultDataInput = { ...this.defaultDataInput, 'inputID-3': data };
-    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
-  }
-
   onClickSubstrate(data: string) {
     this.colorSubstrate = data;
     console.log(1, '-', this.colorSubstrate, 2, '-', this.colorBtn);
@@ -197,5 +179,10 @@ export class CreateQRcodeComponent implements OnInit {
 
   uploadLogo(data: string) {
     this.#store.dispatch(new AddUploadLogo(data));
+  }
+
+  SendDataStore(handleTip: keyof InputUsers, data: number) {
+    this.defaultDataInput = { ...this.defaultDataInput, [handleTip]: data };
+    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
   }
 }

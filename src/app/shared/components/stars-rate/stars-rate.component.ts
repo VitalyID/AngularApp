@@ -61,6 +61,7 @@ export class StarsRateComponent {
   }
 
   onClick(data: number) {
+    if (this.isDisable) return;
     this.userClick = data;
 
     this.tmp = data;
@@ -75,11 +76,13 @@ export class StarsRateComponent {
   }
 
   onMouseOver(data: number) {
+    if (this.isDisable) return;
     this.userClick = 0;
     this.onTouch = data;
   }
 
   onMouseLeave() {
+    if (this.isDisable) return;
     this.userClick = this.tmp;
     this.onTouch = 0;
 

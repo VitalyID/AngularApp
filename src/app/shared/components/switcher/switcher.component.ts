@@ -11,9 +11,9 @@ import {
   Renderer2,
 } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { SwitcherStyles } from './interface/SwitcherStyles';
-import { SwitcherData } from './interface/switcherDataTransmit';
 import { SwitcherStateService } from './service/switch.service';
+import { SwitcherStyles } from './types/interface/SwitcherStyles';
+import { SwitcherData } from './types/interface/switcherDataTransmit';
 
 @Component({
   selector: 'switcher',
@@ -29,6 +29,7 @@ export class SwitcherComponent implements OnInit {
 
   switcherForParent: SwitcherData = {
     title: '',
+    // title: Object.values(EnumSwitcher);
     value: false,
   };
 
@@ -70,7 +71,8 @@ export class SwitcherComponent implements OnInit {
   sendValue(data: Event) {
     this.value = (data.target as HTMLInputElement).checked;
     this.switcherForParent = { title: this.title, value: this.value };
-    // this.statusSwitcher.emit(this.switcherForParent);
+    // this.switcherForParent = { title: EnumSwitcher.rate, value: this.value };
+
     this.#switcherService.getStatusSwitcher(this.switcherForParent);
   }
 
