@@ -27,7 +27,7 @@ export class AddUserAmodzie {
 
 export class AddUserColor {
   static readonly type = '[SetSubstrate] SetSubstrateColor';
-  constructor(public colorSubstr: string, public colorBTNsubstr: string) {}
+  constructor(public colorBTNsubstr: string, public colorSubstr: string) {}
 }
 
 // export class AddUserBTNcolor {

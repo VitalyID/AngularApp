@@ -181,25 +181,21 @@ export class CreateQRcodeComponent implements OnInit {
 
   onClickSubstrate(data: string) {
     this.colorSubstrate = data;
-    console.log();
-
+    console.log(1, '-', this.colorSubstrate, 2, '-', this.colorBtn);
     this.userSetColor(this.colorSubstrate, this.colorBtn);
   }
 
   onClickColorBTN(data: string) {
     this.colorBtn = data;
-    this.userSetColor(this.colorSubstrate, this.colorBtn);
+    console.log(1, '-', this.colorSubstrate, 2, '-', this.colorBtn);
+    this.userSetColor(this.colorBtn, this.colorSubstrate);
   }
 
-  userSetColor(substrate: string, btn: string) {
+  userSetColor(btn: string, substrate: string) {
     this.#store.dispatch(new AddUserColor(substrate, btn));
   }
 
   uploadLogo(data: string) {
     this.#store.dispatch(new AddUploadLogo(data));
   }
-
-  // userBTNcolor(data: string) {
-  //   console.log(data);
-  // }
 }

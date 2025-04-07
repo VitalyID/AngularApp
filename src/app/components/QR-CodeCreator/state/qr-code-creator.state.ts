@@ -1,6 +1,5 @@
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-// import { StarRateModel, btnColor, BTNcolor } from './qr-code-creator.state';
 import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LogoProfileDefaultSource } from '../../../types/enums/logoProfile';
 import {
   AddUploadLogo,
@@ -37,10 +36,6 @@ export interface Color {
   colorBTN: string;
 }
 
-// export interface BTNcolor {
-//   color: string;
-// }
-
 export interface UploadLogo {
   logo: string;
 }
@@ -51,7 +46,6 @@ export interface CreateCodeModel {
   feedback: UserFeedback;
   amodzie: UserAmodzie;
   color: Color;
-  // btnColor: BTNcolor;
   logo: UploadLogo;
 }
 
@@ -78,9 +72,6 @@ const defaultData: CreateCodeModel = {
     colorSubstrate: '#eeeff2',
     colorBTN: '#eeeff2',
   },
-
-  // substrate: { color: '#eeeff2' },
-  // btnColor: { color: '#eeeff2' },
 
   logo: {
     logo: LogoProfileDefaultSource.logoSource,
@@ -119,11 +110,6 @@ export class CreateQRcodeState {
 
     return state.color;
   }
-
-  // @Selector()
-  // static getColorSubstrate(state: CreateCodeModel) {
-  //   return state.btnColor;
-  // }
 
   @Selector()
   static getUploadLogo(state: CreateCodeModel) {
@@ -168,22 +154,17 @@ export class CreateQRcodeState {
     ctx.patchState({ amodzie: { rate: userAmodzie, readonly: true } });
   }
 
+  @Action(AddUserColor)
   AddUserColor(
     ctx: StateContext<CreateCodeModel>,
     { colorSubstr, colorBTNsubstr }: AddUserColor
   ) {
+    console.log('store color ', colorBTNsubstr, colorSubstr);
+
     ctx.patchState({
-      color: { colorBTN: colorBTNsubstr, colorSubstrate: colorSubstr },
+      color: { colorBTN: colorSubstr, colorSubstrate: colorBTNsubstr },
     });
   }
-
-  // @Action(AddUserBTNcolor)
-  // AddUserBTNcolor(
-  //   ctx: StateContext<CreateCodeModel>,
-  //   { userBTNcolor }: AddUserBTNcolor
-  // ) {
-  //   ctx.patchState({ btnColor: { color: userBTNcolor } });
-  // }
 
   @Action(AddUploadLogo)
   AddUploadLogo(
