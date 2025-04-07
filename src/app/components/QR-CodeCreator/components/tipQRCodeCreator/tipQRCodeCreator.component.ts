@@ -11,10 +11,11 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
+import { DefaultColor } from '../../../../shared/components/color-picker/types/enum/default';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
 import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
@@ -22,7 +23,7 @@ import { UploadLogoComponent } from '../../../../shared/components/upload-logo/u
 import { ButtonData } from '../../../../types/sectionItem';
 import {
   AddUploadLogo,
-  AddUserSubstrateColor,
+  AddUserColor,
   AddUserTips,
 } from '../../state/qr-code-creator.action';
 import { EnumSwitcher } from '../../types/enum/enumSwitcher';
@@ -61,7 +62,9 @@ export class CreateQRcodeComponent implements OnInit {
   userSettingData: any = {};
   myForm!: FormGroup;
   inputFromStore$?: Observable<InputUsers>;
-  #placeholder?: Subscription;
+  // #placeholder?: Subscription;
+  colorSubstrate: string = '';
+  colorBtn: string = '';
 
   defaultDataInput: InputUsers = {
     'inputID-1': 100,
@@ -134,6 +137,9 @@ export class CreateQRcodeComponent implements OnInit {
     },
   ];
 
+  defaultColorSubstrate: string = DefaultColor.color;
+  defaultColorBTN: string = DefaultColor.color;
+
   readonly #routeService = inject(RoutIDservice);
   readonly #route = inject(ActivatedRoute);
   // readonly #cdr = inject(ChangeDetectorRef);
@@ -173,15 +179,27 @@ export class CreateQRcodeComponent implements OnInit {
     this.#store.dispatch(new AddUserTips(this.defaultDataInput));
   }
 
-  userSetColor(data: string) {
-    this.#store.dispatch(new AddUserSubstrateColor(data));
+  onClickSubstrate(data: string) {
+    this.colorSubstrate = data;
+    console.log();
+
+    this.userSetColor(this.colorSubstrate, this.colorBtn);
+  }
+
+  onClickColorBTN(data: string) {
+    this.colorBtn = data;
+    this.userSetColor(this.colorSubstrate, this.colorBtn);
+  }
+
+  userSetColor(substrate: string, btn: string) {
+    this.#store.dispatch(new AddUserColor(substrate, btn));
   }
 
   uploadLogo(data: string) {
     this.#store.dispatch(new AddUploadLogo(data));
   }
 
-  userBTNcolor(data: string) {
-    console.log(data);
-  }
+  // userBTNcolor(data: string) {
+  //   console.log(data);
+  // }
 }

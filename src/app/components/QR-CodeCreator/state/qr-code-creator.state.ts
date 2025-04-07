@@ -1,14 +1,13 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-// import { StarRateModel, btnColor } from './qr-code-creator.state';
+// import { StarRateModel, btnColor, BTNcolor } from './qr-code-creator.state';
 import { Injectable } from '@angular/core';
 import { LogoProfileDefaultSource } from '../../../types/enums/logoProfile';
 import {
   AddUploadLogo,
   AddUserAmodzie,
-  AddUserBTNcolor,
+  AddUserColor,
   AddUserFeedback,
   AddUserStarRate,
-  AddUserSubstrateColor,
   AddUserTips,
 } from './qr-code-creator.action';
 
@@ -33,13 +32,14 @@ export interface UserAmodzie {
   readonly: boolean;
 }
 
-export interface SubstrateColor {
-  color: string;
+export interface Color {
+  colorSubstrate: string;
+  colorBTN: string;
 }
 
-export interface BTNcolor {
-  color: string;
-}
+// export interface BTNcolor {
+//   color: string;
+// }
 
 export interface UploadLogo {
   logo: string;
@@ -50,8 +50,8 @@ export interface CreateCodeModel {
   star: StarRate;
   feedback: UserFeedback;
   amodzie: UserAmodzie;
-  substrate: SubstrateColor;
-  btnColor: BTNcolor;
+  color: Color;
+  // btnColor: BTNcolor;
   logo: UploadLogo;
 }
 
@@ -74,8 +74,14 @@ const defaultData: CreateCodeModel = {
     readonly: true,
   },
 
-  substrate: { color: '#eeeff2' },
-  btnColor: { color: '#eeeff2' },
+  color: {
+    colorSubstrate: '#eeeff2',
+    colorBTN: '#eeeff2',
+  },
+
+  // substrate: { color: '#eeeff2' },
+  // btnColor: { color: '#eeeff2' },
+
   logo: {
     logo: LogoProfileDefaultSource.logoSource,
   },
@@ -108,14 +114,16 @@ export class CreateQRcodeState {
   }
 
   @Selector()
-  static getColorBTN(state: CreateCodeModel) {
-    return state.substrate;
+  static getColor(state: CreateCodeModel) {
+    console.log('color:', state.color);
+
+    return state.color;
   }
 
-  @Selector()
-  static getColorSubstrate(state: CreateCodeModel) {
-    return state.btnColor;
-  }
+  // @Selector()
+  // static getColorSubstrate(state: CreateCodeModel) {
+  //   return state.btnColor;
+  // }
 
   @Selector()
   static getUploadLogo(state: CreateCodeModel) {
@@ -160,20 +168,22 @@ export class CreateQRcodeState {
     ctx.patchState({ amodzie: { rate: userAmodzie, readonly: true } });
   }
 
-  AddUserSubstrateColor(
+  AddUserColor(
     ctx: StateContext<CreateCodeModel>,
-    { userSubstrateColor }: AddUserSubstrateColor
+    { colorSubstr, colorBTNsubstr }: AddUserColor
   ) {
-    ctx.patchState({ substrate: { color: userSubstrateColor } });
+    ctx.patchState({
+      color: { colorBTN: colorBTNsubstr, colorSubstrate: colorSubstr },
+    });
   }
 
-  @Action(AddUserBTNcolor)
-  AddUserBTNcolor(
-    ctx: StateContext<CreateCodeModel>,
-    { userBTNcolor }: AddUserBTNcolor
-  ) {
-    ctx.patchState({ btnColor: { color: userBTNcolor } });
-  }
+  // @Action(AddUserBTNcolor)
+  // AddUserBTNcolor(
+  //   ctx: StateContext<CreateCodeModel>,
+  //   { userBTNcolor }: AddUserBTNcolor
+  // ) {
+  //   ctx.patchState({ btnColor: { color: userBTNcolor } });
+  // }
 
   @Action(AddUploadLogo)
   AddUploadLogo(

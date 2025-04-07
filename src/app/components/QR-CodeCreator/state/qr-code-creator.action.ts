@@ -25,12 +25,12 @@ export class AddUserAmodzie {
   constructor(public userAmodzie: number) {}
 }
 
-export class AddUserSubstrateColor {
+export class AddUserColor {
   static readonly type = '[SetSubstrate] SetSubstrateColor';
-  constructor(public userSubstrateColor: string) {}
+  constructor(public colorSubstr: string, public colorBTNsubstr: string) {}
 }
 
-export class AddUserBTNcolor {
-  static readonly type = '[SetBTN] SetBtnColor';
-  constructor(public userBTNcolor: string) {}
-}
+// export class AddUserBTNcolor {
+//   static readonly type = '[SetBTN] SetBtnColor';
+//   constructor(public userBTNcolor: string) {}
+// }

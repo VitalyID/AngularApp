@@ -46,7 +46,10 @@
 
     <div class="createQRcode__body-background">
       <span>Код цвета для подложки</span>
-      <color-picker (userSetColor)="userSetColor($event)"></color-picker>
+      <color-picker
+        (userSetColor)="onClickSubstrate($event)"
+        [color]="defaultColorSubstrate"
+      ></color-picker>
     </div>
 
     <!-- ------------------ -->
@@ -63,7 +66,10 @@
 
     <div class="createQRcode__body-setupColorBTN">
       <span>Код цвета для кнопки</span>
-      <color-picker (userSetColor)="userBTNcolor($event)"></color-picker>
+      <color-picker
+        (userSetColor)="onClickColorBTN($event)"
+        [color]="defaultColorBTN"
+      ></color-picker>
     </div>
 
     <app-buttons [buttonData]="btnText"></app-buttons>

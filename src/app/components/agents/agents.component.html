@@ -26,7 +26,10 @@
 </div>
 
 <div class="wrapBody__table">
-  <color-picker (userSetColor)="userSetColor($event)"></color-picker>
+  <color-picker
+    (userSetColor)="userSetColor($event)"
+    [color]="defaultColor"
+  ></color-picker>
 </div>
 
 <div class="wrapBody__table">

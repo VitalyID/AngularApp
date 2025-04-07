@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   Output,
 } from '@angular/core';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -18,13 +19,12 @@ import { ColorPickerModule } from 'ngx-color-picker';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorPickerComponent {
+  @Input({ required: true }) color: string = '';
   @Output() userSetColor = new EventEmitter();
 
-  color: string = '#eeeff2';
   newColor: string = this.color;
 
   setColor(newColor: string) {
-    // console.log(newColor);
     this.userSetColor.emit(newColor);
   }
 }
