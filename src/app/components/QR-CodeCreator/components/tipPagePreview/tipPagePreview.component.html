@@ -1,0 +1,128 @@
+<div class="userPreview__top">
+  <span class="spanBold">Так выглядит ваша страница</span>
+</div>
+
+<div class="userPreview__sectionBorder"></div>
+
+<!-- --------------- -->
+<!-- section Preview -->
+<!-- --------------- -->
+
+<div class="userPreview__about">
+  <svg-icon [svgSetting]="svgLogo"></svg-icon>
+
+  <div class="userPreview__about--me">
+    <img
+      [src]="(logoFromStore$ | async) || logoSource"
+      alt="user logo"
+      class="userPreview__about--meLogo"
+      #preview
+      *ngIf="(logoFromStore$ | async) !== undefined"
+    />
+    <div class="userPreview__about--meInfo">
+      <span class="spanBold"><b>Смирнов Виталий</b></span>
+      <span class="spanThink">Сотрудник в Фитнес Территория</span>
+    </div>
+  </div>
+</div>
+
+<div class="userPreview__sectionBorder"></div>
+
+<!-- --------------- -->
+<!-- section setTips -->
+<!-- --------------- -->
+
+<div class="userPreview__setTips">
+  <span class="spanBold">Сумма чаевых</span>
+  <input-text
+    [actualData]="setUpTips"
+    (userInput)="validInput($event)"
+  ></input-text>
+
+  <div
+    class="userPreview__setTips--btn"
+    *ngIf="userInputFromStore$ | async as userInputFromStore"
+  >
+    @for (item of userInputFromStore | keyvalue; track item.key){ @for (btn of
+    arrBTN; track btn.id){ @if (btn.key === item.key) {
+
+    <app-buttons
+      [buttonData]="{
+        text: item.value.toString(),
+        iconClass: btn.iconClass,
+        disabled: btn.disabled,
+        background: btn.background,
+        color: btn.color,
+        isActive: btn.isActive,
+        id: btn.id,
+        borderStyle: btn.borderStyle,
+        boxShadow: btn.boxShadow,
+        key: btn.key
+      }"
+    ></app-buttons>
+    } }}
+  </div>
+</div>
+
+<!-- ------------------ -->
+<!-- section stars-rate -->
+<!-- ------------------ -->
+
+<div
+  class="userPreview__rate"
+  [ngClass]="{
+    'userPreview__rate--open': isOpen,
+    'userPreview__rate--close': isClose
+  }"
+>
+  <span class="spanBold">Ваш рейтинг</span>
+  <stars-rate
+    [starRateSetup]="dataToStarRate"
+    *ngIf="userRateFromStore$ | async as dataToStarRate"
+  ></stars-rate>
+</div>
+
+<!-- ----------------- -->
+<!-- section feedbacks -->
+<!-- ----------------- -->
+
+<div
+  class="userPreview__feedbacks"
+  [ngClass]="{
+    'userPreview__feedbacks--open': isFeedbackOpen,
+    'userPreview__feedbacks--close': isFeedbackClose
+  }"
+>
+  <span class="spanBold">Ваш отзыв</span>
+
+  <feedbacks
+    [feedbackData]="feedback"
+    *ngIf="userFeedback$ | async as feedback"
+  >
+    {{ feedback.text }}
+  </feedbacks>
+  >
+</div>
+
+<!-- --------------- -->
+<!-- section amodzie -->
+<!-- --------------- -->
+
+<div
+  class="userPreview__feeling"
+  [ngClass]="{
+    'userPreview__feeling--close': isAmodzieClose,
+    'userPreview__feeling--open': isAmodzieOpen
+  }"
+>
+  <span class="spanBold">Ваши впечатления</span>
+
+  <amodzie
+    [amodzieSetting]="amodzieData"
+    *ngIf="userAmodzieStore$ | async as amodzieData"
+  ></amodzie>
+</div>
+
+<div class="userPreview__sendData">
+  <app-buttons [buttonData]="btnSendData"></app-buttons>
+</div>

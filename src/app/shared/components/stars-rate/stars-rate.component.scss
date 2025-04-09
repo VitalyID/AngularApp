@@ -1,0 +1,24 @@
+:host {
+  height: 85px;
+}
+.general {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  & .unitRate {
+    fill: #9c9c9c;
+    transition: all 0.5s;
+  }
+
+  & .isActive,
+  & .onTouch {
+    fill: #fea929;
+    transition: all 0.5s;
+  }
+
+  & .isActive.disabled {
+    fill: #996f31;
+  }
+}

@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
+import { HomeComponent } from './components/layouts/home/home.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
+  imports: [HomeComponent],
+  standalone: true,
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements AfterViewInit {

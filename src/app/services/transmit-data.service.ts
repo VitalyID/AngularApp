@@ -8,7 +8,7 @@ import {
   Subscription,
   throwError,
 } from 'rxjs';
-import { ButtonService } from '../components/buttons/service/buttons.component.service';
+import { ButtonService } from '../shared/components/buttons/service/buttons.component.service';
 import {
   DataUserOperation,
   DateTimeUserOperations,

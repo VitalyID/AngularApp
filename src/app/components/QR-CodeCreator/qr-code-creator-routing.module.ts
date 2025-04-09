@@ -1,0 +1,16 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { CreateQRcodeComponent } from './components/tipQRCodeCreator/tipQRCodeCreator.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: CreateQRcodeComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class CreateQrcodeRoutingModule {}

@@ -1,0 +1,17 @@
+<div
+  class="userInputWrap"
+  [class]="{
+    rub: actualData.unitCurrency === 'rub',
+    usd: actualData.unitCurrency === 'usd',
+    noneCurrency: actualData.unitCurrency === 'none'
+  }"
+>
+  <input
+    [type]="actualData.type"
+    [placeholder]="actualData.placeholder"
+    (input)="inputValue($event)"
+    [disabled]="actualData.disabled"
+    myValidator
+    [actualData]="actualData"
+  />
+</div>

@@ -1,18 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../services/transmitDataRout.service';
+import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
+import { ButtonService } from '../../../shared/components/buttons/service/buttons.component.service';
+import { SectionComponent } from '../../../shared/components/section/section.component';
+import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { TitleAside } from '../../../types/enums/titleAside';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { ButtonData } from '../../../types/sectionItem';
-import { ButtonService } from '../../buttons/service/buttons.component.service';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 import { LinkAside } from './tupes/enum/routerLink';
 
 @Component({
   selector: 'app-aside',
-  standalone: false,
-
+  standalone: true,
+  imports: [CommonModule, SvgIconComponent, SectionComponent, ButtonsComponent],
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss',
 })
