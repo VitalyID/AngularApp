@@ -55,7 +55,6 @@ export class CreateQRcodeComponent implements OnInit {
   isClose: boolean = true;
   feedbackOpen: boolean = false;
   feedbackClose: boolean = true;
-  // listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
   listSwitchKeys = Object.keys(EnumSwitcher);
 
   enumSwitcher = EnumSwitcher;
@@ -63,7 +62,6 @@ export class CreateQRcodeComponent implements OnInit {
   userSettingData: any = {};
   myForm!: FormGroup;
   inputFromStore$?: Observable<InputUsers>;
-  // #placeholder?: Subscription;
   colorSubstrate: string = '';
   colorBtn: string = '';
 
@@ -143,9 +141,7 @@ export class CreateQRcodeComponent implements OnInit {
 
   readonly #routeService = inject(RoutIDservice);
   readonly #route = inject(ActivatedRoute);
-  // readonly #cdr = inject(ChangeDetectorRef);
   readonly #store = inject(Store);
-  // readonly #destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.listItemSwitch();

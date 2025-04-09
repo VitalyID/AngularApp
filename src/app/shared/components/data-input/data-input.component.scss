@@ -1,21 +1,39 @@
-.wrapComponent {
+:host {
   display: flex;
-  justify-content: center;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.date-range-picker {
+  display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.wrapInput {
-  width: 45%;
-  border-radius: 8px;
-}
-
-input {
   width: 100%;
-  border-radius: 8px;
-  border: solid black 2px;
+  min-width: 0;
+
+  &__inputs {
+    flex: 1;
+    min-width: 0;
+    max-width: clamp(100px, 50%, 200px);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__input {
+    max-width: 200px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 8px;
+  }
 }
 
 input:nth-child(1) {
   margin-bottom: 5px;
+}
+
+app-buttons {
+  flex-shrink: 0; /* Не сжимать */
+  width: auto; /* Занимать только нужное место */
 }

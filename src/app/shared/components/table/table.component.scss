@@ -4,8 +4,10 @@
   align-items: center;
   background: #fff;
   width: 100%;
+  overflow: hidden;
 }
 .tabs {
+  min-width: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,6 +15,7 @@
   background: #ffffff;
   border: 1px solid #e1e3e1;
   border-radius: 40px;
+  flex-shrink: 2;
 }
 
 .wrapTable app-buttons {
@@ -20,7 +23,9 @@
 }
 
 .tab-element {
-  padding: 10px 20px;
+  min-width: 0;
+  flex-shrink: 3;
+  padding: 8px 20px;
   border-radius: 50px;
 
   font-family: "Formular";

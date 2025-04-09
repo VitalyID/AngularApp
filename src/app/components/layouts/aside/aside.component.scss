@@ -1,91 +1,85 @@
-.icon-logo {
-  width: 3.0625em;
+:host {
+  --width: 100%;
+  --overflow: auto;
+  --gap: 0;
+  --displayMenuIcon: none;
+
+  --section-title-color: #777d82;
+  --section-icon-fill: #777d82;
+  --section-active-title-color: #54a75c;
+  --section-active-icon-fill: #54a75c;
+  --section-my-group-background: rgba(248, 57, 57, 0.05);
 }
+
+.aside__body {
+  width: var(--width);
+  overflow: var(--overflow);
+
+  display: block;
+  text-align: center;
+  cursor: pointer;
+
+  margin-top: 27px;
+  margin-bottom: 30px;
+  flex-direction: column;
+  padding: 10px;
+
+  &--logo {
+    width: 3.0625em;
+  }
+
+  app-section {
+    fill: var(--section-icon-fill);
+    fill: var(--section-active-icon-fill);
+  }
+}
+
+.aside__support {
+  width: 100%;
+  padding-bottom: 10px;
+  padding-top: 3vw;
+
+  &-content {
+    border-radius: 20px;
+    margin: 0px 2%;
+    position: relative;
+    padding: 23% 0px 7%;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(0deg, #3bc76b, #3bc76b),
+        linear-gradient(0deg, #479b4e, #479b4e),
+        linear-gradient(0deg, #3fa949, #3fa949), #54a75c;
+      mix-blend-mode: normal;
+      opacity: 0.1;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    & img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(20%, -54%);
+    }
+  }
+}
+
+// -----------------------------
+//  ----------HZ----------------
+// -----------------------------
 
 .icon-flag {
   width: 1.2001953125em;
 }
 
-.title,
-.aside-body {
-  margin-top: 27px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.aside-body {
-  display: block;
-  text-align: center;
-  cursor: pointer;
-}
-
-// .aside-body app-section:nth-child(2) {
-//   /* Стили для второго компонента */
-//   background-color: blue;
-// }
-
-// .aside-body app-section:nth-child(3) {
-//   /* Стили для третьего компонента */
-//   background-color: green;
-// }
-
-.support-wrapper {
-  width: 100%;
-  padding-bottom: 10px;
-  padding-top: 3vw;
-}
-
-.support {
-  border-radius: 20px;
-  margin: 0px 2%;
-  position: relative;
-  padding: 23% 0px 7%;
-}
-
-.support::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(0deg, #3bc76b, #3bc76b),
-    linear-gradient(0deg, #479b4e, #479b4e),
-    linear-gradient(0deg, #3fa949, #3fa949), #54a75c;
-  mix-blend-mode: normal;
-  opacity: 0.1;
-  border-radius: 20px;
-  pointer-events: none;
-}
-
-.support img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(20%, -54%);
-}
-
-.isActive .section-title {
-  color: #54a75c;
-}
-
-.isActive .section-icon {
-  fill: #54a75c;
-}
-
-.section-title {
-  color: #777d82;
-}
-
-.section-icon {
-  fill: #777d82;
-}
-
-.isMyGroup {
-  display: block;
-  --borderRadius: 0px;
-  background: rgba(248, 57, 57, 0.05);
+@media (max-width: 1385px) {
+  logo-menu {
+    display: none;
+  }
 }

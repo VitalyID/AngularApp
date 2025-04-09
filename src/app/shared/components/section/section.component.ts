@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 // import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { ActivatedRoute } from '@angular/router';
 // import { RoutIDservice } from '../../services/transmitDataRout.service';
@@ -12,6 +12,7 @@ import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
   imports: [RouterLink],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss',
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class SectionComponent {
   @Input() item: SectionItem = {

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../shared/components/buttons/service/buttons.component.service';
+import { LogoMenuComponent } from '../../../shared/components/logo-menu/logo-menu.component';
 import { SectionComponent } from '../../../shared/components/section/section.component';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { TitleAside } from '../../../types/enums/titleAside';
@@ -16,7 +17,14 @@ import { LinkAside } from './tupes/enum/routerLink';
 @Component({
   selector: 'app-aside',
   standalone: true,
-  imports: [CommonModule, SvgIconComponent, SectionComponent, ButtonsComponent],
+  imports: [
+    CommonModule,
+    SvgIconComponent,
+    SectionComponent,
+    ButtonsComponent,
+    LogoMenuComponent,
+    LogoMenuComponent,
+  ],
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss',
 })
@@ -107,7 +115,13 @@ export class AsideComponent implements OnInit {
     id: 4,
   };
 
-  logoSetting: SvgSpriteSetting = {
+  menuData: SvgSpriteSetting = {
+    iconID: 'menu',
+    fill: 'black',
+    width: '24px',
+    height: '24px',
+  };
+  logoData: SvgSpriteSetting = {
     iconID: 'icon-logo',
     width: '98px',
     height: '31px',

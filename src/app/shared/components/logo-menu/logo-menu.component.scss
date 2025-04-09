@@ -1,0 +1,15 @@
+.logo-menu {
+  width: var(--width);
+  overflow: var(--overflow);
+  gap: var(--gap);
+
+  margin-top: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+
+  &__menu {
+    display: var(--displayMenuIcon);
+  }
+}

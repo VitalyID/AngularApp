@@ -11,13 +11,20 @@ import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
 import { ChartComponent } from '../../shared/components/chart/chart.component';
+import { DropdownComponent } from '../../shared/components/dropdown/dropdown.component';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { ButtonData } from './../../types/sectionItem';
 
 @Component({
   selector: 'main',
   standalone: true,
-  imports: [TableComponent, ChartComponent, ButtonsComponent],
+  imports: [
+    TableComponent,
+    ChartComponent,
+    ButtonsComponent,
+    DropdownComponent,
+    DropdownComponent,
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

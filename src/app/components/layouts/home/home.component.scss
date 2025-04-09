@@ -1,3 +1,12 @@
+@mixin flex($justCont: center, $alignIt: center) {
+  display: flex;
+  justify-content: $justCont;
+  align-items: $alignIt;
+
+  background: #ffffff;
+  box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
+}
+
 .home-container {
   width: 100%;
   margin-left: auto;
@@ -12,26 +21,21 @@
     "aside main";
 
   background: #f9fafc;
+  min-width: 1100px;
 }
 
 .header {
+  @include flex();
+
   grid-area: header;
-  background: #ffffff;
-  box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
-  display: flex;
-  justify-self: center;
-  align-items: center;
   width: 100%;
 }
 
 .headerWrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex(space-between);
+
   padding: 0 30px;
   width: 100%;
-  background: #ffffff;
-  box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
   height: 100%;
 }
 
@@ -44,4 +48,22 @@
   grid-area: main;
   width: 100%;
   padding: 30px;
+}
+
+@media (max-width: 1385px) {
+  app-aside {
+    display: none;
+  }
+
+  .home-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include flex();
+    flex-direction: column;
+    box-shadow: none;
+
+    background: #f9fafc;
+  }
 }
