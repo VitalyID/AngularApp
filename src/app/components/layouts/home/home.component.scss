@@ -53,27 +53,27 @@
   padding: 30px;
 }
 
-.overlay {
-  background: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 200;
-}
+// .overlay {
+//   background: rgba(0, 0, 0, 0.3);
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   z-index: 200;
+// }
 
-.noShadowActive {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 2s;
-}
+// .noShadowActive {
+//   opacity: 0;
+//   pointer-events: none;
+//   transition: opacity 2s;
+// }
 
-.shadowActive {
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 2s;
-}
+// .shadowActive {
+//   opacity: 1;
+//   pointer-events: auto;
+//   transition: opacity 2s;
+// }
 
 @media (max-width: 1385px) {
   app-aside {

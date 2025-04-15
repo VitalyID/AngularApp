@@ -42,7 +42,7 @@ export class AsideComponent implements OnInit {
       title: TitleAside.main,
       iconSetting: { iconID: 'icon-icons', width: '21px', height: '21px' },
       ID: 1,
-      route: LinkAside.home,
+      route: LinkAside.main,
     },
     {
       title: TitleAside.myQR,
@@ -145,12 +145,6 @@ export class AsideComponent implements OnInit {
           // пишем логику клика по кнопке support
         }
       });
-
-    this.#getRoutFromService.SendRouteService$.pipe(
-      takeUntilDestroyed(this.#destroyRef)
-    ).subscribe((data) => {
-      console.log(data);
-    });
   }
 
   // добавляем класс только к элементам с этими id

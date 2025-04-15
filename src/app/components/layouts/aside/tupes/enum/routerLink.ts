@@ -1,5 +1,5 @@
 export enum LinkAside {
-  home = '/home',
+  main = '',
   myQR = '/my-qr',
   agents = '/agents',
   requisites = '/requisites',

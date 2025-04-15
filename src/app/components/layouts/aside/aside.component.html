@@ -8,8 +8,8 @@
       <app-section
         [item]="item"
         [routerLink]="item.route"
-        routerLinkActive="isActive"
         [ngClass]="{
+        isActive: item.ID === (routeID$ | async),
         isMyGroup: getClassForSectionItem(item.ID),
         firstItem: i+1 === activeMenuItem[0],
         lastItem: i+1 === activeMenuItem.at(-1),
@@ -49,20 +49,3 @@
   </div>
 </div>
 <!-- isActive: item.ID === (routeID$ | async), -->
-
-<!-- <app-section
-[item]="item"
-[routerLink]="item.route"
-routerLinkActive="isActive"
-[ngClass]="{
-isMyGroup: getClassForSectionItem(item.ID),
-firstItem: i+1 === activeMenuItem[0],
-lastItem: i+1 === activeMenuItem.at(-1),
-}"
->
-<div class="section-icon">
-  <svg-icon [svgSetting]="item.iconSetting"></svg-icon>
-</div>
-<span class="section-title">{{ item.title }}</span>
-</app-section>
-</div> -->

@@ -19,6 +19,7 @@ import { DropdownComponent } from '../../shared/components/dropdown/dropdown.com
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { AsideComponent } from '../layouts/aside/aside.component';
+import { EscCloseDirective } from '../layouts/aside/directives/esc-close.directive';
 import { ButtonData } from './../../types/sectionItem';
 
 @Component({
@@ -29,9 +30,9 @@ import { ButtonData } from './../../types/sectionItem';
     ChartComponent,
     ButtonsComponent,
     DropdownComponent,
-    DropdownComponent,
     AsideComponent,
     CommonModule,
+    EscCloseDirective,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -45,6 +46,7 @@ export class MainComponent implements OnInit {
   readonly #router = inject(Router);
 
   asideID: number = 0;
+  parent: string = 'main';
 
   public btnText: ButtonData = {
     text: 'Создать QR-Code',
@@ -97,7 +99,6 @@ export class MainComponent implements OnInit {
       .subscribe((data) => {
         this.menuState = data;
         this.isShadow = data;
-        console.log(this.menuState, '4444444444');
         this.#cdr.detectChanges();
       });
   }
@@ -105,5 +106,11 @@ export class MainComponent implements OnInit {
   clickOn() {
     // отправляем в сервис клик по кнопке с ее идентификатором "3".
     this.#btnService.clickOnButton(this.btnText.id);
+  }
+
+  onMenuClosed(data: boolean) {
+    this.menuState = data;
+    this.isShadow = data;
+    this.#cdr.detectChanges();
   }
 }

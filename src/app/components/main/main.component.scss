@@ -72,12 +72,24 @@ chart {
   height: 250px;
 }
 
-// .shadowActive {
-//   background-color: rgba(16, 16, 17, 0.3);
-//   // position: fixed;
-//   // left: 0;
-//   // top: 0;
-//   // width: 100%;
-//   // height: 100%;
-//   // z-index: 50;
-// }
+.overlay {
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+}
+
+.noShadowActive {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2s;
+}
+
+.shadowActive {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 2s;
+}

@@ -1,6 +1,8 @@
 <app-aside
   class="tablet"
   [ngClass]="{ close: !menuState, open: menuState }"
+  escClose
+  (menuClosed)="onMenuClosed($event)"
 ></app-aside>
 
 <div class="wrapTop">
@@ -11,8 +13,12 @@
 <div class="wrapChart">
   <h2>Статистика входящих оплат</h2>
   <chart></chart>
-  <!-- <dropdown [dropdownItems]="list"></dropdown> -->
 </div>
 <div class="wrapTable">
   <table></table>
 </div>
+
+<div
+  class="overlay"
+  [ngClass]="{ shadowActive: isShadow, noShadowActive: !isShadow }"
+></div>

@@ -35,6 +35,8 @@ export class HomeComponent implements OnInit {
   asideID?: number;
   isShadow: boolean = false;
 
+  parent: string = 'home';
+
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];
 
