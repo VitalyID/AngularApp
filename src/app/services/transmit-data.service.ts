@@ -86,10 +86,10 @@ export class TransmitDataService implements OnDestroy {
         dayOfWeek.setHours(0, 0, 0, 0);
 
         const filterWeek = this.dataUserOperations.filter((item) => {
-          console.log(item.data.split('.').reverse().join('-'));
+          // console.log(item.data.split('.').reverse().join('-'));
           const actualData = new Date(item.data.split('.').reverse().join('-'));
 
-          console.log(actualData.getTime(), ' ', startOfWeek.getTime());
+          // console.log(actualData.getTime(), ' ', startOfWeek.getTime());
           return (
             actualData.getTime() >= startOfWeek.getTime() &&
             actualData.getTime() <= dayOfWeek.getTime()

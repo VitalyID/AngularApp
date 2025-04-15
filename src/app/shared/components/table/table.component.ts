@@ -4,14 +4,19 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  OnInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { TransmitDataService } from '../../../services/transmit-data.service';
 import { TabsName } from '../../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../../types/sectionItem';
+import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
+import { DropdownComponent } from '../dropdown/dropdown.component';
+import { ListDropdown } from '../dropdown/types/interface/listDropdown';
 import { FilterComponent } from '../filter/filter.component';
 import { SortDataService } from '../filter/service/filter.component.service';
 import { TitleFilter } from '../filter/types/enum/nameFilter';
@@ -23,17 +28,18 @@ import { TitleFilter } from '../filter/types/enum/nameFilter';
     DataInputComponent,
     FilterComponent,
     ButtonsComponent,
+    DropdownComponent,
+    BordeerLineComponent,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
   readonly #myServiceGetData = inject(TransmitDataService);
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
-  // readonly #destroyRef = inject(DestroyRef);
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -49,6 +55,8 @@ export class TableComponent {
     id: 2,
   };
 
+  filterMobile: ListDropdown[] = [];
+
   public keys: string[] = [];
   // меняем enum to obj чтобы корректно отображать порядок
   public tabs: { key: string; value: string }[] =
@@ -63,6 +71,16 @@ export class TableComponent {
   tableBody$: Observable<DataUserOperation[]> =
     this.#filterService.dataOperationFromService$;
 
+  ngOnInit(): void {
+    const arrFilter = Object.values(TabsName);
+
+    this.filterMobile = arrFilter.map((el) => {
+      const arrEl: ListDropdown = { item: el, id: uuidv4() };
+      return arrEl;
+    });
+    // console.log(this.filterMobile);
+  }
+
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
     return Object.keys(myEnum).map((key) => ({
       key: key,
@@ -76,6 +94,7 @@ export class TableComponent {
 
   clickOnTab(name: string) {
     this.IDActiveTab = name;
+
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
     this.#cdr.markForCheck();
@@ -89,5 +108,18 @@ export class TableComponent {
     if (!item || item.length === 0) return;
 
     return Object.keys(item[0]);
+  }
+
+  itemSelected(data: ListDropdown) {
+    const arrTabsKey: (keyof typeof TabsName)[] = Object.keys(
+      TabsName
+    ) as (keyof typeof TabsName)[];
+    // console.log(arrTabsKey);
+
+    arrTabsKey.forEach((item) => {
+      if (TabsName[item] === data.item) {
+        this.clickOnTab(item);
+      }
+    });
   }
 }

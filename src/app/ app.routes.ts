@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: MainComponent,
-    data: { asideID: 1 },
+    // data: { asideID: 1 },
   },
 
   {

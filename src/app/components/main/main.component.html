@@ -1,3 +1,8 @@
+<app-aside
+  class="tablet"
+  [ngClass]="{ close: !menuState, open: menuState }"
+></app-aside>
+
 <div class="wrapTop">
   <h2>Главная</h2>
   <app-buttons [buttonData]="btnText"></app-buttons>
@@ -6,7 +11,7 @@
 <div class="wrapChart">
   <h2>Статистика входящих оплат</h2>
   <chart></chart>
-  <dropdown></dropdown>
+  <!-- <dropdown [dropdownItems]="list"></dropdown> -->
 </div>
 <div class="wrapTable">
   <table></table>

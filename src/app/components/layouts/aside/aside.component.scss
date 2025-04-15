@@ -19,10 +19,12 @@
   text-align: center;
   cursor: pointer;
 
-  margin-top: 27px;
   margin-bottom: 30px;
   flex-direction: column;
-  padding: 10px;
+  // padding: 10px;
+
+  background: #ffffff;
+  box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
 
   &--logo {
     width: 3.0625em;
@@ -31,6 +33,10 @@
   app-section {
     fill: var(--section-icon-fill);
     fill: var(--section-active-icon-fill);
+  }
+
+  &-padding {
+    padding: 10px;
   }
 }
 
@@ -80,6 +86,10 @@
 
 @media (max-width: 1385px) {
   logo-menu {
-    display: none;
+    // display: none;
+  }
+
+  .aside__body {
+    // margin-top: 92px;
   }
 }

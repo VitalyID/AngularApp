@@ -4,6 +4,24 @@
   // box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
 }
 
+app-aside.tablet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  --width: 280px;
+}
+
+app-aside.tablet.close {
+  transform: translateX(-100%);
+  transition: transform 1s;
+}
+
+app-aside.tablet.open {
+  transform: translateX(0);
+  transition: transform 1s;
+  z-index: 250;
+}
+
 .wrapTop {
   display: flex;
   align-items: center;
@@ -53,3 +71,13 @@ chart {
   width: 90%;
   height: 250px;
 }
+
+// .shadowActive {
+//   background-color: rgba(16, 16, 17, 0.3);
+//   // position: fixed;
+//   // left: 0;
+//   // top: 0;
+//   // width: 100%;
+//   // height: 100%;
+//   // z-index: 50;
+// }

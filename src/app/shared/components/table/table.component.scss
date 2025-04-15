@@ -4,8 +4,21 @@
   align-items: center;
   background: #fff;
   width: 100%;
-  overflow: hidden;
 }
+
+.tableTop__onlyMobile {
+  width: 247px;
+  height: 48px;
+  display: none;
+
+  background: #ffffff;
+
+  dropdown {
+    --bgColor: #ffffff;
+    --brRadius: 46px;
+  }
+}
+
 .tabs {
   min-width: 0;
   display: flex;
@@ -84,7 +97,7 @@
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  line-height: 20px;
+  // line-height: 20px;
 
   color: #101112;
 }
@@ -105,5 +118,18 @@
 
   &:nth-child(even) {
     color: green;
+  }
+}
+
+.footerBorder {
+  --mb: 0px;
+}
+
+@media (max-width: 768px) {
+  .tableTop__onlyMobile {
+    display: block;
+  }
+  .tabs {
+    display: none;
   }
 }

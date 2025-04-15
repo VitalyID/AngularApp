@@ -1,4 +1,10 @@
 <div class="wrapTableTop">
+  <div class="tableTop__onlyMobile">
+    <dropdown
+      [dropdownItems]="filterMobile"
+      (itemSelected)="itemSelected($event)"
+    ></dropdown>
+  </div>
   <div class="tabs">
     <div
       class="tab-element"
@@ -37,5 +43,16 @@
     <div class="cellTable" *ngFor="let key of getKeys(tableBody$ | async)">
       {{ operation[key] }}
     </div>
+  </div>
+
+  <border-line class="footerBorder"></border-line>
+
+  <div class="tableTotal">
+    <span>Всего чаевых:</span>
+    <span>{{ (tableTotal$ | async)?.[0] }}</span>
+    <span>Всего комиссия:</span>
+    <span>{{ (tableTotal$ | async)?.[1] }}</span>
+    <span>Средний чек:</span>
+    <span>{{ (tableTotal$ | async)?.[2] }}</span>
   </div>
 </div>

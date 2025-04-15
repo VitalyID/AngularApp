@@ -14,6 +14,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
 import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
+import { BordeerLineComponent } from '../../../../shared/components/bordeer-line/border-line.component';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
@@ -48,6 +49,7 @@ import { EnumSwitcher } from './../../../../shared/components/switcher/types/enu
     FeedbacksComponent,
     AmodzieComponent,
     ButtonsComponent,
+    BordeerLineComponent,
   ],
   templateUrl: './tipPagePreview.component.html',
   styleUrl: './tipPagePreview.component.scss',

@@ -3,6 +3,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../services/transmitDataRout.service';
+import { BordeerLineComponent } from '../../../shared/components/bordeer-line/border-line.component';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../shared/components/buttons/service/buttons.component.service';
 import { LogoMenuComponent } from '../../../shared/components/logo-menu/logo-menu.component';
@@ -24,6 +25,7 @@ import { LinkAside } from './tupes/enum/routerLink';
     ButtonsComponent,
     LogoMenuComponent,
     LogoMenuComponent,
+    BordeerLineComponent,
   ],
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss',
@@ -40,7 +42,7 @@ export class AsideComponent implements OnInit {
       title: TitleAside.main,
       iconSetting: { iconID: 'icon-icons', width: '21px', height: '21px' },
       ID: 1,
-      route: LinkAside.main,
+      route: LinkAside.home,
     },
     {
       title: TitleAside.myQR,
@@ -143,6 +145,12 @@ export class AsideComponent implements OnInit {
           // пишем логику клика по кнопке support
         }
       });
+
+    this.#getRoutFromService.SendRouteService$.pipe(
+      takeUntilDestroyed(this.#destroyRef)
+    ).subscribe((data) => {
+      console.log(data);
+    });
   }
 
   // добавляем класс только к элементам с этими id

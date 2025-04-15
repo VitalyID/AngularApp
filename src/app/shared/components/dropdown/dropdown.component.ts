@@ -1,12 +1,63 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
+import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
+import { ListDropdown } from './types/interface/listDropdown';
 
 @Component({
   selector: 'dropdown',
-  imports: [],
+  imports: [SvgIconComponent, CommonModule],
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DropdownComponent {
+  @Input() dropdownItems: ListDropdown[] = [];
+  @Output() itemSelected = new EventEmitter();
 
+  DropdownOpenIcon: SvgSpriteSetting = {
+    iconID: 'icon-Arrow-down',
+    width: '24px',
+    height: '24px',
+  };
+
+  svgSetting: SvgSpriteSetting = {
+    iconID: '',
+    width: '',
+    height: '',
+  };
+  svgSettingActive: SvgSpriteSetting = {
+    iconID: '',
+    width: '',
+    height: '',
+  };
+  spanActive: string = 'Необходимо выбрать';
+
+  isOpen: boolean = false;
+
+  onClick() {
+    // console.log('click');
+    this.isOpen = true;
+  }
+
+  onClickItem(data: ListDropdown) {
+    // console.log(data);
+    this.spanActive = data.item;
+    if (data.icon) {
+      this.svgSettingActive = data.icon;
+    }
+    this.isOpen = false;
+    this.itemSelected.emit(data);
+  }
+
+  generateID() {
+    return uuidv4();
+  }
 }

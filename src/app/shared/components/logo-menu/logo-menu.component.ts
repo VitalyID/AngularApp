@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  Input,
+} from '@angular/core';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { StateMenuService } from './../../../services/state-menu';
 
 @Component({
   selector: 'logo-menu',
@@ -36,4 +43,12 @@ export class LogoMenuComponent {
     height: '31px',
     fill: 'black',
   };
+  // @Output() clickOnMenu = new EventEmitter();
+
+  readonly #servis = inject(StateMenuService);
+  readonly #DestroyRef = inject(DestroyRef);
+
+  onClick(): void {
+    this.#servis.stateMenuService.next(true);
+  }
 }
