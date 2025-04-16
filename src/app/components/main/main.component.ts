@@ -19,6 +19,7 @@ import { DropdownComponent } from '../../shared/components/dropdown/dropdown.com
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { AsideComponent } from '../layouts/aside/aside.component';
+import { ClickOutsideDirective } from '../layouts/aside/directives/click-outside.directive';
 import { EscCloseDirective } from '../layouts/aside/directives/esc-close.directive';
 import { ButtonData } from './../../types/sectionItem';
 
@@ -33,6 +34,7 @@ import { ButtonData } from './../../types/sectionItem';
     AsideComponent,
     CommonModule,
     EscCloseDirective,
+    ClickOutsideDirective,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -78,6 +80,10 @@ export class MainComponent implements OnInit {
   menuState: boolean = false;
   isShadow: boolean = false;
 
+  // isOpen transmitted to Drectives for checking state component aside.
+  // Component Aside is open after 1s, because its time need for animations
+  isOpen: boolean = false;
+
   //  menuState$:Observable<boolean> = this.#menuService.stateMenuService.getValue();
 
   ngOnInit(): void {
@@ -99,7 +105,13 @@ export class MainComponent implements OnInit {
       .subscribe((data) => {
         this.menuState = data;
         this.isShadow = data;
-        this.#cdr.detectChanges();
+
+        if (data) {
+          setTimeout(() => {
+            this.isOpen = true;
+            this.#cdr.detectChanges();
+          }, 1000);
+        }
       });
   }
 
@@ -109,8 +121,19 @@ export class MainComponent implements OnInit {
   }
 
   onMenuClosed(data: boolean) {
-    this.menuState = data;
-    this.isShadow = data;
-    this.#cdr.detectChanges();
+    if (data) {
+      this.menuState = false;
+      this.isShadow = false;
+      this.isOpen = false;
+      this.#cdr.detectChanges();
+    }
+  }
+
+  onMenuClosedByClick(data: boolean) {
+    if (this.menuState) {
+      this.menuState = false;
+      this.isShadow = false;
+      this.isOpen = false;
+    }
   }
 }

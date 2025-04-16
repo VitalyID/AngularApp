@@ -1,8 +1,12 @@
+<!-- [menuState]="isOpen" it's need for directives, which is controlling state components -->
 <app-aside
   class="tablet"
   [ngClass]="{ close: !menuState, open: menuState }"
   escClose
-  (menuClosed)="onMenuClosed($event)"
+  (menuClosedByESC)="onMenuClosed($event)"
+  clickOutside
+  (menuClosedByClick)="onMenuClosedByClick($event)"
+  [menuState]="isOpen"
 ></app-aside>
 
 <div class="wrapTop">
