@@ -1,5 +1,7 @@
 :host {
   position: relative;
+  width: 100%;
+  display: block;
 }
 @mixin flex($justCont: center, $alignIt: center) {
   display: flex;
@@ -24,7 +26,8 @@
     "aside main";
 
   background: #f9fafc;
-  min-width: 1100px;
+  // min-width: 1100px;
+  min-width: 375px;
 }
 
 .header {

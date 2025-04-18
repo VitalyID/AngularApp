@@ -37,3 +37,9 @@ app-buttons {
   flex-shrink: 0; /* Не сжимать */
   width: auto; /* Занимать только нужное место */
 }
+
+@media (max-width: 1100px) {
+  .date-range-picker__inputs {
+    gap: 0;
+  }
+}

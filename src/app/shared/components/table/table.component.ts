@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   OnInit,
 } from '@angular/core';
@@ -20,6 +21,7 @@ import { ListDropdown } from '../dropdown/types/interface/listDropdown';
 import { FilterComponent } from '../filter/filter.component';
 import { SortDataService } from '../filter/service/filter.component.service';
 import { TitleFilter } from '../filter/types/enum/nameFilter';
+import { MobileTransactionCardComponent } from '../mobile-transaction-card/mobile-transaction-card.component';
 
 @Component({
   selector: 'table',
@@ -30,6 +32,7 @@ import { TitleFilter } from '../filter/types/enum/nameFilter';
     ButtonsComponent,
     DropdownComponent,
     BordeerLineComponent,
+    MobileTransactionCardComponent,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -40,6 +43,7 @@ export class TableComponent implements OnInit {
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
+  readonly #DestroyRef = inject(DestroyRef);
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -53,6 +57,14 @@ export class TableComponent implements OnInit {
     text: 'Ok',
     disabled: true,
     id: 2,
+  };
+
+  calendar: ButtonData = {
+    iconClass: 'icon-Calendar',
+    disabled: true,
+    background: '#F7F9FB',
+    id: 20,
+    borderStyle: '1px solid #C8C9CF',
   };
 
   filterMobile: ListDropdown[] = [];
@@ -71,6 +83,8 @@ export class TableComponent implements OnInit {
   tableBody$: Observable<DataUserOperation[]> =
     this.#filterService.dataOperationFromService$;
 
+  visibility: boolean = false;
+
   ngOnInit(): void {
     const arrFilter = Object.values(TabsName);
 
@@ -78,7 +92,6 @@ export class TableComponent implements OnInit {
       const arrEl: ListDropdown = { item: el, id: uuidv4() };
       return arrEl;
     });
-    // console.log(this.filterMobile);
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -111,15 +124,24 @@ export class TableComponent implements OnInit {
   }
 
   itemSelected(data: ListDropdown) {
+    console.log(data);
+
     const arrTabsKey: (keyof typeof TabsName)[] = Object.keys(
       TabsName
     ) as (keyof typeof TabsName)[];
-    // console.log(arrTabsKey);
 
     arrTabsKey.forEach((item) => {
       if (TabsName[item] === data.item) {
         this.clickOnTab(item);
       }
     });
+
+    if (data.item === TabsName.forPeriod) {
+      this.calendar.disabled = false;
+      this.visibility = true;
+    } else {
+      this.calendar.disabled = true;
+      this.visibility = false;
+    }
   }
 }

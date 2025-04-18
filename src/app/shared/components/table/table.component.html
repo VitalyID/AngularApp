@@ -1,10 +1,15 @@
 <div class="wrapTableTop">
-  <div class="tableTop__onlyMobile">
-    <dropdown
-      [dropdownItems]="filterMobile"
-      (itemSelected)="itemSelected($event)"
-    ></dropdown>
+  <div class="container__left">
+    <div class="tableTop__onlyMobile">
+      <dropdown
+        [dropdownItems]="filterMobile"
+        (itemSelected)="itemSelected($event)"
+      ></dropdown>
+    </div>
+
+    <app-buttons [buttonData]="calendar" class="calendar"></app-buttons>
   </div>
+
   <div class="tabs">
     <div
       class="tab-element"
@@ -19,6 +24,13 @@
   <app-buttons [buttonData]="btnText"></app-buttons>
 </div>
 
+<div
+  class="hiddenDataInput"
+  [ngClass]="{ hidden: !visibility, visible: visibility }"
+>
+  <data-input [dateForBTN]="transmitToBTN"></data-input>
+</div>
+
 <div class="containerFilter">
   <div class="cellFilter" *ngFor="let filter of filters">
     <filter
@@ -30,29 +42,49 @@
 </div>
 
 <div class="tableTotal">
-  <span>Всего чаевых:</span>
-  <span>{{ (tableTotal$ | async)?.[0] }}</span>
-  <span>Всего комиссия:</span>
-  <span>{{ (tableTotal$ | async)?.[1] }}</span>
-  <span>Средний чек:</span>
-  <span>{{ (tableTotal$ | async)?.[2] }}</span>
+  <div>
+    <span>Всего чаевых:</span>
+    <span>{{ (tableTotal$ | async)?.[0] }}</span>
+  </div>
+  <div>
+    <span>Всего комиссия:</span>
+    <span>{{ (tableTotal$ | async)?.[1] }}</span>
+  </div>
+  <div>
+    <span>Средний чек:</span>
+    <span>{{ (tableTotal$ | async)?.[2] }}</span>
+  </div>
 </div>
 
 <div class="bodyTable">
-  <div class="rowTable" *ngFor="let operation of tableBody$ | async">
+  <!-- <div class="rowTable" *ngFor="let operation of tableBody$ | async">
     <div class="cellTable" *ngFor="let key of getKeys(tableBody$ | async)">
       {{ operation[key] }}
     </div>
-  </div>
+  </div> -->
+
+  <ng-container>
+    @if (tableBody$ |async; as data){ @for(item of data; track $index){
+    <mobile-transaction-card [table]="item"></mobile-transaction-card>
+    } }
+  </ng-container>
+
+  <!-- <mobile-transaction-card [table]="tableBody$"></mobile-transaction-card> -->
 
   <border-line class="footerBorder"></border-line>
 
   <div class="tableTotal">
-    <span>Всего чаевых:</span>
-    <span>{{ (tableTotal$ | async)?.[0] }}</span>
-    <span>Всего комиссия:</span>
-    <span>{{ (tableTotal$ | async)?.[1] }}</span>
-    <span>Средний чек:</span>
-    <span>{{ (tableTotal$ | async)?.[2] }}</span>
+    <div>
+      <span>Всего чаевых:</span>
+      <span>{{ (tableTotal$ | async)?.[0] }}</span>
+    </div>
+    <div>
+      <span>Всего комиссия:</span>
+      <span>{{ (tableTotal$ | async)?.[1] }}</span>
+    </div>
+    <div>
+      <span>Средний чек:</span>
+      <span>{{ (tableTotal$ | async)?.[2] }}</span>
+    </div>
   </div>
 </div>
