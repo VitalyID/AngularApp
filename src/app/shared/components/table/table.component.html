@@ -8,24 +8,36 @@
     </div>
 
     <app-buttons [buttonData]="calendar" class="calendar"></app-buttons>
+
+    <div
+      class="hiddenDataInput contLeft"
+      [ngClass]="{ hidden: !visibility, visible: visibility }"
+    >
+      <data-input [dateForBTN]="transmitToBTN"></data-input>
+    </div>
   </div>
 
-  <div class="tabs">
-    <div
-      class="tab-element"
-      *ngFor="let tab of tabs"
-      (click)="clickOnTab(tab.key)"
-      [ngClass]="classActiveTab(tab.key)"
-    >
-      {{ tab.value }}
+  <div class="tabsLeft">
+    <div class="tabs">
+      <div
+        class="tab-element"
+        *ngFor="let tab of tabs"
+        (click)="clickOnTab(tab.key)"
+        [ngClass]="classActiveTab(tab.key)"
+      >
+        {{ tab.value }}
+      </div>
+      <!-- <data-input [dateForBTN]="transmitToBTN"></data-input> -->
     </div>
-    <data-input [dateForBTN]="transmitToBTN"></data-input>
+    <div class="tabsLeftFilter">
+      <data-input [dateForBTN]="transmitToBTN"></data-input>
+    </div>
   </div>
   <app-buttons [buttonData]="btnText"></app-buttons>
 </div>
 
 <div
-  class="hiddenDataInput"
+  class="hiddenDataInput tabsBody contBottom"
   [ngClass]="{ hidden: !visibility, visible: visibility }"
 >
   <data-input [dateForBTN]="transmitToBTN"></data-input>
@@ -57,11 +69,11 @@
 </div>
 
 <div class="bodyTable">
-  <!-- <div class="rowTable" *ngFor="let operation of tableBody$ | async">
+  <div class="rowTable" *ngFor="let operation of tableBody$ | async">
     <div class="cellTable" *ngFor="let key of getKeys(tableBody$ | async)">
       {{ operation[key] }}
     </div>
-  </div> -->
+  </div>
 
   <ng-container>
     @if (tableBody$ |async; as data){ @for(item of data; track $index){

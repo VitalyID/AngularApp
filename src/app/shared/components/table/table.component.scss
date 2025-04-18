@@ -8,6 +8,7 @@
   align-items: center;
   background: #fff;
   width: 100%;
+  // min-width: 1100px;
 }
 
 .container__left {
@@ -15,6 +16,13 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+  display: none;
+}
+
+.tabsLeft {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tableTop__onlyMobile {
@@ -52,7 +60,6 @@
 }
 
 .tabs {
-  min-width: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,12 +70,12 @@
   flex-shrink: 2;
 }
 
-.wrapTable app-buttons {
-  color: #fff;
-}
+// .wrapTable app-buttons {
+//   color: #fff;
+// }
 
 .tab-element {
-  min-width: 0;
+  // min-width: 0;
   flex-shrink: 3;
   padding: 8px 20px;
   border-radius: 50px;
@@ -80,6 +87,16 @@
   line-height: 20px;
 
   color: #313436;
+
+  // width: min-content;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 130px;
+
+  // height: 85px;
 
   &:hover {
     cursor: pointer;
@@ -157,26 +174,16 @@
 .footerBorder {
   --mb: 0px;
 }
+
 mobile-transaction-card {
   display: none;
 }
 
-@media (max-width: 1100px) {
-  .tabs {
-    padding: 4px 4px;
-    gap: 2px;
-  }
-
-  .tab-element {
-    padding: 8px 15px;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1330px) {
   .tableTop__onlyMobile {
     display: block;
   }
-  .tabs {
+  .tabsLeft {
     display: none;
   }
 
@@ -184,30 +191,65 @@ mobile-transaction-card {
     display: block;
   }
 
-  .containerFilter {
-    display: none;
-  }
-
-  .rowTable {
-    display: none;
-  }
-
-  mobile-transaction-card {
+  .container__left {
     display: flex;
-    justify-content: center;
-    align-items: stretch;
-    flex-direction: column;
-    gap: 10px;
-    border-radius: 10px;
   }
 
-  .wrapTable app-buttons {
-    color: #e5e5e5;
-  }
-}
-
-@media (max-width: 450px) {
-  .tableTotal {
+  dropdown {
     display: block;
   }
+
+  // .contBottom.visible {
+  //   overflow: visible;
+  // }
+
+  .tabsBody {
+    display: none;
+  }
 }
+
+// @media (max-width: 1100px) {
+//   .tabs {
+//     padding: 4px 4px;
+//     gap: 2px;
+//   }
+
+//   .tab-element {
+//     padding: 8px 15px;
+//     width: min-content;
+//     height: 85px;
+//   }
+// }
+
+@media (max-width: 768px) {
+  .contLeft.visible {
+    overflow: hidden !important;
+  }
+
+  //   .containerFilter {
+  //     display: none;
+  //   }
+
+  //   .rowTable {
+  //     display: none;
+  //   }
+
+  //   mobile-transaction-card {
+  //     display: flex;
+  //     justify-content: center;
+  //     align-items: stretch;
+  //     flex-direction: column;
+  //     gap: 10px;
+  //     border-radius: 10px;
+  //   }
+
+  //   .wrapTable app-buttons {
+  //     color: #e5e5e5;
+  //   }
+}
+
+// @media (max-width: 450px) {
+//   .tableTotal {
+//     display: block;
+//   }
+// }
