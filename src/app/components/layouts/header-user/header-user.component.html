@@ -1,9 +1,31 @@
 <div class="user">
-  <app-language></app-language>
-  <div class="user-logo">
-    <svg-icon [svgSetting]="userSetting"></svg-icon>
+  <div class="user__language">
+    <!-- <app-language></app-language> -->
+    <dropdown
+      [defaultValue]="defaultValue"
+      [dropdownItems]="languageItems"
+    ></dropdown>
+    <!-- <span>dropdown</span> -->
   </div>
-  <div class="user-data">
+
+  <div class="user__logo">
+    <div class="user__logo--logo">
+      <svg-icon [svgSetting]="userSetting"></svg-icon>
+    </div>
+
+    <svg-icon
+      class="user__logo--dropdown"
+      [svgSetting]="dropdownIcon"
+      (click)="onClickContact()"
+    ></svg-icon>
+
+    <div class="user__logo--data" [ngClass]="{ open: isOpen, close: !isOpen }">
+      <span>Фамилия Имя</span>
+      <span>mail&#64;mail.ru</span>
+    </div>
+  </div>
+
+  <div class="user__data">
     <span>Фамилия Имя</span>
     <span>mail&#64;mail.ru</span>
   </div>

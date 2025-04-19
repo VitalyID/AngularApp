@@ -70,6 +70,10 @@ export class TableComponent implements OnInit {
   };
 
   filterMobile: ListDropdown[] = [];
+  defaultValue: ListDropdown = {
+    id: '1',
+    item: 'Необходимо выбрать',
+  };
 
   public keys: string[] = [];
   // меняем enum to obj чтобы корректно отображать порядок

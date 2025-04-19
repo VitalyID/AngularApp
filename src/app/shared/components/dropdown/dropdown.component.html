@@ -5,7 +5,7 @@
         <div class="dropdown__active-item">
           @if (svgSettingActive.iconID){
           <svg-icon [svgSetting]="svgSettingActive"></svg-icon>}
-          <span>{{ spanActive }}</span>
+          <span>{{ defaultValue.item }}</span>
         </div>
         <svg-icon
           [svgSetting]="DropdownOpenIcon"

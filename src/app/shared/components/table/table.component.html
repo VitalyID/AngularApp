@@ -3,6 +3,7 @@
     <div class="tableTop__onlyMobile">
       <dropdown
         [dropdownItems]="filterMobile"
+        [defaultValue]="defaultValue"
         (itemSelected)="itemSelected($event)"
       ></dropdown>
     </div>

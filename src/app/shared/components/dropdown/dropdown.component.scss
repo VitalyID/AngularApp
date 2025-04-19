@@ -4,6 +4,9 @@
   --brRadius: 46px;
   --brRadiusSmall: 21px;
   --padActive: 8px 20px;
+  --border: 1px solid #c8c9cf;
+  --gap: 20px;
+  --paddingTop: 80px;
 }
 @mixin flex($justifyContent: center, $align: center, $fd: column) {
   display: flex;
@@ -22,9 +25,11 @@
   position: absolute;
   top: 0;
   left: 0;
+  // transform: translateY(-50%);
   box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
   overflow: hidden;
-  border: 1px solid #c8c9cf;
+  border: var(--border);
+  // border: 1px solid #c8c9cf;
   border-top-right-radius: var(--brRadiusSmall);
   border-top-left-radius: var(--brRadiusSmall);
   border-bottom-left-radius: var(--brRadiusSmall);
@@ -32,6 +37,7 @@
 
   &__visible {
     width: 100%;
+    background: var(--bgColor);
   }
 
   &__active {
@@ -44,7 +50,7 @@
 
     &-item {
       @include flex($fd: row);
-      gap: 20px;
+      gap: var(--gap);
     }
   }
 
@@ -59,7 +65,7 @@
 
   &__item {
     @include flex($align: start, $fd: row);
-    gap: 20px;
+    gap: var(--gap);
     cursor: pointer;
   }
 
@@ -80,7 +86,7 @@
     overflow-y: auto;
     width: 100%;
     z-index: 150;
-    padding-top: 80px;
+    padding-top: var(--paddingTop);
     padding-bottom: 10px;
   }
 }

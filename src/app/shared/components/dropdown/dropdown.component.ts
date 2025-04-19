@@ -20,6 +20,10 @@ import { ListDropdown } from './types/interface/listDropdown';
 })
 export class DropdownComponent {
   @Input() dropdownItems: ListDropdown[] = [];
+  @Input() defaultValue: ListDropdown = {
+    id: '',
+    item: '',
+  };
   @Output() itemSelected = new EventEmitter();
 
   DropdownOpenIcon: SvgSpriteSetting = {
@@ -44,7 +48,7 @@ export class DropdownComponent {
 
   onClick() {
     // console.log('click');
-    this.isOpen = true;
+    this.isOpen = !this.isOpen;
   }
 
   onClickItem(data: ListDropdown) {
