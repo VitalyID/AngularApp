@@ -20,6 +20,10 @@
     gap: 20px;
     grid-template-columns: 100px 1fr;
     grid-template-rows: repeat(35px);
+
+    & span:nth-child(even) {
+      justify-self: end;
+    }
   }
 }
 

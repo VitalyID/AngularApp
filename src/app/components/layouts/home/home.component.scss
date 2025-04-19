@@ -53,7 +53,7 @@
 .main {
   grid-area: main;
   width: 100%;
-  padding: 30px;
+  // padding: 30px;
 }
 
 // .overlay {
@@ -93,5 +93,11 @@
     box-shadow: none;
 
     background: #f9fafc;
+  }
+}
+
+@media (max-width: 520px) {
+  .headerWrap {
+    padding: 8px;
   }
 }

@@ -22,6 +22,8 @@ app-aside.tablet.open {
   justify-content: space-between;
   width: 100%;
   margin-bottom: 30px;
+  padding: 0 30px;
+  padding-top: 65px;
 }
 
 h2 {
@@ -36,14 +38,20 @@ h2 {
 }
 .wrapTable,
 .wrapChart {
+  padding: 0 30px;
+}
+
+.chart__body {
   width: 100%;
   margin-bottom: 30px;
   padding: 30px;
   background: #ffffff;
+
   box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
-  // min-width: 1160px;
+  border-radius: 10px;
 }
-.wrapChart {
+// .wrapChart
+.chart__body {
   & h2 {
     display: block;
     width: 100%;
@@ -55,6 +63,8 @@ h2 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 30px;
+  // background: #f9fafc;
 }
 
 table {
@@ -89,6 +99,23 @@ chart {
 }
 
 @media (max-width: 768px) {
+  .wrapTop {
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+    // width: 100%;
+    // margin-bottom: 30px;
+    padding: 30px 15px 0;
+  }
+
+  .wrapChart {
+    padding: 0 15px;
+  }
+
+  .wrapTable {
+    padding: 0;
+  }
+
   chart {
     overflow-x: scroll;
   }
@@ -96,5 +123,11 @@ chart {
   .wrapTable {
     padding: 0;
     margin: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .wrapTable {
+    padding: 0;
   }
 }

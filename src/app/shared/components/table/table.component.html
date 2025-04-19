@@ -1,5 +1,5 @@
-<div class="wrapTableTop">
-  <div class="container__left">
+<div class="wrapTableTop table__top">
+  <div class="container__left table__top--mobile">
     <div class="tableTop__onlyMobile">
       <dropdown
         [dropdownItems]="filterMobile"
@@ -10,17 +10,17 @@
     <app-buttons [buttonData]="calendar" class="calendar"></app-buttons>
 
     <div
-      class="hiddenDataInput contLeft"
+      class="hiddenDataInput contLeft table__top--dataMiddle"
       [ngClass]="{ hidden: !visibility, visible: visibility }"
     >
       <data-input [dateForBTN]="transmitToBTN"></data-input>
     </div>
   </div>
 
-  <div class="tabsLeft">
-    <div class="tabs">
+  <div class="tabsLeft table__top--tabs">
+    <div class="tabs table__top--tabsUnit">
       <div
-        class="tab-element"
+        class="tab-element table__top--tabsUnitElement"
         *ngFor="let tab of tabs"
         (click)="clickOnTab(tab.key)"
         [ngClass]="classActiveTab(tab.key)"
@@ -29,22 +29,23 @@
       </div>
       <!-- <data-input [dateForBTN]="transmitToBTN"></data-input> -->
     </div>
-    <div class="tabsLeftFilter">
+    <div class="tabsLeftFilter table__top--topFilter">
       <data-input [dateForBTN]="transmitToBTN"></data-input>
     </div>
   </div>
+
   <app-buttons [buttonData]="btnText"></app-buttons>
 </div>
 
 <div
-  class="hiddenDataInput tabsBody contBottom"
+  class="hiddenDataInput tabsBody contBottom wrapTableFilter table__data--small"
   [ngClass]="{ hidden: !visibility, visible: visibility }"
 >
   <data-input [dateForBTN]="transmitToBTN"></data-input>
 </div>
 
-<div class="containerFilter">
-  <div class="cellFilter" *ngFor="let filter of filters">
+<div class="containerFilter table__filter">
+  <div class="table__filter--cell" *ngFor="let filter of filters">
     <filter
       [titleFilter]="filter.value"
       [userFilterFromParent]="userFilter"
@@ -53,7 +54,9 @@
   </div>
 </div>
 
-<div class="tableTotal">
+<border-line class="footerBorder"></border-line>
+
+<div class="tableTotal table__total">
   <div>
     <span>Всего чаевых:</span>
     <span>{{ (tableTotal$ | async)?.[0] }}</span>
@@ -68,35 +71,41 @@
   </div>
 </div>
 
-<div class="bodyTable">
-  <div class="rowTable" *ngFor="let operation of tableBody$ | async">
-    <div class="cellTable" *ngFor="let key of getKeys(tableBody$ | async)">
+<div class="bodyTable wrapTable table__body">
+  <div
+    class="rowTable table__body--row"
+    *ngFor="let operation of tableBody$ | async"
+  >
+    <div
+      class="cellTable table__body--cell"
+      *ngFor="let key of getKeys(tableBody$ | async)"
+    >
       {{ operation[key] }}
     </div>
   </div>
+</div>
+<ng-container>
+  @if (tableBody$ |async; as data){ @for(item of data; track $index){
+  <mobile-transaction-card
+    [table]="item"
+    class="table__body--mobileCard"
+  ></mobile-transaction-card>
+  } }
+</ng-container>
 
-  <ng-container>
-    @if (tableBody$ |async; as data){ @for(item of data; track $index){
-    <mobile-transaction-card [table]="item"></mobile-transaction-card>
-    } }
-  </ng-container>
+<border-line class="footerBorder"></border-line>
 
-  <!-- <mobile-transaction-card [table]="tableBody$"></mobile-transaction-card> -->
-
-  <border-line class="footerBorder"></border-line>
-
-  <div class="tableTotal">
-    <div>
-      <span>Всего чаевых:</span>
-      <span>{{ (tableTotal$ | async)?.[0] }}</span>
-    </div>
-    <div>
-      <span>Всего комиссия:</span>
-      <span>{{ (tableTotal$ | async)?.[1] }}</span>
-    </div>
-    <div>
-      <span>Средний чек:</span>
-      <span>{{ (tableTotal$ | async)?.[2] }}</span>
-    </div>
+<div class="tableTotal table__total">
+  <div>
+    <span>Всего чаевых:</span>
+    <span>{{ (tableTotal$ | async)?.[0] }}</span>
+  </div>
+  <div>
+    <span>Всего комиссия:</span>
+    <span>{{ (tableTotal$ | async)?.[1] }}</span>
+  </div>
+  <div>
+    <span>Средний чек:</span>
+    <span>{{ (tableTotal$ | async)?.[2] }}</span>
   </div>
 </div>

@@ -7,6 +7,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { TransmitDataService } from '../../../services/transmit-data.service';
@@ -14,6 +15,7 @@ import { TabsName } from '../../../types/enums/tabsName';
 import { ButtonData, DataUserOperation } from '../../../types/sectionItem';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { ButtonsComponent } from '../buttons/buttons.component';
+import { ButtonService } from '../buttons/service/buttons.component.service';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -82,6 +84,7 @@ export class TableComponent implements OnInit {
   tableTotal$: Observable<string[]> = this.#filterService.totalFromService$;
   tableBody$: Observable<DataUserOperation[]> =
     this.#filterService.dataOperationFromService$;
+  readonly #buttonService = inject(ButtonService);
 
   visibility: boolean = false;
 
@@ -92,6 +95,15 @@ export class TableComponent implements OnInit {
       const arrEl: ListDropdown = { item: el, id: uuidv4() };
       return arrEl;
     });
+
+    this.#buttonService.eventClick$
+      .pipe(takeUntilDestroyed(this.#DestroyRef))
+      .subscribe((data) => {
+        console.log(data);
+        if (data.id === 20) {
+          this.visibility = true;
+        }
+      });
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -138,7 +150,6 @@ export class TableComponent implements OnInit {
 
     if (data.item === TabsName.forPeriod) {
       this.calendar.disabled = false;
-      this.visibility = true;
     } else {
       this.calendar.disabled = true;
       this.visibility = false;

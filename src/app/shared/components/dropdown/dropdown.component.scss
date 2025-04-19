@@ -3,6 +3,7 @@
   --bgColor: #ffffff;
   --brRadius: 46px;
   --brRadiusSmall: 21px;
+  --padActive: 8px 20px;
 }
 @mixin flex($justifyContent: center, $align: center, $fd: column) {
   display: flex;
@@ -35,7 +36,9 @@
 
   &__active {
     @include flex($justifyContent: space-between, $fd: row);
-    padding: 8px 20px;
+    // padding: 6px 20px;
+    padding: var(--padActive);
+
     width: 100%;
     // border-radius: var(--brRadius);
 

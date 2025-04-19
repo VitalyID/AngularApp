@@ -66,9 +66,9 @@ button {
   color: #777d82;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1500px) {
   :host {
-    --padding: 5px 15px;
+    --padding: 6px 15px;
   }
   button {
     gap: 5px;
