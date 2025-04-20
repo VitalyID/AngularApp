@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DataUserOperation } from '../../../types/sectionItem';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
+import { TitleFilter } from '../filter/types/enum/nameFilter';
 
 @Component({
   selector: 'mobile-transaction-card',
@@ -19,4 +20,17 @@ export class MobileTransactionCardComponent {
     email: '',
     card: '',
   };
+
+  userOperation: DataUserOperation = {
+    key: '',
+    data: '',
+    country: '',
+    tips: '',
+    commission: '',
+    email: '',
+    card: '',
+  };
+
+  titleFilter = TitleFilter;
 }
+// }

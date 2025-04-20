@@ -18,8 +18,8 @@
   &__body {
     display: grid;
     gap: 20px;
-    grid-template-columns: 100px 1fr;
-    grid-template-rows: repeat(35px);
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: repeat(4, 35px);
 
     & span:nth-child(even) {
       justify-self: end;
@@ -28,5 +28,5 @@
 }
 
 border-line {
-  margin-top: 20px 0; // don-t work
+  margin-top: 20px;
 }
