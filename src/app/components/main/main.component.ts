@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -10,7 +9,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
-import { StateMenuService } from '../../services/state-menu';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
@@ -74,17 +72,8 @@ export class MainComponent implements OnInit {
     },
   ];
 
-  readonly #menuService = inject(StateMenuService);
-  readonly #cdr = inject(ChangeDetectorRef);
-
   menuState: boolean = false;
   isShadow: boolean = false;
-
-  // isOpen transmitted to Drectives for checking state component aside.
-  // Component Aside is open after 1s, because its time need for animations
-  isOpen: boolean = false;
-
-  //  menuState$:Observable<boolean> = this.#menuService.stateMenuService.getValue();
 
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];
@@ -99,41 +88,10 @@ export class MainComponent implements OnInit {
           this.#router.navigate(['/create-qrcode']);
         }
       });
-
-    this.#menuService.stateMenuService
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        this.menuState = data;
-        this.isShadow = data;
-
-        if (data) {
-          setTimeout(() => {
-            this.isOpen = true;
-            this.#cdr.detectChanges();
-          }, 1000);
-        }
-      });
   }
 
   clickOn() {
     // отправляем в сервис клик по кнопке с ее идентификатором "3".
     this.#btnService.clickOnButton(this.btnText.id);
-  }
-
-  onMenuClosed(data: boolean) {
-    if (data) {
-      this.menuState = false;
-      this.isShadow = false;
-      this.isOpen = false;
-      this.#cdr.detectChanges();
-    }
-  }
-
-  onMenuClosedByClick(data: boolean) {
-    if (this.menuState) {
-      this.menuState = false;
-      this.isShadow = false;
-      this.isOpen = false;
-    }
   }
 }

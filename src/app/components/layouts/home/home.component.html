@@ -1,20 +1,31 @@
 <div class="home-container">
-  <div class="aside adaptive">
-    <app-aside></app-aside>
-  </div>
-
   <div class="header">
+    <!-- [menuState]="isOpen" it's need for directives, which is controlling state components-->
+
+    <app-aside
+      class="aside adaptive"
+      [ngClass]="{ close: !menuState, open: menuState }"
+      escClose
+      (menuClosedByESC)="onMenuClosed($event)"
+      clickOutside
+      (menuClosedByClick)="onMenuClosedByClick($event)"
+      [menuState]="isOpen"
+    ></app-aside>
+
     <div class="headerWrap">
       <app-header></app-header>
       <app-header-user></app-header-user>
     </div>
   </div>
 
-  <div class="aside desctop">
-    <app-aside></app-aside>
-  </div>
+  <app-aside class="aside desctop"></app-aside>
 
   <div class="main">
     <router-outlet></router-outlet>
   </div>
+
+  <div
+    class="overlay"
+    [ngClass]="{ shadowActive: isShadow, noShadowActive: !isShadow }"
+  ></div>
 </div>
