@@ -21,14 +21,13 @@
   <div class="table__top--tabs">
     <div class="table__top--tabsUnit">
       <div
-        class="tab-element table__top--tabsUnitElement"
+        class="table__top--tabsUnitElement"
         *ngFor="let tab of tabs"
         (click)="clickOnTab(tab.key)"
         [ngClass]="classActiveTab(tab.key)"
       >
         {{ tab.value }}
       </div>
-      <!-- <data-input [dateForBTN]="transmitToBTN"></data-input> -->
     </div>
     <div class="table__top--topFilter">
       <data-input [dateForBTN]="transmitToBTN"></data-input>

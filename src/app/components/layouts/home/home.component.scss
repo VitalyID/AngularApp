@@ -30,6 +30,10 @@
   min-width: 375px;
 }
 
+.adaptive {
+  display: none;
+}
+
 .header {
   @include flex();
 
