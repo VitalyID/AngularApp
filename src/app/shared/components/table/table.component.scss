@@ -64,10 +64,6 @@
       cursor: pointer;
     }
   }
-
-  &--topFilter {
-    display: none;
-  }
 }
 
 .hiddenDataInput {
@@ -222,10 +218,6 @@ mobile-transaction-card {
 
 @media (max-width: 1000px) {
   .table__top {
-    &--mobile {
-      display: flex;
-    }
-
     &--tabsUnit {
       display: none;
     }

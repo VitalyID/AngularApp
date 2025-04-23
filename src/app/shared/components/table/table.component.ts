@@ -10,8 +10,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+import { ScreenSizeService } from '../../../services/screen-size.service';
 import { TransmitDataService } from '../../../services/transmit-data.service';
 import { TabsName } from '../../../types/enums/tabsName';
+import { Breakpoints } from '../../../types/interfaces/breakpoints';
 import { ButtonData, DataUserOperation } from '../../../types/sectionItem';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { ButtonsComponent } from '../buttons/buttons.component';
@@ -46,6 +48,7 @@ export class TableComponent implements OnInit {
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
   readonly #DestroyRef = inject(DestroyRef);
+  readonly #ViewPort = inject(ScreenSizeService);
 
   public btnText: ButtonData = {
     text: 'Скачать в Exel',
@@ -59,6 +62,18 @@ export class TableComponent implements OnInit {
     text: 'Ok',
     disabled: true,
     id: 2,
+  };
+
+  transmitToBTNmobile: ButtonData = {
+    text: 'Ok',
+    disabled: true,
+    id: 21,
+  };
+
+  transmitToBTNtabs: ButtonData = {
+    text: 'Ok',
+    disabled: true,
+    id: 22,
   };
 
   calendar: ButtonData = {
@@ -88,6 +103,7 @@ export class TableComponent implements OnInit {
   tableTotal$: Observable<string[]> = this.#filterService.totalFromService$;
   tableBody$: Observable<DataUserOperation[]> =
     this.#filterService.dataOperationFromService$;
+  windowSize$: Observable<Breakpoints> = this.#ViewPort.isMobileSubject$;
   readonly #buttonService = inject(ButtonService);
 
   visibility: boolean = false;
@@ -108,6 +124,18 @@ export class TableComponent implements OnInit {
           this.visibility = true;
         }
       });
+
+    this.#filterService.dataOperationFromService$
+      .pipe(takeUntilDestroyed(this.#DestroyRef))
+      .subscribe((data) => {
+        // console.log(data);
+      });
+
+    this.#ViewPort.isMobileSubject$
+      .pipe(takeUntilDestroyed(this.#DestroyRef))
+      .subscribe((data) => {
+        console.log(data, 'size');
+      });
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -123,9 +151,15 @@ export class TableComponent implements OnInit {
 
   clickOnTab(name: string) {
     this.IDActiveTab = name;
+    // console.log(name);
 
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
+
+    this.defaultValue = {
+      ...this.defaultValue,
+      item: TabsName[this.IDActiveTab as keyof typeof TabsName],
+    };
     this.#cdr.markForCheck();
   }
 

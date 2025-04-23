@@ -125,7 +125,7 @@ export class TransmitDataService implements OnDestroy {
           let dataEnd = new Date(this.#tmp.dateEnd);
 
           arrUserActualOperations = this.dataUserOperations.filter((item) => {
-            console.log(item);
+            // console.log(item);
 
             const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
             const match = item.data.match(regex);
