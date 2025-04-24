@@ -4,15 +4,13 @@ import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
   selector: '[escClose]',
 })
 export class EscCloseDirective {
-  @Output() menuClosedByESC = new EventEmitter<boolean>();
-  isEscKeyPressed: boolean = false;
+  @Output() menuClose = new EventEmitter<boolean>();
   constructor() {}
 
   @HostListener('document:keydown', ['$event'])
   handleKeyDownEscape(event: KeyboardEvent) {
     if (event.code === 'Escape') {
-      this.isEscKeyPressed = true;
-      this.menuClosedByESC.emit(this.isEscKeyPressed);
+      this.menuClose.emit(true);
     }
   }
 }

@@ -1,9 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, debounceTime, fromEvent, Subscription } from 'rxjs';
 import { Breakpoints } from './../types/interfaces/breakpoints';
 
 @Injectable({ providedIn: 'root' })
-export class ScreenSizeService implements OnDestroy {
+export class ScreenSizeService {
   breakpoints: Breakpoints = {
     '1000': false,
     '768': false,
@@ -11,12 +12,14 @@ export class ScreenSizeService implements OnDestroy {
     // '520': false,
   };
 
-  private resizeSubscription: Subscription | null = null;
+  private resizeSubscription: Subscription;
   isMobileSubject$ = new BehaviorSubject<Breakpoints>(this.UpdateBreakpoints());
+
+  readonly #DestroyRef = inject(DestroyRef);
 
   constructor() {
     this.resizeSubscription = fromEvent(window, 'resize')
-      .pipe(debounceTime(100))
+      .pipe(debounceTime(100), takeUntilDestroyed(this.#DestroyRef))
       .subscribe(() => {
         this.isMobileSubject$.next(this.UpdateBreakpoints());
       });
@@ -33,9 +36,5 @@ export class ScreenSizeService implements OnDestroy {
     });
 
     return this.breakpoints;
-  }
-
-  ngOnDestroy(): void {
-    this.resizeSubscription?.unsubscribe();
   }
 }

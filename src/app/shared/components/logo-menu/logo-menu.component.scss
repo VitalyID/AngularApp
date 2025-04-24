@@ -13,4 +13,10 @@
   &__menu {
     display: var(--displayMenuIcon);
   }
+
+  @media (max-width: 1385px) {
+    & {
+      justify-content: start;
+    }
+  }
 }

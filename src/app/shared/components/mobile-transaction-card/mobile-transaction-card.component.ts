@@ -19,6 +19,7 @@ export class MobileTransactionCardComponent {
     country: '',
     email: '',
     card: '',
+    id: '',
   };
 
   userOperation: DataUserOperation = {
@@ -29,6 +30,7 @@ export class MobileTransactionCardComponent {
     commission: '',
     email: '',
     card: '',
+    id: '',
   };
 
   titleFilter = TitleFilter;

@@ -1,10 +1,3 @@
-// app-aside.tablet {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   --width: 280px;
-// }
-
 .wrapTop {
   display: flex;
   align-items: center;
@@ -13,6 +6,12 @@
   margin-bottom: 30px;
   padding: 0 30px;
   padding-top: 65px;
+
+  @media (max-width: 768px) {
+    .wrapTop {
+      padding: 30px 15px 0;
+    }
+  }
 }
 
 h2 {
@@ -25,9 +24,27 @@ h2 {
 
   color: #121212;
 }
+
 .wrapTable,
 .wrapChart {
   padding: 0 30px;
+
+  @media (max-width: 768px) {
+    .wrapChart {
+      padding: 0 15px;
+    }
+
+    .wrapTable {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .wrapTable {
+      padding: 0;
+    }
+  }
 }
 
 .chart__body {
@@ -39,7 +56,7 @@ h2 {
   box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
   border-radius: 10px;
 }
-// .wrapChart
+
 .chart__body {
   & h2 {
     display: block;
@@ -63,33 +80,4 @@ table {
 chart {
   width: 90%;
   height: 250px;
-}
-
-@media (max-width: 768px) {
-  .wrapTop {
-    padding: 30px 15px 0;
-  }
-
-  .wrapChart {
-    padding: 0 15px;
-  }
-
-  .wrapTable {
-    padding: 0;
-  }
-
-  chart {
-    overflow-x: scroll;
-  }
-
-  .wrapTable {
-    padding: 0;
-    margin: 0;
-  }
-}
-
-@media (max-width: 680px) {
-  .wrapTable {
-    padding: 0;
-  }
 }

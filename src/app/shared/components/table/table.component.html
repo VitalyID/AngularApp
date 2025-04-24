@@ -10,17 +10,17 @@
 
     <app-buttons [buttonData]="calendar" class="calendar"></app-buttons>
 
-    <ng-container>
-      @if(windowSize$ | async; as windowSize) { @if ((windowSize['1000'] ===
-      true) && (windowSize['768'] === false)) {
-      <div
-        class="hiddenDataInput table__top--dataMiddle"
-        [ngClass]="{ hidden: !visibility, visible: visibility }"
-      >
-        <data-input [dateForBTN]="transmitToBTN"></data-input>
-      </div>
-      }}
-    </ng-container>
+    <!-- <ng-container> -->
+    @if(windowSize$ | async; as windowSize) { @if ((windowSize['1000'] === true)
+    && (windowSize['768'] === false)) {
+    <div
+      class="hiddenDataInput table__top--dataMiddle"
+      [ngClass]="{ hidden: !visibility, visible: visibility }"
+    >
+      <data-input [dateForBTN]="transmitToBTN"></data-input>
+    </div>
+    }}
+    <!-- </ng-container> -->
   </div>
 
   <div class="table__top--tabs">
@@ -34,29 +34,29 @@
         {{ tab.value }}
       </div>
     </div>
-    <ng-container>
-      @if(windowSize$ | async; as windowSize) { @if (windowSize['1000'] ===
-      false) {
-      <div class="table__top--topFilter">
-        <data-input [dateForBTN]="transmitToBTN"></data-input>
-      </div>
-      }}
-    </ng-container>
+    <!-- <ng-container> -->
+    @if(windowSize$ | async; as windowSize) { @if (windowSize['1000'] === false)
+    {
+    <div class="table__top--topFilter">
+      <data-input [dateForBTN]="transmitToBTN"></data-input>
+    </div>
+    }}
+    <!-- </ng-container> -->
   </div>
 
   <app-buttons [buttonData]="btnText"></app-buttons>
 </div>
 
-<ng-container>
-  @if(windowSize$ | async; as windowSize){ @if (windowSize['768'] === true){
-  <div
-    class="hiddenDataInput table__data--small"
-    [ngClass]="{ hidden: !visibility, visible: visibility }"
-  >
-    <data-input [dateForBTN]="transmitToBTN"></data-input>
-  </div>
-  } }
-</ng-container>
+<!-- <ng-container> -->
+@if(windowSize$ | async; as windowSize){ @if (windowSize['768'] === true){
+<div
+  class="hiddenDataInput table__data--small"
+  [ngClass]="{ hidden: !visibility, visible: visibility }"
+>
+  <data-input [dateForBTN]="transmitToBTN"></data-input>
+</div>
+} }
+<!-- </ng-container> -->
 
 <div class="table__filter">
   <div class="table__filter--cell" *ngFor="let filter of filters">
@@ -70,18 +70,20 @@
 
 <border-line class="footerBorder"></border-line>
 
+<
 <div class="table__total">
+  @let totalTop = (tableTotal$ | async) ?? [];
   <div>
     <span>Всего чаевых:</span>
-    <span>{{ (tableTotal$ | async)?.[0] }}</span>
+    <span>{{ totalTop?.[0] }}</span>
   </div>
   <div>
     <span>Всего комиссия:</span>
-    <span>{{ (tableTotal$ | async)?.[1] }}</span>
+    <span>{{ totalTop?.[1] }}</span>
   </div>
   <div>
     <span>Средний чек:</span>
-    <span>{{ (tableTotal$ | async)?.[2] }}</span>
+    <span>{{ totalTop?.[2] }}</span>
   </div>
 </div>
 
@@ -95,28 +97,31 @@
     </div>
   </div>
 </div>
-<ng-container>
-  @if (tableBody$ |async; as data){ @for(item of data; track $index){
-  <mobile-transaction-card
-    [table]="item"
-    class="table__body--mobileCard"
-  ></mobile-transaction-card>
-  } }
-</ng-container>
+
+<!-- <ng-container> -->
+<!-- @if (tableBody$ |async; as data) -->
+@let table = (tableBody$ |async) ?? []; @for(item of table; track item.id){
+<mobile-transaction-card
+  [table]="item"
+  class="table__body--mobileCard"
+></mobile-transaction-card>
+}
+<!-- </ng-container> -->
 
 <border-line class="footerBorder"></border-line>
 
 <div class="table__total">
+  @let total = (tableTotal$ | async) ?? [];
   <div>
     <span>Всего чаевых:</span>
-    <span>{{ (tableTotal$ | async)?.[0] }}</span>
+    <span>{{ total?.[0] }}</span>
   </div>
   <div>
     <span>Всего комиссия:</span>
-    <span>{{ (tableTotal$ | async)?.[1] }}</span>
+    <span>{{ total?.[1] }}</span>
   </div>
   <div>
     <span>Средний чек:</span>
-    <span>{{ (tableTotal$ | async)?.[2] }}</span>
+    <span>{{ total?.[2] }}</span>
   </div>
 </div>

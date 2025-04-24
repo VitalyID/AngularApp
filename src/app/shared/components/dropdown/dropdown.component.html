@@ -14,10 +14,7 @@
       </div>
     </div>
 
-    <div
-      class="dropdown__invisible"
-      [ngClass]="{ open: isOpen, close: !isOpen }"
-    >
+    <div class="dropdown__invisible" [class.open]="isOpen">
       @for (item of dropdownItems; track item.id){
       <div class="dropdown__item">
         @if (item.icon){

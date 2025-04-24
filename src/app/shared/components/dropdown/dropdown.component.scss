@@ -61,20 +61,18 @@
     background: var(--bgColor);
     box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
     transition: all 1s;
+
+    max-height: 0px;
+    width: 100%;
+    visibility: hidden;
+    border: none;
+    padding-left: 20px;
   }
 
   &__item {
     @include flex($align: start, $fd: row);
     gap: var(--gap);
     cursor: pointer;
-  }
-
-  &__invisible.close {
-    max-height: 0px;
-    width: 100%;
-    visibility: hidden;
-    border: none;
-    padding-left: 20px;
   }
 
   &__invisible.open {

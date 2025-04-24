@@ -19,7 +19,8 @@
       (click)="onClickContact()"
     ></svg-icon>
 
-    <div class="user__logo--data" [ngClass]="{ open: isOpen, close: !isOpen }">
+    <!-- <div class="user__logo--data" [ngClass]="{ open: isOpen, close: !isOpen }"> -->
+    <div class="user__logo--data" [class.open]="isOpen">
       <span>Фамилия Имя</span>
       <span>mail&#64;mail.ru</span>
     </div>

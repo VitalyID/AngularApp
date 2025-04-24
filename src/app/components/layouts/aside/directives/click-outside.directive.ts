@@ -12,10 +12,8 @@ import {
   selector: '[clickOutside]',
 })
 export class ClickOutsideDirective {
-  @Output() menuClosedByClick = new EventEmitter<boolean>();
+  @Output() menuClose = new EventEmitter<boolean>();
   @Input() menuState: boolean = false;
-
-  clickOutside: boolean = false;
 
   readonly #elRef = inject(ElementRef);
 
@@ -24,8 +22,7 @@ export class ClickOutsideDirective {
     const click = this.#elRef.nativeElement.contains(event.target as Node);
 
     if (!click && this.menuState) {
-      this.clickOutside = true;
-      this.menuClosedByClick.emit(this.clickOutside);
+      this.menuClose.emit(true);
     }
   }
 }

@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   menuState: boolean = false;
   isOpen: boolean = false;
 
-  parent: string = 'home';
+  // parent: string = 'home';
 
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];
@@ -53,6 +53,7 @@ export class HomeComponent implements OnInit {
         this.menuState = data;
         this.#cdr.detectChanges();
 
+        // wait stop animations. By CSS, animation take 1s of time
         if (data) {
           setTimeout(() => {
             this.isOpen = true;
@@ -62,20 +63,20 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  onMenuClosed(data: boolean) {
+  onMenuClose(data: boolean) {
     if (data) {
       this.menuState = false;
       this.isShadow = false;
       this.isOpen = false;
-      this.#cdr.detectChanges();
+      // this.#cdr.detectChanges();
     }
   }
 
-  onMenuClosedByClick(data: boolean) {
-    if (this.menuState) {
-      this.menuState = false;
-      this.isShadow = false;
-      this.isOpen = false;
-    }
-  }
+  // onMenuClosedByClick(data: boolean) {
+  //   if (this.menuState) {
+  //     this.menuState = false;
+  //     this.isShadow = false;
+  //     this.isOpen = false;
+  //   }
+  // }
 }

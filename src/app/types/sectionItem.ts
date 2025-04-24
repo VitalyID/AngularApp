@@ -29,6 +29,7 @@ export interface DataUserOperation {
   commission: string;
   email: string;
   card: string;
+  id: string;
 }
 
 // Даты пользователя при клике на таб "За период"

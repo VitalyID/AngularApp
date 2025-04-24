@@ -43,7 +43,7 @@
 .aside__support {
   width: 100%;
   padding-bottom: 10px;
-  padding-top: 3vw;
+  padding-top: 55 px;
 
   &-content {
     border-radius: 20px;
@@ -82,14 +82,4 @@
 
 .icon-flag {
   width: 1.2001953125em;
-}
-
-@media (max-width: 1385px) {
-  logo-menu {
-    // display: none;
-  }
-
-  .aside__body {
-    // margin-top: 92px;
-  }
 }

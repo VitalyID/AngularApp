@@ -89,9 +89,4 @@ export class MainComponent implements OnInit {
         }
       });
   }
-
-  clickOn() {
-    // отправляем в сервис клик по кнопке с ее идентификатором "3".
-    this.#btnService.clickOnButton(this.btnText.id);
-  }
 }
