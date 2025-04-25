@@ -1,4 +1,7 @@
-<a [routerLink]="routerLink" class="section">
-  <ng-content select=".section-icon"></ng-content>
-  <ng-content select=".section-title"></ng-content>
+<a [routerLink]="item.route" routerLinkActive="isActive" class="section">
+  <div class="section-icon">
+    <svg-icon [svgSetting]="item.iconSetting"></svg-icon>
+  </div>
+  <span class="section-title">{{ item.title }}</span>
+  <span>{{ item.route }}</span>
 </a>

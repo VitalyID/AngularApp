@@ -5,11 +5,12 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
+import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, SvgIconComponent],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss',
   encapsulation: ViewEncapsulation.ShadowDom,
