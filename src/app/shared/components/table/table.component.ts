@@ -6,6 +6,7 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
@@ -106,7 +107,8 @@ export class TableComponent implements OnInit {
   windowSize$: Observable<Breakpoints> = this.#ViewPort.isMobileSubject$;
   readonly #buttonService = inject(ButtonService);
 
-  visibility: boolean = false;
+  // visibility: boolean = false;
+  visibility = signal<boolean>(false);
 
   ngOnInit(): void {
     const arrFilter = Object.values(TabsName);
@@ -121,21 +123,21 @@ export class TableComponent implements OnInit {
       .subscribe((data) => {
         console.log(data);
         if (data.id === 20) {
-          this.visibility = true;
+          this.visibility.set(true);
         }
       });
 
-    this.#filterService.dataOperationFromService$
-      .pipe(takeUntilDestroyed(this.#DestroyRef))
-      .subscribe((data) => {
-        // console.log(data);
-      });
+    // this.#filterService.dataOperationFromService$
+    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
+    //   .subscribe((data) => {
+    //     // console.log(data);
+    //   });
 
-    this.#ViewPort.isMobileSubject$
-      .pipe(takeUntilDestroyed(this.#DestroyRef))
-      .subscribe((data) => {
-        console.log(data, 'size');
-      });
+    // this.#ViewPort.isMobileSubject$
+    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
+    //   .subscribe((data) => {
+    //     console.log(data, 'size');
+    //   });
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -169,12 +171,11 @@ export class TableComponent implements OnInit {
 
   getKeys(item: DataUserOperation[] | null) {
     if (!item || item.length === 0) return;
-
     return Object.keys(item[0]);
   }
 
   itemSelected(data: ListDropdown) {
-    console.log(data);
+    // console.log(data);
 
     const arrTabsKey: (keyof typeof TabsName)[] = Object.keys(
       TabsName
@@ -190,7 +191,7 @@ export class TableComponent implements OnInit {
       this.calendar.disabled = false;
     } else {
       this.calendar.disabled = true;
-      this.visibility = false;
+      this.visibility.set(false);
     }
   }
 }

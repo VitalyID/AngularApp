@@ -7,33 +7,19 @@ import {
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
-import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
 import { ChartComponent } from '../../shared/components/chart/chart.component';
-import { DropdownComponent } from '../../shared/components/dropdown/dropdown.component';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { TableComponent } from '../../shared/components/table/table.component';
-import { AsideComponent } from '../layouts/aside/aside.component';
-import { ClickOutsideDirective } from '../layouts/aside/directives/click-outside.directive';
-import { EscCloseDirective } from '../layouts/aside/directives/esc-close.directive';
 import { ButtonData } from './../../types/sectionItem';
 
 @Component({
   selector: 'main',
   standalone: true,
-  imports: [
-    TableComponent,
-    ChartComponent,
-    ButtonsComponent,
-    DropdownComponent,
-    AsideComponent,
-    CommonModule,
-    EscCloseDirective,
-    ClickOutsideDirective,
-  ],
+  imports: [TableComponent, ChartComponent, ButtonsComponent, CommonModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,11 +27,9 @@ import { ButtonData } from './../../types/sectionItem';
 export class MainComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
-  readonly #route = inject(ActivatedRoute);
-  readonly #routService = inject(RoutIDservice);
   readonly #router = inject(Router);
 
-  asideID: number = 0;
+  // asideID: number = 0;
   parent: string = 'main';
 
   public btnText: ButtonData = {
@@ -72,14 +56,7 @@ export class MainComponent implements OnInit {
     },
   ];
 
-  menuState: boolean = false;
-  isShadow: boolean = false;
-
   ngOnInit(): void {
-    this.asideID = this.#route.snapshot.data['asideID'];
-    // send routID to service
-    this.#routService.getIDroute(this.asideID);
-
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {

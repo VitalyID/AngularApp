@@ -1,11 +1,10 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, HostListener, output } from '@angular/core';
 
 @Directive({
   selector: '[escClose]',
 })
 export class EscCloseDirective {
-  @Output() menuClose = new EventEmitter<boolean>();
-  constructor() {}
+  menuClose = output<boolean>();
 
   @HostListener('document:keydown', ['$event'])
   handleKeyDownEscape(event: KeyboardEvent) {

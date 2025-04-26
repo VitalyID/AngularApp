@@ -16,10 +16,11 @@
 
     <div class="dropdown__invisible" [class.open]="isOpen">
       @for (item of dropdownItems; track item.id){
-      <div class="dropdown__item">
+
+      <div class="dropdown__item" (click)="onClickItem(item)">
         @if (item.icon){
         <svg-icon [svgSetting]="item.icon"></svg-icon>}
-        <span (click)="onClickItem(item)">{{ item.item }}</span>
+        <span>{{ item.item }}</span>
       </div>
       }
     </div>

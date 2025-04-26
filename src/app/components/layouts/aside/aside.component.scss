@@ -33,6 +33,21 @@
   app-section {
     fill: var(--section-icon-fill);
     fill: var(--section-active-icon-fill);
+
+    &.isMyGroup {
+      border-radius: var(--borderRadius);
+      background: rgba(248, 57, 57, 0.05);
+    }
+
+    &.firstItem {
+      border-top-left-radius: var(--borderTopLeftRadius);
+      border-top-right-radius: var(--borderTopRightRadius);
+    }
+
+    &.lastItem {
+      border-bottom-right-radius: var(--borderBottomLeftRadius);
+      border-bottom-left-radius: var(--borderBottomRightRadius);
+    }
   }
 
   &-padding {

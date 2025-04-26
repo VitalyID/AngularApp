@@ -78,18 +78,16 @@
   right: 0;
   bottom: 0;
   z-index: 50;
-}
 
-.noShadowActive {
   opacity: 0;
   pointer-events: none;
   transition: opacity 2s;
-}
 
-.shadowActive {
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 2s;
+  &.shadowActive {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 2s;
+  }
 }
 
 app-aside.adaptive.close {

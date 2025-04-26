@@ -5,6 +5,7 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
@@ -35,28 +36,33 @@ export class HomeComponent implements OnInit {
   readonly #menuService = inject(StateMenuService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #cdr = inject(ChangeDetectorRef);
+  readonly activeMenuItem: number[] = [6, 7, 8];
 
-  asideID?: number;
-  isShadow: boolean = false;
-  menuState: boolean = false;
-  isOpen: boolean = false;
+  // asideID?: number;
+  // isShadow: boolean = false;
+  // menuState: boolean = false;
+  // isOpen: boolean = false;
+
+  isShadow = signal<boolean>(false);
+  menuState = signal<boolean>(false);
+  isOpen = signal<boolean>(false);
 
   // parent: string = 'home';
 
   ngOnInit(): void {
-    this.asideID = this.#route.snapshot.data['asideID'];
+    // this.asideID = this.#route.snapshot.data['asideID'];
 
     this.#menuService.stateMenuService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
-        this.isShadow = data;
-        this.menuState = data;
+        this.isShadow.set(data);
+        this.menuState.set(data);
         this.#cdr.detectChanges();
 
         // wait stop animations. By CSS, animation take 1s of time
         if (data) {
           setTimeout(() => {
-            this.isOpen = true;
+            this.isOpen.set(true);
             this.#cdr.detectChanges();
           }, 1000);
         }
@@ -65,9 +71,9 @@ export class HomeComponent implements OnInit {
 
   onMenuClose(data: boolean) {
     if (data) {
-      this.menuState = false;
-      this.isShadow = false;
-      this.isOpen = false;
+      this.menuState.set(false);
+      this.isShadow.set(false);
+      this.isOpen.set(false);
       // this.#cdr.detectChanges();
     }
   }
@@ -79,4 +85,9 @@ export class HomeComponent implements OnInit {
   //     this.isOpen = false;
   //   }
   // }
+
+  // добавляем класс только к элементам с этими id
+  getClassForSectionItem(id: number): boolean {
+    return this.activeMenuItem.indexOf(id) != -1;
+  }
 }

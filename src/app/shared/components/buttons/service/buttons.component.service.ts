@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ButtonService {
+  buttonID = signal(0);
+
   public eventClick$ = new Subject<{ id: number }>();
   public DateFromInput$ = new Subject<{ obj: object }>();
 

@@ -4,7 +4,7 @@ import {
   EventEmitter,
   HostListener,
   inject,
-  Input,
+  input,
   Output,
 } from '@angular/core';
 
@@ -13,7 +13,8 @@ import {
 })
 export class ClickOutsideDirective {
   @Output() menuClose = new EventEmitter<boolean>();
-  @Input() menuState: boolean = false;
+  // @Input() menuState: boolean = false;
+  readonly menuState = input<boolean>(false);
 
   readonly #elRef = inject(ElementRef);
 
@@ -21,7 +22,7 @@ export class ClickOutsideDirective {
   onClick(event: MouseEvent) {
     const click = this.#elRef.nativeElement.contains(event.target as Node);
 
-    if (!click && this.menuState) {
+    if (!click && this.menuState()) {
       this.menuClose.emit(true);
     }
   }

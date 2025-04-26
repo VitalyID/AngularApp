@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import { DropdownComponent } from '../../../shared/components/dropdown/dropdown.component';
 import { ListDropdown } from '../../../shared/components/dropdown/types/interface/listDropdown';
-import { LanguageComponent } from '../../../shared/components/language/language.component';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 
@@ -12,10 +11,10 @@ import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
   standalone: true,
   imports: [
     SvgIconComponent,
-    LanguageComponent,
+    // LanguageComponent,
     CommonModule,
     DropdownComponent,
-    DropdownComponent,
+    // DropdownComponent,
   ],
   templateUrl: './header-user.component.html',
   styleUrl: './header-user.component.scss',
@@ -52,10 +51,13 @@ export class HeaderUserComponent {
     height: '24px',
   };
 
-  isOpen: boolean = false;
+  // isOpen: boolean = false;
+  isOpen = signal<boolean>(false);
 
   onClickContact() {
-    console.log('click on contact');
-    this.isOpen = !this.isOpen;
+    // console.log('click on contact');
+    // this.isOpen = !this.isOpen;
+
+    this.isOpen.update((value) => !value);
   }
 }

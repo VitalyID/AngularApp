@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -124,12 +125,9 @@ export class UserPreviewComponent implements OnInit {
   amodzieData: AmodzieData = { rate: 0, readonly: false };
 
   userSettingData: any = {};
-  isOpen: boolean = false;
-  isClose: boolean = true;
-  isFeedbackOpen: boolean = false;
-  isFeedbackClose: boolean = true;
-  isAmodzieClose: boolean = true;
-  isAmodzieOpen: boolean = false;
+  isOpen = signal<boolean>(false);
+  isFeedbackOpen = signal<boolean>(false);
+  isAmodzieOpen = signal<boolean>(false);
   isActive: number = 0;
 
   readonly #destroyRef = inject(DestroyRef);
@@ -190,44 +188,30 @@ export class UserPreviewComponent implements OnInit {
     this.#switcherService.channelSwitcherFromService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data: SwitcherData) => {
-        console.log(data);
-
         if (data.title === EnumSwitcher.rate && data.value === true) {
-          this.isOpen = true;
-          this.isClose = false;
+          this.isOpen.set(true);
 
           this.#cdr.detectChanges();
         } else if (data.title === EnumSwitcher.rate && data.value === false) {
-          this.isOpen = false;
-          this.isClose = true;
-
-          this.#cdr.detectChanges();
+          this.isOpen.set(false);
         }
 
         if (data.title === EnumSwitcher.feedback && data.value === true) {
-          this.isFeedbackOpen = true;
-          this.isFeedbackClose = false;
-          this.#cdr.detectChanges();
+          this.isFeedbackOpen.set(true);
         } else if (
           data.title === EnumSwitcher.feedback &&
           data.value === false
         ) {
-          this.isFeedbackOpen = false;
-          this.isFeedbackClose = true;
-          this.#cdr.detectChanges();
+          this.isFeedbackOpen.set(false);
         }
 
         if (data.title === EnumSwitcher.impressions && data.value === true) {
-          this.isAmodzieOpen = true;
-          this.isAmodzieClose = false;
-          this.#cdr.detectChanges();
+          this.isAmodzieOpen.set(true);
         } else if (
           data.title === EnumSwitcher.impressions &&
           data.value === false
         ) {
-          this.isAmodzieOpen = false;
-          this.isAmodzieClose = true;
-          this.#cdr.detectChanges();
+          this.isAmodzieOpen.set(false);
         }
       });
   }

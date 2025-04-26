@@ -6,7 +6,6 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 import { ListDropdown } from './types/interface/listDropdown';
@@ -61,7 +60,7 @@ export class DropdownComponent {
     this.itemSelected.emit(data);
   }
 
-  generateID() {
-    return uuidv4();
-  }
+  // generateID() {
+  //   return uuidv4();
+  // }
 }
