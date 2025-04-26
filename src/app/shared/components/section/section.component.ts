@@ -2,7 +2,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 // import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { ActivatedRoute } from '@angular/router';
 // import { RoutIDservice } from '../../services/transmitDataRout.service';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -10,7 +10,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [RouterLink, SvgIconComponent],
+  imports: [RouterLink, SvgIconComponent, RouterModule],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss',
   encapsulation: ViewEncapsulation.ShadowDom,
