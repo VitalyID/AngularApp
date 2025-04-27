@@ -28,22 +28,22 @@ h2 {
 .wrapTable,
 .wrapChart {
   padding: 0 30px;
+}
 
-  @media (max-width: 768px) {
-    .wrapChart {
-      padding: 0 15px;
-    }
-
-    .wrapTable {
-      padding: 0;
-      margin: 0;
-    }
+@media (max-width: 768px) {
+  .wrapChart {
+    padding: 0 15px;
   }
 
-  @media (max-width: 680px) {
-    .wrapTable {
-      padding: 0;
-    }
+  .wrapTable {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .wrapTable {
+    padding: 0;
   }
 }
 

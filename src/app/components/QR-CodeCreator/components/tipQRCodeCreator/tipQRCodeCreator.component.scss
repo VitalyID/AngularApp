@@ -9,6 +9,12 @@
     // margin-bottom: 30px;
     height: auto;
     padding: 30px 30px 0;
+
+    @media (max-width: 768px) {
+      & {
+        padding: 20px 20px 0;
+      }
+    }
   }
 
   &__body-wrap {
@@ -16,7 +22,7 @@
     gap: 30px;
     // margin-bottom: 20px;
     padding: 30px 30px 0;
-    width: 100%;
+    // width: 100%;
 
     & span {
       margin-bottom: 10px;
@@ -27,6 +33,25 @@
       font-size: 16px;
       line-height: 22px;
       color: #313436;
+    }
+
+    @media (max-width: 900px) {
+      & {
+        @include flexCenter(center, start);
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      & {
+        padding: 20px 20px 0;
+      }
+    }
+    @media (max-width: 450px) {
+      & {
+        padding: 10px 10px 0;
+      }
     }
   }
 
@@ -39,6 +64,14 @@
     border-radius: 10px;
     padding: 40px 40px 30px;
     gap: 20px;
+
+    @media (max-width: 900px) {
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      padding: 20px 20px 15px;
+    }
   }
 
   &__body-wrapForm {
@@ -52,6 +85,13 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+      & {
+        flex-direction: column;
+      }
+    }
   }
 
   &__body-about {
@@ -88,5 +128,10 @@
     border: 2px solid #e1e3e1;
     box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
     border-radius: 10px;
+
+    @media (max-width: 900px) {
+      width: 100%;
+      max-width: 350px;
+    }
   }
 }

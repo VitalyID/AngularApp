@@ -71,7 +71,7 @@ export class DataInputComponent implements OnInit, OnDestroy {
     ],
   });
 
-  public data: number = 2;
+  // public data: number = 2;
 
   #statusValidDataStart!: Subscription | undefined;
 
@@ -90,7 +90,7 @@ export class DataInputComponent implements OnInit, OnDestroy {
     this.#switchInputService.eventChangeInput$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
-        console.log(data);
+        // console.log(data);
         if (data == true) {
           this.myInputForm.get('dateFrom')?.enable();
           // this.myInputForm.get('dateEnd')?.enable();
