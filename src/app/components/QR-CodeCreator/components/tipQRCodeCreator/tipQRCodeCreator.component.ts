@@ -2,15 +2,18 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
 import { Observable } from 'rxjs';
+import { GetDataQrService } from '../../../../services/get-data-qr.service';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
@@ -152,11 +155,24 @@ export class CreateQRcodeComponent implements OnInit {
   // readonly #route = inject(ActivatedRoute);
   readonly #store = inject(Store);
   // readonly #menuService = inject(StateMenuService);
-  // readonly #destroyRef = inject(DestroyRef);
+  readonly #destroyRef = inject(DestroyRef);
   // readonly #cdr = inject(ChangeDetectorRef);
   readonly #btnService = inject(ButtonService);
+  // =====================================
+  readonly #http = inject(GetDataQrService);
 
-  ngOnInit(): void {
+  // =====================================
+
+  ngOnInit() {
+    console.log('start');
+
+    this.#http
+      .getQR()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        console.log('data from server^', data);
+      });
+
     // this.listItemSwitch();
     // // here is control to active menu on aside-bar
     // // this.asideID = this.#route.snapshot.data['asideID'];

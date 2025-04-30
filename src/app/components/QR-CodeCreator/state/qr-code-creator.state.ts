@@ -106,9 +106,7 @@ export class CreateQRcodeState {
 
   @Selector()
   static getColor(state: CreateCodeModel) {
-    console.log('color:', state.color);
-
-    return state.color;
+    return state?.color || defaultData.color;
   }
 
   @Selector()

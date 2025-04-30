@@ -11,8 +11,8 @@ import { loremIpsum } from 'lorem-ipsum';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
+import { QrCardComponent } from '../../shared/components/qr-card/qr-card.component';
 import { ButtonData } from '../../types/sectionItem';
-import { QrCardComponent } from './qr-card/qr-card.component';
 
 @Component({
   selector: 'my-qr',

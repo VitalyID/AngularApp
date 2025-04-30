@@ -1,0 +1,30 @@
+<!-- @let background = (userColor$ | async); -->
+<div
+  class="card__wrap"
+  [style.background]="(userColor$ | async)?.colorSubstrate || 'red'"
+>
+  <div class="card__title">
+    <span>Ресторан Жиши-Суши</span>
+    <svg-icon [svgSetting]="svgSetting"></svg-icon>
+  </div>
+
+  <div class="card__body">
+    <div class="card__body--qrWrap">
+      <img [src]="src" alt="" />
+    </div>
+  </div>
+  <div class="card__wallet">
+    <app-buttons [buttonData]="walletBTN()"></app-buttons>
+  </div>
+
+  <div class="card__footer">
+    <div class="card__footer--left">
+      <app-buttons [buttonData]="chartIcon"></app-buttons>
+      <app-buttons [buttonData]="shareIcon"></app-buttons>
+    </div>
+    <div class="card__footer--right">
+      <app-buttons [buttonData]="editIcon"></app-buttons>
+      <app-buttons [buttonData]="deleteIcon"></app-buttons>
+    </div>
+  </div>
+</div>
