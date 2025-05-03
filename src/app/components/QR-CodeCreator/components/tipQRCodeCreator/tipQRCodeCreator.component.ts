@@ -150,6 +150,7 @@ export class CreateQRcodeComponent implements OnInit {
 
   defaultColorSubstrate: string = DefaultColor.color;
   defaultColorBTN: string = DefaultColor.color;
+  // cardCount: number = 0;
 
   // readonly #routeService = inject(RoutIDservice);
   // readonly #route = inject(ActivatedRoute);
@@ -166,29 +167,20 @@ export class CreateQRcodeComponent implements OnInit {
   ngOnInit() {
     console.log('start');
 
-    this.#http
-      .getQR()
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        console.log('data from server^', data);
-      });
-
-    // this.listItemSwitch();
-    // // here is control to active menu on aside-bar
-    // // this.asideID = this.#route.snapshot.data['asideID'];
-    // // this.#routeService.getIDroute(this.asideID);
-    // this.#menuService.stateMenuService
+    // this.#http
+    //   .getQR()
     //   .pipe(takeUntilDestroyed(this.#destroyRef))
     //   .subscribe((data) => {
-    //     // this.menuState = data;
-    //     // this.isShadow = data;
-    //     // if (data) {
-    //     //   setTimeout(() => {
-    //     //     this.isOpen = true;
-    //     //     this.#cdr.detectChanges();
-    //     //   }, 1000);
-    //     // }
+    //     console.log('data from server^', data);
+    //     this.cardCount = Object.keys(data).length;
     //   });
+
+    this.#btnService.eventClick$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        // console.log(data, '3333333');
+        // this.#store.dispatch(new AddIdCard(this.cardCount + 1));
+      });
   }
 
   listItemSwitch() {
@@ -226,21 +218,4 @@ export class CreateQRcodeComponent implements OnInit {
     // отправляем в сервис клик по кнопке с ее идентификатором "3".
     this.#btnService.clickOnButton(this.btnText.id);
   }
-
-  // onMenuClosed(data: boolean) {
-  //   if (data) {
-  //     this.menuState = false;
-  //     this.isShadow = false;
-  //     this.isOpen = false;
-  //     this.#cdr.detectChanges();
-  //   }
-  // }
-
-  // onMenuClosedByClick(data: boolean) {
-  //   if (this.menuState) {
-  //     this.menuState = false;
-  //     this.isShadow = false;
-  //     this.isOpen = false;
-  //   }
-  // }
 }

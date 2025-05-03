@@ -8,10 +8,11 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { CreateQRcodeState } from '../../../components/QR-CodeCreator/state/qr-code-creator.state';
+import { GetDataQrService } from '../../../services/get-data-qr.service';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../types/sectionItem';
@@ -81,15 +82,41 @@ export class QrCardComponent implements OnInit {
     id: 28,
   };
 
+  cardCount: number = 0;
+  cardColor: string[] = [];
+  btnColor: string[] = [];
+  imageQr: string[] = [];
+
   userColor$: Observable<Color> = this.#store.select(
     CreateQRcodeState.getColor
   );
 
   readonly backgroundColor = toSignal(this.userColor$);
+  readonly #http = inject(GetDataQrService);
 
   ngOnInit(): void {
-    this.userColor$.subscribe((color) =>
-      console.log('Color from store:', color)
-    );
+    // this.userColor$.subscribe((color) =>
+    //   console.log('Color from store:', color)
+    // );
+
+    this.#http
+      .getQR()
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        console.log('data from server^', data);
+        this.cardCount = Object.keys(data).length;
+
+        console.log('tap: ', data);
+        const keys = Object.keys(data);
+        keys.forEach((key) => {
+          this.cardColor.push((data as any)[key].background_hex_color);
+          this.btnColor.push((data as any)[key].button_hex_color);
+          this.imageQr.push((data as any)[key].qr_image);
+
+          console.log(this.cardColor);
+          console.log(this.btnColor);
+          console.log(this.imageQr);
+        });
+      });
   }
 }

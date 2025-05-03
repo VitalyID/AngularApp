@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LogoProfileDefaultSource } from '../../../types/enums/logoProfile';
 import {
+  AddIdCard,
   AddUploadLogo,
   AddUserAmodzie,
   AddUserColor,
@@ -9,6 +10,7 @@ import {
   AddUserStarRate,
   AddUserTips,
 } from './qr-code-creator.action';
+// import { Card } from './qr-code-creator.state';
 
 export interface InputUsers {
   'inputID-1': number;
@@ -40,16 +42,22 @@ export interface UploadLogo {
   logo: string;
 }
 
-export interface CreateCodeModel {
+export interface Card {
   tips: InputUsers;
   star: StarRate;
   feedback: UserFeedback;
   amodzie: UserAmodzie;
   color: Color;
   logo: UploadLogo;
+  id: number;
 }
 
-const defaultData: CreateCodeModel = {
+export interface State {
+  cards: Card[];
+  activeCard: number | null;
+}
+
+const defaultData: Card = {
   tips: {
     'inputID-1': 100,
     'inputID-2': 150,
@@ -76,42 +84,49 @@ const defaultData: CreateCodeModel = {
   logo: {
     logo: LogoProfileDefaultSource.logoSource,
   },
+
+  id: 1,
 };
 
-@State<CreateCodeModel>({
+@State<Card>({
   name: 'setTip',
   defaults: defaultData,
 })
 @Injectable()
 export class CreateQRcodeState {
   @Selector()
-  static getUserTips(state: CreateCodeModel) {
+  static getUserTips(state: Card) {
     return state.tips;
   }
 
   @Selector()
-  static getUserStarRate(state: CreateCodeModel) {
+  static getUserStarRate(state: Card) {
     return state.star;
   }
 
   @Selector()
-  static getMyFeedback(state: CreateCodeModel) {
+  static getMyFeedback(state: Card) {
     return state.feedback;
   }
 
   @Selector()
-  static getAmodzieState(state: CreateCodeModel) {
+  static getAmodzieState(state: Card) {
     return state.amodzie;
   }
 
   @Selector()
-  static getColor(state: CreateCodeModel) {
+  static getColor(state: Card) {
     return state?.color || defaultData.color;
   }
 
   @Selector()
-  static getUploadLogo(state: CreateCodeModel) {
+  static getUploadLogo(state: Card) {
     return state.logo.logo;
+  }
+
+  @Selector()
+  static getIdCard(state: Card) {
+    return state.id;
   }
 
   // -------------
@@ -119,7 +134,7 @@ export class CreateQRcodeState {
   // -------------
 
   @Action(AddUserTips)
-  AddUserTips(ctx: StateContext<CreateCodeModel>, action: AddUserTips) {
+  AddUserTips(ctx: StateContext<Card>, action: AddUserTips) {
     ctx.patchState({
       tips: {
         ...ctx.getState().tips,
@@ -129,32 +144,23 @@ export class CreateQRcodeState {
   }
 
   @Action(AddUserStarRate)
-  AddUserStarRate(
-    ctx: StateContext<CreateCodeModel>,
-    { userRate }: AddUserStarRate
-  ) {
+  AddUserStarRate(ctx: StateContext<Card>, { userRate }: AddUserStarRate) {
     ctx.patchState({ star: { rate: userRate, disabled: false } });
   }
 
   @Action(AddUserFeedback)
-  AddUserFeedback(
-    ctx: StateContext<CreateCodeModel>,
-    { userFeedback }: AddUserFeedback
-  ) {
+  AddUserFeedback(ctx: StateContext<Card>, { userFeedback }: AddUserFeedback) {
     ctx.patchState({ feedback: { text: userFeedback, readonly: false } });
   }
 
   @Action(AddUserAmodzie)
-  AddUserAmodzie(
-    ctx: StateContext<CreateCodeModel>,
-    { userAmodzie }: AddUserAmodzie
-  ) {
+  AddUserAmodzie(ctx: StateContext<Card>, { userAmodzie }: AddUserAmodzie) {
     ctx.patchState({ amodzie: { rate: userAmodzie, readonly: true } });
   }
 
   @Action(AddUserColor)
   AddUserColor(
-    ctx: StateContext<CreateCodeModel>,
+    ctx: StateContext<Card>,
     { colorSubstr, colorBTNsubstr }: AddUserColor
   ) {
     console.log('store color ', colorBTNsubstr, colorSubstr);
@@ -165,10 +171,12 @@ export class CreateQRcodeState {
   }
 
   @Action(AddUploadLogo)
-  AddUploadLogo(
-    ctx: StateContext<CreateCodeModel>,
-    { userLogo }: AddUploadLogo
-  ) {
+  AddUploadLogo(ctx: StateContext<Card>, { userLogo }: AddUploadLogo) {
     ctx.patchState({ logo: { logo: userLogo } });
+  }
+
+  @Action(AddIdCard)
+  AddIdCard(ctx: StateContext<Card>, action: AddIdCard) {
+    ctx.patchState({ id: action.cardId });
   }
 }

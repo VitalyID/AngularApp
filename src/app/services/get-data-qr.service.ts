@@ -9,12 +9,10 @@ export class GetDataQrService {
   readonly #http = inject(HttpClient);
   link: string = 'https://tips-aarout.amvera.io/qr-codes';
   link2: string =
-    'https://gist.githubusercontent.com/VitalyID/dc4db55479320e040e9c4e3f123bcad1/raw/bfea1e0afb851f6222173a358b0f4a923f88576b/gistfile1.txt';
+    'https://gist.githubusercontent.com/VitalyID/dc4db55479320e040e9c4e3f123bcad1/raw/fe557a8904e55be681932d1f4657e0da1e243dc3/gistfile1.txt';
 
   getQR() {
-    console.log(1111111);
-
-    return this.#http.get(this.link2);
+    return this.#http.get(this.link);
   }
 
   constructor() {}

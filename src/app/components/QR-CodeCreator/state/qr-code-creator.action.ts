@@ -30,6 +30,11 @@ export class AddUserColor {
   constructor(public colorBTNsubstr: string, public colorSubstr: string) {}
 }
 
+export class AddIdCard {
+  static readonly type = '[SetId] SetIdCard';
+  constructor(public cardId: number) {}
+}
+
 // export class AddUserBTNcolor {
 //   static readonly type = '[SetBTN] SetBtnColor';
 //   constructor(public userBTNcolor: string) {}
