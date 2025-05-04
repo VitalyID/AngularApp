@@ -35,6 +35,11 @@ export class AddIdCard {
   constructor(public cardId: number) {}
 }
 
+// export class AddCards {
+//   static readonly type = '[Cards] SetCards';
+//   constructor(public cards: UserCards[]) {}
+// }
+
 // export class AddUserBTNcolor {
 //   static readonly type = '[SetBTN] SetBtnColor';
 //   constructor(public userBTNcolor: string) {}

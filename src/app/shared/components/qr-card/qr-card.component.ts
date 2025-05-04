@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { CreateQRcodeState } from '../../../components/QR-CodeCreator/state/qr-code-creator.state';
 import { GetDataQrService } from '../../../services/get-data-qr.service';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
+import { UpdateCards } from '../../../state/cards.action';
+import { UserCard } from '../../../state/cards.state';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
@@ -82,10 +84,8 @@ export class QrCardComponent implements OnInit {
     id: 28,
   };
 
-  cardCount: number = 0;
-  cardColor: string[] = [];
-  btnColor: string[] = [];
-  imageQr: string[] = [];
+  // cardCount: number = 0;
+  getCards: UserCard[] = [];
 
   userColor$: Observable<Color> = this.#store.select(
     CreateQRcodeState.getColor
@@ -95,28 +95,21 @@ export class QrCardComponent implements OnInit {
   readonly #http = inject(GetDataQrService);
 
   ngOnInit(): void {
-    // this.userColor$.subscribe((color) =>
-    //   console.log('Color from store:', color)
-    // );
-
+    console.log(this.#store.snapshot());
     this.#http
       .getQR()
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         console.log('data from server^', data);
-        this.cardCount = Object.keys(data).length;
+        // this.cardCount = Object.keys(data).length;
 
-        console.log('tap: ', data);
+        // console.log('tap: ', data);
         const keys = Object.keys(data);
         keys.forEach((key) => {
-          this.cardColor.push((data as any)[key].background_hex_color);
-          this.btnColor.push((data as any)[key].button_hex_color);
-          this.imageQr.push((data as any)[key].qr_image);
-
-          console.log(this.cardColor);
-          console.log(this.btnColor);
-          console.log(this.imageQr);
+          this.getCards.push((data as any)[key]);
         });
+        console.log(this.getCards, '1111');
+        this.#store.dispatch(new UpdateCards(this.getCards, this.getCards[0]));
       });
   }
 }

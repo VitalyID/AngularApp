@@ -52,10 +52,10 @@ export interface Card {
   id: number;
 }
 
-export interface State {
-  cards: Card[];
-  activeCard: number | null;
-}
+// export interface State {
+//   cards: Card[];
+//   activeCard: number | null;
+// }
 
 const defaultData: Card = {
   tips: {
@@ -180,3 +180,19 @@ export class CreateQRcodeState {
     ctx.patchState({ id: action.cardId });
   }
 }
+
+// export interface UserCards {
+//   background_hex_color: string;
+//   business_payment_type: string;
+//   button_hex_color: string;
+//   commission_coverage: boolean;
+//   employee_display: boolean;
+//   id: number;
+//   logo_file_id: null;
+//   platform_id: string;
+//   preset_payment_sizes: [];
+//   qr_image: string;
+//   rating: boolean;
+//   reviews: boolean;
+//   smiles: boolean;
+// }
