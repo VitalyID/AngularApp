@@ -15,7 +15,7 @@ export interface UserCard {
   commission_coverage: boolean;
   employee_display: boolean;
   id: number;
-  logo_file_id: null;
+  logo_file_id: string | null;
   platform_id: string;
   preset_payment_sizes: [];
   qr_image: string;

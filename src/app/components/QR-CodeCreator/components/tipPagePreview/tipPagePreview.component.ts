@@ -31,6 +31,13 @@ import { ListOfCards } from '../../../../state/cards.state';
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
+import {
+  CreateQRcodeState,
+  InputUsers,
+  StarRate,
+  UserAmodzie,
+  UserFeedback,
+} from '../../state/qr-code-creator.state';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 import { Cards } from './../../../../state/cards.state';
 // import { SetUserStarRate } from './../../state/qr-code-creator.state';
@@ -131,25 +138,29 @@ export class UserPreviewComponent implements OnInit {
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
 
-  // userFeedback$: Observable<UserFeedback> = this.#store.select(
-  //   CreateQRcodeState.getMyFeedback
-  // );
-  // userAmodzieStore$: Observable<UserAmodzie> = this.#store.select(
-  //   CreateQRcodeState.getAmodzieState
-  // );
-  // userRateFromStore$?: Observable<StarRate> = this.#store.select(
-  //   CreateQRcodeState.getUserStarRate
-  // );
-  // logoFromStore$?: Observable<string> = this.#store.select(
-  //   CreateQRcodeState.getUploadLogo
-  // );
-  // userInputFromStore$?: Observable<InputUsers> = this.#store.select(
-  //   CreateQRcodeState.getUserTips
-  // );
+  userFeedback$: Observable<UserFeedback> = this.#store.select(
+    CreateQRcodeState.getMyFeedback
+  );
+  userAmodzieStore$: Observable<UserAmodzie> = this.#store.select(
+    CreateQRcodeState.getAmodzieState
+  );
+  userRateFromStore$?: Observable<StarRate> = this.#store.select(
+    CreateQRcodeState.getUserStarRate
+  );
+  logoFromStore$?: Observable<string> = this.#store.select(
+    CreateQRcodeState.getUploadLogo
+  );
+  userInputFromStore$?: Observable<InputUsers> = this.#store.select(
+    CreateQRcodeState.getUserTips
+  );
 
   userCard$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
 
   ngOnInit(): void {
+    this.userCard$.subscribe((data) => {
+      console.log(9999999999, data);
+    });
+
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {

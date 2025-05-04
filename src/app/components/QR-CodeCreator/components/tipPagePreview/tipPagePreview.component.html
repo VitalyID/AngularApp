@@ -1,3 +1,8 @@
+@let data = (userCard$ | async);
+<ng-container>
+  {{ data?.activeCard?.smiles | json }}
+</ng-container>
+
 <div class="userPreview__top">
   <span class="spanBold">Так выглядит ваша страница</span>
 </div>
@@ -13,11 +18,10 @@
 
   <div class="userPreview__about--me">
     <img
-      [src]="(logoFromStore$ | async) || logoSource"
+      [src]="data?.activeCard?.logo_file_id"
       alt="user logo"
       class="userPreview__about--meLogo"
       #preview
-      *ngIf="(logoFromStore$ | async) !== undefined"
     />
     <div class="userPreview__about--meInfo">
       <span class="spanBold"><b>Смирнов Виталий</b></span>
@@ -39,16 +43,13 @@
     (userInput)="validInput($event)"
   ></input-text>
 
-  <div
-    class="userPreview__setTips--btn"
-    *ngIf="userInputFromStore$ | async as userInputFromStore"
-  >
-    @for (item of userInputFromStore | keyvalue; track item.key){ @for (btn of
-    arrBTN; track btn.id){ @if (btn.key === item.key) {
+  <div class="userPreview__setTips--btn">
+    @if(data && data.activeCard && data.activeCard.preset_payment_sizes){ @for
+    (btn of arrBTN; track $index){
 
     <app-buttons
       [buttonData]="{
-        text: item.value.toString(),
+        text: data.activeCard.preset_payment_sizes[$index],
         iconClass: btn.iconClass,
         disabled: btn.disabled,
         background: btn.background,
@@ -60,7 +61,7 @@
         key: btn.key
       }"
     ></app-buttons>
-    } }}
+    }}
   </div>
 </div>
 
@@ -68,7 +69,12 @@
 <!-- section stars-rate -->
 <!-- ------------------ -->
 
-<div class="userPreview__rate" [class.userPreview__rate--open]="isOpen()">
+<!-- json, типа, "rating":true - будет открывать или закрывать  секцию
+ с рейтингом. Но если надо чтобы отображалась еще "нужная" звездочка, надо поменять json, сделать, типа, "rating":{visible:true, "star":4}   -->
+<div
+  class="userPreview__rate"
+  [class.userPreview__rate--open]="data?.activeCard?.rating"
+>
   <span class="spanBold">Ваш рейтинг</span>
   <stars-rate
     [starRateSetup]="dataToStarRate"
@@ -80,9 +86,12 @@
 <!-- section feedbacks -->
 <!-- ----------------- -->
 
+<!-- Я думаю, надо сделать влоенный объект и в рейтинг и отзывы, типа
+"reviews":{"hasReviews":true, "text":"bla-bla-bla"} тогда его можно прокинуть внутрь с бэка. Я думаю, туда надо еще положить readonly(true|false) -->
+
 <div
   class="userPreview__feedbacks"
-  [class.userPreview__feedbacks--open]="isFeedbackOpen()"
+  [class.userPreview__feedbacks--open]="data?.activeCard?.reviews"
 >
   <span class="spanBold">Ваш отзыв</span>
 
@@ -101,7 +110,7 @@
 
 <div
   class="userPreview__feeling"
-  [class.userPreview__feeling--open]="isAmodzieOpen()"
+  [class.userPreview__feeling--open]="data?.activeCard?.smiles"
 >
   <span class="spanBold">Ваши впечатления</span>
 
@@ -114,3 +123,5 @@
 <div class="userPreview__sendData">
   <app-buttons [buttonData]="btnSendData"></app-buttons>
 </div>
+
+<!-- Еще я думаю надо в json положить активное значение кнопки (100,250,500 - какая из них будет подсвечиваться зеленым) -->
