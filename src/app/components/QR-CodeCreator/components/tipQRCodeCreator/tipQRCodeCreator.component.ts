@@ -8,12 +8,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
 import { Observable } from 'rxjs';
-import { RoutIDservice } from '../../../../services/transmitDataRout.service';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
+import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
 import { DefaultColor } from '../../../../shared/components/color-picker/types/enum/default';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
@@ -40,6 +39,9 @@ import { EnumSwitcher } from './../../../../shared/components/switcher/types/enu
     CommonModule,
     UserPreviewComponent,
     ButtonsComponent,
+    // AsideComponent,
+    // EscCloseDirective,
+    // ClickOutsideDirective,
   ],
   templateUrl: './tipQRCodeCreator.component.html',
   styleUrl: './tipQRCodeCreator.component.scss',
@@ -49,13 +51,12 @@ import { EnumSwitcher } from './../../../../shared/components/switcher/types/enu
 export class CreateQRcodeComponent implements OnInit {
   @ViewChild('preview') previewIMG!: ElementRef;
 
-  asideID: number = 0;
-  isValidInput: boolean = false;
-  isOpen: boolean = false;
-  isClose: boolean = true;
-  feedbackOpen: boolean = false;
-  feedbackClose: boolean = true;
-  // listSwitchKeys: (keyof typeof EnumSwitcher)[] = [];
+  // asideID: number = 0;
+  // isValidInput: boolean = false;
+  // isOpen: boolean = false;
+  // isClose: boolean = true;
+  // feedbackOpen: boolean = false;
+  // feedbackClose: boolean = true;
   listSwitchKeys = Object.keys(EnumSwitcher);
 
   enumSwitcher = EnumSwitcher;
@@ -63,9 +64,15 @@ export class CreateQRcodeComponent implements OnInit {
   userSettingData: any = {};
   myForm!: FormGroup;
   inputFromStore$?: Observable<InputUsers>;
-  // #placeholder?: Subscription;
   colorSubstrate: string = '';
   colorBtn: string = '';
+
+  // menuState: boolean = false;
+  // isShadow: boolean = false;
+
+  // isOpen transmitted to Drectives for checking state component aside.
+  // Component Aside is open after 1s, because its time need for animations
+  isOpen: boolean = false;
 
   defaultDataInput: InputUsers = {
     'inputID-1': 100,
@@ -141,18 +148,31 @@ export class CreateQRcodeComponent implements OnInit {
   defaultColorSubstrate: string = DefaultColor.color;
   defaultColorBTN: string = DefaultColor.color;
 
-  readonly #routeService = inject(RoutIDservice);
-  readonly #route = inject(ActivatedRoute);
-  // readonly #cdr = inject(ChangeDetectorRef);
+  // readonly #routeService = inject(RoutIDservice);
+  // readonly #route = inject(ActivatedRoute);
   readonly #store = inject(Store);
+  // readonly #menuService = inject(StateMenuService);
   // readonly #destroyRef = inject(DestroyRef);
+  // readonly #cdr = inject(ChangeDetectorRef);
+  readonly #btnService = inject(ButtonService);
 
   ngOnInit(): void {
-    this.listItemSwitch();
-
-    // here is control to active menu on aside-bar
-    this.asideID = this.#route.snapshot.data['asideID'];
-    this.#routeService.getIDroute(this.asideID);
+    // this.listItemSwitch();
+    // // here is control to active menu on aside-bar
+    // // this.asideID = this.#route.snapshot.data['asideID'];
+    // // this.#routeService.getIDroute(this.asideID);
+    // this.#menuService.stateMenuService
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     // this.menuState = data;
+    //     // this.isShadow = data;
+    //     // if (data) {
+    //     //   setTimeout(() => {
+    //     //     this.isOpen = true;
+    //     //     this.#cdr.detectChanges();
+    //     //   }, 1000);
+    //     // }
+    //   });
   }
 
   listItemSwitch() {
@@ -185,4 +205,26 @@ export class CreateQRcodeComponent implements OnInit {
     this.defaultDataInput = { ...this.defaultDataInput, [handleTip]: data };
     this.#store.dispatch(new AddUserTips(this.defaultDataInput));
   }
+
+  clickOn() {
+    // отправляем в сервис клик по кнопке с ее идентификатором "3".
+    this.#btnService.clickOnButton(this.btnText.id);
+  }
+
+  // onMenuClosed(data: boolean) {
+  //   if (data) {
+  //     this.menuState = false;
+  //     this.isShadow = false;
+  //     this.isOpen = false;
+  //     this.#cdr.detectChanges();
+  //   }
+  // }
+
+  // onMenuClosedByClick(data: boolean) {
+  //   if (this.menuState) {
+  //     this.menuState = false;
+  //     this.isShadow = false;
+  //     this.isOpen = false;
+  //   }
+  // }
 }

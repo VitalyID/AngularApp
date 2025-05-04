@@ -3,8 +3,10 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { RoutIDservice } from '../../../services/transmitDataRout.service';
+import { BordeerLineComponent } from '../../../shared/components/bordeer-line/border-line.component';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../shared/components/buttons/service/buttons.component.service';
+import { LogoMenuComponent } from '../../../shared/components/logo-menu/logo-menu.component';
 import { SectionComponent } from '../../../shared/components/section/section.component';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { TitleAside } from '../../../types/enums/titleAside';
@@ -16,7 +18,15 @@ import { LinkAside } from './tupes/enum/routerLink';
 @Component({
   selector: 'app-aside',
   standalone: true,
-  imports: [CommonModule, SvgIconComponent, SectionComponent, ButtonsComponent],
+  imports: [
+    CommonModule,
+    SvgIconComponent,
+    SectionComponent,
+    ButtonsComponent,
+    LogoMenuComponent,
+    LogoMenuComponent,
+    BordeerLineComponent,
+  ],
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss',
 })
@@ -107,7 +117,13 @@ export class AsideComponent implements OnInit {
     id: 4,
   };
 
-  logoSetting: SvgSpriteSetting = {
+  menuData: SvgSpriteSetting = {
+    iconID: 'menu',
+    fill: 'black',
+    width: '24px',
+    height: '24px',
+  };
+  logoData: SvgSpriteSetting = {
     iconID: 'icon-logo',
     width: '98px',
     height: '31px',

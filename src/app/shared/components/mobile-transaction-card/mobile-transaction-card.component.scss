@@ -1,0 +1,32 @@
+:host {
+}
+
+@mixin flex($jc: center, $alIt: center, $fd: row) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $alIt;
+  flex-direction: $fd;
+}
+
+.mobileCard {
+  padding: 20px;
+
+  &__top {
+    @include flex($jc: space-between);
+  }
+
+  &__body {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: repeat(4, 35px);
+
+    & span:nth-child(even) {
+      justify-self: end;
+    }
+  }
+}
+
+border-line {
+  margin-top: 20px;
+}

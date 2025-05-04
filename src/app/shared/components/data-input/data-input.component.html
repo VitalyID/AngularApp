@@ -1,6 +1,7 @@
-<div class="wrapComponent" [formGroup]="myInputForm">
-  <div class="wrapInput">
+<div class="date-range-picker" [formGroup]="myInputForm">
+  <div class="date-range-picker__inputs">
     <input
+      class="date-range-picker__input"
       type="date"
       formControlName="dateFrom"
       [ngStyle]="{
@@ -14,6 +15,7 @@
     />
 
     <input
+      class="date-range-picker__input"
       type="date"
       formControlName="dateEnd"
       [ngStyle]="{

@@ -1,9 +1,9 @@
 :host {
   --width: 100%;
-  --content: none
+  --content: none;
+  --margin-bottom: 0px;
   display: block;
   width: 100%;
-
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -16,7 +16,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
 .userInputWrap {
   position: relative;
   display: flex;
@@ -27,7 +26,8 @@ input[type="number"] {
     position: absolute;
     right: 10%;
     top: 50%;
-    transform: translate(-50%, -100%);
+    margin-top: 1px;
+    transform: translate(-50%, -50%);
   }
 
   & input {
@@ -41,7 +41,13 @@ input[type="number"] {
     flex-shrink: 0;
 
     padding: 25px;
-    margin-bottom: 20px;
+    margin-bottom: var(--margin-bottom);
+
+    @media (max-width: 1450px) {
+      & {
+        padding: 15px;
+      }
+    }
   }
   & .inValid {
     border-color: #f13608;
@@ -49,13 +55,13 @@ input[type="number"] {
 }
 
 .rub {
-
   &::after {
-    content: '₽';
-  }}
+    content: "₽";
+  }
+}
 
-  .usd {
-
-    &::after {
-      content: '$';
-    }}
+.usd {
+  &::after {
+    content: "$";
+  }
+}

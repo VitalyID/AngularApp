@@ -1,0 +1,22 @@
+.logo-menu {
+  width: var(--width);
+  overflow: var(--overflow);
+  gap: var(--gap);
+
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 7px;
+
+  &__menu {
+    display: var(--displayMenuIcon);
+  }
+
+  @media (max-width: 1385px) {
+    & {
+      justify-content: start;
+    }
+  }
+}

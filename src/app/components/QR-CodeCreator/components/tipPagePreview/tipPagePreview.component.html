@@ -2,7 +2,7 @@
   <span class="spanBold">Так выглядит ваша страница</span>
 </div>
 
-<div class="userPreview__sectionBorder"></div>
+<border-line></border-line>
 
 <!-- --------------- -->
 <!-- section Preview -->
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<div class="userPreview__sectionBorder"></div>
+<border-line></border-line>
 
 <!-- --------------- -->
 <!-- section setTips -->
@@ -68,13 +68,7 @@
 <!-- section stars-rate -->
 <!-- ------------------ -->
 
-<div
-  class="userPreview__rate"
-  [ngClass]="{
-    'userPreview__rate--open': isOpen,
-    'userPreview__rate--close': isClose
-  }"
->
+<div class="userPreview__rate" [class.userPreview__rate--open]="isOpen()">
   <span class="spanBold">Ваш рейтинг</span>
   <stars-rate
     [starRateSetup]="dataToStarRate"
@@ -88,10 +82,7 @@
 
 <div
   class="userPreview__feedbacks"
-  [ngClass]="{
-    'userPreview__feedbacks--open': isFeedbackOpen,
-    'userPreview__feedbacks--close': isFeedbackClose
-  }"
+  [class.userPreview__feedbacks--open]="isFeedbackOpen()"
 >
   <span class="spanBold">Ваш отзыв</span>
 
@@ -110,10 +101,7 @@
 
 <div
   class="userPreview__feeling"
-  [ngClass]="{
-    'userPreview__feeling--close': isAmodzieClose,
-    'userPreview__feeling--open': isAmodzieOpen
-  }"
+  [class.userPreview__feeling--open]="isAmodzieOpen()"
 >
   <span class="spanBold">Ваши впечатления</span>
 

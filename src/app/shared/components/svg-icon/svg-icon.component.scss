@@ -1,13 +1,12 @@
 :host {
   cursor: pointer;
 
-  display: inline-block;
+  display: block;
   justify-self: left;
   vertical-align: middle;
   align-items: center;
-  // width: var(--width);
-  // height: var(--height);
-  --fill: #777d82;
+
+  --fill: inherit;
 }
 
 .isActive {

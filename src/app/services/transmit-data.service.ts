@@ -86,10 +86,10 @@ export class TransmitDataService implements OnDestroy {
         dayOfWeek.setHours(0, 0, 0, 0);
 
         const filterWeek = this.dataUserOperations.filter((item) => {
-          console.log(item.data.split('.').reverse().join('-'));
+          // console.log(item.data.split('.').reverse().join('-'));
           const actualData = new Date(item.data.split('.').reverse().join('-'));
 
-          console.log(actualData.getTime(), ' ', startOfWeek.getTime());
+          // console.log(actualData.getTime(), ' ', startOfWeek.getTime());
           return (
             actualData.getTime() >= startOfWeek.getTime() &&
             actualData.getTime() <= dayOfWeek.getTime()
@@ -125,7 +125,7 @@ export class TransmitDataService implements OnDestroy {
           let dataEnd = new Date(this.#tmp.dateEnd);
 
           arrUserActualOperations = this.dataUserOperations.filter((item) => {
-            console.log(item);
+            // console.log(item);
 
             const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
             const match = item.data.match(regex);

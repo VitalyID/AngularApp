@@ -1,97 +1,32 @@
-<div class="title">
-  <svg-icon [svgSetting]="logoSetting"></svg-icon>
-</div>
+<div class="aside__body">
+  <logo-menu [logoConfig]="logoData" [menuConfig]="menuData"></logo-menu>
 
-<div class="aside-body">
-  <div *ngFor="let item of generalGroup; let i = index">
-    <app-section
-      [item]="item"
-      [routerLink]="item.route"
-      [ngClass]="{
-        isActive: item.ID === (routeID$ | async),
-        isMyGroup: getClassForSectionItem(item.ID),
-        firstItem: i+1 === activeMenuItem[0],
+  <border-line></border-line>
+
+  <div class="aside__body-padding">
+    <div *ngFor="let item of generalGroup; let i = index">
+      <app-section
+        [item]="item"
+        [ngClass]="{
+        isMyGroup: getClassForSectionItem(item.ID),firstItem: i+1 === activeMenuItem[0],
         lastItem: i+1 === activeMenuItem.at(-1),
       }"
-    >
-      <div class="section-icon">
-        <svg-icon [svgSetting]="item.iconSetting"></svg-icon>
-      </div>
-      <span class="section-title">{{ item.title }}</span>
-    </app-section>
-  </div>
+      >
+      </app-section>
+    </div>
 
-  <div class="support-wrapper">
-    <div class="support">
-      <img
-        src="../../../assets/images/illustration.png"
-        alt="Картинка support"
-      />
-      <app-buttons [buttonData]="btnText"></app-buttons>
+    <div class="aside__support">
+      <div class="aside__support-content">
+        <img
+          src="../../../assets/images/illustration.png"
+          alt="Картинка support"
+        />
+        <app-buttons [buttonData]="btnText"></app-buttons>
+      </div>
+    </div>
+
+    <div *ngFor="let item of logOut">
+      <app-section [item]="item"></app-section>
     </div>
   </div>
-
-  <div *ngFor="let item of logOut">
-    <app-section
-      [item]="item"
-      [routerLink]="item.route"
-      [ngClass]="{
-        isActive: item.ID === (routeID$ | async)
-      }"
-    >
-      <div class="section-icon">
-        <svg-icon [svgSetting]="item.iconSetting"></svg-icon>
-      </div>
-      <span class="section-title">{{ item.title }}</span></app-section
-    >
-  </div>
 </div>
-
-<!-- copy -->
-
-<!-- <div class="title">
-  <svg-icon [svgSetting]="logoSetting"></svg-icon>
-</div>
-
-<div class="aside-body">
-  <div *ngFor="let item of generalGroup">
-    <app-section
-      [item]="item"
-      [routerLink]="item.route"
-      [ngClass]="{
-        isActive: item.ID === (routeID$ | async),
-        isMyGroup: getClassForSectionItem(item.ID)
-      }"
-    >
-      <div class="section-icon">
-        <svg-icon [svgSetting]="item.iconSetting"></svg-icon>
-      </div>
-      <span class="section-title">{{ item.title }}</span>
-    </app-section>
-  </div>
-
-  <div class="support-wrapper">
-    <div class="support">
-      <img
-        src="../../../assets/images/illustration.png"
-        alt="Картинка support"
-      />
-      <app-buttons [buttonData]="btnText"></app-buttons>
-    </div>
-  </div>
-
-  <div *ngFor="let item of logOut">
-    <app-section
-      [item]="item"
-      [routerLink]="item.route"
-      [ngClass]="{
-        isActive: item.ID === (routeID$ | async)
-      }"
-    >
-      <div class="section-icon">
-        <svg-icon [svgSetting]="item.iconSetting"></svg-icon>
-      </div>
-      <span class="section-title">{{ item.title }}</span></app-section
-    >
-  </div>
-</div> -->

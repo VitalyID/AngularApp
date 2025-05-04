@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,18 +7,19 @@ import {
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RoutIDservice } from '../../services/transmitDataRout.service';
+import { Router } from '@angular/router';
+import { v4 as uuidv4 } from 'uuid';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
 import { ChartComponent } from '../../shared/components/chart/chart.component';
+import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { ButtonData } from './../../types/sectionItem';
 
 @Component({
   selector: 'main',
   standalone: true,
-  imports: [TableComponent, ChartComponent, ButtonsComponent],
+  imports: [TableComponent, ChartComponent, ButtonsComponent, CommonModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,11 +27,10 @@ import { ButtonData } from './../../types/sectionItem';
 export class MainComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
-  readonly #route = inject(ActivatedRoute);
-  readonly #routService = inject(RoutIDservice);
   readonly #router = inject(Router);
 
-  asideID: number = 0;
+  // asideID: number = 0;
+  parent: string = 'main';
 
   public btnText: ButtonData = {
     text: 'Создать QR-Code',
@@ -37,11 +38,25 @@ export class MainComponent implements OnInit {
     id: 3,
   };
 
-  ngOnInit(): void {
-    this.asideID = this.#route.snapshot.data['asideID'];
-    // send routID to service
-    this.#routService.getIDroute(this.asideID);
+  list: ListDropdown[] = [
+    {
+      id: uuidv4(),
+      item: 'list1',
+      icon: { iconID: 'star', width: '10px', height: '10px' },
+    },
+    {
+      id: uuidv4(),
+      item: 'list2',
+      icon: { iconID: 'icon-share', width: '10px', height: '10px' },
+    },
+    {
+      id: uuidv4(),
+      item: 'list3',
+      icon: { iconID: 'icon-loyalty', width: '10px', height: '10px' },
+    },
+  ];
 
+  ngOnInit(): void {
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
@@ -50,10 +65,5 @@ export class MainComponent implements OnInit {
           this.#router.navigate(['/create-qrcode']);
         }
       });
-  }
-
-  clickOn() {
-    // отправляем в сервис клик по кнопке с ее идентификатором "3".
-    this.#btnService.clickOnButton(this.btnText.id);
   }
 }

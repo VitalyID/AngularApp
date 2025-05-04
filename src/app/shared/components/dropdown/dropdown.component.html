@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="dropdown">
+    <div class="dropdown__visible">
+      <div class="dropdown__active">
+        <div class="dropdown__active-item">
+          @if (svgSettingActive.iconID){
+          <svg-icon [svgSetting]="svgSettingActive"></svg-icon>}
+          <span>{{ defaultValue.item }}</span>
+        </div>
+        <svg-icon
+          [svgSetting]="DropdownOpenIcon"
+          (click)="onClick()"
+        ></svg-icon>
+      </div>
+    </div>
+
+    <div class="dropdown__invisible" [class.open]="isOpen">
+      @for (item of dropdownItems; track item.id){
+
+      <div class="dropdown__item" (click)="onClickItem(item)">
+        @if (item.icon){
+        <svg-icon [svgSetting]="item.icon"></svg-icon>}
+        <span>{{ item.item }}</span>
+      </div>
+      }
+    </div>
+  </div>
+</div>

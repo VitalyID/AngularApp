@@ -1,3 +1,19 @@
 a {
   margin: 15px;
 }
+
+@media (min-width: 1386px) {
+  logo-menu {
+    display: none;
+  }
+}
+
+@media (max-width: 1385px) {
+  logo-menu {
+    --gap: 20px;
+    --width: 170px;
+  }
+  a {
+    display: none;
+  }
+}

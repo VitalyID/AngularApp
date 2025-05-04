@@ -23,8 +23,3 @@ const storagePluginOptions: NgxsStoragePluginOptions = {
   bootstrap: [],
 })
 export class AppModule {}
-
-// MainComponent,
-//     MyQRComponent,
-//     AmodzieComponent,
-// NavigationComponent, WrapFlexComponent
