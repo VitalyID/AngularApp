@@ -35,6 +35,8 @@ export class QrCardComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #destroyRef = inject(DestroyRef);
 
+  readonly #http = inject(GetDataQrService);
+
   // backgroundColor = signal('');
 
   svgSetting: SvgSpriteSetting = {
@@ -92,23 +94,18 @@ export class QrCardComponent implements OnInit {
   );
 
   readonly backgroundColor = toSignal(this.userColor$);
-  readonly #http = inject(GetDataQrService);
 
   ngOnInit(): void {
-    console.log(this.#store.snapshot());
+    // console.log(this.#store.snapshot());
     this.#http
       .getQR()
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
-        console.log('data from server^', data);
-        // this.cardCount = Object.keys(data).length;
-
-        // console.log('tap: ', data);
         const keys = Object.keys(data);
         keys.forEach((key) => {
-          this.getCards.push((data as any)[key]);
+          this.getCards = [...this.getCards, (data as any)[key]];
+          // this.getCards.push((data as any)[key]);
         });
-        console.log(this.getCards, '1111');
         this.#store.dispatch(new UpdateCards(this.getCards, this.getCards[0]));
       });
   }

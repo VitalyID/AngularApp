@@ -1,3 +1,11 @@
+<!-- @let background = (userColor$ | async); -->
+@let data = (cards$ | async);
+<ng-container>
+  {{ data?.cards?.length | json }}
+</ng-container>
+
+<!-- =============================================== -->
+
 <div class="myQR__wrapTop">
   <h2>Мои QR</h2>
   <app-buttons [buttonData]="btnText"></app-buttons>
@@ -5,6 +13,7 @@
 
 <div class="myQR__wrapBody">
   <div class="myQR__card">
-    <qr-card [src]="src"></qr-card>
+    @for (item of data?.cards; track cards$){
+    <qr-card [src]="src"></qr-card>}
   </div>
 </div>

@@ -73,13 +73,13 @@ export class ListOfCards {
   @Action(UpdateCards)
   UpdateCards(ctx: StateContext<Cards>, { cards, active }: UpdateCards) {
     const data = ctx.getState();
-    console.log(data);
+    // console.log(data);
     ctx.patchState({
       cards: cards,
       activeCard: active,
     });
 
-    console.log(1, cards);
-    console.log(2, active);
+    // console.log(1, cards);
+    // console.log(2, active);
   }
 }
