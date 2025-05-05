@@ -1,7 +1,7 @@
 <!-- @let background = (userColor$ | async); -->
 @let data = (cards$ | async);
 <ng-container>
-  {{ data?.cards?.length | json }}
+  {{ data?.cards | json }}
 </ng-container>
 
 <!-- =============================================== -->
@@ -14,6 +14,7 @@
 <div class="myQR__wrapBody">
   <div class="myQR__card">
     @for (item of data?.cards; track cards$){
-    <qr-card [src]="src"></qr-card>}
+    <qr-card [src]="src" [backgroundCard]="item.background_hex_color"></qr-card
+    >}
   </div>
 </div>

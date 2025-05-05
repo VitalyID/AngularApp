@@ -30,6 +30,7 @@ import { Color } from './../../../components/QR-CodeCreator/state/qr-code-creato
 })
 export class QrCardComponent implements OnInit {
   @Input({ required: true }) src: string = '';
+  @Input({ required: true }) backgroundCard: string = '';
 
   // readonly #qrService = inject(QRcodeService);
   readonly #store = inject(Store);

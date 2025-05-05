@@ -1,7 +1,4 @@
-<div
-  class="card__wrap"
-  [style.background]="(userColor$ | async)?.colorSubstrate || 'red'"
->
+<div class="card__wrap" [style.background]="backgroundCard">
   <div class="card__title">
     <span>Ресторан Жиши-Суши</span>
     <svg-icon [svgSetting]="svgSetting"></svg-icon>
