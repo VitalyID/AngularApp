@@ -1,7 +1,10 @@
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { Cards } from './cards.state';
-import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { UpdateCards } from './cards.action';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Observable, tap } from 'rxjs';
+import { GetDataQrService } from '../services/get-data-qr.service';
+import UpdateCards from './cards.action';
 
 export interface Cards {
   cards: UserCard[];
@@ -65,21 +68,32 @@ const defaultValue: Cards = {
 })
 @Injectable()
 export class ListOfCards {
+  readonly #http = inject(GetDataQrService);
+  readonly #store = inject(Store);
+  readonly #destroyRef = inject(DestroyRef);
+
+  cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
   @Selector()
   static getCards(state: Cards) {
     return state;
   }
 
   @Action(UpdateCards)
-  UpdateCards(ctx: StateContext<Cards>, { cards, active }: UpdateCards) {
-    const data = ctx.getState();
-    // console.log(data);
-    ctx.patchState({
-      cards: cards,
-      activeCard: active,
-    });
-
-    // console.log(1, cards);
-    // console.log(2, active);
+  updateCards(ctx: StateContext<Cards>) {
+    this.#http
+      .getQR()
+      .pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        tap((data) => {
+          console.log('Запрос выполнен: ', data);
+          const state = ctx.getState();
+          console.log('state', state);
+          ctx.patchState({
+            cards: data,
+            activeCard: data[0],
+          });
+        })
+      )
+      .subscribe();
   }
 }

@@ -6,6 +6,7 @@ import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
 import { NgxsExecutionStrategy, provideStore } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './ app.routes';
+// import { provideNgxs } from '@ngxs/store'
 // import { UploadLogoState } from './components/QR-CodeCreator/state/qr-code-creator.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideCharts(withDefaultRegisterables()),
     DatePipe,
     provideStore([]),
+    // provideNgxs({ states: [ListOfCards] }),
     // NgxsStoragePluginModule.forRoot(storagePluginOptions).providers!,
     // NgxsModule.forRoot([UploadLogoState]).providers!,
   ],

@@ -1,6 +1,6 @@
-@let data = (userCard$ | async);
+@let userCard = (userCard$ | async);
 <ng-container>
-  {{ data?.activeCard?.smiles | json }}
+  {{ userCard?.activeCard?.smiles | json }}
 </ng-container>
 
 <div class="userPreview__top">
@@ -18,7 +18,7 @@
 
   <div class="userPreview__about--me">
     <img
-      [src]="data?.activeCard?.logo_file_id"
+      [src]="userCard?.activeCard?.logo_file_id"
       alt="user logo"
       class="userPreview__about--meLogo"
       #preview
@@ -43,13 +43,14 @@
     (userInput)="validInput($event)"
   ></input-text>
 
+  @if(userCard && userCard.activeCard &&
+  userCard.activeCard.preset_payment_sizes){
   <div class="userPreview__setTips--btn">
-    @if(data && data.activeCard && data.activeCard.preset_payment_sizes){ @for
-    (btn of arrBTN; track $index){
+    @for (btn of arrBTN; track $index){
 
     <app-buttons
       [buttonData]="{
-        text: data.activeCard.preset_payment_sizes[$index],
+        text: userCard.activeCard.preset_payment_sizes[$index],
         iconClass: btn.iconClass,
         disabled: btn.disabled,
         background: btn.background,
@@ -61,8 +62,9 @@
         key: btn.key
       }"
     ></app-buttons>
-    }}
+    }
   </div>
+  }
 </div>
 
 <!-- ------------------ -->
@@ -73,7 +75,7 @@
  с рейтингом. Но если надо чтобы отображалась еще "нужная" звездочка, надо поменять json, сделать, типа, "rating":{visible:true, "star":4   -->
 <div
   class="userPreview__rate"
-  [class.userPreview__rate--open]="data?.activeCard?.rating"
+  [class.userPreview__rate--open]="userCard?.activeCard?.rating"
 >
   <span class="spanBold">Ваш рейтинг</span>
   <stars-rate
@@ -91,7 +93,7 @@
 
 <div
   class="userPreview__feedbacks"
-  [class.userPreview__feedbacks--open]="data?.activeCard?.reviews"
+  [class.userPreview__feedbacks--open]="userCard?.activeCard?.reviews"
 >
   <span class="spanBold">Ваш отзыв</span>
 
@@ -110,7 +112,7 @@
 
 <div
   class="userPreview__feeling"
-  [class.userPreview__feeling--open]="data?.activeCard?.smiles"
+  [class.userPreview__feeling--open]="userCard?.activeCard?.smiles"
 >
   <span class="spanBold">Ваши впечатления</span>
 

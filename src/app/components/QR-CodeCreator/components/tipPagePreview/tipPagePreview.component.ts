@@ -157,10 +157,6 @@ export class UserPreviewComponent implements OnInit {
   userCard$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
 
   ngOnInit(): void {
-    this.userCard$.subscribe((data) => {
-      console.log(9999999999, data);
-    });
-
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {

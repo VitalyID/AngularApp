@@ -3,17 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
-  inject,
   Input,
-  OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Store } from '@ngxs/store';
-import { GetDataQrService } from '../../../services/get-data-qr.service';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
-import { UpdateCards } from '../../../state/cards.action';
-import { UserCard } from '../../../state/cards.state';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
@@ -25,14 +17,10 @@ import { ButtonsComponent } from '../buttons/buttons.component';
   styleUrl: './qr-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QrCardComponent implements OnInit {
+export class QrCardComponent {
   @Input({ required: true }) src: string = '';
   @Input({ required: true }) backgroundCard: string = '';
   @Input({ required: true }) btnColor: string = '#ffffff';
-
-  readonly #store = inject(Store);
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #http = inject(GetDataQrService);
 
   svgSetting: SvgSpriteSetting = {
     iconID: 'Path',
@@ -80,22 +68,4 @@ export class QrCardComponent implements OnInit {
     borderStyle: 'none',
     id: 28,
   };
-
-  // cardCount: number = 0;
-  getCards: UserCard[] = [];
-
-  ngOnInit(): void {
-    // console.log(this.#store.snapshot());
-    this.#http
-      .getQR()
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        const keys = Object.keys(data);
-        keys.forEach((key) => {
-          this.getCards = [...this.getCards, (data as any)[key]];
-          // this.getCards.push((data as any)[key]);
-        });
-        this.#store.dispatch(new UpdateCards(this.getCards, this.getCards[0]));
-      });
-  }
 }
