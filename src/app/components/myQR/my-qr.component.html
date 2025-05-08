@@ -1,5 +1,10 @@
-@let cards = (cards$ | async); @if ( cards && cards.cards && cards.cards.length
-> 0){
+@let cards = (cards$ | async); @if(cards?.error) {
+
+<ng-container>
+  <p>Ошибка загрузки данных с сервера, {{ cards?.error }}</p>
+</ng-container>
+
+}@else { @if ( cards && cards.cards && cards.cards.length > 0){
 
 <div class="myQR__wrapTop">
   <h2>Мои QR</h2>
@@ -18,9 +23,9 @@
   </div>
 </div>
 } @else {
-<ng-container>
+<ng-container class="myQR__error">
   <p>
     Карточек нет, можете их добавить вот <a routerLink="/create-qrcode">тут</a>
   </p>
 </ng-container>
-}
+} }

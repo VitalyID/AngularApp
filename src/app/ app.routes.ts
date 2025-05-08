@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
 import { MainComponent } from './components/main/main.component';
-import { MyQRComponent } from './components/myQR/my-qr.component';
 
 export const routes: Routes = [
   {
@@ -15,7 +14,14 @@ export const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full',
   },
-  { path: 'my-qr', component: MyQRComponent },
+  // { path: 'my-qr', component: MyQRComponent },
+  {
+    path: 'my-qr',
+    loadChildren: () =>
+      import('./components/myQR/my-qr.module').then(
+        (m) => m.MyQRComponentModule
+      ),
+  },
   {
     path: 'create-qrcode',
     loadChildren: () =>

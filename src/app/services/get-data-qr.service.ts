@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of, retry, throwError } from 'rxjs';
 import { UserCard } from '../state/cards.state';
 
 @Injectable({
@@ -14,7 +14,44 @@ export class GetDataQrService {
     'https://gist.githubusercontent.com/VitalyID/dc4db55479320e040e9c4e3f123bcad1/raw/1781af7af2c4fba48abb96fce6fbd4043750af2a/gistfile1.txt';
 
   getQR(): Observable<UserCard[]> {
-    return this.#http.get<UserCard[]>(this.link);
+    return this.#http.get<UserCard[]>(this.link, { observe: 'response' }).pipe(
+      map((response) => {
+        return response.body || [];
+      }),
+
+      retry({
+        count: 3,
+        // delay: (error: HttpErrorResponse) => {
+        //   if (
+        //     error instanceof HttpErrorResponse &&
+        //     error.status >= 500 &&
+        //     error.status < 600
+        //   ) {
+        //     return timer(1000);
+        //   } else {
+        //     return throwError(() => error);
+        //   }
+        // },
+      }),
+
+      // catchError((err) => {
+      //   console.error('Error in getQR stream:', err);
+      //   return throwError(() => err);
+      // })
+
+      catchError((err: HttpErrorResponse) => {
+        if (
+          err instanceof HttpErrorResponse &&
+          err.status >= 500 &&
+          err.status < 600
+        ) {
+          // return timer (1000)
+          return of([]);
+        } else {
+          return throwError(() => err);
+        }
+      })
+    );
   }
 
   constructor() {}

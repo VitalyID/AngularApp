@@ -17,4 +17,10 @@
     grid-template-columns: repeat(3, 350px);
     grid-auto-rows: 350px;
   }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
