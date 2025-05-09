@@ -14,15 +14,15 @@
       <div class="createQRcode__body-wrapForm-tips">
         <input-text
           [actualData]="inputSmallTip"
-          (updateValue)="SendDataStore('inputID-1', $event)"
+          (updateValue)="SendDataStore(0, $event)"
         ></input-text>
         <input-text
           [actualData]="inputMiddleTip"
-          (updateValue)="SendDataStore('inputID-2', $event)"
+          (updateValue)="SendDataStore(1, $event)"
         ></input-text>
         <input-text
           [actualData]="inputBigTip"
-          (updateValue)="SendDataStore('inputID-3', $event)"
+          (updateValue)="SendDataStore(2, $event)"
         ></input-text>
       </div>
     </div>
@@ -33,11 +33,20 @@
 
     <div class="createQRcode__body-about">
       <span>{{ enumSwitcher.rate }}</span>
-      <switcher [title]="enumSwitcher.rate"></switcher>
+      <switcher
+        [title]="enumSwitcher.rate"
+        (updateSwitcher)="isSwitcher(1, $event)"
+      ></switcher>
       <span>{{ enumSwitcher.feedback }}</span>
-      <switcher [title]="enumSwitcher.feedback"></switcher>
+      <switcher
+        [title]="enumSwitcher.feedback"
+        (updateSwitcher)="isSwitcher(2, $event)"
+      ></switcher>
       <span>{{ enumSwitcher.impressions }}</span>
-      <switcher [title]="enumSwitcher.impressions"></switcher>
+      <switcher
+        [title]="enumSwitcher.impressions"
+        (updateSwitcher)="isSwitcher(3, $event)"
+      ></switcher>
     </div>
 
     <!-- ------------------- -->

@@ -11,7 +11,6 @@ import {
   Renderer2,
 } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { SwitcherStateService } from './service/switch.service';
 import { SwitcherStyles } from './types/interface/SwitcherStyles';
 import { SwitcherData } from './types/interface/switcherDataTransmit';
 
@@ -25,7 +24,7 @@ import { SwitcherData } from './types/interface/switcherDataTransmit';
 export class SwitcherComponent implements OnInit {
   @Input() styles: SwitcherStyles = {};
   @Input() title: string = '';
-  @Output() statusSwitcher = new EventEmitter();
+  @Output() updateSwitcher = new EventEmitter(false);
 
   switcherForParent: SwitcherData = {
     title: '',
@@ -47,7 +46,7 @@ export class SwitcherComponent implements OnInit {
   readonly #elRef = inject(ElementRef);
   readonly #render = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
-  readonly #switcherService = inject(SwitcherStateService);
+  // readonly #switcherService = inject(SwitcherStateService);
 
   id: string = '';
   value: boolean = false;
@@ -70,10 +69,11 @@ export class SwitcherComponent implements OnInit {
   // in this realization we get status checkbox only after changed them.
   sendValue(data: Event) {
     this.value = (data.target as HTMLInputElement).checked;
-    this.switcherForParent = { title: this.title, value: this.value };
+    this.updateSwitcher.emit(this.value);
+    // this.switcherForParent = { title: this.title, value: this.value };
     // this.switcherForParent = { title: EnumSwitcher.rate, value: this.value };
 
-    this.#switcherService.getStatusSwitcher(this.switcherForParent);
+    // this.#switcherService.getStatusSwitcher(this.switcherForParent);
   }
 
   ngOnInit(): void {

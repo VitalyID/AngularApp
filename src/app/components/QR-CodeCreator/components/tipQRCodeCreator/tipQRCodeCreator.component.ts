@@ -12,8 +12,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
-import { Observable } from 'rxjs';
-import { GetDataQrService } from '../../../../services/get-data-qr.service';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
@@ -23,12 +21,8 @@ import { DataInput } from '../../../../shared/components/input-text/types/interf
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
 import { ButtonData } from '../../../../types/sectionItem';
-import {
-  AddUploadLogo,
-  AddUserColor,
-  AddUserTips,
-} from '../../state/qr-code-creator.action';
-import { InputUsers } from '../../types/interface/inputUsers';
+import { AddUploadLogo } from '../../state/qr-code-creator.action';
+// import { InputUsers } from '../../types/interface/inputUsers';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 @Component({
@@ -66,9 +60,9 @@ export class CreateQRcodeComponent implements OnInit {
 
   userSettingData: any = {};
   myForm!: FormGroup;
-  inputFromStore$?: Observable<InputUsers>;
-  colorSubstrate: string = '';
-  colorBtn: string = '';
+  // inputFromStore$?: Observable<InputUsers>;
+  // colorSubstrate: string = '';
+  // colorBtn: string = '';
 
   // menuState: boolean = false;
   // isShadow: boolean = false;
@@ -77,11 +71,8 @@ export class CreateQRcodeComponent implements OnInit {
   // Component Aside is open after 1s, because its time need for animations
   isOpen: boolean = false;
 
-  defaultDataInput: InputUsers = {
-    'inputID-1': 100,
-    'inputID-2': 150,
-    'inputID-3': 200,
-  };
+  defaultDataInput: number[] = [100, 150, 200];
+  defaultSwitcher: boolean = false;
 
   inputSmallTip: DataInput = {
     // inputID: 'inputID-1',
@@ -160,7 +151,7 @@ export class CreateQRcodeComponent implements OnInit {
   // readonly #cdr = inject(ChangeDetectorRef);
   readonly #btnService = inject(ButtonService);
   // =====================================
-  readonly #http = inject(GetDataQrService);
+  // readonly #http = inject(GetDataQrService);
 
   // =====================================
 
@@ -190,28 +181,46 @@ export class CreateQRcodeComponent implements OnInit {
   }
 
   onClickSubstrate(data: string) {
-    this.colorSubstrate = data;
-    console.log(1, '-', this.colorSubstrate, 2, '-', this.colorBtn);
-    this.userSetColor(this.colorSubstrate, this.colorBtn);
+    // Цвет подложки готов. Можем диспатчить сразу дату
   }
 
   onClickColorBTN(data: string) {
-    this.colorBtn = data;
-    console.log(1, '-', this.colorSubstrate, 2, '-', this.colorBtn);
-    this.userSetColor(this.colorBtn, this.colorSubstrate);
+    // Цвет подложки готов. Можем диспатчить сразу дату
   }
 
-  userSetColor(btn: string, substrate: string) {
-    this.#store.dispatch(new AddUserColor(substrate, btn));
-  }
+  // userSetColor(btn: string, substrate: string) {
+  //   this.#store.dispatch(new AddUserColor(substrate, btn));
+  // }
 
   uploadLogo(data: string) {
     this.#store.dispatch(new AddUploadLogo(data));
+    //  Загрузка фото готова к диспатчу
   }
 
-  SendDataStore(handleTip: keyof InputUsers, data: number) {
-    this.defaultDataInput = { ...this.defaultDataInput, [handleTip]: data };
-    this.#store.dispatch(new AddUserTips(this.defaultDataInput));
+  SendDataStore(index: number, tip: number) {
+    this.defaultDataInput = [
+      ...this.defaultDataInput.slice(0, index),
+      Number(tip),
+      ...this.defaultDataInput.slice(index + 1),
+    ];
+    console.log(this.defaultDataInput);
+    // готовый массив данных с инпута
+    // this.#store.dispatch(new UpdateCards())
+  }
+
+  isSwitcher(key: number, state: boolean) {
+    switch (key) {
+      case 1:
+        console.log(this.enumSwitcher.rate, state);
+        break;
+      case 2:
+        console.log(this.enumSwitcher.feedback, state);
+        break;
+      case 3:
+        console.log(this.enumSwitcher.impressions, state);
+        break;
+    }
+    // готовые данные со свитчеров
   }
 
   clickOn() {

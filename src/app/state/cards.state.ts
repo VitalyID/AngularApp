@@ -71,7 +71,7 @@ export class ListOfCards {
     return this.#http.getQR().pipe(
       tap((data) => {
         console.log('Запрос выполнен: ', data);
-        const state = ctx.getState();
+        // const state = ctx.getState();
         // console.log('state', state);
         ctx.patchState({
           cards: data,
