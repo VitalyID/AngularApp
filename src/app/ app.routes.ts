@@ -1,4 +1,5 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
 import { MainComponent } from './components/main/main.component';
 
@@ -6,7 +7,11 @@ export const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    // data: { asideID: 1 },
+    // component: MainModule,
+    // component: MainRoutingModule,
+
+    // loadChildren: () =>
+    //   import('./components/main/main.module').then((m) => m.MainModule),
   },
 
   {
@@ -42,4 +47,8 @@ export const routes: Routes = [
   },
 ];
 
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
 export class AppRoutingModule {}

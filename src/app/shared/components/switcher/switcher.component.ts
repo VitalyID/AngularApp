@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   EventEmitter,
   inject,
@@ -9,6 +10,7 @@ import {
   OnInit,
   Output,
   Renderer2,
+  Signal,
 } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import { SwitcherStyles } from './types/interface/SwitcherStyles';
@@ -24,6 +26,8 @@ import { SwitcherData } from './types/interface/switcherDataTransmit';
 export class SwitcherComponent implements OnInit {
   @Input() styles: SwitcherStyles = {};
   @Input() title: string = '';
+  @Input({ required: true }) isOn!: Signal<boolean>;
+  // @Output() updateIsOn = new EventEmitter();
   @Output() updateSwitcher = new EventEmitter(false);
 
   switcherForParent: SwitcherData = {
@@ -43,13 +47,14 @@ export class SwitcherComponent implements OnInit {
     innerBackground: '#ffffff;',
   };
 
+  id: string = '';
+  value: boolean = false;
+  checked = computed(() => this.isOn);
+
   readonly #elRef = inject(ElementRef);
   readonly #render = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
   // readonly #switcherService = inject(SwitcherStateService);
-
-  id: string = '';
-  value: boolean = false;
 
   // this method setup some new styles for custom checkbox from parent
   #setCssVariable() {
@@ -70,10 +75,6 @@ export class SwitcherComponent implements OnInit {
   sendValue(data: Event) {
     this.value = (data.target as HTMLInputElement).checked;
     this.updateSwitcher.emit(this.value);
-    // this.switcherForParent = { title: this.title, value: this.value };
-    // this.switcherForParent = { title: EnumSwitcher.rate, value: this.value };
-
-    // this.#switcherService.getStatusSwitcher(this.switcherForParent);
   }
 
   ngOnInit(): void {

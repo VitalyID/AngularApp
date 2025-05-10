@@ -13,15 +13,15 @@
 
       <div class="createQRcode__body-wrapForm-tips">
         <input-text
-          [actualData]="inputSmallTip"
+          [actualData]="inputSmallTip()"
           (updateValue)="SendDataStore(0, $event)"
         ></input-text>
         <input-text
-          [actualData]="inputMiddleTip"
+          [actualData]="inputMiddleTip()"
           (updateValue)="SendDataStore(1, $event)"
         ></input-text>
         <input-text
-          [actualData]="inputBigTip"
+          [actualData]="inputBigTip()"
           (updateValue)="SendDataStore(2, $event)"
         ></input-text>
       </div>
@@ -35,16 +35,19 @@
       <span>{{ enumSwitcher.rate }}</span>
       <switcher
         [title]="enumSwitcher.rate"
+        [isOn]="isOnRate"
         (updateSwitcher)="isSwitcher(1, $event)"
       ></switcher>
       <span>{{ enumSwitcher.feedback }}</span>
       <switcher
         [title]="enumSwitcher.feedback"
+        [isOn]="isOnFeedback"
         (updateSwitcher)="isSwitcher(2, $event)"
       ></switcher>
       <span>{{ enumSwitcher.impressions }}</span>
       <switcher
         [title]="enumSwitcher.impressions"
+        [isOn]="isOnImpressions"
         (updateSwitcher)="isSwitcher(3, $event)"
       ></switcher>
     </div>
@@ -56,8 +59,8 @@
     <div class="createQRcode__body-background">
       <span>Код цвета для подложки</span>
       <color-picker
-        (userSetColor)="onClickSubstrate($event)"
-        [color]="defaultColorSubstrate"
+        (userSetColor)="onClickColor('background', $event)"
+        [color]="card$().cards[0].background_hex_color"
       ></color-picker>
     </div>
 
@@ -76,8 +79,8 @@
     <div class="createQRcode__body-setupColorBTN">
       <span>Код цвета для кнопки</span>
       <color-picker
-        (userSetColor)="onClickColorBTN($event)"
-        [color]="defaultColorBTN"
+        (userSetColor)="onClickColor('btnColor', $event)"
+        [color]="card$().cards[0].button_hex_color"
       ></color-picker>
     </div>
 

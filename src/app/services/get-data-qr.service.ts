@@ -14,6 +14,8 @@ export class GetDataQrService {
     'https://gist.githubusercontent.com/VitalyID/dc4db55479320e040e9c4e3f123bcad1/raw/1781af7af2c4fba48abb96fce6fbd4043750af2a/gistfile1.txt';
 
   getQR(): Observable<UserCard[]> {
+    console.log('service');
+
     return this.#http.get<UserCard[]>(this.link, { observe: 'response' }).pipe(
       map((response) => {
         return response.body || [];

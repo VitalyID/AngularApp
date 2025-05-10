@@ -45,6 +45,8 @@ export class AgentsComponent implements OnInit {
     //   .subscribe((data) => {
     //     console.log('Со стора пришли данные: ', data);
     //   });
+
+    // this.#store.dispatch(new UpdateCards());
   }
 
   userSetColor(data: string) {

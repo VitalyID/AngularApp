@@ -1,14 +1,14 @@
 // import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { catchError, Observable, of, take, tap } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { GetDataQrService } from '../services/get-data-qr.service';
 import UpdateCards from './cards.action';
 
 export interface Cards {
   cards: UserCard[];
-  activeCard: UserCard;
-  error: {} | null;
+  // activeCard: UserCard;
+  error: string | null;
 }
 
 export interface UserCard {
@@ -20,7 +20,7 @@ export interface UserCard {
   id: number;
   logo_file_id: string | null;
   platform_id: string;
-  preset_payment_sizes: [];
+  preset_payment_sizes: number[];
   qr_image: string;
   rating: boolean;
   reviews: boolean;
@@ -28,22 +28,23 @@ export interface UserCard {
 }
 
 const defaultValue: Cards = {
-  cards: [],
-  activeCard: {
-    background_hex_color: '#eeeff2',
-    business_payment_type: '',
-    button_hex_color: '#eeeff2',
-    commission_coverage: false,
-    employee_display: false,
-    id: 1,
-    logo_file_id: null,
-    platform_id: '',
-    preset_payment_sizes: [],
-    qr_image: '',
-    rating: false,
-    reviews: false,
-    smiles: false,
-  },
+  cards: [
+    {
+      background_hex_color: '#e71717',
+      business_payment_type: 'TIPS',
+      button_hex_color: '#ff0307',
+      commission_coverage: false,
+      employee_display: true,
+      id: 0,
+      logo_file_id: null,
+      platform_id: '514159',
+      preset_payment_sizes: [100, 250, 500],
+      qr_image: '',
+      rating: true,
+      reviews: true,
+      smiles: true,
+    },
+  ],
   error: null,
 };
 
@@ -60,32 +61,37 @@ export class ListOfCards {
   cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
   @Selector()
   static getCards(state: Cards) {
+    // console.log('Данные в стейте: ', state);
     return state;
   }
 
   @Action(UpdateCards)
   updateCards(ctx: StateContext<Cards>) {
+    // console.trace('UpdateCards вызван из:');
+    // console.log(3333);
+
     const state = ctx.getState();
-    if (state.cards.length > 0) return;
+    console.log(1111, state);
+
+    if (state.cards.length > 0 || state.error) return;
 
     return this.#http.getQR().pipe(
       tap((data) => {
-        console.log('Запрос выполнен: ', data);
+        console.log('данные из http: ', data);
         // const state = ctx.getState();
-        // console.log('state', state);
+        // console.log('текущий стейт', state);
         ctx.patchState({
           cards: data,
-          activeCard: data[0] ?? null,
         });
       }),
       catchError((error) => {
-        // console.error(typeof error, error.status);
+        console.error('Ошибка: ', error);
         ctx.patchState({
           error: error.message,
         });
         return of(null);
-      }),
-      take(1)
+      })
+      // take(1)
     );
   }
 }

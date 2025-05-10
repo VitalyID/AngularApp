@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,18 +7,21 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 import { v4 as uuidv4 } from 'uuid';
-import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
-import { ChartComponent } from '../../shared/components/chart/chart.component';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
-import { TableComponent } from '../../shared/components/table/table.component';
+
+// import { CommonModule } from '@angular/common';
+// import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
+// import { ChartComponent } from '../../shared/components/chart/chart.component';
+// import { TableComponent } from '../../shared/components/table/table.component';
 import { ButtonData } from './../../types/sectionItem';
 
 @Component({
   selector: 'main',
-  standalone: true,
-  imports: [TableComponent, ChartComponent, ButtonsComponent, CommonModule],
+  standalone: false,
+  // imports: [TableComponent, ChartComponent, ButtonsComponent, CommonModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +30,7 @@ export class MainComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #router = inject(Router);
+  readonly #store = inject(Store);
 
   // asideID: number = 0;
   parent: string = 'main';
@@ -57,11 +60,15 @@ export class MainComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    // console.log('Запрашиваем сервер');
+    // this.#store.dispatch(new UpdateCards());
+    // console.log('сервер запрошен');
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id == 3) {
-          console.log('Кнопка нажата с ID:', data.id);
+          // console.log('Кнопка нажата с ID:', data.id);
+          // this.#store.dispatch(new UpdateCards());
           this.#router.navigate(['/create-qrcode']);
         }
       });
