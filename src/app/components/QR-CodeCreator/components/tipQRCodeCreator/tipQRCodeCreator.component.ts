@@ -170,9 +170,9 @@ export class CreateQRcodeComponent implements OnInit {
           platform_id: '',
           preset_payment_sizes: [0, 0, 0],
           qr_image: '',
-          rating: true,
-          reviews: true,
-          smiles: true,
+          rating: false,
+          reviews: false,
+          smiles: false,
         },
       ],
       error: null,
@@ -186,12 +186,16 @@ export class CreateQRcodeComponent implements OnInit {
   ];
 
   ngOnInit() {
+    // console.log('рейцтинг', this.isOnRate());
+    // console.log('отзыв', this.isOnFeedback());
+    // console.log('смайлик', this.isOnImpressions());
+
     // Create new card by user settings
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 7) {
-          console.log('Coplftv ffvfdvdfvfd');
+          // console.log('Coplftv ffvfdvdfvfd');
 
           this.card = [
             {
@@ -200,6 +204,7 @@ export class CreateQRcodeComponent implements OnInit {
               button_hex_color: this.btnColor,
               commission_coverage: false,
               employee_display: false,
+              // id надо переделать - заполнять актуальным числом карт
               id: 0,
               logo_file_id: this.logo,
               platform_id: 'string',

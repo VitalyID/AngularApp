@@ -30,19 +30,19 @@ export interface UserCard {
 const defaultValue: Cards = {
   cards: [
     {
-      background_hex_color: '#e71717',
+      background_hex_color: '#e7e9fo',
       business_payment_type: 'TIPS',
-      button_hex_color: '#ff0307',
+      button_hex_color: '#3FA949',
       commission_coverage: false,
       employee_display: true,
       id: 0,
-      logo_file_id: null,
+      logo_file_id: '../../assets/images/logoDefault.png',
       platform_id: '514159',
       preset_payment_sizes: [100, 250, 500],
       qr_image: '',
-      rating: true,
-      reviews: true,
-      smiles: true,
+      rating: false,
+      reviews: false,
+      smiles: false,
     },
   ],
   error: null,
@@ -71,9 +71,9 @@ export class ListOfCards {
     // console.log(3333);
 
     const state = ctx.getState();
-    console.log(1111, state);
+    // console.log(1111, state);
 
-    if (state.cards.length > 0 || state.error) return;
+    if (state.cards.length > 1 || state.error) return;
 
     return this.#http.getQR().pipe(
       tap((data) => {

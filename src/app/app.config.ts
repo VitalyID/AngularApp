@@ -11,6 +11,7 @@ import { NgxsExecutionStrategy, NgxsModule, provideStore } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './ app.routes';
 import { MainModule } from './components/main/main.module';
+import { MyQRComponentModule } from './components/myQR/my-qr.module';
 import { ListOfCards } from './state/cards.state';
 // import { provideNgxs } from '@ngxs/store'
 // import { UploadLogoState } from './components/QR-CodeCreator/state/qr-code-creator.state';
@@ -29,7 +30,11 @@ export const appConfig: ApplicationConfig = {
     provideCharts(withDefaultRegisterables()),
     DatePipe,
     provideStore([]),
-    importProvidersFrom(MainModule, NgxsModule.forRoot([ListOfCards])),
+    importProvidersFrom(
+      MainModule,
+      MyQRComponentModule,
+      NgxsModule.forRoot([ListOfCards])
+    ),
 
     // provideNgxs({ states: [ListOfCards] }),
     // NgxsStoragePluginModule.forRoot(storagePluginOptions).providers!,

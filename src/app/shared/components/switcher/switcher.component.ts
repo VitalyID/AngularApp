@@ -49,7 +49,7 @@ export class SwitcherComponent implements OnInit {
 
   id: string = '';
   value: boolean = false;
-  checked = computed(() => this.isOn);
+  checked = computed(() => this.isOn());
 
   readonly #elRef = inject(ElementRef);
   readonly #render = inject(Renderer2);

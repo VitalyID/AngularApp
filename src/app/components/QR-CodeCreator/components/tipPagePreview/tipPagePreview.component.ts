@@ -39,7 +39,6 @@ import {
   UserFeedback,
 } from '../../state/qr-code-creator.state';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
-import { Cards } from './../../../../state/cards.state';
 // import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
 @Component({
@@ -154,7 +153,7 @@ export class UserPreviewComponent implements OnInit {
     CreateQRcodeState.getUserTips
   );
 
-  userCard$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
+  userCard$ = this.#store.select(ListOfCards.getCards);
 
   ngOnInit(): void {
     this.#btnService.eventClick$
