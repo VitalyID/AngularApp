@@ -21,6 +21,7 @@ export class myValidatorDirective {
   @HostListener('input', ['$event'])
   onInput(event: any) {
     const inputValue = event.target.value;
+    // console.log('validator', inputValue);
 
     if (!this.actualData?.validationFrom) return;
     if (!this.actualData?.validationTo) return;

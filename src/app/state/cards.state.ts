@@ -1,13 +1,14 @@
 // import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { GetDataQrService } from '../services/get-data-qr.service';
-import UpdateCards from './cards.action';
+import UpdateCards, { UpdateEditCard } from './cards.action';
 
 export interface Cards {
   cards: UserCard[];
-  // activeCard: UserCard;
+  // editCard need for changing property and reactive displaying in preview component
+  editCard: UserCard;
   error: string | null;
 }
 
@@ -45,6 +46,21 @@ const defaultValue: Cards = {
       smiles: false,
     },
   ],
+  editCard: {
+    background_hex_color: '#e7e9fo',
+    business_payment_type: 'TIPS',
+    button_hex_color: '#3FA949',
+    commission_coverage: false,
+    employee_display: true,
+    id: 0,
+    logo_file_id: '../../assets/images/logoDefault.png',
+    platform_id: '514159',
+    preset_payment_sizes: [100, 250, 500],
+    qr_image: '',
+    rating: false,
+    reviews: false,
+    smiles: false,
+  },
   error: null,
 };
 
@@ -56,13 +72,22 @@ const defaultValue: Cards = {
 export class ListOfCards {
   readonly #http = inject(GetDataQrService);
   readonly #store = inject(Store);
-  // readonly #destroyRef = inject(DestroyRef);
 
-  cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
+  // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
+
   @Selector()
   static getCards(state: Cards) {
-    // console.log('Данные в стейте: ', state);
     return state;
+  }
+
+  @Selector()
+  static getEditCard(state: Cards) {
+    return state.editCard;
+  }
+
+  @Action(UpdateEditCard)
+  updateEditCard(ctx: StateContext<Cards>, { newCard }: UpdateEditCard) {
+    ctx.patchState({ editCard: newCard });
   }
 
   @Action(UpdateCards)

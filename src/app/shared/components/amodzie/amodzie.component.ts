@@ -3,10 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { AmodzieSettings } from './types/interfaces/amodzieSettings';
 import { AmodzieData } from './types/interfaces/amodzieStateData';
@@ -18,7 +16,7 @@ import { AmodzieData } from './types/interfaces/amodzieStateData';
   styleUrl: './amodzie.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AmodzieComponent implements OnInit, OnChanges {
+export class AmodzieComponent implements OnInit {
   @Input() amodzieSetting: AmodzieData = {
     rate: 0,
     readonly: false,
@@ -52,11 +50,6 @@ export class AmodzieComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.gradeActive = this.amodzieSetting.rate;
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (changes['amodzieSetting']) {
-    //   this.gradeActive = this.amodzieSetting.rate;
-    // }
   }
 
   onClick(data: number): void {

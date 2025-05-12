@@ -16,6 +16,7 @@ import { ListDropdown } from '../../shared/components/dropdown/types/interface/l
 // import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 // import { ChartComponent } from '../../shared/components/chart/chart.component';
 // import { TableComponent } from '../../shared/components/table/table.component';
+import UpdateCards from '../../state/cards.action';
 import { ButtonData } from './../../types/sectionItem';
 
 @Component({
@@ -60,15 +61,11 @@ export class MainComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // console.log('Запрашиваем сервер');
-    // this.#store.dispatch(new UpdateCards());
-    // console.log('сервер запрошен');
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id == 3) {
-          // console.log('Кнопка нажата с ID:', data.id);
-          // this.#store.dispatch(new UpdateCards());
+          this.#store.dispatch(new UpdateCards());
           this.#router.navigate(['/create-qrcode']);
         }
       });

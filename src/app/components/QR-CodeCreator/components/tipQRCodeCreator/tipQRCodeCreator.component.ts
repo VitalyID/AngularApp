@@ -24,6 +24,7 @@ import { DataInput } from './../../../../shared/components/input-text/types/inte
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { UpdateEditCard } from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 @Component({
@@ -63,23 +64,21 @@ export class CreateQRcodeComponent implements OnInit {
   // Component Aside is open after 1s, because its time need for animations
   isOpen: boolean = false;
 
-  card: UserCard[] = [
-    {
-      background_hex_color: '',
-      business_payment_type: '',
-      button_hex_color: '',
-      commission_coverage: false,
-      employee_display: false,
-      id: 0,
-      logo_file_id: null,
-      platform_id: 'string',
-      preset_payment_sizes: [0, 0, 0],
-      qr_image: '',
-      rating: false,
-      reviews: false,
-      smiles: false,
-    },
-  ];
+  card: UserCard = {
+    background_hex_color: '',
+    business_payment_type: '',
+    button_hex_color: '',
+    commission_coverage: false,
+    employee_display: false,
+    id: 0,
+    logo_file_id: null,
+    platform_id: 'string',
+    preset_payment_sizes: [0, 0, 0],
+    qr_image: '',
+    rating: false,
+    reviews: false,
+    smiles: false,
+  };
 
   inputSmallTip: Signal<DataInput> = computed(() => ({
     validation: true,
@@ -87,7 +86,7 @@ export class CreateQRcodeComponent implements OnInit {
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card$()?.cards[0].preset_payment_sizes[0].toString(),
+    placeholder: this.card$()?.preset_payment_sizes[0].toString(),
     type: 'number',
     disabled: false,
   }));
@@ -98,7 +97,7 @@ export class CreateQRcodeComponent implements OnInit {
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card$()?.cards[0].preset_payment_sizes[1].toString(),
+    placeholder: this.card$()?.preset_payment_sizes[1].toString(),
     type: 'number',
     disabled: false,
   }));
@@ -109,7 +108,7 @@ export class CreateQRcodeComponent implements OnInit {
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card$()?.cards[0].preset_payment_sizes[2].toString(),
+    placeholder: this.card$()?.preset_payment_sizes[2].toString(),
     type: 'number',
     disabled: false,
   }));
@@ -143,46 +142,56 @@ export class CreateQRcodeComponent implements OnInit {
     },
   ];
 
+  newCard: UserCard = {
+    background_hex_color: '',
+    business_payment_type: '',
+    button_hex_color: '',
+    commission_coverage: false,
+    employee_display: true,
+    id: 0,
+    logo_file_id: null,
+    platform_id: '',
+    preset_payment_sizes: [0, 0, 0],
+    qr_image: '',
+    rating: false,
+    reviews: false,
+    smiles: false,
+  };
+
   // transmit state switcher to component (true/false) by Signal
-  isOnRate: Signal<boolean> = computed(() => this.card$()?.cards[0].rating);
-  isOnFeedback: Signal<boolean> = computed(
-    () => this.card$()?.cards[0].reviews
-  );
-  isOnImpressions: Signal<boolean> = computed(
-    () => this.card$()?.cards[0].smiles
-  );
+  isOnRate: Signal<boolean> = computed(() => this.card$()?.rating);
+  isOnFeedback: Signal<boolean> = computed(() => this.card$()?.reviews);
+  isOnImpressions: Signal<boolean> = computed(() => this.card$()?.smiles);
 
   readonly #store = inject(Store);
   readonly #destroyRef = inject(DestroyRef);
   readonly #btnService = inject(ButtonService);
 
-  card$ = toSignal(this.#store.select(ListOfCards.getCards), {
+  card$ = toSignal(this.#store.select(ListOfCards.getEditCard), {
     initialValue: {
-      cards: [
-        {
-          background_hex_color: '',
-          business_payment_type: '',
-          button_hex_color: '',
-          commission_coverage: false,
-          employee_display: true,
-          id: 0,
-          logo_file_id: null,
-          platform_id: '',
-          preset_payment_sizes: [0, 0, 0],
-          qr_image: '',
-          rating: false,
-          reviews: false,
-          smiles: false,
-        },
-      ],
-      error: null,
+      background_hex_color: '',
+      business_payment_type: '',
+      button_hex_color: '',
+      commission_coverage: false,
+      employee_display: true,
+      id: 0,
+      logo_file_id: null,
+      platform_id: '',
+      preset_payment_sizes: [0, 0, 0],
+      qr_image: '',
+      rating: false,
+      reviews: false,
+      smiles: false,
     },
   });
 
+  // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
+  cards$ = toSignal(this.#store.select(ListOfCards.getCards));
+
   defaultDataInput: number[] = [
-    this.card$()?.cards[0].preset_payment_sizes[0],
-    this.card$()?.cards[0].preset_payment_sizes[1],
-    this.card$()?.cards[0].preset_payment_sizes[2],
+    this.card$()?.preset_payment_sizes[0],
+    this.card$()?.preset_payment_sizes[1],
+    this.card$()?.preset_payment_sizes[2],
   ];
 
   ngOnInit() {
@@ -195,26 +204,32 @@ export class CreateQRcodeComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 7) {
-          // console.log('Coplftv ffvfdvdfvfd');
+          console.log('начинаем');
+          // this.#store.dispatch(new UpdateCards());
+          const arr = this.#store.select(ListOfCards.getCards);
+          console.log(
+            'Загрузили в переменную',
+            arr.subscribe((data) => {
+              console.log('получили', data.cards);
+            })
+          );
 
-          this.card = [
-            {
-              background_hex_color: this.backgroundColor,
-              business_payment_type: '',
-              button_hex_color: this.btnColor,
-              commission_coverage: false,
-              employee_display: false,
-              // id надо переделать - заполнять актуальным числом карт
-              id: 0,
-              logo_file_id: this.logo,
-              platform_id: 'string',
-              preset_payment_sizes: this.defaultDataInput,
-              qr_image: '',
-              rating: this.rate,
-              reviews: this.feedback,
-              smiles: this.impression,
-            },
-          ];
+          this.card = {
+            background_hex_color: this.backgroundColor,
+            business_payment_type: '',
+            button_hex_color: this.btnColor,
+            commission_coverage: false,
+            employee_display: false,
+            // id is amount cards plus 1
+            id: (this.cards$()?.cards.length ?? -10) + 1,
+            logo_file_id: this.logo,
+            platform_id: 'string',
+            preset_payment_sizes: this.defaultDataInput,
+            qr_image: '',
+            rating: this.rate,
+            reviews: this.feedback,
+            smiles: this.impression,
+          };
 
           console.log(this.card);
         }
@@ -231,14 +246,24 @@ export class CreateQRcodeComponent implements OnInit {
     switch (target) {
       case 'background':
         this.backgroundColor = data;
+        this.#store.dispatch(
+          new UpdateEditCard(this.updateCard('background_hex_color', data))
+        );
         break;
       case 'btnColor':
         this.btnColor = data;
+        this.#store.dispatch(
+          new UpdateEditCard(this.updateCard('button_hex_color', data))
+        );
+        break;
     }
   }
 
   uploadLogo(data: string) {
     this.logo = data;
+    this.#store.dispatch(
+      new UpdateEditCard(this.updateCard('logo_file_id', data))
+    );
   }
 
   SendDataStore(index: number, tip: number) {
@@ -247,19 +272,35 @@ export class CreateQRcodeComponent implements OnInit {
       Number(tip),
       ...this.defaultDataInput.slice(index + 1),
     ];
-    console.log(this.defaultDataInput);
+
+    // Update inputs
+
+    this.#store.dispatch(
+      new UpdateEditCard(
+        this.updateCard('preset_payment_sizes', this.defaultDataInput)
+      )
+    );
   }
 
   isSwitcher(key: number, state: boolean) {
     switch (key) {
       case 1:
         this.rate = state;
+        this.#store.dispatch(
+          new UpdateEditCard(this.updateCard('rating', state))
+        );
         break;
       case 2:
         this.feedback = state;
+        this.#store.dispatch(
+          new UpdateEditCard(this.updateCard('reviews', state))
+        );
         break;
       case 3:
         this.impression = state;
+        this.#store.dispatch(
+          new UpdateEditCard(this.updateCard('smiles', state))
+        );
         break;
     }
   }
@@ -267,5 +308,9 @@ export class CreateQRcodeComponent implements OnInit {
   clickOn() {
     // отправляем в сервис клик по кнопке с ее идентификатором "3".
     this.#btnService.clickOnButton(this.btnText.id);
+  }
+
+  updateCard(key: string, value: any): UserCard {
+    return (this.newCard = { ...this.newCard, [key]: value });
   }
 }

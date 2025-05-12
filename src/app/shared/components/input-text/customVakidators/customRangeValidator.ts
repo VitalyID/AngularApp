@@ -18,7 +18,7 @@ export function CustomRangeValidator(
         rangeErr: { min: rangeFrom, max: rangeTo, actual: inputValue },
       };
 
-      console.log(errorObject);
+      // console.log(errorObject);
       return errorObject;
     }
   };

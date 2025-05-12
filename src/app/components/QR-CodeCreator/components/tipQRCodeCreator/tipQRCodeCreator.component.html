@@ -60,7 +60,7 @@
       <span>Код цвета для подложки</span>
       <color-picker
         (userSetColor)="onClickColor('background', $event)"
-        [color]="card$().cards[0].background_hex_color"
+        [color]="card$().background_hex_color"
       ></color-picker>
     </div>
 
@@ -80,7 +80,7 @@
       <span>Код цвета для кнопки</span>
       <color-picker
         (userSetColor)="onClickColor('btnColor', $event)"
-        [color]="card$().cards[0].button_hex_color"
+        [color]="card$().button_hex_color"
       ></color-picker>
     </div>
 
