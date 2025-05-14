@@ -24,7 +24,8 @@ import { DataInput } from './../../../../shared/components/input-text/types/inte
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { UpdateEditCard } from '../../../../state/cards.action';
+import { PostCardService } from '../../../../services/post-data-qr.service';
+import UpdateCards, { UpdateEditCard } from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 @Component({
@@ -55,7 +56,8 @@ export class CreateQRcodeComponent implements OnInit {
   myForm!: FormGroup;
   backgroundColor: string = '';
   btnColor: string = '';
-  logo: string = '';
+  // logo: string = '';
+  logo: number = 0;
   rate: boolean = false;
   feedback: boolean = false;
   impression: boolean = false;
@@ -63,6 +65,7 @@ export class CreateQRcodeComponent implements OnInit {
   // isOpen transmitted to Directives for checking state component aside.
   // Component Aside is open after 1s, because its time need for animations
   isOpen: boolean = false;
+  // card: UserCard = {};
 
   card: UserCard = {
     background_hex_color: '',
@@ -71,7 +74,7 @@ export class CreateQRcodeComponent implements OnInit {
     commission_coverage: false,
     employee_display: false,
     id: 0,
-    logo_file_id: null,
+    logo_file_id: 0,
     platform_id: 'string',
     preset_payment_sizes: [0, 0, 0],
     qr_image: '',
@@ -149,7 +152,7 @@ export class CreateQRcodeComponent implements OnInit {
     commission_coverage: false,
     employee_display: true,
     id: 0,
-    logo_file_id: null,
+    logo_file_id: 0,
     platform_id: '',
     preset_payment_sizes: [0, 0, 0],
     qr_image: '',
@@ -166,6 +169,7 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #destroyRef = inject(DestroyRef);
   readonly #btnService = inject(ButtonService);
+  readonly #postService = inject(PostCardService);
 
   card$ = toSignal(this.#store.select(ListOfCards.getEditCard), {
     initialValue: {
@@ -185,8 +189,27 @@ export class CreateQRcodeComponent implements OnInit {
     },
   });
 
-  // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
-  cards$ = toSignal(this.#store.select(ListOfCards.getCards));
+  cards$ = toSignal(this.#store.select(ListOfCards.getCards), {
+    initialValue: {
+      cards: [],
+      editCard: {
+        background_hex_color: '#e7e9fo',
+        business_payment_type: 'TIPS',
+        button_hex_color: '#3FA949',
+        commission_coverage: false,
+        employee_display: true,
+        id: 0,
+        logo_file_id: '../../assets/images/logoDefault.png',
+        platform_id: '514159',
+        preset_payment_sizes: [100, 250, 500],
+        qr_image: '',
+        rating: false,
+        reviews: false,
+        smiles: false,
+      },
+      error: null,
+    },
+  });
 
   defaultDataInput: number[] = [
     this.card$()?.preset_payment_sizes[0],
@@ -195,43 +218,41 @@ export class CreateQRcodeComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // console.log('рейцтинг', this.isOnRate());
-    // console.log('отзыв', this.isOnFeedback());
-    // console.log('смайлик', this.isOnImpressions());
-
     // Create new card by user settings
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 7) {
-          console.log('начинаем');
-          // this.#store.dispatch(new UpdateCards());
-          const arr = this.#store.select(ListOfCards.getCards);
-          console.log(
-            'Загрузили в переменную',
-            arr.subscribe((data) => {
-              console.log('получили', data.cards);
-            })
-          );
+          this.#store.dispatch(new UpdateCards()).subscribe((cards) => {
+            console.log('карточки обновились', this.cards$());
 
-          this.card = {
-            background_hex_color: this.backgroundColor,
-            business_payment_type: '',
-            button_hex_color: this.btnColor,
-            commission_coverage: false,
-            employee_display: false,
-            // id is amount cards plus 1
-            id: (this.cards$()?.cards.length ?? -10) + 1,
-            logo_file_id: this.logo,
-            platform_id: 'string',
-            preset_payment_sizes: this.defaultDataInput,
-            qr_image: '',
-            rating: this.rate,
-            reviews: this.feedback,
-            smiles: this.impression,
-          };
+            // updateCard('id', cards
 
-          console.log(this.card);
+            this.card = {
+              background_hex_color: this.backgroundColor,
+              business_payment_type: 'TIPS',
+              button_hex_color: this.btnColor,
+              commission_coverage: false,
+              employee_display: false,
+              // id is amount cards plus 1
+              // id: 0,
+              id: (this.cards$().cards.length ?? -10) + 1,
+              // logo_file_id: this.logo,
+              logo_file_id: 0,
+
+              platform_id: 'string',
+              preset_payment_sizes: this.defaultDataInput,
+              qr_image: '',
+              rating: this.rate,
+              reviews: this.feedback,
+              smiles: this.impression,
+            };
+
+            // this.#store.dispatch(new PastCard(this.card));
+            console.log('Карточка для бэка ', this.card);
+            // this.#postService.post(this.card);
+            // this.#postService.post(this.card).subscribe();
+          });
         }
       });
   }
@@ -260,10 +281,10 @@ export class CreateQRcodeComponent implements OnInit {
   }
 
   uploadLogo(data: string) {
-    this.logo = data;
-    this.#store.dispatch(
-      new UpdateEditCard(this.updateCard('logo_file_id', data))
-    );
+    // this.logo = data;
+    // this.#store.dispatch(
+    //   new UpdateEditCard(this.updateCard('logo_file_id', data))
+    // );
   }
 
   SendDataStore(index: number, tip: number) {

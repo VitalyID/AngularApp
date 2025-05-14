@@ -3,7 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { catchError, of, tap } from 'rxjs';
 import { GetDataQrService } from '../services/get-data-qr.service';
-import UpdateCards, { UpdateEditCard } from './cards.action';
+import { PostCardService } from '../services/post-data-qr.service';
+import UpdateCards, { PostCard, UpdateEditCard } from './cards.action';
 
 export interface Cards {
   cards: UserCard[];
@@ -19,7 +20,7 @@ export interface UserCard {
   commission_coverage: boolean;
   employee_display: boolean;
   id: number;
-  logo_file_id: string | null;
+  logo_file_id: number | null | string;
   platform_id: string;
   preset_payment_sizes: number[];
   qr_image: string;
@@ -29,23 +30,7 @@ export interface UserCard {
 }
 
 const defaultValue: Cards = {
-  cards: [
-    {
-      background_hex_color: '#e7e9fo',
-      business_payment_type: 'TIPS',
-      button_hex_color: '#3FA949',
-      commission_coverage: false,
-      employee_display: true,
-      id: 0,
-      logo_file_id: '../../assets/images/logoDefault.png',
-      platform_id: '514159',
-      preset_payment_sizes: [100, 250, 500],
-      qr_image: '',
-      rating: false,
-      reviews: false,
-      smiles: false,
-    },
-  ],
+  cards: [],
   editCard: {
     background_hex_color: '#e7e9fo',
     business_payment_type: 'TIPS',
@@ -70,7 +55,8 @@ const defaultValue: Cards = {
 })
 @Injectable()
 export class ListOfCards {
-  readonly #http = inject(GetDataQrService);
+  readonly #httpGet = inject(GetDataQrService);
+  readonly #httpPost = inject(PostCardService);
   readonly #store = inject(Store);
 
   // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
@@ -92,19 +78,10 @@ export class ListOfCards {
 
   @Action(UpdateCards)
   updateCards(ctx: StateContext<Cards>) {
-    // console.trace('UpdateCards вызван из:');
-    // console.log(3333);
-
     const state = ctx.getState();
-    // console.log(1111, state);
 
-    if (state.cards.length > 1 || state.error) return;
-
-    return this.#http.getQR().pipe(
+    return this.#httpGet.getQR().pipe(
       tap((data) => {
-        console.log('данные из http: ', data);
-        // const state = ctx.getState();
-        // console.log('текущий стейт', state);
         ctx.patchState({
           cards: data,
         });
@@ -118,5 +95,12 @@ export class ListOfCards {
       })
       // take(1)
     );
+  }
+
+  @Action(PostCard)
+  postCard(ctx: StateContext<Cards>, { newCard }: PostCard) {
+    console.log('callback action');
+
+    return this.#httpPost.post(newCard);
   }
 }

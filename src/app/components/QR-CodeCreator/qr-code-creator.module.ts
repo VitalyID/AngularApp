@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { provideStates, provideStore } from '@ngxs/store';
 import { CreateQRcodeComponent } from './components/tipQRCodeCreator/tipQRCodeCreator.component';
 import { CreateQrcodeRoutingModule } from './qr-code-creator-routing.module';
-import { CreateQRcodeState } from './state/qr-code-creator.state';
+// import { CreateQRcodeState } from './state/qr-code-creator.state';
 
 @NgModule({
   declarations: [],
@@ -23,7 +23,7 @@ import { CreateQRcodeState } from './state/qr-code-creator.state';
       // AmodzieState,
       // SubstrateColor,
       // myValidatorDirective,
-      CreateQRcodeState,
+      // CreateQRcodeState,
       // ListOfCards,
     ]),
   ],
