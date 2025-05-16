@@ -320,12 +320,13 @@ export class CreateQRcodeComponent implements OnInit {
         smiles: this.impression,
       };
 
-      this.#store.dispatch(new PostCard(this.card)).subscribe({
-        error: (error) => {
-          console.log(error);
-          this.errorPostCard$.set(error);
-        },
-      });
+      this.#store.dispatch(new PostCard(this.card));
+      // .subscribe({
+      //   error: (error) => {
+      //     console.log(error);
+      //     this.errorPostCard$.set(error);
+      //   },
+      // });
     });
   }
 

@@ -13,8 +13,8 @@ import { Observable } from 'rxjs';
 // import { GetDataQrService } from '../../services/get-data-qr.service';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
-import UpdateCards from '../../state/cards.action';
 
+import UpdateCards from '../../state/cards.action';
 import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
 import { ButtonData } from '../../types/sectionItem';
 

@@ -7,12 +7,11 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
-import { NgxsExecutionStrategy, NgxsModule, provideStore } from '@ngxs/store';
+import { NgxsExecutionStrategy, provideStore } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './ app.routes';
 import { MainModule } from './components/main/main.module';
 import { MyQRComponentModule } from './components/myQR/my-qr.module';
-import { ListOfCards } from './state/cards.state';
 // import { provideNgxs } from '@ngxs/store'
 // import { UploadLogoState } from './components/QR-CodeCreator/state/qr-code-creator.state';
 
@@ -32,8 +31,8 @@ export const appConfig: ApplicationConfig = {
     provideStore([]),
     importProvidersFrom(
       MainModule,
-      MyQRComponentModule,
-      NgxsModule.forRoot([ListOfCards])
+      MyQRComponentModule
+      // NgxsModule.forRoot([ListOfCards])
     ),
 
     // provideNgxs({ states: [ListOfCards] }),

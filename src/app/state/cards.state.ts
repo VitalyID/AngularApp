@@ -98,7 +98,7 @@ export class ListOfCards {
 
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>) {
-    console.log('vnsdfjhvdndfjhn');
+    console.log('сработал action UpdateCards');
 
     // const state = ctx.getState();
 

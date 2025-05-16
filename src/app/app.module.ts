@@ -5,13 +5,11 @@ import { DatePipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
-import { NgxsModule } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AppRoutingModule } from './ app.routes';
 import { AgentsRoutingModule } from './components/agents/agents-routing.module';
 import { AgentsModule } from './components/agents/agents.module';
 import { MainModule } from './components/main/main.module';
-import { ListOfCards } from './state/cards.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],
@@ -25,7 +23,7 @@ const storagePluginOptions: NgxsStoragePluginOptions = {
     AppRoutingModule,
     AgentsModule,
     AgentsRoutingModule,
-    NgxsModule.forRoot([ListOfCards]),
+    // NgxsModule.forRoot([ListOfCards]),
     // MyQRComponentModule,
   ],
   providers: [
