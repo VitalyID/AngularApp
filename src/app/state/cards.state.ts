@@ -86,9 +86,14 @@ export class ListOfCards {
   @Action(UpdateEditCard)
   updateEditCard(
     ctx: StateContext<UserCardState>,
-    { newCard }: UpdateEditCard
+    { newValue }: UpdateEditCard
   ) {
-    ctx.patchState({ userCard: newCard });
+    const userSet = ctx.getState();
+    ctx.patchState({
+      userCard: { ...userSet.userCard, [newValue['key']]: newValue['value'] },
+    });
+
+    // ctx.patchState({ userCard: newCard });
   }
 
   @Action(UpdateCards)
