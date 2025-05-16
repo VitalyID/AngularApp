@@ -15,7 +15,7 @@ import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
 import UpdateCards from '../../state/cards.action';
 
-import { Cards, ListOfCards, UserCard } from '../../state/cards.state';
+import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
 import { ButtonData } from '../../types/sectionItem';
 
 @Component({
@@ -47,7 +47,7 @@ export class MyQRComponent implements OnInit {
   readonly #store = inject(Store);
   // readonly #http = inject(GetDataQrService);
 
-  cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
+  cards$: Observable<UserCardState> = this.#store.select(ListOfCards.getCards);
 
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];

@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   OnInit,
+  signal,
   Signal,
   ViewChild,
 } from '@angular/core';
@@ -24,8 +25,12 @@ import { DataInput } from './../../../../shared/components/input-text/types/inte
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { PostCardService } from '../../../../services/post-data-qr.service';
-import UpdateCards, { UpdateEditCard } from '../../../../state/cards.action';
+import UpdateCards, {
+  PostCard,
+  UpdateEditCard,
+} from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 @Component({
@@ -189,10 +194,20 @@ export class CreateQRcodeComponent implements OnInit {
     },
   });
 
+  error$ = signal(
+    this.#store.select(ListOfCards.getCards).pipe(
+      map((data) => {
+        return data.error;
+      })
+    )
+  );
+
+  errorPostCard$ = signal(null);
+
   cards$ = toSignal(this.#store.select(ListOfCards.getCards), {
     initialValue: {
       cards: [],
-      editCard: {
+      userCard: {
         background_hex_color: '#e7e9fo',
         business_payment_type: 'TIPS',
         button_hex_color: '#3FA949',
@@ -208,6 +223,10 @@ export class CreateQRcodeComponent implements OnInit {
         smiles: false,
       },
       error: null,
+      retry: {
+        current: 0,
+        max: 3,
+      },
     },
   });
 
@@ -248,10 +267,13 @@ export class CreateQRcodeComponent implements OnInit {
               smiles: this.impression,
             };
 
-            // this.#store.dispatch(new PastCard(this.card));
             console.log('Карточка для бэка ', this.card);
-            // this.#postService.post(this.card);
-            // this.#postService.post(this.card).subscribe();
+            this.#store.dispatch(new PostCard(this.card)).subscribe({
+              error: (error) => {
+                console.log(error);
+                this.errorPostCard$.set(error);
+              },
+            });
           });
         }
       });
@@ -335,3 +357,5 @@ export class CreateQRcodeComponent implements OnInit {
     return (this.newCard = { ...this.newCard, [key]: value });
   }
 }
+
+// editCard

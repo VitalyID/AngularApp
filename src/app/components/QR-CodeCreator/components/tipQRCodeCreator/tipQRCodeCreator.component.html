@@ -85,6 +85,12 @@
     </div>
 
     <app-buttons [buttonData]="btnText"></app-buttons>
+
+    @if(error$()){
+    <p>Произошла ошибка при получении данных, {{ error$() }}</p>
+    } @if(errorPostCard$()){
+    <p>Произошла ошибка при отправке данных, {{ error$() }}</p>
+    }
   </div>
 
   <div class="createQRcode__body-right">
