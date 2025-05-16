@@ -84,7 +84,7 @@
       ></color-picker>
     </div>
 
-    <app-buttons [buttonData]="btnText"></app-buttons>
+    <app-buttons [buttonData]="btnText" (click)="OnCreateCard()"></app-buttons>
 
     @if(error$()){
     <p>Произошла ошибка при получении данных, {{ error$() }}</p>

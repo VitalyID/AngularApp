@@ -1,7 +1,7 @@
 // import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { catchError, concatMap, delay, of, tap, throwError } from 'rxjs';
+import { catchError, concatMap, delay, of, take, tap, throwError } from 'rxjs';
 import { GetDataQrService } from '../services/get-data-qr.service';
 import { PostCardService } from '../services/post-data-qr.service';
 import UpdateCards, { PostCard, UpdateEditCard } from './cards.action';
@@ -98,6 +98,8 @@ export class ListOfCards {
 
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>) {
+    console.log('vnsdfjhvdndfjhn');
+
     // const state = ctx.getState();
 
     return this.#httpGet.getQR().pipe(
@@ -112,8 +114,8 @@ export class ListOfCards {
           error: error.message,
         });
         return of(null);
-      })
-      // take(1)
+      }),
+      take(1)
     );
   }
 

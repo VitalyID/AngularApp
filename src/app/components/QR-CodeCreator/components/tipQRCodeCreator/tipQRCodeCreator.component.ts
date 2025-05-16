@@ -24,8 +24,11 @@ import { ButtonData } from '../../../../types/sectionItem';
 import { DataInput } from './../../../../shared/components/input-text/types/interfaces/dataInput';
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import UpdateCards, { UpdateEditCard } from '../../../../state/cards.action';
+import { toSignal } from '@angular/core/rxjs-interop';
+import UpdateCards, {
+  PostCard,
+  UpdateEditCard,
+} from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 @Component({
@@ -206,12 +209,6 @@ export class CreateQRcodeComponent implements OnInit {
   });
 
   error$ = signal<any>(null);
-  //   this.#store.select(ListOfCards.getCards).pipe(
-  //     map((data) => {
-  //       return data.error;
-  //     })
-  //   )
-  // );
 
   errorPostCard$ = signal(null);
 
@@ -252,57 +249,84 @@ export class CreateQRcodeComponent implements OnInit {
       this.error$.set(data.error);
     });
 
-    this.#btnService.eventClick$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data.id === 7) {
-          this.#store.dispatch(new UpdateCards()).subscribe((cards) => {
-            console.log('карточки обновились', this.cards$());
+    // this.#btnService.eventClick$
+    //   .pipe(takeUntilDestroyed(this.#destroyRef))
+    //   .subscribe((data) => {
+    //     if (data.id === 7)
+    //       {
+    //       this.#store.dispatch(new UpdateCards()).subscribe((cards) => {
+    //         console.log('карточки обновились', this.cards$());
 
-            // updateCard('id', cards
+    //         const numID = this.cards$().cards.length;
+    //         console.log(numID);
 
-            // if id === 0, we're creating the new card
-            // if (this.card$().id === 0) {
-            //   this.newCard.set(this.card$());
-            // }
+    //         this.card = {
+    //           background_hex_color: this.backgroundColor,
+    //           business_payment_type: 'TIPS',
+    //           button_hex_color: this.btnColor,
+    //           commission_coverage: false,
+    //           employee_display: false,
+    //           // id is amount cards plus 1
+    //           // id: 0,
+    //           id: (numID ?? -10) + 1,
+    //           // logo_file_id: this.logo,
+    //           logo_file_id: 0,
 
-            // this.card = {
-            //   background_hex_color: this.backgroundColor,
-            //   business_payment_type: 'TIPS',
-            //   button_hex_color: this.btnColor,
-            //   commission_coverage: false,
-            //   employee_display: false,
-            //   // id is amount cards plus 1
-            //   // id: 0,
-            //   id: (this.cards$().cards.length ?? -10) + 1,
-            //   // logo_file_id: this.logo,
-            //   logo_file_id: 0,
+    //           platform_id: 'string',
+    //           preset_payment_sizes: this.defaultDataInput,
+    //           qr_image: '',
+    //           rating: this.rate,
+    //           reviews: this.feedback,
+    //           smiles: this.impression,
+    //         };
 
-            //   platform_id: 'string',
-            //   preset_payment_sizes: this.defaultDataInput,
-            //   qr_image: '',
-            //   rating: this.rate,
-            //   reviews: this.feedback,
-            //   smiles: this.impression,
-            // };
+    //         this.#store.dispatch(new PostCard(this.card)).subscribe({
+    //           error: (error) => {
+    //             console.log(error);
+    //             this.errorPostCard$.set(error);
+    //           },
+    //         });
+    //       });
+    //     }
+    //   });
+  }
 
-            // console.log('Карточка для бэка ', this.card);
-            // this.#store.dispatch(new PostCard(this.card)).subscribe({
-            //   error: (error) => {
-            //     console.log(error);
-            //     this.errorPostCard$.set(error);
-            //   },
-            // });
-          });
+  OnCreateCard() {
+    console.log('button press');
 
-          // this.#store.dispatch(new PostCard(this.newCard)).subscribe({
-          //   error: (error) => {
-          //     console.log(error);
-          //     this.errorPostCard$.set(error);
-          //   },
-          // });
-        }
+    this.#store.dispatch(new UpdateCards()).subscribe((cards) => {
+      console.log('карточки обновились', this.cards$());
+
+      const numID = this.cards$().cards.length;
+      console.log(numID);
+
+      this.card = {
+        background_hex_color: this.backgroundColor,
+        business_payment_type: 'TIPS',
+        button_hex_color: this.btnColor,
+        commission_coverage: false,
+        employee_display: false,
+        // id is amount cards plus 1
+        // id: 0,
+        id: (numID ?? -10) + 1,
+        // logo_file_id: this.logo,
+        logo_file_id: 0,
+
+        platform_id: 'string',
+        preset_payment_sizes: this.defaultDataInput,
+        qr_image: '',
+        rating: this.rate,
+        reviews: this.feedback,
+        smiles: this.impression,
+      };
+
+      this.#store.dispatch(new PostCard(this.card)).subscribe({
+        error: (error) => {
+          console.log(error);
+          this.errorPostCard$.set(error);
+        },
       });
+    });
   }
 
   listItemSwitch() {

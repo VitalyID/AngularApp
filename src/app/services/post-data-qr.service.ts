@@ -6,7 +6,7 @@ import { UserCard } from '../state/cards.state';
 @Injectable({ providedIn: 'root' })
 export class PostCardService {
   #http = inject(HttpClient);
-  link = 'https://tips-aarout.amvera.io/qr-codes1';
+  link = 'https://tips-aarout.amvera.io/qr-codes';
 
   // post(cards: UserCard) {
   //   console.log('callback in the service', cards);
@@ -15,14 +15,6 @@ export class PostCardService {
   post(cards: UserCard): Observable<UserCard> {
     console.log('отправляем в бэк', cards);
     return this.#http.post<UserCard>(this.link, cards);
-    //   // .pipe(
-    //   //   catchError((error: HttpErrorResponse) => {
-    //   //     console.log('Error: ', error);
-    //   //     return throwError(() => {
-    //   //       error;
-    //   //     });
-    //   //   })
-    //   // );
   }
 
   constructor() {}

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, of, retry, throwError } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { UserCard } from '../state/cards.state';
 
 @Injectable({
@@ -21,20 +21,20 @@ export class GetDataQrService {
         return response.body || [];
       }),
 
-      retry({
-        count: 3,
-        // delay: (error: HttpErrorResponse) => {
-        //   if (
-        //     error instanceof HttpErrorResponse &&
-        //     error.status >= 500 &&
-        //     error.status < 600
-        //   ) {
-        //     return timer(1000);
-        //   } else {
-        //     return throwError(() => error);
-        //   }
-        // },
-      }),
+      // retry({
+      //   count: 3,
+      // delay: (error: HttpErrorResponse) => {
+      //   if (
+      //     error instanceof HttpErrorResponse &&
+      //     error.status >= 500 &&
+      //     error.status < 600
+      //   ) {
+      //     return timer(1000);
+      //   } else {
+      //     return throwError(() => error);
+      //   }
+      // },
+      // }),
 
       // catchError((err) => {
       //   console.error('Error in getQR stream:', err);
