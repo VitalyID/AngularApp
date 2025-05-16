@@ -25,10 +25,7 @@ import { DataInput } from './../../../../shared/components/input-text/types/inte
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { toSignal } from '@angular/core/rxjs-interop';
-import UpdateCards, {
-  PostCard,
-  UpdateEditCard,
-} from '../../../../state/cards.action';
+import { PostCard, UpdateEditCard } from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 @Component({
@@ -294,40 +291,40 @@ export class CreateQRcodeComponent implements OnInit {
   OnCreateCard() {
     console.log('button press');
 
-    this.#store.dispatch(new UpdateCards()).subscribe((cards) => {
-      console.log('карточки обновились', this.cards$());
+    // this.#store.dispatch(new UpdateCards())
+    // .subscribe((cards) => {
+    // console.log('карточки обновились', this.cards$());
 
-      const numID = this.cards$().cards.length;
-      console.log(numID);
+    const numID = this.cards$().cards.length;
+    console.log(numID);
 
-      this.card = {
-        background_hex_color: this.backgroundColor,
-        business_payment_type: 'TIPS',
-        button_hex_color: this.btnColor,
-        commission_coverage: false,
-        employee_display: false,
-        // id is amount cards plus 1
-        // id: 0,
-        id: (numID ?? -10) + 1,
-        // logo_file_id: this.logo,
-        logo_file_id: 0,
+    this.card = {
+      background_hex_color: this.backgroundColor,
+      business_payment_type: 'TIPS',
+      button_hex_color: this.btnColor,
+      commission_coverage: false,
+      employee_display: false,
+      // id is amount cards plus 1
+      // id: 0,
+      id: (numID ?? -10) + 1,
+      // logo_file_id: this.logo,
+      logo_file_id: 0,
 
-        platform_id: 'string',
-        preset_payment_sizes: this.defaultDataInput,
-        qr_image: '',
-        rating: this.rate,
-        reviews: this.feedback,
-        smiles: this.impression,
-      };
+      platform_id: 'string',
+      preset_payment_sizes: this.defaultDataInput,
+      qr_image: '',
+      rating: this.rate,
+      reviews: this.feedback,
+      smiles: this.impression,
+    };
 
-      this.#store.dispatch(new PostCard(this.card));
-      // .subscribe({
-      //   error: (error) => {
-      //     console.log(error);
-      //     this.errorPostCard$.set(error);
-      //   },
-      // });
+    this.#store.dispatch(new PostCard(this.card)).subscribe({
+      error: (error) => {
+        console.log(error);
+        this.errorPostCard$.set(error);
+      },
     });
+    // });
   }
 
   listItemSwitch() {

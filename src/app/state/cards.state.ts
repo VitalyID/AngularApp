@@ -166,7 +166,7 @@ export class ListOfCards {
               })
             )
             .subscribe();
-          // this.#store.dispatch(new PostCard(ctx.getState().userCard));
+          this.#store.dispatch(new PostCard(ctx.getState().userCard));
 
           ctx.patchState({
             error: error,

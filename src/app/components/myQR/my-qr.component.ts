@@ -66,7 +66,7 @@ export class MyQRComponent implements OnInit {
 
     // console.log('Запрашиваем сервер');
     this.#store.dispatch(new UpdateCards());
-    // console.log('сервер запрошен');
+    console.log('сервер запрошен');
   }
 
   randomText(): string {
