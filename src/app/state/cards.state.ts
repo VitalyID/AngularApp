@@ -15,8 +15,6 @@ export interface UserCardState {
     current: number;
     max: number;
   };
-
-  // isWaiting: boolean;
 }
 
 export interface UserCard {
@@ -113,18 +111,20 @@ export class ListOfCards {
         ctx.patchState({
           error: error.message,
         });
-        return of(null);
+        return throwError(() => {
+          error;
+        });
       }),
       take(1)
     );
   }
 
   @Action(PostCard)
-  postCard(ctx: StateContext<UserCardState>, action: PostCard) {
-    console.log('callback action', action);
+  postCard(ctx: StateContext<UserCardState>, { newCard }: PostCard) {
+    // console.log('callback action', action);
 
-    return this.#httpPost.post(action.newCard).pipe(
-      tap((data) => {
+    return this.#httpPost.post(newCard).pipe(
+      tap(() => {
         const currentState = ctx.getState();
 
         ctx.patchState({
@@ -166,7 +166,6 @@ export class ListOfCards {
               })
             )
             .subscribe();
-          this.#store.dispatch(new PostCard(ctx.getState().userCard));
 
           ctx.patchState({
             error: error,

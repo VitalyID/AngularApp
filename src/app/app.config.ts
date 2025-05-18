@@ -35,11 +35,5 @@ export const appConfig: ApplicationConfig = {
       MyQRComponentModule,
       NgxsModule.forRoot([ListOfCards])
     ),
-
-    // provideNgxs({ states: [ListOfCards] }),
-    // NgxsStoragePluginModule.forRoot(storagePluginOptions).providers!,
-    // NgxsModule.forRoot([UploadLogoState]).providers!,
   ],
 };
-
-// NgxsModule.forRoot([SetUserTips]).providers!,

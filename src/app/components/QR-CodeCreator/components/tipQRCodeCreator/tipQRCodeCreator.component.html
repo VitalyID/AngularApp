@@ -14,15 +14,15 @@
       <div class="createQRcode__body-wrapForm-tips">
         <input-text
           [actualData]="inputSmallTip()"
-          (updateValue)="SendDataStore(0, $event)"
+          (updateValue)="sendDataStore(0, $event)"
         ></input-text>
         <input-text
           [actualData]="inputMiddleTip()"
-          (updateValue)="SendDataStore(1, $event)"
+          (updateValue)="sendDataStore(1, $event)"
         ></input-text>
         <input-text
           [actualData]="inputBigTip()"
-          (updateValue)="SendDataStore(2, $event)"
+          (updateValue)="sendDataStore(2, $event)"
         ></input-text>
       </div>
     </div>
@@ -89,7 +89,7 @@
     @if(error$()){
     <p>Произошла ошибка при получении данных, {{ error$() }}</p>
     } @if(errorPostCard$()){
-    <p>Произошла ошибка при отправке данных, {{ error$() }}</p>
+    <p>Произошла ошибка при отправке данных, {{ errorPostCard$() }}</p>
     }
   </div>
 
