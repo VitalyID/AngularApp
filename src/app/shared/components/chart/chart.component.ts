@@ -13,6 +13,7 @@ import { SortDataService } from '../filter/service/filter.component.service';
 
 @Component({
   selector: 'chart',
+  standalone: true,
   imports: [BaseChartDirective],
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.scss',

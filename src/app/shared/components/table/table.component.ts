@@ -30,6 +30,7 @@ import { MobileTransactionCardComponent } from '../mobile-transaction-card/mobil
 
 @Component({
   selector: 'table',
+  standalone: true,
   imports: [
     CommonModule,
     DataInputComponent,

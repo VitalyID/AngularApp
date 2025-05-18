@@ -1,4 +1,9 @@
 <div class="switcher__wrap">
-  <input type="checkbox" [id]="id" (change)="sendValue($event)" />
+  <input
+    type="checkbox"
+    [id]="id"
+    (change)="sendValue($event)"
+    [checked]="checked()"
+  />
   <label class="switcher__label" [for]="id"></label>
 </div>

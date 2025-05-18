@@ -1,11 +1,19 @@
 import { DatePipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, InjectionToken } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  InjectionToken,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
-import { NgxsExecutionStrategy, provideStore } from '@ngxs/store';
+import { NgxsExecutionStrategy, NgxsModule } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './ app.routes';
+import { MainModule } from './components/main/main.module';
+import { MyQRComponentModule } from './components/myQR/my-qr.module';
+import { ListOfCards } from './state/cards.state';
+// import { provideNgxs } from '@ngxs/store'
 // import { UploadLogoState } from './components/QR-CodeCreator/state/qr-code-creator.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
@@ -21,10 +29,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideCharts(withDefaultRegisterables()),
     DatePipe,
-    provideStore([]),
-    // NgxsStoragePluginModule.forRoot(storagePluginOptions).providers!,
-    // NgxsModule.forRoot([UploadLogoState]).providers!,
+    // provideStore([]),
+    importProvidersFrom(
+      MainModule,
+      MyQRComponentModule,
+      NgxsModule.forRoot([ListOfCards])
+    ),
   ],
 };
-
-// NgxsModule.forRoot([SetUserTips]).providers!,

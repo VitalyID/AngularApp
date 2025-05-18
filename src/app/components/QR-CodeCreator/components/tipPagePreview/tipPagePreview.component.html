@@ -1,3 +1,8 @@
+@let userCard = (userCard$ | async);
+<!-- <ng-container>
+  {{ userCard | json }}
+</ng-container> -->
+
 <div class="userPreview__top">
   <span class="spanBold">Так выглядит ваша страница</span>
 </div>
@@ -13,12 +18,14 @@
 
   <div class="userPreview__about--me">
     <img
-      [src]="(logoFromStore$ | async) || logoSource"
+      [src]="
+        userCard?.logo_file_id ?? '../../../../../assets/images/logoDefault.png'
+      "
       alt="user logo"
       class="userPreview__about--meLogo"
       #preview
-      *ngIf="(logoFromStore$ | async) !== undefined"
     />
+
     <div class="userPreview__about--meInfo">
       <span class="spanBold"><b>Смирнов Виталий</b></span>
       <span class="spanThink">Сотрудник в Фитнес Территория</span>
@@ -39,16 +46,13 @@
     (userInput)="validInput($event)"
   ></input-text>
 
-  <div
-    class="userPreview__setTips--btn"
-    *ngIf="userInputFromStore$ | async as userInputFromStore"
-  >
-    @for (item of userInputFromStore | keyvalue; track item.key){ @for (btn of
-    arrBTN; track btn.id){ @if (btn.key === item.key) {
-
+  @if(userCard && userCard && userCard.preset_payment_sizes){
+  <div class="userPreview__setTips--btn">
+    @for (btn of arrBTN; track $index){
     <app-buttons
+      (click)="onClick(userCard.preset_payment_sizes[$index].toString())"
       [buttonData]="{
-        text: item.value.toString(),
+        text: userCard.preset_payment_sizes[$index].toString(),
         iconClass: btn.iconClass,
         disabled: btn.disabled,
         background: btn.background,
@@ -60,19 +64,23 @@
         key: btn.key
       }"
     ></app-buttons>
-    } }}
+    }
   </div>
+  }
 </div>
 
 <!-- ------------------ -->
 <!-- section stars-rate -->
 <!-- ------------------ -->
 
-<div class="userPreview__rate" [class.userPreview__rate--open]="isOpen()">
+<div
+  class="userPreview__rate"
+  [class.userPreview__rate--open]="userCard?.rating"
+>
   <span class="spanBold">Ваш рейтинг</span>
   <stars-rate
     [starRateSetup]="dataToStarRate"
-    *ngIf="userRateFromStore$ | async as dataToStarRate"
+    (rating)="rating($event)"
   ></stars-rate>
 </div>
 
@@ -82,17 +90,13 @@
 
 <div
   class="userPreview__feedbacks"
-  [class.userPreview__feedbacks--open]="isFeedbackOpen()"
+  [class.userPreview__feedbacks--open]="userCard!.reviews"
 >
   <span class="spanBold">Ваш отзыв</span>
 
-  <feedbacks
-    [feedbackData]="feedback"
-    *ngIf="userFeedback$ | async as feedback"
-  >
+  <feedbacks [feedbackData]="feedback">
     {{ feedback.text }}
   </feedbacks>
-  >
 </div>
 
 <!-- --------------- -->
@@ -101,16 +105,16 @@
 
 <div
   class="userPreview__feeling"
-  [class.userPreview__feeling--open]="isAmodzieOpen()"
+  [class.userPreview__feeling--open]="userCard!.smiles"
 >
   <span class="spanBold">Ваши впечатления</span>
-
   <amodzie
     [amodzieSetting]="amodzieData"
-    *ngIf="userAmodzieStore$ | async as amodzieData"
+    (amodzieSelected)="amodzieSelected($event)"
   ></amodzie>
 </div>
 
 <div class="userPreview__sendData">
   <app-buttons [buttonData]="btnSendData"></app-buttons>
 </div>
+<!-- validInput -->

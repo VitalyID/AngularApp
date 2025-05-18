@@ -2,6 +2,9 @@
   --width: auto;
   --height: auto;
   --padding: 11px 30px;
+  --gap: 15px;
+  --color: #ffffff;
+  --fontSize: 16px;
 }
 
 button {
@@ -14,18 +17,18 @@ button {
   font-family: "Formular";
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--fontSize);
   line-height: 22px;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: var(--gap);
 
   width: var(--width);
   height: var(--height);
 
-  color: #ffffff;
+  color: var(--color);
   cursor: pointer;
 }
 
@@ -57,12 +60,29 @@ button {
 }
 
 .icon-icon-upload:before {
-  content: "\e900";
+  content: "\e901";
   color: #55595b;
 }
 
 .icon-Calendar:before {
   content: "\e900";
+  color: #777d82;
+}
+
+.icon-share:before {
+  content: "\e904";
+  color: #777d82;
+}
+.icon-Trash:before {
+  content: "\e905";
+  color: #777d82;
+}
+.icon-Edit:before {
+  content: "\e906";
+  color: #777d82;
+}
+.icon-Chart:before {
+  content: "\e907";
   color: #777d82;
 }
 

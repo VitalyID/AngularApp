@@ -1,4 +1,4 @@
-<div class="card__wrap">
+<div class="card__wrap" [style.background]="backgroundCard">
   <div class="card__title">
     <span>Ресторан Жиши-Суши</span>
     <svg-icon [svgSetting]="svgSetting"></svg-icon>
@@ -9,16 +9,18 @@
       <img [src]="src" alt="" />
     </div>
   </div>
+  <div class="card__wallet">
+    <app-buttons [buttonData]="walletBTN()"></app-buttons>
+  </div>
 
   <div class="card__footer">
     <div class="card__footer--left">
-      <svg-icon [svgSetting]="svgChartIcon"></svg-icon>
-      <svg-icon [svgSetting]="svgShareIcon"></svg-icon>
+      <app-buttons [buttonData]="chartIcon"></app-buttons>
+      <app-buttons [buttonData]="shareIcon"></app-buttons>
     </div>
     <div class="card__footer--right">
-      <svg-icon [svgSetting]="svgEditIcon"></svg-icon>
-      <svg-icon [svgSetting]="svgDeleteIcon"></svg-icon>
+      <app-buttons [buttonData]="editIcon"></app-buttons>
+      <app-buttons [buttonData]="deleteIcon"></app-buttons>
     </div>
   </div>
 </div>
-<!-- переделать свг-иконки на кнопки -->

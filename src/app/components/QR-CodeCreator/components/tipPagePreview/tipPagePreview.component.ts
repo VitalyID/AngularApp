@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
 import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
 import { BordeerLineComponent } from '../../../../shared/components/bordeer-line/border-line.component';
@@ -27,16 +26,10 @@ import { DataStarRate } from '../../../../shared/components/stars-rate/types/int
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
 import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
 import { SwitcherData } from '../../../../shared/components/switcher/types/interface/switcherDataTransmit';
+import { ListOfCards } from '../../../../state/cards.state';
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
-import {
-  CreateQRcodeState,
-  InputUsers,
-  StarRate,
-  UserAmodzie,
-  UserFeedback,
-} from '../../state/qr-code-creator.state';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 // import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
@@ -117,7 +110,7 @@ export class UserPreviewComponent implements OnInit {
     rate: 0,
   };
 
-  feedbackText: FeedbackData = {
+  feedback: FeedbackData = {
     text: '',
     readonly: false,
   };
@@ -136,52 +129,40 @@ export class UserPreviewComponent implements OnInit {
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
 
-  userFeedback$: Observable<UserFeedback> = this.#store.select(
-    CreateQRcodeState.getMyFeedback
-  );
-  userAmodzieStore$: Observable<UserAmodzie> = this.#store.select(
-    CreateQRcodeState.getAmodzieState
-  );
-  userRateFromStore$?: Observable<StarRate> = this.#store.select(
-    CreateQRcodeState.getUserStarRate
-  );
-  logoFromStore$?: Observable<string> = this.#store.select(
-    CreateQRcodeState.getUploadLogo
-  );
-  userInputFromStore$?: Observable<InputUsers> = this.#store.select(
-    CreateQRcodeState.getUserTips
-  );
+  userCard$ = this.#store.select(ListOfCards.getEditCard);
 
   ngOnInit(): void {
     this.#btnService.eventClick$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data.id === 8) {
-          this.changeActiveClass(8);
+          this.changeActiveClass(8, this.arrBTN);
 
-          if (!this.arrBTN[0].text) return;
+          // if (!this.arrBTN[0].text) return;
 
-          const tmp = String(parseInt(this.arrBTN[0].text));
-          this.setUpTips = { ...this.setUpTips, value: tmp };
+          // const tmp = String(parseInt(this.arrBTN[0].text));
+          // console.log(tmp);
 
-          this.#cdr.detectChanges();
-          this.#cdr.markForCheck();
+          // this.setUpTips = { ...this.setUpTips, value: tmp };
+
+          // this.#cdr.detectChanges();
+          // this.#cdr.markForCheck();
         } else if (data.id === 9) {
-          if (!this.arrBTN[1].text) return;
-          this.changeActiveClass(9);
+          // if (!this.arrBTN[1].text) return;
+          this.changeActiveClass(9, this.arrBTN);
 
-          const tmp = String(parseInt(this.arrBTN[1].text));
-          this.setUpTips = { ...this.setUpTips, value: tmp };
+          // const tmp = String(parseInt(this.arrBTN[1].text));
+          // this.setUpTips = { ...this.setUpTips, value: tmp };
 
-          this.#cdr.detectChanges();
+          // this.#cdr.detectChanges();
         } else if (data.id === 10) {
-          if (!this.arrBTN[2].text) return;
-          this.changeActiveClass(10);
+          // if (!this.arrBTN[2].text) return;
+          this.changeActiveClass(10, this.arrBTN);
 
-          const tmp = String(parseInt(this.arrBTN[2].text));
-          this.setUpTips = { ...this.setUpTips, value: tmp };
+          // const tmp = String(parseInt(this.arrBTN[2].text));
+          // this.setUpTips = { ...this.setUpTips, value: tmp };
 
-          this.#cdr.detectChanges();
+          // this.#cdr.detectChanges();
         }
       });
 
@@ -220,10 +201,28 @@ export class UserPreviewComponent implements OnInit {
     const key = Object.keys(data);
   }
 
-  changeActiveClass(data: number): void {
+  changeActiveClass(data: number, buttons: ButtonData[]): void {
+    console.log(buttons);
+
     const activeID = data - 8;
     this.arrBTN.forEach((item, index) => {
       item.isActive = index === activeID;
     });
+  }
+
+  rating(data: DataStarRate) {
+    console.log(data);
+  }
+
+  amodzieSelected(smile: number) {
+    console.log(smile);
+  }
+
+  onClick(text: string) {
+    console.log(text);
+
+    this.setUpTips = { ...this.setUpTips, value: text };
+
+    console.log(this.setUpTips);
   }
 }

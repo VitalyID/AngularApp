@@ -1,13 +1,26 @@
-.myQR__wrapTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+.myQR {
+  &__wrapTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 30px 0;
+  }
 
-.myQRcard__wrap {
-  width: 100%;
-  display: grid;
-  gap: 25px;
-  grid-template-columns: repeat(3, 350px);
-  grid-auto-rows: 350px;
+  &__wrapBody {
+    padding: 30px 30px 0;
+  }
+
+  &__cards {
+    width: 100%;
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(3, 350px);
+    grid-auto-rows: 350px;
+  }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

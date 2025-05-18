@@ -1,13 +1,17 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
 import { MainComponent } from './components/main/main.component';
-import { MyQRComponent } from './components/myQR/my-qr.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    // data: { asideID: 1 },
+    // component: MainModule,
+    // component: MainRoutingModule,
+
+    // loadChildren: () =>
+    //   import('./components/main/main.module').then((m) => m.MainModule),
   },
 
   {
@@ -15,7 +19,14 @@ export const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full',
   },
-  { path: 'my-qr', component: MyQRComponent },
+  // { path: 'my-qr', component: MyQRComponent },
+  {
+    path: 'my-qr',
+    loadChildren: () =>
+      import('./components/myQR/my-qr.module').then(
+        (m) => m.MyQRComponentModule
+      ),
+  },
   {
     path: 'create-qrcode',
     loadChildren: () =>
@@ -36,4 +47,8 @@ export const routes: Routes = [
   },
 ];
 
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
 export class AppRoutingModule {}

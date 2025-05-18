@@ -3,12 +3,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   inject,
   Input,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { AddUserStarRate } from '../../../components/QR-CodeCreator/state/qr-code-creator.action';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { DataStarRate } from './types/interface/dataToStarRate';
@@ -26,6 +27,7 @@ export class StarsRateComponent {
     disabled: false,
     rate: 0,
   };
+  @Output() rating = new EventEmitter();
 
   svgSetting: SvgSpriteSetting = {
     iconID: 'star',
@@ -65,14 +67,10 @@ export class StarsRateComponent {
     this.userClick = data;
 
     this.tmp = data;
+
+    this.rating.emit({ disabled: false, rate: data });
     this.#cdr.markForCheck();
     this.#cdr.detectChanges();
-
-    // =====================
-    // == Подкдючаем стор ==
-    // =====================
-
-    this.#store.dispatch(new AddUserStarRate(data));
   }
 
   onMouseOver(data: number) {
