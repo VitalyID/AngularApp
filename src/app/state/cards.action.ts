@@ -14,3 +14,8 @@ export class PostCard {
   static readonly type = '[postCard] postUserCard';
   constructor(public newCard: UserCard) {}
 }
+
+export class DeleteCard {
+  static readonly type = '[deletecard] deleteCurrentCard';
+  constructor(public id: number) {}
+}

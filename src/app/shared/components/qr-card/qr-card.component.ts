@@ -3,9 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   Input,
 } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
+import { DeleteCard } from '../../../state/cards.action';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
@@ -21,6 +24,9 @@ export class QrCardComponent {
   @Input({ required: true }) src: string = '';
   @Input({ required: true }) backgroundCard: string = '';
   @Input({ required: true }) btnColor: string = '#ffffff';
+  @Input({ required: true }) id: number = 0;
+
+  readonly #store = inject(Store);
 
   svgSetting: SvgSpriteSetting = {
     iconID: 'Path',
@@ -68,4 +74,8 @@ export class QrCardComponent {
     borderStyle: 'none',
     id: 28,
   };
+
+  deleteCard(id: number) {
+    this.#store.dispatch(new DeleteCard(id));
+  }
 }

@@ -1,4 +1,4 @@
-@let cards = (cards$ | async); @if(cards?.error) {
+@let cards = cards$(); @if(cards?.error) {
 
 <ng-container>
   <p>Ошибка загрузки данных с сервера, {{ cards?.error }}</p>
@@ -18,6 +18,7 @@
       [src]="src"
       [backgroundCard]="card.background_hex_color"
       [btnColor]="card.button_hex_color"
+      [id]="card.id"
     ></qr-card
     >}
   </div>

@@ -1,4 +1,6 @@
 <div class="card__wrap" [style.background]="backgroundCard">
+  {{ id }}
+
   <div class="card__title">
     <span>Ресторан Жиши-Суши</span>
     <svg-icon [svgSetting]="svgSetting"></svg-icon>
@@ -20,7 +22,10 @@
     </div>
     <div class="card__footer--right">
       <app-buttons [buttonData]="editIcon"></app-buttons>
-      <app-buttons [buttonData]="deleteIcon"></app-buttons>
+      <app-buttons
+        [buttonData]="deleteIcon"
+        (click)="deleteCard(id)"
+      ></app-buttons>
     </div>
   </div>
 </div>

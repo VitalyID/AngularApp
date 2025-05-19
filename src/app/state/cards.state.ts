@@ -1,10 +1,11 @@
+import { PostCard } from './cards.action';
 // import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { catchError, concatMap, delay, of, take, tap, throwError } from 'rxjs';
 import { GetDataQrService } from '../services/get-data-qr.service';
 import { PostCardService } from '../services/post-data-qr.service';
-import UpdateCards, { PostCard, UpdateEditCard } from './cards.action';
+import UpdateCards, { DeleteCard, UpdateEditCard } from './cards.action';
 
 export interface UserCardState {
   cards: UserCard[];
@@ -175,6 +176,18 @@ export class ListOfCards {
         return throwError(() => {
           error;
         });
+      })
+    );
+  }
+
+  @Action(DeleteCard)
+  deleteCard(ctx: StateContext<UserCardState>, { id }: DeleteCard) {
+    return this.#httpPost.delete(id).pipe(
+      tap(() => {
+        const state = ctx.getState();
+        console.log(state);
+        // ctx.patchState({ cards: state.cards });
+        this.#store.dispatch(new UpdateCards());
       })
     );
   }
