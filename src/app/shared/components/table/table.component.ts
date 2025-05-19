@@ -112,6 +112,8 @@ export class TableComponent implements OnInit {
   visibility = signal<boolean>(false);
 
   ngOnInit(): void {
+    console.log(new Date());
+
     const arrFilter = Object.values(TabsName);
 
     this.filterMobile = arrFilter.map((el) => {
@@ -127,18 +129,6 @@ export class TableComponent implements OnInit {
           this.visibility.set(true);
         }
       });
-
-    // this.#filterService.dataOperationFromService$
-    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
-    //   .subscribe((data) => {
-    //     // console.log(data);
-    //   });
-
-    // this.#ViewPort.isMobileSubject$
-    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
-    //   .subscribe((data) => {
-    //     console.log(data, 'size');
-    //   });
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -172,7 +162,9 @@ export class TableComponent implements OnInit {
 
   getKeys(item: DataUserOperation[] | null) {
     if (!item || item.length === 0) return;
-    return Object.keys(item[0]);
+    return Object.keys(item[0]).filter((e) => {
+      return e !== 'id';
+    });
   }
 
   itemSelected(data: ListDropdown) {
