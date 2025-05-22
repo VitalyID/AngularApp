@@ -25,6 +25,7 @@ import { DataInput } from './../../../../shared/components/input-text/types/inte
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { CardService } from '../../../../services/CardStoreActions.service';
 import { PostCard, UpdateEditCard } from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
@@ -153,6 +154,7 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #destroyRef = inject(DestroyRef);
   readonly #btnService = inject(ButtonService);
+  readonly #storeTest = inject(CardService);
   // readonly #postService = inject(PostCardService);
 
   card$ = toSignal(this.#store.select(ListOfCards.getEditCard), {
@@ -184,31 +186,30 @@ export class CreateQRcodeComponent implements OnInit {
   ];
 
   ngOnInit() {
+    // this.#storeTest.sendRequest(RequestServer.get).subscribe((data) => {
+    //   console.log('Получены тестовые данные', data);
+    // });
+
     this.#store.select(ListOfCards.getCards).subscribe((data) => {
       this.error$.set(data.error);
     });
 
-    const timestamp = new Date().getTime().toString();
-    const round = Math.round(Math.random() * 1000000).toString();
-    const id = Number(`${round}` + `${timestamp}`);
+    console.log('получены данные со стора', this.card$());
 
     this.#store.dispatch(
       new UpdateEditCard(this.updateCard('logo_file_id', 0))
     );
-
-    this.#store.dispatch(new UpdateEditCard(this.updateCard('id', id)));
   }
 
   OnCreateCard() {
-    console.log('button press');
-    console.log(typeof this.card$().id);
-
     this.#store.dispatch(new PostCard(this.card$())).subscribe({
       error: (error) => {
         console.log('Ошибка при отправке данных со стора на сервер: ', error);
         this.errorPostCard$.set(error);
       },
     });
+
+    console.log('получены данные со стора', this.card$());
   }
 
   listItemSwitch() {
@@ -294,4 +295,28 @@ export class CreateQRcodeComponent implements OnInit {
     // return (this.newCard = { ...this.newCard, [key]: value });
     return { key, value };
   }
+
+  // testSend() {
+  //   const card = {
+  //     background_hex_color: '#E7E9F0',
+  //     business_payment_type: 'TIPS',
+  //     button_hex_color: '#3FA949',
+  //     commission_coverage: false,
+  //     employee_display: true,
+  //     id: 0,
+  //     logo_file_id: 0,
+  //     platform_id: '',
+  //     preset_payment_sizes: [100, 250, 500],
+  //     qr_image: '',
+  //     rating: false,
+  //     reviews: false,
+  //     smiles: false,
+  //   };
+
+  //   console.log('Отправляем:', card);
+
+  //   this.#storeTest.sendRequest(RequestServer.post, card).subscribe((data) => {
+  //     console.log(data);
+  //   });
+  // }
 }

@@ -3,7 +3,6 @@ import { PostCard } from './cards.action';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { catchError, concatMap, delay, of, take, tap, throwError } from 'rxjs';
-import { GetDataQrService } from '../services/get-data-qr.service';
 import { PostCardService } from '../services/post-data-qr.service';
 import UpdateCards, { DeleteCard, UpdateEditCard } from './cards.action';
 
@@ -37,14 +36,14 @@ export interface UserCard {
 const defaultValue: UserCardState = {
   cards: [],
   userCard: {
-    background_hex_color: '#e7e9fo',
+    background_hex_color: '#E7E9F0',
     business_payment_type: 'TIPS',
     button_hex_color: '#3FA949',
     commission_coverage: false,
     employee_display: true,
     id: 0,
     logo_file_id: '../../assets/images/logoDefault.png',
-    platform_id: '514159',
+    platform_id: '',
     preset_payment_sizes: [100, 250, 500],
     qr_image: '',
     rating: false,
@@ -66,7 +65,7 @@ const defaultValue: UserCardState = {
 export class ListOfCards {
   count = 0;
 
-  readonly #httpGet = inject(GetDataQrService);
+  // readonly #httpGet = inject(GetDataQrService);
   readonly #httpPost = inject(PostCardService);
   readonly #store = inject(Store);
 
@@ -97,11 +96,10 @@ export class ListOfCards {
 
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>) {
-    console.log('сработал action UpdateCards');
-
     // const state = ctx.getState();
 
-    return this.#httpGet.getQR().pipe(
+    return this.#httpPost.getQR().pipe(
+      // return this.#http.sendRequest(RequestServer.get).pipe(
       tap((data) => {
         ctx.patchState({
           cards: data,
@@ -136,6 +134,7 @@ export class ListOfCards {
           error: null,
           retry: { ...currentState.retry, current: 0 },
         });
+        console.log('дефолт: ', ctx.getState().userCard);
       }),
 
       catchError((error) => {
