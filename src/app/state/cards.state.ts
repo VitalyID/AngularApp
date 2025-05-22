@@ -2,7 +2,7 @@ import { PostCard } from './cards.action';
 // import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { catchError, concatMap, delay, of, take, tap, throwError } from 'rxjs';
+import { catchError, take, tap, throwError } from 'rxjs';
 import { PostCardService } from '../services/post-data-qr.service';
 import UpdateCards, { DeleteCard, UpdateEditCard } from './cards.action';
 
@@ -11,10 +11,10 @@ export interface UserCardState {
   // editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
   error: string | null;
-  retry: {
-    current: number;
-    max: number;
-  };
+  // retry: {
+  //   current: number;
+  //   max: number;
+  // };
 }
 
 export interface UserCard {
@@ -51,10 +51,10 @@ const defaultValue: UserCardState = {
     smiles: false,
   },
   error: null,
-  retry: {
-    current: 0,
-    max: 3,
-  },
+  // retry: {
+  //   current: 0,
+  //   max: 3,
+  // },
 };
 
 @State<UserCardState>({
@@ -132,50 +132,21 @@ export class ListOfCards {
             ...defaultValue.userCard,
           },
           error: null,
-          retry: { ...currentState.retry, current: 0 },
+          // retry: { ...currentState.retry, current: 0 },
         });
         console.log('дефолт: ', ctx.getState().userCard);
       }),
 
       catchError((error) => {
-        console.log('При вызове сервиса произошли ошибки', error);
-
-        const currentState = ctx.getState();
-
-        // increase a counter attempt to send data to server
+        console.error('Ошибка: ', error);
         ctx.patchState({
-          retry: {
-            ...currentState.retry,
-            current: currentState.retry.current + 1,
-          },
+          error: error.message,
         });
-
-        if (ctx.getState().retry.max === ctx.getState().retry.current) {
-          console.log('Попытки завершены.');
-          return of();
-        } else {
-          // repeat to send data to server when a counter not equal max value
-
-          of(null)
-            .pipe(
-              delay(2000),
-              concatMap(() => {
-                return this.#store.dispatch(
-                  new PostCard(ctx.getState().userCard)
-                );
-              })
-            )
-            .subscribe();
-
-          ctx.patchState({
-            error: error,
-          });
-        }
-
         return throwError(() => {
           error;
         });
-      })
+      }),
+      take(1)
     );
   }
 

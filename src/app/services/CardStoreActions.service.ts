@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, retry, throwError, timer } from 'rxjs';
 import { parseTemplate } from 'url-template';
 import { RequestServer } from '../types/enums/cardServicerequest';
 import { UserCard } from './../state/cards.state';
@@ -56,8 +56,29 @@ export class CardService {
     url: string,
     argument?: UserCard | number
   ): Observable<UserCard[] | void> {
-    return this.#http.request<UserCard[] | void>(request, this.link, {
-      body: argument,
-    });
+    return this.#http
+      .request<UserCard[] | void>(request, this.link, {
+        body: argument,
+        observe: 'response',
+      })
+      .pipe(
+        map((response) => {
+          return response.body || [];
+        }),
+        retry({
+          count: 3,
+          delay: (error: HttpErrorResponse) => {
+            if (
+              error instanceof HttpErrorResponse &&
+              error.status >= 500 &&
+              error.status < 600
+            ) {
+              return timer(2000);
+            } else {
+              return throwError(() => error);
+            }
+          },
+        })
+      );
   }
 }
