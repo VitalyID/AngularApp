@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, retry, throwError, timer } from 'rxjs';
+import { Observable } from 'rxjs';
 import { parseTemplate } from 'url-template';
 import { RequestServer } from '../types/enums/cardServicerequest';
 import { UserCard } from './../state/cards.state';
@@ -31,14 +31,17 @@ export class CardService {
     argument?: number | UserCard
   ): Observable<UserCard[] | void> {
     let url: string = '';
-    if (request === RequestServer.get) {
-    } else if (request === RequestServer.post) {
-      argument = argument as UserCard;
-    } else if (request === RequestServer.put) {
-      argument = argument as UserCard;
-    } else if (request === RequestServer.delete) {
-      argument = argument as number;
-      url = this.newUrl(argument);
+    switch (request) {
+      case RequestServer.delete:
+        argument = argument as number;
+        url = this.newUrl(argument);
+        break;
+      case RequestServer.put:
+        argument = argument as UserCard;
+        break;
+      case RequestServer.post:
+        argument = argument as UserCard;
+        break;
     }
     return this.sendRequest(request, url ?? this.link, argument);
   }
@@ -59,39 +62,12 @@ export class CardService {
     type ErrorMessage<T> =
       | { suсcess: true; data: T }
       | { suсcess: false; error: HttpErrorResponse };
-    return this.#http
-      .request<UserCard[] | void>(request, this.link, {
-        body: argument,
-        observe: 'response',
-      })
-      .pipe(
-        map((response) => {
-          return response.body || [];
-        }),
 
-        retry({
-          count: 3,
-          delay: (error: HttpErrorResponse) => {
-            if (
-              error instanceof HttpErrorResponse &&
-              error.status >= 500 &&
-              error.status < 600
-            ) {
-              return timer(2000);
-            } else {
-              return throwError(() => {
-                error;
-              });
-            }
-          },
-        }),
+    console.log('link:', this.link);
+    console.log('argument:', argument);
 
-        catchError((error) => {
-          const message: ErrorMessage<T> = { suсcess: false, error: error };
-          return throwError(() => {
-            message.error;
-          });
-        })
-      );
+    return this.#http.request<UserCard[] | void>(request, this.link, {
+      body: argument,
+    });
   }
 }

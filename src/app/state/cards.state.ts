@@ -3,7 +3,9 @@ import { ErrorServer, PostCard } from './cards.action';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
-import { PostCardService } from '../services/post-data-qr.service';
+// import { PostCardService } from '../services/post-data-qr.service';
+import { CardService } from '../services/CardStoreActions.service';
+import { RequestServer } from '../types/enums/cardServicerequest';
 import UpdateCards, { DeleteCard, UpdateEditCard } from './cards.action';
 
 export interface UserCardState {
@@ -58,7 +60,7 @@ export class ListOfCards {
   count = 0;
 
   // readonly #httpGet = inject(GetDataQrService);
-  readonly #httpPost = inject(PostCardService);
+  readonly #httpPost = inject(CardService);
   readonly #store = inject(Store);
 
   // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
@@ -90,8 +92,8 @@ export class ListOfCards {
   updateCards(ctx: StateContext<UserCardState>) {
     // const state = ctx.getState();
 
-    return this.#httpPost.getQR().pipe(
-      // return this.#http.sendRequest(RequestServer.get).pipe(
+    // return this.#httpPost.getQR().pipe(
+    return this.#httpPost.sendRequestWrap(RequestServer.get).pipe(
       tap((data) => {
         ctx.patchState({
           cards: data,
@@ -114,7 +116,7 @@ export class ListOfCards {
   postCard(ctx: StateContext<UserCardState>, { newCard }: PostCard) {
     // console.log('callback action', action);
 
-    return this.#httpPost.post(newCard).pipe(
+    return this.#httpPost.sendRequestWrap(RequestServer.post, newCard).pipe(
       tap(() => {
         const currentState = ctx.getState();
 
@@ -128,23 +130,13 @@ export class ListOfCards {
         });
         console.log('дефолт: ', ctx.getState().userCard);
       }),
-
-      // catchError((error) => {
-      //   console.error('Ошибка: ', error);
-      //   ctx.patchState({
-      //     error: error.message,
-      //   });
-      //   return throwError(() => {
-      //     error;
-      //   });
-      // }),
       take(1)
     );
   }
 
   @Action(DeleteCard)
   deleteCard(ctx: StateContext<UserCardState>, { id }: DeleteCard) {
-    return this.#httpPost.delete(id).pipe(
+    return this.#httpPost.sendRequestWrap(RequestServer.delete).pipe(
       tap(() => {
         const state = ctx.getState();
         console.log(state);
