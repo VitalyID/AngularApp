@@ -1,4 +1,4 @@
-import { ErrorServer, PostCard } from './cards.action';
+import { EditCard, ErrorServer, PostCard } from './cards.action';
 // import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
@@ -84,15 +84,12 @@ export class ListOfCards {
     ctx.patchState({
       userCard: { ...userSet.userCard, [newValue['key']]: newValue['value'] },
     });
-
-    // ctx.patchState({ userCard: newCard });
   }
 
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>) {
     // const state = ctx.getState();
 
-    // return this.#httpPost.getQR().pipe(
     return this.#httpPost.sendRequestWrap(RequestServer.get).pipe(
       tap((data) => {
         ctx.patchState({
@@ -126,9 +123,7 @@ export class ListOfCards {
             ...defaultValue.userCard,
           },
           error: null,
-          // retry: { ...currentState.retry, current: 0 },
         });
-        console.log('дефолт: ', ctx.getState().userCard);
       }),
       take(1)
     );
@@ -139,7 +134,6 @@ export class ListOfCards {
     return this.#httpPost.sendRequestWrap(RequestServer.delete).pipe(
       tap(() => {
         const state = ctx.getState();
-        console.log(state);
         // ctx.patchState({ cards: state.cards });
         this.#store.dispatch(new UpdateCards());
       })
@@ -151,6 +145,13 @@ export class ListOfCards {
     console.log('Stor get error message');
     ctx.patchState({
       error: message,
+    });
+  }
+
+  @Action(EditCard)
+  editCard(ctx: StateContext<UserCardState>, { userCard }: EditCard) {
+    ctx.patchState({
+      userCard: userCard,
     });
   }
 }

@@ -24,3 +24,8 @@ export class ErrorServer {
   static readonly type = '[error message] saveMessage';
   constructor(public message: string) {}
 }
+
+export class EditCard {
+  static readonly type = '[editCard] editCurrentCard';
+  constructor(public userCard: UserCard) {}
+}

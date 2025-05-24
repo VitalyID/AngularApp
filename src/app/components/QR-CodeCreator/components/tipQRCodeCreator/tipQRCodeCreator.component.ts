@@ -186,15 +186,9 @@ export class CreateQRcodeComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // this.#storeTest.sendRequest(RequestServer.get).subscribe((data) => {
-    //   console.log('Получены тестовые данные', data);
-    // });
-
     this.#store.select(ListOfCards.getCards).subscribe((data) => {
       this.error$.set(data.error);
     });
-
-    console.log('получены данные со стора', this.card$());
 
     this.#store.dispatch(
       new UpdateEditCard(this.updateCard('logo_file_id', 0))
@@ -226,7 +220,6 @@ export class CreateQRcodeComponent implements OnInit {
           new UpdateEditCard(this.updateCard('background_hex_color', data))
         );
         this.#store.select(ListOfCards.getEditCard);
-        console.log(this.card$());
 
         break;
       case 'btnColor':
@@ -235,7 +228,6 @@ export class CreateQRcodeComponent implements OnInit {
           new UpdateEditCard(this.updateCard('button_hex_color', data))
         );
         this.#store.select(ListOfCards.getEditCard);
-        console.log(this.card$());
         break;
     }
   }
@@ -295,28 +287,4 @@ export class CreateQRcodeComponent implements OnInit {
     // return (this.newCard = { ...this.newCard, [key]: value });
     return { key, value };
   }
-
-  // testSend() {
-  //   const card = {
-  //     background_hex_color: '#E7E9F0',
-  //     business_payment_type: 'TIPS',
-  //     button_hex_color: '#3FA949',
-  //     commission_coverage: false,
-  //     employee_display: true,
-  //     id: 0,
-  //     logo_file_id: 0,
-  //     platform_id: '',
-  //     preset_payment_sizes: [100, 250, 500],
-  //     qr_image: '',
-  //     rating: false,
-  //     reviews: false,
-  //     smiles: false,
-  //   };
-
-  //   console.log('Отправляем:', card);
-
-  //   this.#storeTest.sendRequest(RequestServer.post, card).subscribe((data) => {
-  //     console.log(data);
-  //   });
-  // }
 }

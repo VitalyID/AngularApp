@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { parseTemplate } from 'url-template';
@@ -31,6 +31,7 @@ export class CardService {
     argument?: number | UserCard
   ): Observable<UserCard[] | void> {
     let url: string = '';
+
     switch (request) {
       case RequestServer.delete:
         argument = argument as number;
@@ -59,13 +60,6 @@ export class CardService {
     url: string,
     argument?: UserCard | number
   ): Observable<UserCard[] | void> {
-    type ErrorMessage<T> =
-      | { suсcess: true; data: T }
-      | { suсcess: false; error: HttpErrorResponse };
-
-    console.log('link:', this.link);
-    console.log('argument:', argument);
-
     return this.#http.request<UserCard[] | void>(request, this.link, {
       body: argument,
     });

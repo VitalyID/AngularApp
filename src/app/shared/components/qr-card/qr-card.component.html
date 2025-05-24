@@ -21,7 +21,7 @@
       <app-buttons [buttonData]="shareIcon"></app-buttons>
     </div>
     <div class="card__footer--right">
-      <app-buttons [buttonData]="editIcon"></app-buttons>
+      <app-buttons [buttonData]="editIcon" (click)="editCard(id)"></app-buttons>
       <app-buttons
         [buttonData]="deleteIcon"
         (click)="deleteCard(id)"

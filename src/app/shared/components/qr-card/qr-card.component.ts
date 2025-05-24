@@ -6,16 +6,19 @@ import {
   inject,
   Input,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Router, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
-import { DeleteCard } from '../../../state/cards.action';
+import { DeleteCard, EditCard } from '../../../state/cards.action';
+import { ListOfCards } from '../../../state/cards.state';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 
 @Component({
   selector: 'qr-card',
-  imports: [SvgIconComponent, CommonModule, ButtonsComponent],
+  imports: [SvgIconComponent, CommonModule, ButtonsComponent, RouterModule],
   templateUrl: './qr-card.component.html',
   styleUrl: './qr-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +30,29 @@ export class QrCardComponent {
   @Input({ required: true }) id: number = 0;
 
   readonly #store = inject(Store);
+  readonly #router = inject(Router);
+
+  store$ = toSignal(this.#store.select(ListOfCards.getCards), {
+    initialValue: {
+      cards: [],
+      userCard: {
+        background_hex_color: '#E7E9F0',
+        business_payment_type: 'TIPS',
+        button_hex_color: '#3FA949',
+        commission_coverage: false,
+        employee_display: true,
+        id: 0,
+        logo_file_id: '../../assets/images/logoDefault.png',
+        platform_id: '',
+        preset_payment_sizes: [100, 250, 500],
+        qr_image: '',
+        rating: false,
+        reviews: false,
+        smiles: false,
+      },
+      error: null,
+    },
+  });
 
   svgSetting: SvgSpriteSetting = {
     iconID: 'Path',
@@ -77,5 +103,16 @@ export class QrCardComponent {
 
   deleteCard(id: number) {
     this.#store.dispatch(new DeleteCard(id));
+  }
+
+  editCard(id: number) {
+    const actualCard = this.store$().cards.find((card) => {
+      return card.id === id;
+    });
+
+    if (!actualCard) return;
+    this.#store.dispatch(new EditCard(actualCard));
+
+    this.#router.navigate(['/create-qrcode']);
   }
 }
