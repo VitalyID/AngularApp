@@ -66,10 +66,10 @@ export class MyQRComponent implements OnInit {
         smiles: false,
       },
       error: null,
-      retry: {
-        current: 0,
-        max: 3,
-      },
+      // retry: {
+      //   current: 0,
+      //   max: 3,
+      // },
     },
   });
 

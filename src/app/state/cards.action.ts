@@ -19,3 +19,8 @@ export class DeleteCard {
   static readonly type = '[deletecard] deleteCurrentCard';
   constructor(public id: number) {}
 }
+
+export class ErrorServer {
+  static readonly type = '[error message] saveMessage';
+  constructor(public message: string) {}
+}

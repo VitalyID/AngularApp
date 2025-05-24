@@ -1,8 +1,8 @@
-import { PostCard } from './cards.action';
+import { ErrorServer, PostCard } from './cards.action';
 // import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { catchError, take, tap, throwError } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { PostCardService } from '../services/post-data-qr.service';
 import UpdateCards, { DeleteCard, UpdateEditCard } from './cards.action';
 
@@ -11,10 +11,6 @@ export interface UserCardState {
   // editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
   error: string | null;
-  // retry: {
-  //   current: number;
-  //   max: number;
-  // };
 }
 
 export interface UserCard {
@@ -51,10 +47,6 @@ const defaultValue: UserCardState = {
     smiles: false,
   },
   error: null,
-  // retry: {
-  //   current: 0,
-  //   max: 3,
-  // },
 };
 
 @State<UserCardState>({
@@ -105,15 +97,15 @@ export class ListOfCards {
           cards: data,
         });
       }),
-      catchError((error) => {
-        console.error('Ошибка: ', error);
-        ctx.patchState({
-          error: error.message,
-        });
-        return throwError(() => {
-          error;
-        });
-      }),
+      // catchError((error) => {
+      //   console.error('Ошибка: ', error);
+      //   ctx.patchState({
+      //     error: error.message,
+      //   });
+      //   return throwError(() => {
+      //     error;
+      //   });
+      // }),
       take(1)
     );
   }
@@ -137,15 +129,15 @@ export class ListOfCards {
         console.log('дефолт: ', ctx.getState().userCard);
       }),
 
-      catchError((error) => {
-        console.error('Ошибка: ', error);
-        ctx.patchState({
-          error: error.message,
-        });
-        return throwError(() => {
-          error;
-        });
-      }),
+      // catchError((error) => {
+      //   console.error('Ошибка: ', error);
+      //   ctx.patchState({
+      //     error: error.message,
+      //   });
+      //   return throwError(() => {
+      //     error;
+      //   });
+      // }),
       take(1)
     );
   }
@@ -160,5 +152,13 @@ export class ListOfCards {
         this.#store.dispatch(new UpdateCards());
       })
     );
+  }
+
+  @Action(ErrorServer)
+  errorServer(ctx: StateContext<UserCardState>, { message }: ErrorServer) {
+    console.log('Stor get error message');
+    ctx.patchState({
+      error: message,
+    });
   }
 }

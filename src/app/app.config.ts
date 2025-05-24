@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   importProvidersFrom,
@@ -12,6 +12,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { routes } from './ app.routes';
 import { MainModule } from './components/main/main.module';
 import { MyQRComponentModule } from './components/myQR/my-qr.module';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ListOfCards } from './state/cards.state';
 // import { provideNgxs } from '@ngxs/store'
 // import { UploadLogoState } from './components/QR-CodeCreator/state/qr-code-creator.state';
@@ -26,7 +27,7 @@ export const CUSTOM_NGXS_EXECUTION_STRATEGY =
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([ErrorInterceptor])),
     provideCharts(withDefaultRegisterables()),
     DatePipe,
     // provideStore([]),
