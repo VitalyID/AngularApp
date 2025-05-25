@@ -24,4 +24,8 @@ export class CardService {
     const actualURL = templateId.expand({ qr_id: `${id}` });
     return this.#http.delete<UserCard>(this.link + actualURL);
   }
+
+  putCard(card: UserCard): Observable<UserCard> {
+    return this.#http.put<UserCard>(this.link, card);
+  }
 }

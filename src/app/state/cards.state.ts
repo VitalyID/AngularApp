@@ -1,4 +1,4 @@
-import { EditCard, PostCard } from './cards.action';
+import { EditCard, PostCard, PutCard } from './cards.action';
 // import { Cards, UserCard } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
@@ -124,5 +124,15 @@ export class ListOfCards {
     ctx.patchState({
       userCard: userCard,
     });
+  }
+
+  @Action(PutCard)
+  putCArd(ctx: StateContext<UserCardState>, { userCard }: PutCard) {
+    return this.#http.putCard(userCard).pipe(
+      take(1),
+      tap(() => {
+        this.#store.dispatch(new UpdateCards());
+      })
+    );
   }
 }

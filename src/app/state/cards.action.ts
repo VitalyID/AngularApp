@@ -24,3 +24,8 @@ export class EditCard {
   static readonly type = '[editCard] editCurrentCard';
   constructor(public userCard: UserCard) {}
 }
+
+export class PutCard {
+  static readonly type = '[putCard] putUserCard';
+  constructor(public userCard: UserCard) {}
+}

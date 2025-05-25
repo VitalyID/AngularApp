@@ -25,6 +25,7 @@ import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { PostCard, UpdateEditCard } from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
@@ -66,6 +67,9 @@ export class CreateQRcodeComponent implements OnInit {
   // isOpen transmitted to Directives for checking state component aside.
   // Component Aside is open after 1s, because its time need for animations
   isOpen: boolean = false;
+
+  // editCart - it's a flag, which denote about this card: editing it now or no
+  editCard: boolean = false;
 
   inputSmallTip: Signal<DataInput> = computed(() => ({
     validation: true,
@@ -156,6 +160,7 @@ export class CreateQRcodeComponent implements OnInit {
   // readonly #storeTest = inject(CardService);
   readonly #toast = inject(ToastrService);
   // readonly #postService = inject(PostCardService);
+  readonly #router = inject(Router);
 
   card$ = toSignal(this.#store.select(ListOfCards.getEditCard), {
     initialValue: {
@@ -185,11 +190,21 @@ export class CreateQRcodeComponent implements OnInit {
     this.#store.dispatch(
       new UpdateEditCard(this.updateCard('logo_file_id', 0))
     );
+
+    console.log('Active:', this.#router.url);
+    const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
+    this.editCard = regExp.test(this.#router.url);
+
+    const numberCard = this.#router.url.split('/').at(-1);
+    // console.log(numberCard);
   }
 
   OnCreateCard() {
-    this.#store.dispatch(new PostCard(this.card$()));
-    console.log('получены данные со стора', this.card$());
+    if (this.editCard) {
+    } else {
+      this.#store.dispatch(new PostCard(this.card$()));
+      this.#router.navigate(['my-qr']);
+    }
   }
 
   listItemSwitch() {

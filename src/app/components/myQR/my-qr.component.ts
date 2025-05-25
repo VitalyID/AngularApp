@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { loremIpsum } from 'lorem-ipsum';
 // import { GetDataQrService } from '../../services/get-data-qr.service';
@@ -44,6 +44,7 @@ export class MyQRComponent implements OnInit {
   readonly #buttonService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #store = inject(Store);
+  readonly #router = inject(Router);
   // readonly #http = inject(GetDataQrService);
 
   // cards$: Observable<UserCardState> = this.#store.select(ListOfCards.getCards);
