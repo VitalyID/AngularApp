@@ -1,18 +1,16 @@
-import { EditCard, ErrorServer, PostCard } from './cards.action';
-// import { Cards } from './cards.state';
+import { EditCard, PostCard } from './cards.action';
+// import { Cards, UserCard } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 // import { PostCardService } from '../services/post-data-qr.service';
 import { CardService } from '../services/CardStoreActions.service';
-import { RequestServer } from '../types/enums/cardServicerequest';
 import UpdateCards, { DeleteCard, UpdateEditCard } from './cards.action';
 
 export interface UserCardState {
   cards: UserCard[];
   // editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
-  error: string | null;
 }
 
 export interface UserCard {
@@ -48,7 +46,6 @@ const defaultValue: UserCardState = {
     reviews: false,
     smiles: false,
   },
-  error: null,
 };
 
 @State<UserCardState>({
@@ -60,7 +57,7 @@ export class ListOfCards {
   count = 0;
 
   // readonly #httpGet = inject(GetDataQrService);
-  readonly #httpPost = inject(CardService);
+  readonly #http = inject(CardService);
   readonly #store = inject(Store);
 
   // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
@@ -89,63 +86,37 @@ export class ListOfCards {
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>) {
     // const state = ctx.getState();
-
-    return this.#httpPost.sendRequestWrap(RequestServer.get).pipe(
-      tap((data) => {
-        ctx.patchState({
-          cards: data,
-        });
-      }),
-      // catchError((error) => {
-      //   console.error('Ошибка: ', error);
-      //   ctx.patchState({
-      //     error: error.message,
-      //   });
-      //   return throwError(() => {
-      //     error;
-      //   });
-      // }),
-      take(1)
+    return this.#http.getCard().pipe(
+      take(1),
+      tap((cards: UserCard[]) => {
+        ctx.patchState({ cards: cards });
+      })
     );
   }
 
   @Action(PostCard)
   postCard(ctx: StateContext<UserCardState>, { newCard }: PostCard) {
-    // console.log('callback action', action);
-
-    return this.#httpPost.sendRequestWrap(RequestServer.post, newCard).pipe(
+    return this.#http.postCard(newCard).pipe(
+      take(1),
       tap(() => {
-        const currentState = ctx.getState();
-
         ctx.patchState({
           // reset to defaultValue when send to server is success
           userCard: {
             ...defaultValue.userCard,
           },
-          error: null,
         });
-      }),
-      take(1)
+      })
     );
   }
 
   @Action(DeleteCard)
   deleteCard(ctx: StateContext<UserCardState>, { id }: DeleteCard) {
-    return this.#httpPost.sendRequestWrap(RequestServer.delete).pipe(
+    return this.#http.deleteCard(id).pipe(
+      take(1),
       tap(() => {
-        const state = ctx.getState();
-        // ctx.patchState({ cards: state.cards });
         this.#store.dispatch(new UpdateCards());
       })
     );
-  }
-
-  @Action(ErrorServer)
-  errorServer(ctx: StateContext<UserCardState>, { message }: ErrorServer) {
-    console.log('Stor get error message');
-    ctx.patchState({
-      error: message,
-    });
   }
 
   @Action(EditCard)

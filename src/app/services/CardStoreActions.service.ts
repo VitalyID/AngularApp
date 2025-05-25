@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { parseTemplate } from 'url-template';
-import { RequestServer } from '../types/enums/cardServicerequest';
 import { UserCard } from './../state/cards.state';
 
 @Injectable({ providedIn: 'root' })
@@ -11,57 +10,18 @@ export class CardService {
 
   #http = inject(HttpClient);
 
-  // post & put
-  sendRequestWrap(
-    request: RequestServer.put | RequestServer.post,
-    argument: UserCard
-  ): Observable<void>;
-
-  // delete
-  sendRequestWrap(
-    request: RequestServer.delete,
-    argument: number
-  ): Observable<void>;
-
-  // get
-  sendRequestWrap(request: RequestServer): Observable<UserCard[]>;
-
-  sendRequestWrap(
-    request: RequestServer | (RequestServer.put | RequestServer.post),
-    argument?: number | UserCard
-  ): Observable<UserCard[] | void> {
-    let url: string = '';
-
-    switch (request) {
-      case RequestServer.delete:
-        argument = argument as number;
-        url = this.newUrl(argument);
-        break;
-      case RequestServer.put:
-        argument = argument as UserCard;
-        break;
-      case RequestServer.post:
-        argument = argument as UserCard;
-        break;
-    }
-    return this.sendRequest(request, url ?? this.link, argument);
+  getCard(): Observable<UserCard[]> {
+    return this.#http.get<UserCard[]>(this.link);
   }
 
-  newUrl(argument: number): string {
+  postCard(card: UserCard): Observable<UserCard> {
+    return this.#http.post<UserCard>(this.link, card);
+  }
+
+  deleteCard(id: number): Observable<UserCard> {
     const templateId = parseTemplate('/{qr_id}');
-    const idCard = { qr_id: `${argument}` };
-    const actualURL = templateId.expand(idCard);
-
-    return this.link + actualURL;
-  }
-
-  sendRequest<T>(
-    request: RequestServer,
-    url: string,
-    argument?: UserCard | number
-  ): Observable<UserCard[] | void> {
-    return this.#http.request<UserCard[] | void>(request, this.link, {
-      body: argument,
-    });
+    // const idCard = { qr_id: `${id}` };
+    const actualURL = templateId.expand({ qr_id: `${id}` });
+    return this.#http.delete<UserCard>(this.link + actualURL);
   }
 }

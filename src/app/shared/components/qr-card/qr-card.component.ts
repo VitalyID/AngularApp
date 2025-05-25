@@ -50,7 +50,6 @@ export class QrCardComponent {
         reviews: false,
         smiles: false,
       },
-      error: null,
     },
   });
 
@@ -113,6 +112,6 @@ export class QrCardComponent {
     if (!actualCard) return;
     this.#store.dispatch(new EditCard(actualCard));
 
-    this.#router.navigate(['/create-qrcode']);
+    this.#router.navigate(['/create-qrcode', id]);
   }
 }

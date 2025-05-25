@@ -28,6 +28,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'create-qrcode/:id',
+    loadChildren: () =>
+      import('./components/QR-CodeCreator/qr-code-creator.module').then(
+        (m) => m.CreateQrcodeModule
+      ),
+    // data: { asideID: 1 },
+  },
+  {
     path: 'create-qrcode',
     loadChildren: () =>
       import('./components/QR-CodeCreator/qr-code-creator.module').then(

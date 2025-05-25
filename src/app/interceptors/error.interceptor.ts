@@ -1,11 +1,10 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, retry, throwError, timer } from 'rxjs';
-import { ErrorServer } from '../state/cards.action';
 
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
-  const store = inject(Store);
+  const toast = inject(ToastrService);
 
   return next(req).pipe(
     retry({
@@ -23,8 +22,7 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
       },
     }),
     catchError((error: HttpErrorResponse | any) => {
-      console.log('Получена ошибка сервера в интерсепторе: ', error);
-      store.dispatch(new ErrorServer(error));
+      toast.success('Ошибка при обращении к серверу', error.message);
       return throwError(() => error);
     })
   );

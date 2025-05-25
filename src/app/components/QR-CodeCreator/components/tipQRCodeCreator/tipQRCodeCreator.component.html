@@ -86,13 +86,6 @@
     </div>
 
     <app-buttons [buttonData]="btnText" (click)="OnCreateCard()"></app-buttons>
-    <button (click)="toast()">TOAST START</button>
-
-    @if(error$()){
-    <p>Произошла ошибка при получении данных, {{ error$() }}</p>
-    } @if(errorPostCard$()){
-    <p>Произошла ошибка при отправке данных, {{ errorPostCard$() }}</p>
-    }
   </div>
 
   <div class="createQRcode__body-right">

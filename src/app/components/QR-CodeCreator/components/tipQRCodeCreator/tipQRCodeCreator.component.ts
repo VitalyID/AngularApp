@@ -3,11 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
   ElementRef,
   inject,
   OnInit,
-  signal,
   Signal,
   ViewChild,
 } from '@angular/core';
@@ -27,7 +25,6 @@ import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { CardService } from '../../../../services/CardStoreActions.service';
 import { PostCard, UpdateEditCard } from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
@@ -154,9 +151,9 @@ export class CreateQRcodeComponent implements OnInit {
   isOnImpressions: Signal<boolean> = computed(() => this.card$()?.smiles);
 
   readonly #store = inject(Store);
-  readonly #destroyRef = inject(DestroyRef);
+  // readonly #destroyRef = inject(DestroyRef);
   readonly #btnService = inject(ButtonService);
-  readonly #storeTest = inject(CardService);
+  // readonly #storeTest = inject(CardService);
   readonly #toast = inject(ToastrService);
   // readonly #postService = inject(PostCardService);
 
@@ -178,10 +175,6 @@ export class CreateQRcodeComponent implements OnInit {
     },
   });
 
-  error$ = signal<any>(null);
-
-  errorPostCard$ = signal(null);
-
   defaultDataInput: number[] = [
     this.card$()?.preset_payment_sizes[0],
     this.card$()?.preset_payment_sizes[1],
@@ -189,23 +182,13 @@ export class CreateQRcodeComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.#store.select(ListOfCards.getCards).subscribe((data) => {
-      this.error$.set(data.error);
-    });
-
     this.#store.dispatch(
       new UpdateEditCard(this.updateCard('logo_file_id', 0))
     );
   }
 
   OnCreateCard() {
-    this.#store.dispatch(new PostCard(this.card$())).subscribe({
-      error: (error) => {
-        console.log('Ошибка при отправке данных со стора на сервер: ', error);
-        this.errorPostCard$.set(error);
-      },
-    });
-
+    this.#store.dispatch(new PostCard(this.card$()));
     console.log('получены данные со стора', this.card$());
   }
 
@@ -291,9 +274,9 @@ export class CreateQRcodeComponent implements OnInit {
     return { key, value };
   }
 
-  toast() {
-    console.log('click');
+  // toast() {
+  //   console.log('click');
 
-    this.#toast.success('Hello world!', 'Toastr fun!');
-  }
+  //   this.#toast.success('Hello world!', 'Toastr fun!');
+  // }
 }
