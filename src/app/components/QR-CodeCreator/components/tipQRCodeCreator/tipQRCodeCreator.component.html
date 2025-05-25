@@ -86,6 +86,7 @@
     </div>
 
     <app-buttons [buttonData]="btnText" (click)="OnCreateCard()"></app-buttons>
+    <button (click)="toast()">TOAST START</button>
 
     @if(error$()){
     <p>Произошла ошибка при получении данных, {{ error$() }}</p>

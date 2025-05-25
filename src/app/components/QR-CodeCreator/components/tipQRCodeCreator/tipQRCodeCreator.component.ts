@@ -14,6 +14,7 @@ import {
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
+import { ToastrService } from 'ngx-toastr';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
@@ -25,6 +26,7 @@ import { DataInput } from './../../../../shared/components/input-text/types/inte
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { CardService } from '../../../../services/CardStoreActions.service';
 import { PostCard, UpdateEditCard } from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
@@ -45,7 +47,7 @@ import { EnumSwitcher } from './../../../../shared/components/switcher/types/enu
   templateUrl: './tipQRCodeCreator.component.html',
   styleUrl: './tipQRCodeCreator.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideNgxMask()],
+  providers: [provideNgxMask(), provideAnimations()],
 })
 export class CreateQRcodeComponent implements OnInit {
   @ViewChild('preview') previewIMG!: ElementRef;
@@ -155,6 +157,7 @@ export class CreateQRcodeComponent implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly #btnService = inject(ButtonService);
   readonly #storeTest = inject(CardService);
+  readonly #toast = inject(ToastrService);
   // readonly #postService = inject(PostCardService);
 
   card$ = toSignal(this.#store.select(ListOfCards.getEditCard), {
@@ -286,5 +289,11 @@ export class CreateQRcodeComponent implements OnInit {
   updateCard(key: string, value: any) {
     // return (this.newCard = { ...this.newCard, [key]: value });
     return { key, value };
+  }
+
+  toast() {
+    console.log('click');
+
+    this.#toast.success('Hello world!', 'Toastr fun!');
   }
 }

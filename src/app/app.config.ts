@@ -5,10 +5,12 @@ import {
   importProvidersFrom,
   InjectionToken,
 } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { NgxsStoragePluginOptions } from '@ngxs/storage-plugin';
 import { NgxsExecutionStrategy, NgxsModule } from '@ngxs/store';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideToastr } from 'ngx-toastr';
 import { routes } from './ app.routes';
 import { MainModule } from './components/main/main.module';
 import { MyQRComponentModule } from './components/myQR/my-qr.module';
@@ -36,5 +38,11 @@ export const appConfig: ApplicationConfig = {
       MyQRComponentModule,
       NgxsModule.forRoot([ListOfCards])
     ),
+    provideToastr({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
+    provideAnimations(),
   ],
 };
