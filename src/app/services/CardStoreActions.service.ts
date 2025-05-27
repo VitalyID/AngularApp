@@ -25,7 +25,13 @@ export class CardService {
     return this.#http.delete<UserCard>(this.link + actualURL);
   }
 
-  putCard(card: UserCard): Observable<UserCard> {
-    return this.#http.put<UserCard>(this.link, card);
+  putCard(id: number, card: UserCard) {
+    console.log(id, ' -- ', card);
+
+    const templateId = parseTemplate('/{qr_id}');
+    const actualURL = templateId.expand({ qr_id: `${id}` });
+    return this.#http.put(this.link + actualURL, card);
+
+    // return this.#http.put<UserCard>(this.link, card);
   }
 }

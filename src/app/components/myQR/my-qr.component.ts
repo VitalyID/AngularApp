@@ -59,7 +59,7 @@ export class MyQRComponent implements OnInit {
         employee_display: true,
         id: 0,
         logo_file_id: null,
-        platform_id: '',
+        // platform_id: '',
         preset_payment_sizes: [0, 0, 0],
         qr_image: '',
         rating: false,

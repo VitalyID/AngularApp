@@ -43,7 +43,7 @@ export class QrCardComponent {
         employee_display: true,
         id: 0,
         logo_file_id: '../../assets/images/logoDefault.png',
-        platform_id: '',
+        // platform_id: '',
         preset_payment_sizes: [100, 250, 500],
         qr_image: '',
         rating: false,

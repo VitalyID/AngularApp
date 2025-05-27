@@ -26,7 +26,11 @@ import { ListOfCards, UserCard } from './../../../../state/cards.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { PostCard, UpdateEditCard } from '../../../../state/cards.action';
+import {
+  PostCard,
+  PutCard,
+  UpdateEditCard,
+} from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 
@@ -141,7 +145,7 @@ export class CreateQRcodeComponent implements OnInit {
     employee_display: true,
     id: 0,
     logo_file_id: 0,
-    platform_id: '',
+    // platform_id: '',
     preset_payment_sizes: [0, 0, 0],
     qr_image: '',
     rating: false,
@@ -171,7 +175,7 @@ export class CreateQRcodeComponent implements OnInit {
       employee_display: true,
       id: 0,
       logo_file_id: null,
-      platform_id: '',
+      // platform_id: '',
       preset_payment_sizes: [0, 0, 0],
       qr_image: '',
       rating: false,
@@ -191,16 +195,20 @@ export class CreateQRcodeComponent implements OnInit {
       new UpdateEditCard(this.updateCard('logo_file_id', 0))
     );
 
-    console.log('Active:', this.#router.url);
-    const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
-    this.editCard = regExp.test(this.#router.url);
+    // console.log('Active:', this.#router.url);
+    // const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
+    // this.editCard = regExp.test(this.#router.url);
 
-    const numberCard = this.#router.url.split('/').at(-1);
+    // const numberCard = this.#router.url.split('/').at(-1);
     // console.log(numberCard);
   }
 
   OnCreateCard() {
+    const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
+    this.editCard = regExp.test(this.#router.url);
+    // const idCard = this.#router.url.split('/').at(-1);
     if (this.editCard) {
+      this.#store.dispatch(new PutCard(this.card$()));
     } else {
       this.#store.dispatch(new PostCard(this.card$()));
       this.#router.navigate(['my-qr']);

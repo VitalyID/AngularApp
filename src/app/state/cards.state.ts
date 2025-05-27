@@ -21,7 +21,7 @@ export interface UserCard {
   employee_display: boolean;
   id: number;
   logo_file_id: number | null | string;
-  platform_id: string;
+  // platform_id: string;
   preset_payment_sizes: number[];
   qr_image: string;
   rating: boolean;
@@ -39,7 +39,7 @@ const defaultValue: UserCardState = {
     employee_display: true,
     id: 0,
     logo_file_id: '../../assets/images/logoDefault.png',
-    platform_id: '',
+    // platform_id: '',
     preset_payment_sizes: [100, 250, 500],
     qr_image: '',
     rating: false,
@@ -128,7 +128,7 @@ export class ListOfCards {
 
   @Action(PutCard)
   putCArd(ctx: StateContext<UserCardState>, { userCard }: PutCard) {
-    return this.#http.putCard(userCard).pipe(
+    return this.#http.putCard(userCard.id, userCard).pipe(
       take(1),
       tap(() => {
         this.#store.dispatch(new UpdateCards());
