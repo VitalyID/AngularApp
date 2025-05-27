@@ -203,12 +203,13 @@ export class CreateQRcodeComponent implements OnInit {
     // console.log(numberCard);
   }
 
-  OnCreateCard() {
+  CreateEditCard() {
     const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
     this.editCard = regExp.test(this.#router.url);
     // const idCard = this.#router.url.split('/').at(-1);
     if (this.editCard) {
       this.#store.dispatch(new PutCard(this.card$()));
+      this.#router.navigate(['my-qr']);
     } else {
       this.#store.dispatch(new PostCard(this.card$()));
       this.#router.navigate(['my-qr']);

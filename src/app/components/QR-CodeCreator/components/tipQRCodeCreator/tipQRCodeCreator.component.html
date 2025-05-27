@@ -85,7 +85,10 @@
       <!-- <button (click)="testSend()">test</button> -->
     </div>
 
-    <app-buttons [buttonData]="btnText" (click)="OnCreateCard()"></app-buttons>
+    <app-buttons
+      [buttonData]="btnText"
+      (click)="CreateEditCard()"
+    ></app-buttons>
   </div>
 
   <div class="createQRcode__body-right">
