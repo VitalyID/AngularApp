@@ -4,9 +4,10 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  Signal,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { loremIpsum } from 'lorem-ipsum';
 // import { GetDataQrService } from '../../services/get-data-qr.service';
@@ -14,7 +15,7 @@ import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
 
 import UpdateCards from '../../state/cards.action';
-import { ListOfCards, UserCard } from '../../state/cards.state';
+import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
 import { ButtonData } from '../../types/sectionItem';
 
 @Component({
@@ -44,30 +45,11 @@ export class MyQRComponent implements OnInit {
   readonly #buttonService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #store = inject(Store);
-  readonly #router = inject(Router);
+  // readonly #router = inject(Router);
   // readonly #http = inject(GetDataQrService);
 
   // cards$: Observable<UserCardState> = this.#store.select(ListOfCards.getCards);
-  cards$ = toSignal(this.#store.select(ListOfCards.getCards), {
-    initialValue: {
-      cards: [],
-      userCard: {
-        background_hex_color: '',
-        business_payment_type: '',
-        button_hex_color: '',
-        commission_coverage: false,
-        employee_display: true,
-        id: 0,
-        logo_file_id: null,
-        // platform_id: '',
-        preset_payment_sizes: [0, 0, 0],
-        qr_image: '',
-        rating: false,
-        reviews: false,
-        smiles: false,
-      },
-    },
-  });
+  cards: Signal<UserCardState> = this.#store.selectSignal(ListOfCards.getCards);
 
   ngOnInit(): void {
     this.asideID = this.#route.snapshot.data['asideID'];
@@ -84,7 +66,6 @@ export class MyQRComponent implements OnInit {
         }
       });
 
-    // console.log('Запрашиваем сервер');
     this.#store.dispatch(new UpdateCards());
     console.log('сервер запрошен');
   }

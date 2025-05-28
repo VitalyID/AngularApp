@@ -12,7 +12,6 @@ import {
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
-import { ToastrService } from 'ngx-toastr';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
@@ -23,7 +22,6 @@ import { ButtonData } from '../../../../types/sectionItem';
 import { DataInput } from './../../../../shared/components/input-text/types/interfaces/dataInput';
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import {
@@ -81,7 +79,7 @@ export class CreateQRcodeComponent implements OnInit {
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card$()?.preset_payment_sizes[0].toString(),
+    placeholder: this.card()?.preset_payment_sizes[0].toString(),
     type: 'number',
     disabled: false,
   }));
@@ -92,7 +90,7 @@ export class CreateQRcodeComponent implements OnInit {
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card$()?.preset_payment_sizes[1].toString(),
+    placeholder: this.card()?.preset_payment_sizes[1].toString(),
     type: 'number',
     disabled: false,
   }));
@@ -103,7 +101,7 @@ export class CreateQRcodeComponent implements OnInit {
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card$()?.preset_payment_sizes[2].toString(),
+    placeholder: this.card()?.preset_payment_sizes[2].toString(),
     type: 'number',
     disabled: false,
   }));
@@ -154,53 +152,27 @@ export class CreateQRcodeComponent implements OnInit {
   };
 
   // transmit state switcher to component (true/false) by Signal
-  isOnRate: Signal<boolean> = computed(() => this.card$()?.rating);
-  isOnFeedback: Signal<boolean> = computed(() => this.card$()?.reviews);
-  isOnImpressions: Signal<boolean> = computed(() => this.card$()?.smiles);
+  isOnRate: Signal<boolean> = computed(() => this.card()?.rating);
+  isOnFeedback: Signal<boolean> = computed(() => this.card()?.reviews);
+  isOnImpressions: Signal<boolean> = computed(() => this.card()?.smiles);
 
   readonly #store = inject(Store);
-  // readonly #destroyRef = inject(DestroyRef);
   readonly #btnService = inject(ButtonService);
-  // readonly #storeTest = inject(CardService);
-  readonly #toast = inject(ToastrService);
-  // readonly #postService = inject(PostCardService);
+  // readonly #toast = inject(ToastrService);
   readonly #router = inject(Router);
 
-  card$ = toSignal(this.#store.select(ListOfCards.getEditCard), {
-    initialValue: {
-      background_hex_color: '',
-      business_payment_type: '',
-      button_hex_color: '',
-      commission_coverage: false,
-      employee_display: true,
-      id: 0,
-      logo_file_id: null,
-      // platform_id: '',
-      preset_payment_sizes: [0, 0, 0],
-      qr_image: '',
-      rating: false,
-      reviews: false,
-      smiles: false,
-    },
-  });
+  card: Signal<UserCard> = this.#store.selectSignal(ListOfCards.getEditCard);
 
   defaultDataInput: number[] = [
-    this.card$()?.preset_payment_sizes[0],
-    this.card$()?.preset_payment_sizes[1],
-    this.card$()?.preset_payment_sizes[2],
+    this.card()?.preset_payment_sizes[0],
+    this.card()?.preset_payment_sizes[1],
+    this.card()?.preset_payment_sizes[2],
   ];
 
   ngOnInit() {
     this.#store.dispatch(
       new UpdateEditCard(this.updateCard('logo_file_id', 0))
     );
-
-    // console.log('Active:', this.#router.url);
-    // const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
-    // this.editCard = regExp.test(this.#router.url);
-
-    // const numberCard = this.#router.url.split('/').at(-1);
-    // console.log(numberCard);
   }
 
   CreateEditCard() {
@@ -208,10 +180,10 @@ export class CreateQRcodeComponent implements OnInit {
     this.editCard = regExp.test(this.#router.url);
     // const idCard = this.#router.url.split('/').at(-1);
     if (this.editCard) {
-      this.#store.dispatch(new PutCard(this.card$()));
+      this.#store.dispatch(new PutCard(this.card()));
       this.#router.navigate(['my-qr']);
     } else {
-      this.#store.dispatch(new PostCard(this.card$()));
+      this.#store.dispatch(new PostCard(this.card()));
       this.#router.navigate(['my-qr']);
     }
   }

@@ -1,4 +1,4 @@
-@let cards = cards$(); @if ( cards && cards.cards && cards.cards.length > 0){
+@if ( cards() && cards().cards && cards().cards.length > 0){
 
 <div class="myQR__wrapTop">
   <h2>Мои QR</h2>
@@ -7,7 +7,7 @@
 
 <div class="myQR__wrapBody">
   <div class="myQR__cards">
-    @for (card of cards?.cards; track card.id){
+    @for (card of cards().cards; track card.id){
     <qr-card
       [src]="src"
       [backgroundCard]="card.background_hex_color"

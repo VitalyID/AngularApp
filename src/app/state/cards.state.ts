@@ -1,11 +1,14 @@
-import { EditCard, PostCard, PutCard } from './cards.action';
-// import { Cards, UserCard } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
-// import { PostCardService } from '../services/post-data-qr.service';
 import { CardService } from '../services/CardStoreActions.service';
-import UpdateCards, { DeleteCard, UpdateEditCard } from './cards.action';
+import UpdateCards, {
+  DeleteCard,
+  EditCard,
+  PostCard,
+  PutCard,
+  UpdateEditCard,
+} from './cards.action';
 
 export interface UserCardState {
   cards: UserCard[];
@@ -21,7 +24,6 @@ export interface UserCard {
   employee_display: boolean;
   id: number;
   logo_file_id: number | null | string;
-  // platform_id: string;
   preset_payment_sizes: number[];
   qr_image: string;
   rating: boolean;
@@ -56,7 +58,6 @@ const defaultValue: UserCardState = {
 export class ListOfCards {
   count = 0;
 
-  // readonly #httpGet = inject(GetDataQrService);
   readonly #http = inject(CardService);
   readonly #store = inject(Store);
 

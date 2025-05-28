@@ -137,32 +137,10 @@ export class UserPreviewComponent implements OnInit {
       .subscribe((data) => {
         if (data.id === 8) {
           this.changeActiveClass(8, this.arrBTN);
-
-          // if (!this.arrBTN[0].text) return;
-
-          // const tmp = String(parseInt(this.arrBTN[0].text));
-          // console.log(tmp);
-
-          // this.setUpTips = { ...this.setUpTips, value: tmp };
-
-          // this.#cdr.detectChanges();
-          // this.#cdr.markForCheck();
         } else if (data.id === 9) {
-          // if (!this.arrBTN[1].text) return;
           this.changeActiveClass(9, this.arrBTN);
-
-          // const tmp = String(parseInt(this.arrBTN[1].text));
-          // this.setUpTips = { ...this.setUpTips, value: tmp };
-
-          // this.#cdr.detectChanges();
         } else if (data.id === 10) {
-          // if (!this.arrBTN[2].text) return;
           this.changeActiveClass(10, this.arrBTN);
-
-          // const tmp = String(parseInt(this.arrBTN[2].text));
-          // this.setUpTips = { ...this.setUpTips, value: tmp };
-
-          // this.#cdr.detectChanges();
         }
       });
 
