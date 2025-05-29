@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { parseTemplate } from 'url-template';
 import { link } from '../const';
 import { UserCard } from './../state/cards.state';
@@ -10,7 +10,10 @@ export class CardService {
   #http = inject(HttpClient);
 
   getCard(): Observable<UserCard[]> {
-    return this.#http.get<UserCard[]>(link);
+    // return this.#http.get<UserCard[]>(link);
+    return this.#http
+      .get<any>(link)
+      .pipe(map((response) => response.data || []));
   }
 
   postCard(card: UserCard): Observable<UserCard> {
