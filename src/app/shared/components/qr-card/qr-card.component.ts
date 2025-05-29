@@ -6,7 +6,6 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
@@ -32,26 +31,13 @@ export class QrCardComponent {
   readonly #store = inject(Store);
   readonly #router = inject(Router);
 
-  store$ = toSignal(this.#store.select(ListOfCards.getCards), {
-    initialValue: {
-      cards: [],
-      userCard: {
-        background_hex_color: '#E7E9F0',
-        business_payment_type: 'TIPS',
-        button_hex_color: '#3FA949',
-        commission_coverage: false,
-        employee_display: true,
-        id: 0,
-        logo_file_id: '../../assets/images/logoDefault.png',
-        // platform_id: '',
-        preset_payment_sizes: [100, 250, 500],
-        qr_image: '',
-        rating: false,
-        reviews: false,
-        smiles: false,
-      },
-    },
-  });
+  store = this.#store.selectSignal(ListOfCards.getCards);
+
+  currentCard = computed(() =>
+    this.store().cards.find((e) => {
+      return e.id === this.id;
+    })
+  );
 
   svgSetting: SvgSpriteSetting = {
     iconID: 'Path',
@@ -105,13 +91,11 @@ export class QrCardComponent {
   }
 
   editCard(id: number) {
-    const actualCard = this.store$().cards.find((card) => {
-      return card.id === id;
-    });
+    const EDIT_CARD = this.currentCard();
 
-    if (!actualCard) return;
-    this.#store.dispatch(new EditCard(actualCard));
-
-    this.#router.navigate(['/create-qrcode', id]);
+    if (EDIT_CARD && EDIT_CARD.id === id) {
+      this.#store.dispatch(new EditCard(EDIT_CARD));
+      this.#router.navigate(['/create-qrcode', id]);
+    }
   }
 }
