@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { parseTemplate } from 'url-template';
 import { link } from '../const';
 import { CardsMeta } from '../shared/components/pagination/interface/PaginationMeta';
 import { UserCard } from './../state/cards.state';
@@ -22,14 +21,10 @@ export class CardService {
   }
 
   deleteCard(id: number): Observable<UserCard> {
-    const templateId = parseTemplate('/{qr_id}');
-    const actualURL = templateId.expand({ qr_id: `${id}` });
-    return this.#http.delete<UserCard>(link + actualURL);
+    return this.#http.delete<UserCard>(`${link}/${id}`);
   }
 
   putCard(id: number, card: UserCard) {
-    const templateId = parseTemplate('/{qr_id}');
-    const actualURL = templateId.expand({ qr_id: `${id}` });
-    return this.#http.put(link + actualURL, card);
+    return this.#http.put(`${link}/${id}`, card);
   }
 }

@@ -13,7 +13,6 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
-import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
@@ -157,8 +156,6 @@ export class CreateQRcodeComponent implements OnInit {
   isOnImpressions: Signal<boolean> = computed(() => this.card()?.smiles);
 
   readonly #store = inject(Store);
-  readonly #btnService = inject(ButtonService);
-  // readonly #toast = inject(ToastrService);
   readonly #router = inject(Router);
 
   card: Signal<UserCard> = this.#store.selectSignal(ListOfCards.getEditCard);
@@ -178,13 +175,11 @@ export class CreateQRcodeComponent implements OnInit {
   CreateEditCard() {
     const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
     this.editCard = regExp.test(this.#router.url);
-    // const idCard = this.#router.url.split('/').at(-1);
+
     if (this.editCard) {
       this.#store.dispatch(new PutCard(this.card()));
-      // this.#router.navigate(['my-qr']);
     } else {
       this.#store.dispatch(new PostCard(this.card()));
-      // this.#router.navigate(['my-qr']);
     }
   }
 

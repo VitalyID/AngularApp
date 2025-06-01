@@ -1,19 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   effect,
   inject,
   OnInit,
   signal,
   Signal,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { loremIpsum } from 'lorem-ipsum';
 // import { GetDataQrService } from '../../services/get-data-qr.service';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
-import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
 
 import UpdateCards from '../../state/cards.action';
 import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
@@ -43,10 +41,7 @@ export class MyQRComponent implements OnInit {
   cardCount = signal(0);
   page: string = '1';
 
-  readonly #route = inject(ActivatedRoute);
   readonly #routService = inject(RoutIDservice);
-  readonly #buttonService = inject(ButtonService);
-  readonly #destroyRef = inject(DestroyRef);
   readonly #store = inject(Store);
   readonly #router = inject(Router);
 
@@ -55,12 +50,10 @@ export class MyQRComponent implements OnInit {
   cardCountEffect = effect(() => {
     if (this.cards()) {
       this.cardCount.set(this.cards().pagination.total);
-      // console.log(cardsForPagination);
     }
   });
 
   ngOnInit(): void {
-    // this.asideID = this.#route.snapshot.data['asideID'];
     this.#routService.getIDroute(this.asideID);
 
     // when this page is started, we send offset pagination to back
@@ -74,7 +67,6 @@ export class MyQRComponent implements OnInit {
   }
 
   userPage(page: string) {
-    console.log('user page: ', page);
     this.page = page;
     this.#store.dispatch(new UpdateCards((Number(this.page) - 1) * 12));
     this.#router.navigate(['my-qr'], {
