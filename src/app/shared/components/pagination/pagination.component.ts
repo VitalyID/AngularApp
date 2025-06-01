@@ -58,7 +58,7 @@ export class PaginationComponent {
   back = signal<boolean>(false);
   next = signal<boolean>(false);
 
-  // offset is need for control switch off/onn button "back" and "next"
+  // offset is need for change number-text in button page
   offset = signal<number>(0);
 
   buttons: ButtonData[] = [];
@@ -90,15 +90,11 @@ export class PaginationComponent {
     }
     // =============================================
 
-    // if user click on button NEXT, we make visible the button back, by change stack
-    if (this.offset() < 0) {
-      this.back.set(true);
-    }
-    // ===============================================
-
+    // fill in the array with button
     this.buttonText.set(
       this.fillInByNumber(this.offset() + 1, this.offset() + 3)
     );
+    // ============================================
 
     // switch off button "NEXT" when cards finished
     if (
@@ -110,10 +106,9 @@ export class PaginationComponent {
     }
     // ==============================================
 
+    // if the first button equal '1', the button BACK is off
     if (this.buttonText()[0] === 1) {
-      {
-        this.back.set(false);
-      }
+      this.back.set(false);
     }
   });
 

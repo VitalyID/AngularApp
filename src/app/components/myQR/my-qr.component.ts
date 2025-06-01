@@ -41,6 +41,7 @@ export class MyQRComponent implements OnInit {
   src: string = '';
   getCards: UserCard[] = [];
   cardCount = signal(0);
+  page: string = '1';
 
   readonly #route = inject(ActivatedRoute);
   readonly #routService = inject(RoutIDservice);
@@ -53,17 +54,18 @@ export class MyQRComponent implements OnInit {
 
   cardCountEffect = effect(() => {
     if (this.cards()) {
-      this.cardCount.set(this.cards().cards.length);
+      this.cardCount.set(this.cards().pagination.total);
       // console.log(cardsForPagination);
     }
   });
 
   ngOnInit(): void {
-    this.asideID = this.#route.snapshot.data['asideID'];
+    // this.asideID = this.#route.snapshot.data['asideID'];
     this.#routService.getIDroute(this.asideID);
 
     // when this page is started, we send offset pagination to back
-    this.#store.dispatch(new UpdateCards(0));
+    const pageId = this.#router.url.split('=')[1];
+    this.#store.dispatch(new UpdateCards((Number(pageId) - 1) * 12));
   }
 
   randomText(): string {
@@ -73,7 +75,11 @@ export class MyQRComponent implements OnInit {
 
   userPage(page: string) {
     console.log('user page: ', page);
-    this.#store.dispatch(new UpdateCards((Number(page) - 1) * 12));
+    this.page = page;
+    this.#store.dispatch(new UpdateCards((Number(this.page) - 1) * 12));
+    this.#router.navigate(['my-qr'], {
+      queryParams: { page: this.page },
+    });
   }
 
   constructor() {}
