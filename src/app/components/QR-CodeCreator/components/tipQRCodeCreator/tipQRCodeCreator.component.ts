@@ -181,10 +181,10 @@ export class CreateQRcodeComponent implements OnInit {
     // const idCard = this.#router.url.split('/').at(-1);
     if (this.editCard) {
       this.#store.dispatch(new PutCard(this.card()));
-      this.#router.navigate(['my-qr']);
+      // this.#router.navigate(['my-qr']);
     } else {
       this.#store.dispatch(new PostCard(this.card()));
-      this.#router.navigate(['my-qr']);
+      // this.#router.navigate(['my-qr']);
     }
   }
 
@@ -260,19 +260,13 @@ export class CreateQRcodeComponent implements OnInit {
     }
   }
 
-  clickOn() {
-    // отправляем в сервис клик по кнопке с ее идентификатором "3".
-    this.#btnService.clickOnButton(this.btnText.id);
-  }
+  // clickOn() {
+  //   // отправляем в сервис клик по кнопке с ее идентификатором "3".
+  //   this.#btnService.clickOnButton(this.btnText.id);
+  // }
 
   updateCard(key: string, value: any) {
     // return (this.newCard = { ...this.newCard, [key]: value });
     return { key, value };
   }
-
-  // toast() {
-  //   console.log('click');
-
-  //   this.#toast.success('Hello world!', 'Toastr fun!');
-  // }
 }

@@ -76,16 +76,6 @@ export class DataInputComponent implements OnInit, OnDestroy {
   #statusValidDataStart!: Subscription | undefined;
 
   ngOnInit(): void {
-    // принимаем клик с сервиса btn
-    this.#buttonService.eventClick$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data.id === 21 || data.id === 2 || data.id === 22) {
-          console.log('Кнопка нажата с ID:', data.id);
-          this.#buttonService.transmitData(this.myInputForm.value);
-        }
-      });
-
     // Enabled/Disabled dateFrom start
     this.#switchInputService.eventChangeInput$
       .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -121,6 +111,10 @@ export class DataInputComponent implements OnInit, OnDestroy {
         };
         this.#listenerBTNservice.getStatusForBTN(enableBTN);
       });
+  }
+
+  onClick() {
+    this.#buttonService.transmitData(this.myInputForm.value);
   }
 
   ngOnDestroy(): void {

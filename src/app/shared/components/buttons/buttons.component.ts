@@ -32,9 +32,9 @@ export class ButtonsComponent implements OnInit {
       });
   }
 
-  clickOn() {
-    if (this.buttonData) {
-      this.#service.clickOnButton(this.buttonData.id);
-    }
-  }
+  // clickOn() {
+  //   if (this.buttonData) {
+  //     this.#service.clickOnButton(this.buttonData.id);
+  //   }
+  // }
 }

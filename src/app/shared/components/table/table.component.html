@@ -9,7 +9,11 @@
       ></dropdown>
     </div>
 
-    <app-buttons [buttonData]="calendar" class="calendar"></app-buttons>
+    <app-buttons
+      [buttonData]="calendar"
+      class="calendar"
+      (click)="OnClickCalendar()"
+    ></app-buttons>
 
     @if ((windowSize['1000'] === true) && (windowSize['768'] === false)) {
     <div
@@ -40,7 +44,7 @@
     }
   </div>
 
-  <app-buttons [buttonData]="btnText"></app-buttons>
+  <app-buttons [buttonData]="btnText" (click)="onClickDownload()"></app-buttons>
 </div>
 
 @if (windowSize['768'] === true){
@@ -91,12 +95,7 @@
   </div>
 </div>
 
-@let table = (tableBody$ |async) ?? [];
-<!-- <ng-container>
-  <p>{{ table | json }}</p>
-</ng-container> -->
-
-@for(item of table; track item.id){
+@let table = (tableBody$ |async) ?? []; @for(item of table; track item.id){
 <mobile-transaction-card
   [table]="item"
   class="table__body--mobileCard"

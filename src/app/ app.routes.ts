@@ -19,7 +19,6 @@ export const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full',
   },
-  // { path: 'my-qr', component: MyQRComponent },
   {
     path: 'my-qr',
     loadChildren: () =>

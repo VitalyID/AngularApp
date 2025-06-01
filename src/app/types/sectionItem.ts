@@ -15,7 +15,7 @@ export interface ButtonData {
   color?: string;
   isActive?: boolean;
   // event?: string;
-  id: number;
+  id?: number | string;
   borderStyle?: string;
   boxShadow?: string;
   key?: string;

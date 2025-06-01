@@ -8,7 +8,6 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { ScreenSizeService } from '../../../services/screen-size.service';
@@ -121,14 +120,22 @@ export class TableComponent implements OnInit {
       return arrEl;
     });
 
-    this.#buttonService.eventClick$
-      .pipe(takeUntilDestroyed(this.#DestroyRef))
-      .subscribe((data) => {
-        console.log(data);
-        if (data.id === 20) {
-          this.visibility.set(true);
-        }
-      });
+    // this.#buttonService.eventClick$
+    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //     if (data.id === 20) {
+    //       this.visibility.set(true);
+    //     }
+    //   });
+  }
+
+  onClickDownload() {
+    // на текущий момент функционал не реализован
+  }
+
+  OnClickCalendar() {
+    this.visibility.set(true);
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {

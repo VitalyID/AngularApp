@@ -1,22 +1,23 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { parseTemplate } from 'url-template';
 import { link } from '../const';
+import { CardsMeta } from '../shared/components/pagination/interface/PaginationMeta';
 import { UserCard } from './../state/cards.state';
 
 @Injectable({ providedIn: 'root' })
 export class CardService {
   #http = inject(HttpClient);
 
-  getCard(): Observable<UserCard[]> {
-    // return this.#http.get<UserCard[]>(link);
-    return this.#http
-      .get<any>(link)
-      .pipe(map((response) => response.data || []));
+  getCard(page = 0): Observable<CardsMeta> {
+    const params = new HttpParams().set('limit', 12).set('offset', page);
+    return this.#http.get<CardsMeta>(link, { params });
   }
 
   postCard(card: UserCard): Observable<UserCard> {
+    console.log('send: ', card);
+
     return this.#http.post<UserCard>(link, card);
   }
 

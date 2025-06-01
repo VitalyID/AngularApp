@@ -2,6 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 import { CardService } from '../services/CardStoreActions.service';
+import {
+  CardsMeta,
+  PaginationMeta,
+} from '../shared/components/pagination/interface/PaginationMeta';
 import UpdateCards, {
   DeleteCard,
   EditCard,
@@ -14,6 +18,7 @@ export interface UserCardState {
   cards: UserCard[];
   // editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
+  pagination: PaginationMeta;
 }
 
 export interface UserCard {
@@ -40,13 +45,17 @@ const defaultValue: UserCardState = {
     commission_coverage: false,
     employee_display: true,
     id: 0,
-    logo_file_id: '../../assets/images/logoDefault.png',
-    // platform_id: '',
+    logo_file_id: 0,
     preset_payment_sizes: [100, 250, 500],
     qr_image: '',
     rating: false,
     reviews: false,
     smiles: false,
+  },
+  pagination: {
+    limit: 1,
+    total: 1,
+    offset: 1,
   },
 };
 
@@ -60,8 +69,6 @@ export class ListOfCards {
 
   readonly #http = inject(CardService);
   readonly #store = inject(Store);
-
-  // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
 
   @Selector()
   static getCards(state: UserCardState) {
@@ -85,12 +92,14 @@ export class ListOfCards {
   }
 
   @Action(UpdateCards)
-  updateCards(ctx: StateContext<UserCardState>) {
-    // const state = ctx.getState();
-    return this.#http.getCard().pipe(
+  updateCards(ctx: StateContext<UserCardState>, { page }: UpdateCards) {
+    const state = ctx.getState();
+    // console.log(state);
+
+    return this.#http.getCard(page).pipe(
       take(1),
-      tap((cards: UserCard[]) => {
-        ctx.patchState({ cards: cards });
+      tap((data: CardsMeta) => {
+        ctx.patchState({ cards: data.data, pagination: data.pagination });
       })
     );
   }
@@ -115,7 +124,7 @@ export class ListOfCards {
     return this.#http.deleteCard(id).pipe(
       take(1),
       tap(() => {
-        this.#store.dispatch(new UpdateCards());
+        this.#store.dispatch(new UpdateCards(0));
       })
     );
   }
@@ -132,7 +141,7 @@ export class ListOfCards {
     return this.#http.putCard(userCard.id, userCard).pipe(
       take(1),
       tap(() => {
-        this.#store.dispatch(new UpdateCards());
+        this.#store.dispatch(new UpdateCards(0));
       })
     );
   }

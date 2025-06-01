@@ -2,7 +2,7 @@ import { UserCard } from './cards.state';
 
 export default class UpdateCards {
   static readonly type = '[Cards] SetCards';
-  constructor() {}
+  constructor(public page: number) {}
 }
 
 export class UpdateEditCard {

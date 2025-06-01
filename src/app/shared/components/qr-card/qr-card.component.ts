@@ -5,9 +5,11 @@ import {
   computed,
   inject,
   Input,
+  OnInit,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { loremIpsum } from 'lorem-ipsum';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { DeleteCard, EditCard } from '../../../state/cards.action';
 import { ListOfCards } from '../../../state/cards.state';
@@ -22,7 +24,7 @@ import { ButtonsComponent } from '../buttons/buttons.component';
   styleUrl: './qr-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QrCardComponent {
+export class QrCardComponent implements OnInit {
   @Input({ required: true }) src: string = '';
   @Input({ required: true }) backgroundCard: string = '';
   @Input({ required: true }) btnColor: string = '#ffffff';
@@ -85,6 +87,18 @@ export class QrCardComponent {
     borderStyle: 'none',
     id: 28,
   };
+
+  ngOnInit(): void {
+    // const lorem = this.randomText();
+    // const baseUrl = 'http://api.qrserver.com/v1/create-qr-code/?data=';
+    // const size = '&size=150x150';
+    // this.src = `${baseUrl}${lorem}${size}`;
+  }
+
+  randomText(): string {
+    const range = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+    return loremIpsum({ count: range });
+  }
 
   deleteCard(id: number) {
     this.#store.dispatch(new DeleteCard(id));
