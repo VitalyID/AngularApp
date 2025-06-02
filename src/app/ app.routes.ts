@@ -44,13 +44,18 @@ export const routes: Routes = [
       },
     ],
   },
-
   {
     path: 'home',
     redirectTo: '',
     pathMatch: 'full',
   },
-
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./components/phone-auth/phone-auth.module').then(
+        (m) => m.PhoneAuthModule
+      ),
+  },
   {
     path: '**',
     component: EmptyRouteComponent,

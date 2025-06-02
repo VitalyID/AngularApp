@@ -16,15 +16,12 @@
     --borderRadius: 8px;
     --isActiveColor: #ffffff;
     --border: 1px solid black;
-    // --transform: scale(1);
-    // --transition: 0.5s;
-
-    // --isActiveTransform: scale(1.2);
-    // --isActiveTransition: 0.5s;
-    // --isActiveBorder: 1px solid black;
+    transform: scale(1);
+    transition: transform 0.5s;
 
     &.isActive {
       transform: scale(1.2);
+      transition: transform 0 5s;
     }
   }
 

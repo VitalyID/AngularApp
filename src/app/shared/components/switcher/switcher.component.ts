@@ -32,7 +32,6 @@ export class SwitcherComponent implements OnInit {
 
   switcherForParent: SwitcherData = {
     title: '',
-    // title: Object.values(EnumSwitcher);
     value: false,
   };
 
