@@ -77,5 +77,10 @@
 
   &__switcher {
     @include flex($gap: 10px, $justify: start);
+    margin-bottom: 20px;
+  }
+
+  & app-buttons {
+    --width: 100%;
   }
 }

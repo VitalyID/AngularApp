@@ -11,6 +11,11 @@
           <switcher [isOn]="isOn"></switcher>
           <span>Запомнить меня</span>
         </div>
+
+        <app-buttons
+          [buttonData]="buttonData"
+          (click)="onClick()"
+        ></app-buttons>
       </div>
     </div>
     <div class="auth-phone-container__bottom"></div>

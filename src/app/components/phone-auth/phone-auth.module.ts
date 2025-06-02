@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { InputTextComponent } from '../../shared/components/input-text/input-text.component';
 import { SvgIconComponent } from '../../shared/components/svg-icon/svg-icon.component';
 import { SwitcherComponent } from '../../shared/components/switcher/switcher.component';
@@ -13,6 +14,7 @@ import { PhoneAuthRoutingModule } from './phone-auth.routing';
     TextAreaComponent,
     InputTextComponent,
     SwitcherComponent,
+    ButtonsComponent,
   ],
   exports: [],
   declarations: [PhoneAuthComponent],

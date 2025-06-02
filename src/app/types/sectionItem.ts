@@ -17,6 +17,7 @@ export interface ButtonData {
   // event?: string;
   id: string;
   borderStyle?: string;
+  borderRadius?: string;
   boxShadow?: string;
   key?: string;
 }

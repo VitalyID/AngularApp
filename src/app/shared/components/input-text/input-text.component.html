@@ -9,10 +9,10 @@
   <input
     [type]="actualData.type"
     [placeholder]="actualData.placeholder"
-    (input)="inputValue($event)"
     [disabled]="actualData.disabled"
-    myValidator
     [actualData]="actualData"
     [value]="actualData.value"
+    (input)="inputValue($event)"
+    myValidator
   />
 </div>
