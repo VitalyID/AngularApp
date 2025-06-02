@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import * as uuid from 'uuid';
 import { v4 as uuidv4 } from 'uuid';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
-
-// import { CommonModule } from '@angular/common';
-// import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
-// import { ChartComponent } from '../../shared/components/chart/chart.component';
-// import { TableComponent } from '../../shared/components/table/table.component';
 import { ButtonData } from './../../types/sectionItem';
 
 @Component({
@@ -26,7 +22,7 @@ export class MainComponent {
   public btnText: ButtonData = {
     text: 'Создать QR-Code',
     iconClass: 'icon-add-outline',
-    id: 3,
+    id: uuid.v4(),
   };
 
   list: ListDropdown[] = [

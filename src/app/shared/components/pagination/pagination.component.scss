@@ -16,12 +16,16 @@
     --borderRadius: 8px;
     --isActiveColor: #ffffff;
     --border: 1px solid black;
-    --transform: scale(1);
-    --transition: 0.5s;
+    // --transform: scale(1);
+    // --transition: 0.5s;
 
-    --isActiveTransform: scale(1.2);
-    --isActiveTransition: 0.5s;
-    --isActiveBorder: 1px solid black;
+    // --isActiveTransform: scale(1.2);
+    // --isActiveTransition: 0.5s;
+    // --isActiveBorder: 1px solid black;
+
+    &.isActive {
+      transform: scale(1.2);
+    }
   }
 
   &__left {

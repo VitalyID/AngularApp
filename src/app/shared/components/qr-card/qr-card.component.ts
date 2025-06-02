@@ -10,6 +10,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { loremIpsum } from 'lorem-ipsum';
+import * as uuid from 'uuid';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { DeleteCard, EditCard } from '../../../state/cards.action';
 import { ListOfCards } from '../../../state/cards.state';
@@ -52,7 +53,7 @@ export class QrCardComponent implements OnInit {
     text: 'Добавить в Apple Wallet',
     background: this.btnColor,
     borderStyle: 'none',
-    id: 24,
+    id: uuid.v4(),
   }));
 
   chartIcon: ButtonData = {
@@ -61,7 +62,7 @@ export class QrCardComponent implements OnInit {
     background: 'none',
     borderStyle: 'none',
     // color: 'black',
-    id: 25,
+    id: uuid.v4(),
   };
 
   shareIcon: ButtonData = {
@@ -69,7 +70,7 @@ export class QrCardComponent implements OnInit {
     iconClass: 'icon-share',
     background: 'none',
     borderStyle: 'none',
-    id: 26,
+    id: uuid.v4(),
   };
 
   editIcon: ButtonData = {
@@ -77,7 +78,7 @@ export class QrCardComponent implements OnInit {
     iconClass: 'icon-Edit',
     background: 'none',
     borderStyle: 'none',
-    id: 27,
+    id: uuid.v4(),
   };
 
   deleteIcon: ButtonData = {
@@ -85,7 +86,7 @@ export class QrCardComponent implements OnInit {
     iconClass: 'icon-Trash',
     background: 'none',
     borderStyle: 'none',
-    id: 28,
+    id: uuid.v4(),
   };
 
   ngOnInit(): void {

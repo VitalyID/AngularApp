@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import * as uuid from 'uuid';
 import { DefaultColor } from '../../shared/components/color-picker/types/enum/default';
 import { ButtonData } from '../../types/sectionItem';
 import { SetColor } from './state/agents.actions';
@@ -24,7 +25,7 @@ export class AgentsComponent implements OnInit {
   btnText: ButtonData = {
     text: 'Создать QR-Code',
     iconClass: 'icon-add-outline',
-    id: 12,
+    id: uuid.v4(),
   };
   getColor$?: Observable<string>;
   // #color?: Subscription;

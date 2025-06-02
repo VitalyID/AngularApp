@@ -23,6 +23,7 @@ import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+import * as uuid from 'uuid';
 import {
   PostCard,
   PutCard,
@@ -106,7 +107,7 @@ export class CreateQRcodeComponent implements OnInit {
   }));
 
   btnText: ButtonData = {
-    id: 7,
+    id: uuid.v4(),
     text: 'Создать QR-код',
   };
 
@@ -115,21 +116,21 @@ export class CreateQRcodeComponent implements OnInit {
       text: '100 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 8,
+      id: uuid.v4(),
       borderStyle: 'none',
     },
     {
       text: '150 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 9,
+      id: uuid.v4(),
       borderStyle: 'none',
     },
     {
       text: '200 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 10,
+      id: uuid.v4(),
       borderStyle: 'none',
     },
   ];

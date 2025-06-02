@@ -10,6 +10,7 @@ import {
   Signal,
 } from '@angular/core';
 // import { EventEmitter } from 'stream';
+import { CommonModule } from '@angular/common';
 import * as uuid from 'uuid';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { UserCardState } from './../../../state/cards.state';
@@ -17,7 +18,7 @@ import { ButtonData } from './../../../types/sectionItem';
 
 @Component({
   selector: 'pagination',
-  imports: [ButtonsComponent],
+  imports: [ButtonsComponent, CommonModule],
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -120,7 +121,7 @@ export class PaginationComponent {
     return arrNumber;
   }
 
-  onClick(pageNum: string) {
+  onClick(pageNum: string, id: string) {
     this.userClick.emit(pageNum);
   }
 

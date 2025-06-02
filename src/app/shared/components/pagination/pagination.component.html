@@ -9,8 +9,16 @@
     @for (button of paginationButton(); track button.id){
     <app-buttons
       [buttonData]="button"
-      (click)="onClick(button.text ?? 'pagination error')"
+      (click)="onClick(button.text ?? 'pagination error', button.id)"
+      [ngClass]="{
+        isActive:
+          (+button.text! - 1 ===
+          state().pagination.offset) || button.text ===
+          (state().pagination.offset / state().pagination.limit+1).toString(),
+
+      }"
     ></app-buttons>
+
     }
   </div>
 

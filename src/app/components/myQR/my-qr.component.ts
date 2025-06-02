@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { loremIpsum } from 'lorem-ipsum';
 // import { GetDataQrService } from '../../services/get-data-qr.service';
+import * as uuid from 'uuid';
 import { RoutIDservice } from '../../services/transmitDataRout.service';
-
 import UpdateCards from '../../state/cards.action';
 import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
 import { ButtonData } from '../../types/sectionItem';
@@ -29,7 +29,7 @@ import { ButtonData } from '../../types/sectionItem';
 export class MyQRComponent implements OnInit {
   asideID: number = 0;
   btnText: ButtonData = {
-    id: 5,
+    id: uuid.v4(),
     text: 'Добавить QR код',
     iconClass: 'icon-add-outline',
   };

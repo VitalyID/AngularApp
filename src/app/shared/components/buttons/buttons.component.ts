@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, Input } from '@angular/core';
 import { ButtonData } from '../../../types/sectionItem';
-import { ListenerService } from './service/buttonListenerStatus.compoent.service';
-import { ButtonService } from './service/buttons.component.service';
 
 @Component({
   selector: 'app-buttons',
@@ -12,25 +9,25 @@ import { ButtonService } from './service/buttons.component.service';
   templateUrl: './buttons.component.html',
   styleUrl: './buttons.component.scss',
 })
-export class ButtonsComponent implements OnInit {
+export class ButtonsComponent {
   @Input() buttonData?: ButtonData;
 
-  readonly #listenerService = inject(ListenerService);
-  readonly #service = inject(ButtonService);
-  readonly #destroyRef: DestroyRef = inject(DestroyRef);
+  // readonly #listenerService = inject(ListenerService);
+  // readonly #service = inject(ButtonService);
+  // readonly #destroyRef: DestroyRef = inject(DestroyRef);
 
-  // id необходим для проверки и дальнейшей логики
-  public id: number = 2;
+  // // id необходим для проверки и дальнейшей логики
+  // public id: number = 2;
 
-  ngOnInit(): void {
-    this.#listenerService.aboutBTN$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (this.buttonData && data.data.id === this.id) {
-          this.buttonData.disabled = data.data.disabled;
-        }
-      });
-  }
+  // ngOnInit(): void {
+  //   this.#listenerService.aboutBTN$
+  //     .pipe(takeUntilDestroyed(this.#destroyRef))
+  //     .subscribe((data) => {
+  //       if (this.buttonData && data.data.id === this.id) {
+  //         this.buttonData.disabled = data.data.disabled;
+  //       }
+  //     });
+  // }
 
   // clickOn() {
   //   if (this.buttonData) {

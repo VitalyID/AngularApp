@@ -12,6 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { SharedModule } from '../../../shared.module';
 import { Store } from '@ngxs/store';
+import * as uuid from 'uuid';
 import { ButtonData } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
@@ -30,7 +31,7 @@ export class UploadLogoComponent implements OnInit {
 
   uploadPhoto: ButtonData = {
     iconClass: 'icon-icon-upload',
-    id: 6,
+    id: uuid.v4(),
     text: 'Загрузите логотип',
     background: 'none',
     color: '#313436',

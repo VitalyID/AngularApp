@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import * as uuid from 'uuid';
 import { v4 as uuidv4 } from 'uuid';
 import { ScreenSizeService } from '../../../services/screen-size.service';
 import { TransmitDataService } from '../../../services/transmit-data.service';
@@ -17,7 +18,6 @@ import { Breakpoints } from '../../../types/interfaces/breakpoints';
 import { ButtonData, DataUserOperation } from '../../../types/sectionItem';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { ButtonsComponent } from '../buttons/buttons.component';
-import { ButtonService } from '../buttons/service/buttons.component.service';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -56,38 +56,38 @@ export class TableComponent implements OnInit {
     iconClass: 'icon-PaperDownload',
     background: '#F7F9FB',
     color: '#101112',
-    id: 1,
+    id: uuid.v4(),
   };
 
   transmitToBTN: ButtonData = {
     text: 'Ok',
     disabled: true,
-    id: 2,
+    id: uuid.v4(),
   };
 
   transmitToBTNmobile: ButtonData = {
     text: 'Ok',
     disabled: true,
-    id: 21,
+    id: uuid.v4(),
   };
 
   transmitToBTNtabs: ButtonData = {
     text: 'Ok',
     disabled: true,
-    id: 22,
+    id: uuid.v4(),
   };
 
   calendar: ButtonData = {
     iconClass: 'icon-Calendar',
     disabled: true,
     background: '#F7F9FB',
-    id: 20,
+    id: uuid.v4(),
     borderStyle: '1px solid #C8C9CF',
   };
 
   filterMobile: ListDropdown[] = [];
   defaultValue: ListDropdown = {
-    id: '1',
+    id: uuid.v4(),
     item: 'Необходимо выбрать',
   };
 
@@ -105,9 +105,7 @@ export class TableComponent implements OnInit {
   tableBody$: Observable<DataUserOperation[]> =
     this.#filterService.dataOperationFromService$;
   windowSize$: Observable<Breakpoints> = this.#ViewPort.isMobileSubject$;
-  readonly #buttonService = inject(ButtonService);
 
-  // visibility: boolean = false;
   visibility = signal<boolean>(false);
 
   ngOnInit(): void {
@@ -119,15 +117,6 @@ export class TableComponent implements OnInit {
       const arrEl: ListDropdown = { item: el, id: uuidv4() };
       return arrEl;
     });
-
-    // this.#buttonService.eventClick$
-    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
-    //   .subscribe((data) => {
-    //     console.log(data);
-    //     if (data.id === 20) {
-    //       this.visibility.set(true);
-    //     }
-    //   });
   }
 
   onClickDownload() {

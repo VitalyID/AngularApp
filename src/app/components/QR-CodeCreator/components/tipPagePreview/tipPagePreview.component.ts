@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
+import * as uuid from 'uuid';
 import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.component';
 import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
 import { BordeerLineComponent } from '../../../../shared/components/bordeer-line/border-line.component';
@@ -31,7 +32,6 @@ import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { ButtonData } from '../../../../types/sectionItem';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
-// import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
 @Component({
   selector: 'user-preview',
@@ -75,7 +75,7 @@ export class UserPreviewComponent implements OnInit {
       text: '0 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 8,
+      id: uuid.v4(),
       borderStyle: 'none',
       key: 'inputID-1',
     },
@@ -83,7 +83,7 @@ export class UserPreviewComponent implements OnInit {
       text: '0 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 9,
+      id: uuid.v4(),
       borderStyle: 'none',
       key: 'inputID-2',
     },
@@ -91,7 +91,7 @@ export class UserPreviewComponent implements OnInit {
       text: '0 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 10,
+      id: uuid.v4(),
       borderStyle: 'none',
       key: 'inputID-3',
     },
@@ -102,7 +102,7 @@ export class UserPreviewComponent implements OnInit {
     disabled: true,
     background: '#8f8f8f',
     color: 'black',
-    id: 11,
+    id: uuid.v4(),
   };
 
   dataToStarRate: DataStarRate = {
