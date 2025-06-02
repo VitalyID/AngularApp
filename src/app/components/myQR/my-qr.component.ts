@@ -54,10 +54,16 @@ export class MyQRComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.#routService.getIDroute(this.asideID);
+    // this.#routService.getIDroute(this.asideID);
 
     // when this page is started, we send offset pagination to back
-    const pageId = this.#router.url.split('=')[1];
+    let pageId = this.#router.url.split('=')[1];
+    // console.log(pageId);
+    if (!pageId) {
+      pageId = '1';
+    }
+    // console.log((Number(pageId) - 1) * 12);
+
     this.#store.dispatch(new UpdateCards((Number(pageId) - 1) * 12));
   }
 

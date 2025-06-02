@@ -15,8 +15,6 @@ export class CardService {
   }
 
   postCard(card: UserCard): Observable<UserCard> {
-    console.log('send: ', card);
-
     return this.#http.post<UserCard>(link, card);
   }
 
