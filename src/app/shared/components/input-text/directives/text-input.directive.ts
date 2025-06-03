@@ -38,33 +38,53 @@ export class myValidatorDirective {
 
       const tmp: string[] = [...numericValue.split('')];
 
-      if (tmp[0] === '8' || tmp[0] === '+') {
-        let newNumber: string[] = [];
+      if (tmp[0] === '8') {
         // if number begin +, removing it
         let formattedNumber = numericValue.replace(/^\+/, '');
 
-        if (formattedNumber.length < 11) {
-          event.target.value = 'Error';
+        if (tmp.length === 1) {
+          tmp.push(' (');
+          event.target.value = tmp.join('');
+        } else if (tmp.length === 4) {
+          tmp.splice(1, 0, ' (');
+          tmp.push(') ');
+          event.target.value = tmp.join('');
+        } else if (tmp.length === 7) {
+          tmp.push(' - ');
+          tmp.splice(1, 0, ' (');
+          tmp.splice(5, 0, ') ');
 
-          // change 8 to +7
-          if (formattedNumber.startsWith('8')) {
-            formattedNumber = '+7' + formattedNumber.slice(1);
-          } else if (!formattedNumber.startsWith('+7')) {
-            formattedNumber = '+7' + formattedNumber;
-          }
+          event.target.value = tmp.join('');
+        } else if (tmp.length === 9) {
+          tmp.push(' - ');
+          tmp.splice(1, 0, ' (');
+          tmp.splice(5, 0, ') ');
+          tmp.splice(9, 0, ' - ');
+          event.target.value = tmp.join('');
+        } else if (tmp.length > 11) {
+          event.target.value = '';
+        }
+      } else if (tmp[0] === '+') {
+        if (tmp.length === 2) {
+          tmp.push(' (');
+          event.target.value = tmp.join('');
+        } else if (tmp.length === 5) {
+          tmp.splice(2, 0, ' (');
+          tmp.push(') ');
+          event.target.value = tmp.join('');
+        } else if (tmp.length === 8) {
+          tmp.push(' - ');
+          tmp.splice(2, 0, ' (');
+          tmp.splice(6, 0, ') ');
 
-          //  formatting number
-          const areaCode = formattedNumber.substring(1, 4);
-          const prefix = formattedNumber.substring(4, 7);
-          const lineNumber = formattedNumber.substring(7, 9);
-          const lastTwo = formattedNumber.substring(9, 11);
-
-          console.log(
-            `+7 (${areaCode}) ${prefix} - ${lineNumber} - ${lastTwo}`
-          );
-
-          event.target.value = `+7 (${areaCode}) ${prefix} - ${lineNumber} - ${lastTwo}`;
-        } else {
+          event.target.value = tmp.join('');
+        } else if (tmp.length === 10) {
+          tmp.push(' - ');
+          tmp.splice(2, 0, ' (');
+          tmp.splice(6, 0, ') ');
+          tmp.splice(10, 0, ' - ');
+          event.target.value = tmp.join('');
+        } else if (tmp.length > 12) {
           event.target.value = '';
         }
       }
