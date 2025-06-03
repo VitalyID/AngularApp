@@ -6,12 +6,14 @@ import {
   Output,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { myValidatorDirective } from './directives/text-input.directive';
 import { DataInput } from './types/interfaces/dataInput';
 
 @Component({
   selector: 'input-text',
-  imports: [ReactiveFormsModule, myValidatorDirective],
+  imports: [ReactiveFormsModule, myValidatorDirective, NgxMaskDirective],
+  providers: [provideNgxMask()],
   templateUrl: './input-text.component.html',
   styleUrl: './input-text.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +25,8 @@ export class InputTextComponent {
     unitCurrency: '',
     type: 'tel',
     disabled: false,
+    mask: '0 (000) 000-00-00',
+    dropSpecialCharacters: false,
   };
   @Output() updateValue = new EventEmitter();
 

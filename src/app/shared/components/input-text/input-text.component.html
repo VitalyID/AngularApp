@@ -13,6 +13,8 @@
     [actualData]="actualData"
     [value]="actualData.value"
     (input)="inputValue($event)"
+    [mask]="actualData.mask"
+    [dropSpecialCharacters]="actualData.dropSpecialCharacters ?? null"
     myValidator
   />
 </div>
