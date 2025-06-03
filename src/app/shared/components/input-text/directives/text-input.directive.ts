@@ -36,14 +36,15 @@ export class myValidatorDirective {
       // remove all no-numeral
       const numericValue = inputValue.replace(/[^0-9+]/g, '');
 
-      const tmp = [...numericValue.split('')];
+      const tmp: string[] = [...numericValue.split('')];
 
       if (tmp[0] === '8' || tmp[0] === '+') {
+        let newNumber: string[] = [];
         // if number begin +, removing it
         let formattedNumber = numericValue.replace(/^\+/, '');
 
-        if (formattedNumber.length < 11) {
-          return formattedNumber;
+        if (formattedNumber.length > 11) {
+          event.target.value = 'ОШИБКА';
         }
 
         // change 8 to +7
