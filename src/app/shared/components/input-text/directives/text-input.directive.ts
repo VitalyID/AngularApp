@@ -43,7 +43,7 @@ export class myValidatorDirective {
         let formattedNumber = numericValue.replace(/^\+/, '');
 
         if (formattedNumber.length < 11) {
-          return formattedNumber;
+          event.target.value = 'Error';
         }
 
         // change 8 to +7
