@@ -5,10 +5,16 @@
         <svg-icon [svgSetting]="svgLogo"></svg-icon>
         <h1>Вход в Tips.me</h1>
         <span>Номер телефона</span>
-        <input-text [actualData]="userInput"></input-text>
+        <input-text
+          [actualData]="userInput"
+          (updateValue)="phoneNumber($event)"
+        ></input-text>
 
         <div class="auth-phone-container__switcher">
-          <switcher [isOn]="isOn"></switcher>
+          <switcher
+            [isOn]="isOn"
+            (updateSwitcher)="isSavePhone($event)"
+          ></switcher>
           <span>Запомнить меня</span>
         </div>
 

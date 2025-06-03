@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import * as uuid from 'uuid';
+import { LocalStorigeService } from '../../services/local-storige.service';
 import { DataInput } from '../../shared/components/input-text/types/interfaces/dataInput';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { ButtonData } from './../../types/sectionItem';
@@ -25,14 +26,7 @@ export class PhoneAuthComponent {
   };
 
   isOn = signal<boolean>(true);
-
-  userInput: DataInput = {
-    placeholder: '+7 ( ___ ) ___-__-__',
-    value: '',
-    unitCurrency: '',
-    type: 'tel',
-    disabled: false,
-  };
+  userPhone: string = '';
 
   buttonData: ButtonData = {
     text: 'Продолжить',
@@ -43,9 +37,32 @@ export class PhoneAuthComponent {
   };
 
   readonly #router = inject(Router);
+  readonly #lSS = inject(LocalStorigeService);
+
+  storigePhone = signal(this.#lSS.getLocalStorige());
+
+  userInput: DataInput = {
+    placeholder: '+7 ( ___ ) ___-__-__',
+    value: this.storigePhone(),
+    unitCurrency: '',
+    type: 'tel',
+    disabled: false,
+  };
 
   onClick() {
     console.log('CLICK');
     this.#router.navigate(['']);
+  }
+
+  phoneNumber(phone: string) {
+    this.userPhone = phone;
+  }
+
+  isSavePhone(isSaving: boolean) {
+    if (isSaving) {
+      this.#lSS.sendToLocalStorige(this.userPhone);
+    } else {
+      this.#lSS.sendToLocalStorige((this.userPhone = ''));
+    }
   }
 }
