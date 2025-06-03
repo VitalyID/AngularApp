@@ -1,17 +1,9 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { NG_VALIDATORS } from '@angular/forms';
 import { DataInput } from '../types/interfaces/dataInput';
 
 @Directive({
   selector: '[myValidator]',
   standalone: true,
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: myValidatorDirective,
-      multi: true,
-    },
-  ],
 })
 export class myValidatorDirective {
   @Input({ required: true }) actualData?: DataInput;
@@ -33,61 +25,71 @@ export class myValidatorDirective {
         event.target.value = this.actualData.placeholder;
       }
     } else if (this.actualData?.type === 'tel') {
-      // remove all no-numeral
-      const numericValue = inputValue.replace(/[^0-9+]/g, '');
+      let numericValue = inputValue.replace(/[^0-9+]/g, '');
 
-      const tmp: string[] = [...numericValue.split('')];
+      if (numericValue.startsWith('8')) {
+        numericValue = '+7' + numericValue.substring(1);
+      }
 
-      if (tmp[0] === '8') {
-        // if number begin +, removing it
-        let formattedNumber = numericValue.replace(/^\+/, '');
+      if (!numericValue) {
+        event.target.value = '';
+        return;
+      }
 
-        if (tmp.length === 1) {
-          tmp.push(' (');
-          event.target.value = tmp.join('');
-        } else if (tmp.length === 4) {
-          tmp.splice(1, 0, ' (');
-          tmp.push(') ');
-          event.target.value = tmp.join('');
-        } else if (tmp.length === 7) {
-          tmp.push(' - ');
-          tmp.splice(1, 0, ' (');
-          tmp.splice(5, 0, ') ');
+      event.target.value = this.formatPhoneNumber(numericValue);
+    }
+  }
 
-          event.target.value = tmp.join('');
-        } else if (tmp.length === 9) {
-          tmp.push(' - ');
-          tmp.splice(1, 0, ' (');
-          tmp.splice(5, 0, ') ');
-          tmp.splice(9, 0, ' - ');
-          event.target.value = tmp.join('');
-        } else if (tmp.length > 11) {
-          event.target.value = '';
-        }
-      } else if (tmp[0] === '+') {
-        if (tmp.length === 2) {
-          tmp.push(' (');
-          event.target.value = tmp.join('');
-        } else if (tmp.length === 5) {
-          tmp.splice(2, 0, ' (');
-          tmp.push(') ');
-          event.target.value = tmp.join('');
-        } else if (tmp.length === 8) {
-          tmp.push(' - ');
-          tmp.splice(2, 0, ' (');
-          tmp.splice(6, 0, ') ');
+  private formatPhoneNumber(value: string): string {
+    let cleaned = value.replace(/\D/g, '');
 
-          event.target.value = tmp.join('');
-        } else if (tmp.length === 10) {
-          tmp.push(' - ');
-          tmp.splice(2, 0, ' (');
-          tmp.splice(6, 0, ') ');
-          tmp.splice(10, 0, ' - ');
-          event.target.value = tmp.join('');
-        } else if (tmp.length > 12) {
-          event.target.value = '';
-        }
+    let prefix = '';
+    if (value.startsWith('+7')) {
+      prefix = '+7';
+      cleaned = cleaned.substring(1);
+    } else if (value.startsWith('7')) {
+      prefix = '+7';
+      cleaned = cleaned.substring(1);
+    } else if (value.length > 0 && cleaned.length > 0) {
+      prefix = '+7';
+    }
+
+    if (cleaned.length > 10) {
+      cleaned = cleaned.substring(0, 10);
+    }
+
+    let formatted = prefix;
+    let i = 0;
+
+    if (cleaned.length > i) {
+      formatted += ' (';
+      formatted += cleaned.substring(i, i + 3);
+      i += 3;
+      if (cleaned.length > i) {
+        formatted += ') ';
       }
     }
+
+    if (cleaned.length > i) {
+      formatted += cleaned.substring(i, i + 3);
+      i += 3;
+      if (cleaned.length > i) {
+        formatted += '-';
+      }
+    }
+
+    if (cleaned.length > i) {
+      formatted += cleaned.substring(i, i + 2);
+      i += 2;
+      if (cleaned.length > i) {
+        formatted += '-';
+      }
+    }
+
+    if (cleaned.length > i) {
+      formatted += cleaned.substring(i, i + 2);
+    }
+
+    return formatted;
   }
 }
