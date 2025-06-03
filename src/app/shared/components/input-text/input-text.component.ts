@@ -21,7 +21,7 @@ export class InputTextComponent {
     placeholder: '',
     value: '',
     unitCurrency: '',
-    type: 'text',
+    type: 'tel',
     disabled: false,
   };
   @Output() updateValue = new EventEmitter();

@@ -27,10 +27,10 @@ export class PhoneAuthComponent {
   isOn = signal<boolean>(true);
 
   userInput: DataInput = {
-    placeholder: '+7 (___) ___-__-__',
+    placeholder: '+7 ( ___ ) ___-__-__',
     value: '',
     unitCurrency: '',
-    type: 'number',
+    type: 'tel',
     disabled: false,
   };
 
