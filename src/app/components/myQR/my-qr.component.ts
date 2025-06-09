@@ -3,16 +3,16 @@ import {
   Component,
   effect,
   inject,
+  Injector,
   OnInit,
+  runInInjectionContext,
   signal,
   Signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { loremIpsum } from 'lorem-ipsum';
 // import { GetDataQrService } from '../../services/get-data-qr.service';
 import * as uuid from 'uuid';
-import { RoutIDservice } from '../../services/transmitDataRout.service';
 import UpdateCards from '../../state/cards.action';
 import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
 import { ButtonData } from '../../types/sectionItem';
@@ -39,43 +39,40 @@ export class MyQRComponent implements OnInit {
   src: string = '';
   getCards: UserCard[] = [];
   cardCount = signal(0);
-  page: string = '1';
+  pageOffset: number = 1;
 
-  readonly #routService = inject(RoutIDservice);
+  // readonly #routService = inject(RoutIDservice);
   readonly #store = inject(Store);
   readonly #router = inject(Router);
+  readonly #inject = inject(Injector);
 
   cards: Signal<UserCardState> = this.#store.selectSignal(ListOfCards.getCards);
 
-  cardCountEffect = effect(() => {
-    if (this.cards()) {
-      this.cardCount.set(this.cards().pagination.total);
-    }
-  });
-
   ngOnInit(): void {
-    // this.#routService.getIDroute(this.asideID);
-
-    // when this page is started, we send offset pagination to back
-    let pageId = this.#router.url.split('=')[1];
-    if (!pageId) {
-      pageId = '1';
-    }
-
-    this.#store.dispatch(new UpdateCards((Number(pageId) - 1) * 12));
-  }
-
-  randomText(): string {
-    const range = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-    return loremIpsum({ count: range });
-  }
-
-  userPage(page: string) {
-    this.page = page;
-    this.#store.dispatch(new UpdateCards((Number(this.page) - 1) * 12));
-    this.#router.navigate(['my-qr'], {
-      queryParams: { page: this.page },
+    runInInjectionContext(this.#inject, () => {
+      effect(() => {
+        if (this.cards()) {
+          this.cardCount.set(this.cards().pagination.total);
+        }
+      });
     });
+
+    // when this page is started or reloaded, we send offset pagination to back
+    let pageId = Math.max(+(this.#router.url.split('=')[1] ?? '1'), 1);
+    this.#store.dispatch(new UpdateCards(pageId - 1));
+  }
+
+  selectPage(offset: string) {
+    // we get offset page from pagination and send it backand
+    this.pageOffset = (Number(offset) - 1) * 12;
+    this.#store.dispatch(new UpdateCards(this.pageOffset));
+    this.#router.navigate(['my-qr'], {
+      queryParams: { offset: this.pageOffset },
+    });
+  }
+
+  onClick() {
+    this.#router.navigate(['create-qrcode']);
   }
 
   constructor() {}

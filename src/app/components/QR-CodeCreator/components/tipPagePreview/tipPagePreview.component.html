@@ -51,7 +51,7 @@
     @for (btn of arrBTN; track $index){
     <app-buttons
       (click)="onClick(userCard.preset_payment_sizes[$index].toString())"
-      [buttonData]="{
+     {
         text: userCard.preset_payment_sizes[$index].toString(),
         iconClass: btn.iconClass,
         disabled: btn.disabled,
@@ -62,8 +62,10 @@
         borderStyle: btn.borderStyle,
         boxShadow: btn.boxShadow,
         key: btn.key
-      }"
+      }
     ></app-buttons>
+
+
     }
   </div>
   }

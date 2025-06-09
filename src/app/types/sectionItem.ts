@@ -10,15 +10,15 @@
 export interface ButtonData {
   text?: string;
   iconClass?: string;
-  disabled?: boolean;
-  background?: string;
-  color?: string;
-  isActive?: boolean;
-  // event?: string;
-  id: string;
-  borderStyle?: string;
-  borderRadius?: string;
-  boxShadow?: string;
+  // disabled?: boolean;
+  // background?: string;
+  // color?: string;
+  // isActive?: boolean;
+  // // event?: string;
+  // id: string;
+  // borderStyle?: string;
+  // borderRadius?: string;
+  // boxShadow?: string;
   key?: string;
 }
 

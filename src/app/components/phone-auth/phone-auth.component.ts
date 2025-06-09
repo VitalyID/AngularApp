@@ -25,7 +25,7 @@ export class PhoneAuthComponent {
     height: '31px',
   };
 
-  isOn = signal<boolean>(true);
+  isSaveLogin = signal<boolean>(true);
   userPhone: string = '';
 
   buttonData: ButtonData = {
@@ -49,7 +49,7 @@ export class PhoneAuthComponent {
     disabled: false,
   };
 
-  onClick() {
+  login() {
     console.log('CLICK');
     this.#router.navigate(['']);
   }

@@ -92,13 +92,15 @@ export class ListOfCards {
   }
 
   @Action(UpdateCards)
-  updateCards(ctx: StateContext<UserCardState>, { page }: UpdateCards) {
-    const state = ctx.getState();
-    // console.log(state);
+  updateCards(ctx: StateContext<UserCardState>, { rangeCards }: UpdateCards) {
+    console.log(1111, rangeCards);
 
-    return this.#http.getCard(page).pipe(
+    return this.#http.getCard(rangeCards).pipe(
       take(1),
       tap((data: CardsMeta) => {
+        console.log(data);
+        console.log(rangeCards);
+
         ctx.patchState({ cards: data.data, pagination: data.pagination });
       })
     );

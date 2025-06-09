@@ -35,19 +35,19 @@
       <span>{{ enumSwitcher.rate }}</span>
       <switcher
         [title]="enumSwitcher.rate"
-        [isOn]="isOnRate"
+        [featureToggle]="isOnRate"
         (updateSwitcher)="isSwitcher(1, $event)"
       ></switcher>
       <span>{{ enumSwitcher.feedback }}</span>
       <switcher
         [title]="enumSwitcher.feedback"
-        [isOn]="isOnFeedback"
+        [featureToggle]="isOnFeedback"
         (updateSwitcher)="isSwitcher(2, $event)"
       ></switcher>
       <span>{{ enumSwitcher.impressions }}</span>
       <switcher
         [title]="enumSwitcher.impressions"
-        [isOn]="isOnImpressions"
+        [featureToggle]="isOnImpressions"
         (updateSwitcher)="isSwitcher(3, $event)"
       ></switcher>
     </div>

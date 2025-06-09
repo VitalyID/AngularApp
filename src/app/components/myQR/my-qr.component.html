@@ -2,7 +2,7 @@
 
 <div class="myQR__wrapTop">
   <h2>Мои QR</h2>
-  <app-buttons [buttonData]="btnText"></app-buttons>
+  <app-buttons [buttonData]="btnText" (click)="onClick()"></app-buttons>
 </div>
 
 <div class="myQR__wrapBody">
@@ -20,7 +20,7 @@
 
 @if (cardCount() >= 12) {
 <div class="myQR__pagination">
-  <pagination [state]="cards" (userClick)="userPage($event)"></pagination>
+  <pagination [state]="cards" (userClick)="selectPage($event)"></pagination>
 </div>
 } } @else {
 <ng-container class="myQR__error">

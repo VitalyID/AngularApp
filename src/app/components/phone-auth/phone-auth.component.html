@@ -12,16 +12,13 @@
 
         <div class="auth-phone-container__switcher">
           <switcher
-            [isOn]="isOn"
+            [featureToggle]="isSaveLogin"
             (updateSwitcher)="isSavePhone($event)"
           ></switcher>
           <span>Запомнить меня</span>
         </div>
 
-        <app-buttons
-          [buttonData]="buttonData"
-          (click)="onClick()"
-        ></app-buttons>
+        <app-buttons [buttonData]="buttonData" (click)="login()"></app-buttons>
       </div>
     </div>
     <div class="auth-phone-container__bottom"></div>

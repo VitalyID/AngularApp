@@ -70,14 +70,14 @@ export class UserPreviewComponent implements OnInit {
     disabled: true,
   };
 
-  arrBTN: ButtonData[] = [
+  arrBTN = [
     {
       text: '0 ₽',
       background: '#EEEFF2',
       color: '#313436',
       id: uuid.v4(),
       borderStyle: 'none',
-      key: 'inputID-1',
+      // key: 'inputID-1',
     },
     {
       text: '0 ₽',
@@ -85,7 +85,7 @@ export class UserPreviewComponent implements OnInit {
       color: '#313436',
       id: uuid.v4(),
       borderStyle: 'none',
-      key: 'inputID-2',
+      // key: 'inputID-2',
     },
     {
       text: '0 ₽',
@@ -93,11 +93,11 @@ export class UserPreviewComponent implements OnInit {
       color: '#313436',
       id: uuid.v4(),
       borderStyle: 'none',
-      key: 'inputID-3',
+      // key: 'inputID-3',
     },
   ];
 
-  btnSendData: ButtonData = {
+  btnSendData = {
     text: 'Поблагодарить',
     disabled: true,
     background: '#8f8f8f',

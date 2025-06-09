@@ -90,10 +90,10 @@ export class QrCardComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // const lorem = this.randomText();
-    // const baseUrl = 'http://api.qrserver.com/v1/create-qr-code/?data=';
-    // const size = '&size=150x150';
-    // this.src = `${baseUrl}${lorem}${size}`;
+    const lorem = this.randomText();
+    const baseUrl = 'http://api.qrserver.com/v1/create-qr-code/?data=';
+    const size = '&size=150x150';
+    this.src = `${baseUrl}${lorem}${size}`;
   }
 
   randomText(): string {
