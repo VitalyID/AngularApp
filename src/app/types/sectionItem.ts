@@ -1,25 +1,14 @@
-// Управление btn
-// text -button text
-// iconClass - class icon-fonts
-// disabled - state of button
-// background
-// color?: string;
-// id: id button for control press from service
-// key:string this is analog id, but format 'string'
-
-export interface ButtonData {
+export interface ButtonConfig {
   text?: string;
   iconClass?: string;
-  // disabled?: boolean;
-  // background?: string;
-  // color?: string;
-  // isActive?: boolean;
-  // // event?: string;
-  // id: string;
-  // borderStyle?: string;
-  // borderRadius?: string;
-  // boxShadow?: string;
-  key?: string;
+  disabled?: boolean;
+  background?: string;
+  color?: string;
+  isActive?: boolean;
+  id?: string;
+  borderStyle?: string;
+  borderRadius?: string;
+  boxShadow?: string;
 }
 
 export interface DataUserOperation {

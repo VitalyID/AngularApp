@@ -14,10 +14,10 @@ export class ButtonsComponent {
   @Input() color?: string = '';
   @Input() borderStyle?: string = '';
   @Input() boxShadow?: string = '';
-  @Input() isActive?: boolean = true;
+  @Input() isActive?: boolean = false;
   @Input() borderRadius?: string = '';
-  @Input({ required: true }) id: string = '';
-  @Input() disabled?: false;
-  @Input({ required: true }) text: string = '';
+  @Input() id?: string = '';
+  @Input() disabled?: boolean = false;
+  @Input() text?: string = '';
   @Input() classSvgFonts?: string = '';
 }

@@ -1,7 +1,11 @@
 <div class="wrapTop">
   <a [routerLink]="['/login']" routerLinkActive="router-link-active">LogIN</a>
   <h2>Главная</h2>
-  <app-buttons [buttonData]="btnText" (click)="onClick()"></app-buttons>
+  <app-buttons
+    [text]="btnText.text"
+    [classSvgFonts]="btnText.iconClass"
+    (click)="onClick()"
+  ></app-buttons>
 </div>
 
 <div class="wrapChart">

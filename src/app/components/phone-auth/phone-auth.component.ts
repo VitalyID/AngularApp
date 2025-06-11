@@ -5,11 +5,10 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import * as uuid from 'uuid';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { DataInput } from '../../shared/components/input-text/types/interfaces/dataInput';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { ButtonData } from './../../types/sectionItem';
+import { ButtonConfig } from './../../types/sectionItem';
 
 @Component({
   selector: 'phone-auth',
@@ -28,9 +27,8 @@ export class PhoneAuthComponent {
   isSaveLogin = signal<boolean>(true);
   userPhone: string = '';
 
-  buttonData: ButtonData = {
+  buttonData: ButtonConfig = {
     text: 'Продолжить',
-    id: uuid.v4(),
     background: 'linear-gradient(0deg, #EEEFF2, #EEEFF2), #E7E9F0',
     borderRadius: '46px',
     color: '#55595B',

@@ -30,14 +30,10 @@ export class FilterComponent implements OnChanges {
 
   dataIconUp: SvgSpriteSetting = {
     iconID: 'icon-triangle-up',
-    // width: '12px',
-    // height: '12px',
     fill: '#777d82',
   };
   dataIconDown: SvgSpriteSetting = {
     iconID: 'icon-triangle-down',
-    // width: '12px',
-    // height: '12px',
     fill: '#777d82',
   };
 

@@ -2,7 +2,11 @@
 
 <div class="myQR__wrapTop">
   <h2>Мои QR</h2>
-  <app-buttons [buttonData]="btnText" (click)="onClick()"></app-buttons>
+  <app-buttons
+    [text]="btnSetUp.text"
+    [classSvgFonts]="btnSetUp.iconClass"
+    (click)="onClick()"
+  ></app-buttons>
 </div>
 
 <div class="myQR__wrapBody">

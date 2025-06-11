@@ -1,21 +1,25 @@
 <div class="pagination">
   <div class="pagination__left">
     @if (back()) {
-    <app-buttons [buttonData]="previousBtn" (click)="clickBack()"></app-buttons>
+    <app-buttons
+      [text]="previousBtn.text"
+      [background]="previousBtn.background"
+      (click)="clickBack()"
+    ></app-buttons>
     }
   </div>
 
   <div class="pagination__buttonPage">
     @for (button of paginationButton(); track button.id){
     <app-buttons
-      [buttonData]="button"
-      (click)="onClick(button.text ?? 'pagination error', button.id)"
+      [text]="button.text"
+      [id]="button.id"
+      (click)="onClick(button.text ?? 'pagination error')"
       [ngClass]="{
         isActive:
           (+button.text! - 1 ===
           state().pagination.offset) || button.text ===
           (state().pagination.offset / state().pagination.limit+1).toString(),
-
       }"
     ></app-buttons>
 
@@ -24,6 +28,11 @@
 
   <div class="pagination__right">
     @if(next()) {
-    <app-buttons [buttonData]="nextBtn" (click)="clickNext()"></app-buttons>}
+    <app-buttons
+      [text]="nextBtn.text"
+      [background]="nextBtn.background"
+      (click)="clickNext()"
+    ></app-buttons
+    >}
   </div>
 </div>

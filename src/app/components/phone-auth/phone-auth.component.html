@@ -2,7 +2,11 @@
   <div class="auth-phone-container__enter">
     <div class="auth-phone-container__top">
       <div class="auth-phone-container__userPhone">
-        <svg-icon [svgSetting]="svgLogo"></svg-icon>
+        <svg-icon
+          [iconID]="svgLogo.iconID"
+          [width]="svgLogo.width"
+          [height]="svgLogo.height"
+        ></svg-icon>
         <h1>Вход в Tips.me</h1>
         <span>Номер телефона</span>
         <input-text
@@ -18,7 +22,13 @@
           <span>Запомнить меня</span>
         </div>
 
-        <app-buttons [buttonData]="buttonData" (click)="login()"></app-buttons>
+        <app-buttons
+          [text]="buttonData.text"
+          [background]="buttonData.background"
+          [borderRadius]="buttonData.borderRadius"
+          [color]="buttonData.color"
+          (click)="login()"
+        ></app-buttons>
       </div>
     </div>
     <div class="auth-phone-container__bottom"></div>

@@ -6,5 +6,13 @@
     #fileInput
     (change)="openFile()"
   />
-  <app-buttons [buttonData]="uploadPhoto" #customInput></app-buttons>
+  <app-buttons
+    [text]="uploadPhoto.text"
+    [classSvgFonts]="uploadPhoto.iconClass"
+    [background]="uploadPhoto.background"
+    [color]="uploadPhoto.color"
+    [borderStyle]="uploadPhoto.borderStyle"
+    [boxShadow]="uploadPhoto.boxShadow"
+    #customInput
+  ></app-buttons>
 </div>

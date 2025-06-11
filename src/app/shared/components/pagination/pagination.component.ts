@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 import * as uuid from 'uuid';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { UserCardState } from './../../../state/cards.state';
-import { ButtonData } from './../../../types/sectionItem';
+import { ButtonConfig } from './../../../types/sectionItem';
 
 @Component({
   selector: 'pagination',
@@ -44,13 +44,13 @@ export class PaginationComponent {
   });
   @Output() userClick = new EventEmitter<string>();
 
-  previousBtn: ButtonData = {
+  previousBtn: ButtonConfig = {
     text: 'Назад',
     background: '#3bc76b',
     id: uuid.v4(),
   };
 
-  nextBtn: ButtonData = {
+  nextBtn: ButtonConfig = {
     text: 'Вперед',
     background: '#3bc76b',
     id: uuid.v4(),
@@ -62,7 +62,7 @@ export class PaginationComponent {
   // offset is need for change number-text in button page
   offset = signal<number>(0);
 
-  buttons: ButtonData[] = [];
+  buttons: ButtonConfig[] = [];
 
   buttonText = signal<number[]>([]);
 
@@ -121,7 +121,7 @@ export class PaginationComponent {
     return arrNumber;
   }
 
-  onClick(pageNum: string, id: string) {
+  onClick(pageNum: string) {
     this.userClick.emit(pageNum);
   }
 

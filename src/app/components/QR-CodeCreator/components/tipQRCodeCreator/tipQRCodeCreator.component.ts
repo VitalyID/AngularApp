@@ -17,7 +17,7 @@ import { ColorPickerComponent } from '../../../../shared/components/color-picker
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
-import { ButtonData } from '../../../../types/sectionItem';
+import { ButtonConfig } from '../../../../types/sectionItem';
 import { DataInput } from './../../../../shared/components/input-text/types/interfaces/dataInput';
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
@@ -106,12 +106,9 @@ export class CreateQRcodeComponent implements OnInit {
     disabled: false,
   }));
 
-  btnText: ButtonData = {
-    id: uuid.v4(),
-    text: 'Создать QR-код',
-  };
+  btnText: string = 'Создать QR-код';
 
-  arrBTN: ButtonData[] = [
+  arrBTN: ButtonConfig[] = [
     {
       text: '100 ₽',
       background: '#EEEFF2',
@@ -256,13 +253,7 @@ export class CreateQRcodeComponent implements OnInit {
     }
   }
 
-  // clickOn() {
-  //   // отправляем в сервис клик по кнопке с ее идентификатором "3".
-  //   this.#btnService.clickOnButton(this.btnText.id);
-  // }
-
   updateCard(key: string, value: any) {
-    // return (this.newCard = { ...this.newCard, [key]: value });
     return { key, value };
   }
 }

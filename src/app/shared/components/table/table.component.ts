@@ -15,7 +15,7 @@ import { ScreenSizeService } from '../../../services/screen-size.service';
 import { TransmitDataService } from '../../../services/transmit-data.service';
 import { TabsName } from '../../../types/enums/tabsName';
 import { Breakpoints } from '../../../types/interfaces/breakpoints';
-import { ButtonData, DataUserOperation } from '../../../types/sectionItem';
+import { ButtonConfig, DataUserOperation } from '../../../types/sectionItem';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { DataInputComponent } from '../data-input/data-input.component';
@@ -51,37 +51,37 @@ export class TableComponent implements OnInit {
   readonly #DestroyRef = inject(DestroyRef);
   readonly #ViewPort = inject(ScreenSizeService);
 
-  public btnText: ButtonData = {
+  public btnText: ButtonConfig = {
     text: 'Скачать в Exel',
     iconClass: 'icon-PaperDownload',
     background: '#F7F9FB',
     color: '#101112',
-    id: uuid.v4(),
+    // id: uuid.v4(),
   };
 
-  transmitToBTN: ButtonData = {
+  transmitToBTN: ButtonConfig = {
     text: 'Ok',
     disabled: true,
-    id: uuid.v4(),
+    // id: uuid.v4(),
   };
 
-  transmitToBTNmobile: ButtonData = {
-    text: 'Ok',
-    disabled: true,
-    id: uuid.v4(),
-  };
+  // transmitToBTNmobile: ButtonConfig = {
+  //   text: 'Ok',
+  //   disabled: true,
+  //   id: uuid.v4(),
+  // };
 
-  transmitToBTNtabs: ButtonData = {
-    text: 'Ok',
-    disabled: true,
-    id: uuid.v4(),
-  };
+  // transmitToBTNtabs: ButtonConfig = {
+  //   text: 'Ok',
+  //   disabled: true,
+  //   id: uuid.v4(),
+  // };
 
-  calendar: ButtonData = {
+  calendar: ButtonConfig = {
     iconClass: 'icon-Calendar',
-    disabled: true,
+    disabled: false,
     background: '#F7F9FB',
-    id: uuid.v4(),
+    // id: uuid.v4(),
     borderStyle: '1px solid #C8C9CF',
   };
 
@@ -109,7 +109,7 @@ export class TableComponent implements OnInit {
   visibility = signal<boolean>(false);
 
   ngOnInit(): void {
-    console.log(new Date());
+    console.log(this.visibility());
 
     const arrFilter = Object.values(TabsName);
 
@@ -124,7 +124,10 @@ export class TableComponent implements OnInit {
   }
 
   OnClickCalendar() {
-    this.visibility.set(true);
+    console.log('111');
+
+    this.visibility.update((current) => !current);
+    console.log(this.visibility());
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {

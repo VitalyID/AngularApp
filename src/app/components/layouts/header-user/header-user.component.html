@@ -10,12 +10,19 @@
 
   <div class="user__logo">
     <div class="user__logo--logo">
-      <svg-icon [svgSetting]="userSetting"></svg-icon>
+      <svg-icon
+        [iconID]="userSetting.iconID"
+        [width]="userSetting.width"
+        [height]="userSetting.height"
+        [fill]="userSetting.fill"
+      ></svg-icon>
     </div>
 
     <svg-icon
       class="user__logo--dropdown"
-      [svgSetting]="dropdownIcon"
+      [iconID]="dropdownIcon.iconID"
+      [width]="dropdownIcon.width"
+      [height]="dropdownIcon.height"
       (click)="onClickContact()"
     ></svg-icon>
 

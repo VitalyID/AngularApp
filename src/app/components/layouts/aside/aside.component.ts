@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as uuid from 'uuid';
 // import { RoutIDservice } from '../../../services/transmitDataRout.service';
 import { BordeerLineComponent } from '../../../shared/components/bordeer-line/border-line.component';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
@@ -10,7 +9,7 @@ import { LogoMenuComponent } from '../../../shared/components/logo-menu/logo-men
 import { SectionComponent } from '../../../shared/components/section/section.component';
 import { TitleAside } from '../../../types/enums/titleAside';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
-import { ButtonData } from '../../../types/sectionItem';
+
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 import { LinkAside } from './tupes/enum/routerLink';
 
@@ -110,10 +109,7 @@ export class AsideComponent implements OnInit {
   public generalGroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
 
-  public btnText: ButtonData = {
-    text: 'Служба поддержки',
-    id: uuid.v4(),
-  };
+  public btnText: string = 'Служба поддержки';
 
   menuData: SvgSpriteSetting = {
     iconID: 'menu',

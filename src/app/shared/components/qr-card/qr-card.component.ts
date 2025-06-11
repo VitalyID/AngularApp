@@ -15,7 +15,7 @@ import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.c
 import { DeleteCard, EditCard } from '../../../state/cards.action';
 import { ListOfCards } from '../../../state/cards.state';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
-import { ButtonData } from '../../../types/sectionItem';
+import { ButtonConfig } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 
 @Component({
@@ -49,40 +49,34 @@ export class QrCardComponent implements OnInit {
     fill: 'black',
   };
 
-  walletBTN = computed<ButtonData>(() => ({
+  walletBTN = computed<ButtonConfig>(() => ({
     text: 'Добавить в Apple Wallet',
     background: this.btnColor,
     borderStyle: 'none',
-    id: uuid.v4(),
   }));
 
-  chartIcon: ButtonData = {
-    text: '',
+  chartIcon: ButtonConfig = {
     iconClass: 'icon-Chart',
     background: 'none',
     borderStyle: 'none',
-    // color: 'black',
     id: uuid.v4(),
   };
 
-  shareIcon: ButtonData = {
-    text: '',
+  shareIcon: ButtonConfig = {
     iconClass: 'icon-share',
     background: 'none',
     borderStyle: 'none',
     id: uuid.v4(),
   };
 
-  editIcon: ButtonData = {
-    text: '',
+  editIcon: ButtonConfig = {
     iconClass: 'icon-Edit',
     background: 'none',
     borderStyle: 'none',
     id: uuid.v4(),
   };
 
-  deleteIcon: ButtonData = {
-    text: '',
+  deleteIcon: ButtonConfig = {
     iconClass: 'icon-Trash',
     background: 'none',
     borderStyle: 'none',

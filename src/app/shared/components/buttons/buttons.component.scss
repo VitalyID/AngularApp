@@ -45,11 +45,11 @@ button {
 }
 
 .isActive {
-  background-color: #3bc76b;
-  border: var(--isActiveBorder);
-  color: var(--isActiveColor);
-  transform: var(--isActiveTransform);
-  transition: var(--isActiveTransition);
+  background-color: #3bc76b !important;
+  border: var(--isActiveBorder) !important;
+  color: var(--isActiveColor) !important;
+  transform: var(--isActiveTransform) !important;
+  transition: var(--isActiveTransition) !important;
 }
 
 .icon-add-outline:before {

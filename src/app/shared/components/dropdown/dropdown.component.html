@@ -4,11 +4,18 @@
       <div class="dropdown__active">
         <div class="dropdown__active-item">
           @if (svgSettingActive.iconID){
-          <svg-icon [svgSetting]="svgSettingActive"></svg-icon>}
+          <svg-icon
+            [iconID]="svgSettingActive.iconID"
+            [width]="svgSettingActive.width"
+            [height]="svgSettingActive.height"
+          ></svg-icon
+          >}
           <span>{{ defaultValue.item }}</span>
         </div>
         <svg-icon
-          [svgSetting]="DropdownOpenIcon"
+          [iconID]="DropdownOpenIcon.iconID"
+          [width]="DropdownOpenIcon.width"
+          [height]="DropdownOpenIcon.height"
           (click)="onClick()"
         ></svg-icon>
       </div>
@@ -18,8 +25,8 @@
       @for (item of dropdownItems; track item.id){
 
       <div class="dropdown__item" (click)="onClickItem(item)">
-        @if (item.icon){
-        <svg-icon [svgSetting]="item.icon"></svg-icon>}
+        @if (item.icon){ [iconID]="item.iconID" [width]="item.width"
+        [height]="item.height"}
         <span>{{ item.item }}</span>
       </div>
       }
