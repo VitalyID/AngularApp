@@ -22,7 +22,7 @@ import { DataInput } from './../../../../shared/components/input-text/types/inte
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as uuid from 'uuid';
 import {
   PostCard,
@@ -73,37 +73,30 @@ export class CreateQRcodeComponent implements OnInit {
   // editCart - it's a flag, which denote about this card: editing it now or no
   editCard: boolean = false;
 
-  inputSmallTip: Signal<DataInput> = computed(() => ({
+  inputBaseTip: Signal<DataInput> = computed(() => ({
     validation: true,
     unitCurrency: 'rub',
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card()?.preset_payment_sizes[0].toString(),
+    placeholder: '',
     type: 'number',
     disabled: false,
+  }));
+
+  inputSmallTip: Signal<DataInput> = computed(() => ({
+    ...this.inputBaseTip(),
+    placeholder: this.card()?.preset_payment_sizes[0].toString(),
   }));
 
   inputMiddleTip: Signal<DataInput> = computed(() => ({
-    validation: true,
-    unitCurrency: 'rub',
-    validationFrom: '0',
-    validationTo: '1000',
-    value: '',
+    ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[1].toString(),
-    type: 'number',
-    disabled: false,
   }));
 
   inputBigTip: Signal<DataInput> = computed(() => ({
-    validation: true,
-    unitCurrency: 'rub',
-    validationFrom: '0',
-    validationTo: '1000',
-    value: '',
+    ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[2].toString(),
-    type: 'number',
-    disabled: false,
   }));
 
   btnText: string = 'Создать QR-код';
@@ -155,6 +148,7 @@ export class CreateQRcodeComponent implements OnInit {
 
   readonly #store = inject(Store);
   readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
 
   card: Signal<UserCard> = this.#store.selectSignal(ListOfCards.getEditCard);
 
@@ -170,11 +164,10 @@ export class CreateQRcodeComponent implements OnInit {
     );
   }
 
-  CreateEditCard() {
-    const regExp = /.*create-qrcode\/([1-9]{1,3})$/;
-    this.editCard = regExp.test(this.#router.url);
+  createEditCard() {
+    const id = this.#route.snapshot.paramMap.get('id');
 
-    if (this.editCard) {
+    if (id) {
       this.#store.dispatch(new PutCard(this.card()));
     } else {
       this.#store.dispatch(new PostCard(this.card()));
