@@ -14,8 +14,8 @@ import * as uuid from 'uuid';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { DeleteCard, EditCard } from '../../../state/cards.action';
 import { ListOfCards } from '../../../state/cards.state';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
-import { ButtonConfig } from '../../../types/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 
 @Component({

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DataUserOperation } from '../../../types/sectionItem';
+import { DataUserOperation } from '../../../types/interfaces/userOperation';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { TitleFilter } from '../filter/types/enum/nameFilter';
 

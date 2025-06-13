@@ -19,7 +19,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 // import { SharedModule } from '../../shared.module';
-import { ButtonConfig } from '../../../types/sectionItem';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 // import { ListenerService } from '../buttons/service/buttonListenerStatus.compoent.service';
 import { ButtonService } from '../buttons/service/buttons.component.service';

@@ -9,10 +9,8 @@ import {
   throwError,
 } from 'rxjs';
 import { ButtonService } from '../shared/components/buttons/service/buttons.component.service';
-import {
-  DataUserOperation,
-  DateTimeUserOperations,
-} from './../types/sectionItem';
+import { DateTimeUserOperations } from '../shared/components/filter/types/interface/dataRange';
+import { DataUserOperation } from '../types/interfaces/userOperation';
 import { GetDataService } from './get-data.service';
 
 @Injectable({

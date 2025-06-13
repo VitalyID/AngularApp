@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DataUserOperation } from '../types/sectionItem';
+import { DataUserOperation } from '../types/interfaces/userOperation';
 
 @Injectable({
   providedIn: 'root',

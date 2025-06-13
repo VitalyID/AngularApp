@@ -7,7 +7,7 @@ import {
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { DefaultColor } from '../../shared/components/color-picker/types/enum/default';
-import { ButtonConfig } from '../../types/sectionItem';
+import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SetColor } from './state/agents.actions';
 import { ColorPickerStore } from './state/agents.state';
 

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
-import { ButtonConfig } from './../../types/sectionItem';
+import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
   selector: 'main',

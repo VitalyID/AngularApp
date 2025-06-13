@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { TransmitDataService } from '../../../../services/transmit-data.service';
-import { DataUserOperation } from '../../../../types/sectionItem';
+import { DataUserOperation } from '../../../../types/interfaces/userOperation';
 import { CheckFilter } from './../types/interface/checkFilter';
 
 @Injectable({ providedIn: 'root' })

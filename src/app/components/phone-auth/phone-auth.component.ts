@@ -7,8 +7,8 @@ import {
 import { Router } from '@angular/router';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { DataInput } from '../../shared/components/input-text/types/interfaces/dataInput';
+import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { ButtonConfig } from './../../types/sectionItem';
 
 @Component({
   selector: 'phone-auth',

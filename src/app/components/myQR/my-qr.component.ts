@@ -9,11 +9,11 @@ import {
   signal,
   Signal,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import UpdateCards from '../../state/cards.action';
 import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
-import { ButtonConfig } from '../../types/sectionItem';
+import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
   standalone: false,
@@ -40,6 +40,7 @@ export class MyQRComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #router = inject(Router);
   readonly #inject = inject(Injector);
+  readonly #route = inject(ActivatedRoute);
 
   cards: Signal<UserCardState> = this.#store.selectSignal(ListOfCards.getCards);
 
@@ -53,10 +54,12 @@ export class MyQRComponent implements OnInit {
     });
 
     // when this page is started or reloaded, we send offset pagination to back
-    let pageId = Math.max(+(this.#router.url.split('=')[1] ?? '1'), 1);
-    this.#store.dispatch(new UpdateCards(pageId - 1));
-
-    this.setActivePaginationPage(pageId);
+    const offset = Math.max(
+      +(this.#route.snapshot.queryParamMap.get('offset') ?? '1'),
+      1
+    );
+    this.#store.dispatch(new UpdateCards(offset - 1));
+    this.setActivePaginationPage(offset);
   }
 
   selectPage(offset: string) {

@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { SharedModule } from '../../../shared.module';
 import { Store } from '@ngxs/store';
-import { ButtonConfig } from '../../../types/sectionItem';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
 import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.service';

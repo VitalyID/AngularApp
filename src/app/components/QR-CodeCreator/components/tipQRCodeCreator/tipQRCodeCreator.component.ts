@@ -17,7 +17,7 @@ import { ColorPickerComponent } from '../../../../shared/components/color-picker
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
-import { ButtonConfig } from '../../../../types/sectionItem';
+import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
 import { DataInput } from './../../../../shared/components/input-text/types/interfaces/dataInput';
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';

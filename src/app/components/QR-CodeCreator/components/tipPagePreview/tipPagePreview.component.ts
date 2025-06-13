@@ -27,9 +27,9 @@ import { SwitcherStateService } from '../../../../shared/components/switcher/ser
 import { SwitcherData } from '../../../../shared/components/switcher/types/interface/switcherDataTransmit';
 import { ListOfCards } from '../../../../state/cards.state';
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
+import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
-import { ButtonConfig } from './../../../../types/sectionItem';
 
 @Component({
   selector: 'user-preview',

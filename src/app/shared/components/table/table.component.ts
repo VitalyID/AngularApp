@@ -15,7 +15,8 @@ import { ScreenSizeService } from '../../../services/screen-size.service';
 import { TransmitDataService } from '../../../services/transmit-data.service';
 import { TabsName } from '../../../types/enums/tabsName';
 import { Breakpoints } from '../../../types/interfaces/breakpoints';
-import { ButtonConfig, DataUserOperation } from '../../../types/sectionItem';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
+import { DataUserOperation } from '../../../types/interfaces/userOperation';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { DataInputComponent } from '../data-input/data-input.component';
@@ -56,32 +57,18 @@ export class TableComponent implements OnInit {
     iconClass: 'icon-PaperDownload',
     background: '#F7F9FB',
     color: '#101112',
-    // id: uuid.v4(),
   };
 
   transmitToBTN: ButtonConfig = {
     text: 'Ok',
     disabled: true,
-    // id: uuid.v4(),
   };
-
-  // transmitToBTNmobile: ButtonConfig = {
-  //   text: 'Ok',
-  //   disabled: true,
-  //   id: uuid.v4(),
-  // };
-
-  // transmitToBTNtabs: ButtonConfig = {
-  //   text: 'Ok',
-  //   disabled: true,
-  //   id: uuid.v4(),
-  // };
 
   calendar: ButtonConfig = {
     iconClass: 'icon-Calendar',
     disabled: false,
     background: '#F7F9FB',
-    // id: uuid.v4(),
+
     borderStyle: '1px solid #C8C9CF',
   };
 
