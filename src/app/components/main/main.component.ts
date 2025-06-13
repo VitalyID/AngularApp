@@ -41,7 +41,7 @@ export class MainComponent {
     },
   ];
 
-  onClick() {
+  goToCreateQrPage() {
     this.#router.navigate(['/create-qrcode']);
   }
 }

@@ -43,7 +43,7 @@ export class PhoneAuthComponent {
     placeholder: '+7 ( ___ ) ___-__-__',
     value: this.storigePhone(),
     unitCurrency: '',
-    type: 'tel',
+    type: 'number',
     disabled: false,
   };
 

@@ -9,8 +9,8 @@ import { UserCard } from './../state/cards.state';
 export class CardService {
   #http = inject(HttpClient);
 
-  getCard(page = 0): Observable<CardsMeta> {
-    const params = new HttpParams().set('limit', 12).set('offset', page);
+  getCard(page: number, limit: number): Observable<CardsMeta> {
+    const params = new HttpParams().set('limit', limit).set('offset', page);
     return this.#http.get<CardsMeta>(link, { params });
   }
 

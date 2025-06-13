@@ -53,7 +53,7 @@ const defaultValue: UserCardState = {
     smiles: false,
   },
   pagination: {
-    limit: 1,
+    limit: 12,
     total: 1,
     offset: 1,
   },
@@ -93,15 +93,11 @@ export class ListOfCards {
 
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>, { rangeCards }: UpdateCards) {
-    console.log(1111, rangeCards);
-
-    return this.#http.getCard(rangeCards).pipe(
+    const state = ctx.getState();
+    return this.#http.getCard(rangeCards, state.pagination.limit).pipe(
       take(1),
-      tap((data: CardsMeta) => {
-        console.log(data);
-        console.log(rangeCards);
-
-        ctx.patchState({ cards: data.data, pagination: data.pagination });
+      tap(({ data, pagination }: CardsMeta) => {
+        ctx.patchState({ cards: data, pagination });
       })
     );
   }
@@ -133,9 +129,7 @@ export class ListOfCards {
 
   @Action(EditCard)
   editCard(ctx: StateContext<UserCardState>, { userCard }: EditCard) {
-    ctx.patchState({
-      userCard: userCard,
-    });
+    ctx.patchState({ userCard });
   }
 
   @Action(PutCard)

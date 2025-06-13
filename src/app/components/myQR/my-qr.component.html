@@ -5,7 +5,7 @@
   <app-buttons
     [text]="btnSetUp.text"
     [classSvgFonts]="btnSetUp.iconClass"
-    (click)="onClick()"
+    (click)="navigateCreateQrPage()"
   ></app-buttons>
 </div>
 
@@ -24,7 +24,11 @@
 
 @if (cardCount() >= 12) {
 <div class="myQR__pagination">
-  <pagination [state]="cards" (userClick)="selectPage($event)"></pagination>
+  <pagination
+    [state]="cards"
+    (userClick)="selectPage($event)"
+    [activePage]="currentPage"
+  ></pagination>
 </div>
 } } @else {
 <ng-container class="myQR__error">

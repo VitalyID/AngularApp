@@ -34,13 +34,9 @@ export class QrCardComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #router = inject(Router);
 
-  store = this.#store.selectSignal(ListOfCards.getCards);
+  cards = this.#store.selectSignal(ListOfCards.getCards)().cards;
 
-  currentCard = computed(() =>
-    this.store().cards.find((e) => {
-      return e.id === this.id;
-    })
-  );
+  currentCard = computed(() => this.cards.find((card) => card.id === this.id));
 
   svgSetting: SvgSpriteSetting = {
     iconID: 'Path',
@@ -91,7 +87,7 @@ export class QrCardComponent implements OnInit {
   }
 
   randomText(): string {
-    const range = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+    const range = Math.floor(Math.random() * 10) + 1;
     return loremIpsum({ count: range });
   }
 

@@ -14,13 +14,8 @@
     <app-buttons
       [text]="button.text"
       [id]="button.id"
-      (click)="onClick(button.text ?? 'pagination error')"
-      [ngClass]="{
-        isActive:
-          (+button.text! - 1 ===
-          state().pagination.offset) || button.text ===
-          (state().pagination.offset / state().pagination.limit+1).toString(),
-      }"
+      (click)="selectPage(button.text ?? 'pagination error')"
+      [class.isActive]="activePage() === button.text"
     ></app-buttons>
 
     }
