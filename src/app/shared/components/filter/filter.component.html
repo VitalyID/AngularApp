@@ -2,11 +2,13 @@
   <span>{{ titleFilter }}</span>
   <div class="filterIcons">
     <svg-icon
-      [svgSetting]="dataIconUp"
+      [iconID]="dataIconUp.iconID"
+      [fill]="dataIconUp.fill"
       (click)="clickSort($event, 'Up')"
     ></svg-icon>
     <svg-icon
-      [svgSetting]="dataIconDown"
+      [iconID]="dataIconDown.iconID"
+      [fill]="dataIconDown.fill"
       (click)="clickSort($event, 'Down')"
     ></svg-icon>
   </div>

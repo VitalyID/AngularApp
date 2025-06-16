@@ -3,7 +3,9 @@
     @for (item of general; track $index){
 
     <svg-icon
-      [svgSetting]="svgSetting"
+      [iconID]="svgSetting.iconID"
+      [width]="svgSetting.width"
+      [height]="svgSetting.height"
       class="unitRate"
       (click)="onClick($index)"
       (mouseover)="onMouseOver($index)"

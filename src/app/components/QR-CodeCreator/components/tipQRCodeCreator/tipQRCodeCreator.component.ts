@@ -3,11 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
   ElementRef,
   inject,
   OnInit,
-  signal,
   Signal,
   ViewChild,
 } from '@angular/core';
@@ -15,17 +13,22 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
-import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
-import { ButtonData } from '../../../../types/sectionItem';
+import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
 import { DataInput } from './../../../../shared/components/input-text/types/interfaces/dataInput';
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { PostCard, UpdateEditCard } from '../../../../state/cards.action';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as uuid from 'uuid';
+import {
+  PostCard,
+  PutCard,
+  UpdateEditCard,
+} from '../../../../state/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 
@@ -44,7 +47,7 @@ import { EnumSwitcher } from './../../../../shared/components/switcher/types/enu
   templateUrl: './tipQRCodeCreator.component.html',
   styleUrl: './tipQRCodeCreator.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideNgxMask()],
+  providers: [provideNgxMask(), provideAnimations()],
 })
 export class CreateQRcodeComponent implements OnInit {
   @ViewChild('preview') previewIMG!: ElementRef;
@@ -67,64 +70,57 @@ export class CreateQRcodeComponent implements OnInit {
   // Component Aside is open after 1s, because its time need for animations
   isOpen: boolean = false;
 
-  inputSmallTip: Signal<DataInput> = computed(() => ({
+  // editCart - it's a flag, which denote about this card: editing it now or no
+  editCard: boolean = false;
+
+  inputBaseTip: Signal<DataInput> = computed(() => ({
     validation: true,
     unitCurrency: 'rub',
     validationFrom: '0',
     validationTo: '1000',
     value: '',
-    placeholder: this.card$()?.preset_payment_sizes[0].toString(),
+    placeholder: '',
     type: 'number',
     disabled: false,
+  }));
+
+  inputSmallTip: Signal<DataInput> = computed(() => ({
+    ...this.inputBaseTip(),
+    placeholder: this.card()?.preset_payment_sizes[0].toString(),
   }));
 
   inputMiddleTip: Signal<DataInput> = computed(() => ({
-    validation: true,
-    unitCurrency: 'rub',
-    validationFrom: '0',
-    validationTo: '1000',
-    value: '',
-    placeholder: this.card$()?.preset_payment_sizes[1].toString(),
-    type: 'number',
-    disabled: false,
+    ...this.inputBaseTip(),
+    placeholder: this.card()?.preset_payment_sizes[1].toString(),
   }));
 
   inputBigTip: Signal<DataInput> = computed(() => ({
-    validation: true,
-    unitCurrency: 'rub',
-    validationFrom: '0',
-    validationTo: '1000',
-    value: '',
-    placeholder: this.card$()?.preset_payment_sizes[2].toString(),
-    type: 'number',
-    disabled: false,
+    ...this.inputBaseTip(),
+    placeholder: this.card()?.preset_payment_sizes[2].toString(),
   }));
 
-  btnText: ButtonData = {
-    id: 7,
-    text: 'Создать QR-код',
-  };
+  btnText: string = 'Создать QR-код';
 
-  arrBTN: ButtonData[] = [
+  arrBTN: ButtonConfig[] = [
     {
       text: '100 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 8,
+      id: uuid.v4(),
       borderStyle: 'none',
     },
     {
       text: '150 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 9,
+      id: uuid.v4(),
       borderStyle: 'none',
     },
     {
       text: '200 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 10,
+      id: uuid.v4(),
       borderStyle: 'none',
     },
   ];
@@ -137,7 +133,7 @@ export class CreateQRcodeComponent implements OnInit {
     employee_display: true,
     id: 0,
     logo_file_id: 0,
-    platform_id: '',
+    // platform_id: '',
     preset_payment_sizes: [0, 0, 0],
     qr_image: '',
     rating: false,
@@ -146,69 +142,36 @@ export class CreateQRcodeComponent implements OnInit {
   };
 
   // transmit state switcher to component (true/false) by Signal
-  isOnRate: Signal<boolean> = computed(() => this.card$()?.rating);
-  isOnFeedback: Signal<boolean> = computed(() => this.card$()?.reviews);
-  isOnImpressions: Signal<boolean> = computed(() => this.card$()?.smiles);
+  isOnRate: Signal<boolean> = computed(() => this.card()?.rating);
+  isOnFeedback: Signal<boolean> = computed(() => this.card()?.reviews);
+  isOnImpressions: Signal<boolean> = computed(() => this.card()?.smiles);
 
   readonly #store = inject(Store);
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #btnService = inject(ButtonService);
-  // readonly #postService = inject(PostCardService);
+  readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
 
-  card$ = toSignal(this.#store.select(ListOfCards.getEditCard), {
-    initialValue: {
-      background_hex_color: '',
-      business_payment_type: '',
-      button_hex_color: '',
-      commission_coverage: false,
-      employee_display: true,
-      id: 0,
-      logo_file_id: null,
-      platform_id: '',
-      preset_payment_sizes: [0, 0, 0],
-      qr_image: '',
-      rating: false,
-      reviews: false,
-      smiles: false,
-    },
-  });
-
-  error$ = signal<any>(null);
-
-  errorPostCard$ = signal(null);
+  card: Signal<UserCard> = this.#store.selectSignal(ListOfCards.getEditCard);
 
   defaultDataInput: number[] = [
-    this.card$()?.preset_payment_sizes[0],
-    this.card$()?.preset_payment_sizes[1],
-    this.card$()?.preset_payment_sizes[2],
+    this.card()?.preset_payment_sizes[0],
+    this.card()?.preset_payment_sizes[1],
+    this.card()?.preset_payment_sizes[2],
   ];
 
   ngOnInit() {
-    this.#store.select(ListOfCards.getCards).subscribe((data) => {
-      this.error$.set(data.error);
-    });
-
-    const timestamp = new Date().getTime().toString();
-    const round = Math.round(Math.random() * 1000000).toString();
-    const id = Number(`${round}` + `${timestamp}`);
-
     this.#store.dispatch(
       new UpdateEditCard(this.updateCard('logo_file_id', 0))
     );
-
-    this.#store.dispatch(new UpdateEditCard(this.updateCard('id', id)));
   }
 
-  OnCreateCard() {
-    console.log('button press');
-    console.log(typeof this.card$().id);
+  createEditCard() {
+    const id = this.#route.snapshot.paramMap.get('id');
 
-    this.#store.dispatch(new PostCard(this.card$())).subscribe({
-      error: (error) => {
-        console.log('Ошибка при отправке данных со стора на сервер: ', error);
-        this.errorPostCard$.set(error);
-      },
-    });
+    if (id) {
+      this.#store.dispatch(new PutCard(this.card()));
+    } else {
+      this.#store.dispatch(new PostCard(this.card()));
+    }
   }
 
   listItemSwitch() {
@@ -225,7 +188,6 @@ export class CreateQRcodeComponent implements OnInit {
           new UpdateEditCard(this.updateCard('background_hex_color', data))
         );
         this.#store.select(ListOfCards.getEditCard);
-        console.log(this.card$());
 
         break;
       case 'btnColor':
@@ -234,7 +196,6 @@ export class CreateQRcodeComponent implements OnInit {
           new UpdateEditCard(this.updateCard('button_hex_color', data))
         );
         this.#store.select(ListOfCards.getEditCard);
-        console.log(this.card$());
         break;
     }
   }
@@ -285,13 +246,7 @@ export class CreateQRcodeComponent implements OnInit {
     }
   }
 
-  clickOn() {
-    // отправляем в сервис клик по кнопке с ее идентификатором "3".
-    this.#btnService.clickOnButton(this.btnText.id);
-  }
-
   updateCard(key: string, value: any) {
-    // return (this.newCard = { ...this.newCard, [key]: value });
     return { key, value };
   }
 }

@@ -35,19 +35,19 @@
       <span>{{ enumSwitcher.rate }}</span>
       <switcher
         [title]="enumSwitcher.rate"
-        [isOn]="isOnRate"
+        [featureToggle]="isOnRate"
         (updateSwitcher)="isSwitcher(1, $event)"
       ></switcher>
       <span>{{ enumSwitcher.feedback }}</span>
       <switcher
         [title]="enumSwitcher.feedback"
-        [isOn]="isOnFeedback"
+        [featureToggle]="isOnFeedback"
         (updateSwitcher)="isSwitcher(2, $event)"
       ></switcher>
       <span>{{ enumSwitcher.impressions }}</span>
       <switcher
         [title]="enumSwitcher.impressions"
-        [isOn]="isOnImpressions"
+        [featureToggle]="isOnImpressions"
         (updateSwitcher)="isSwitcher(3, $event)"
       ></switcher>
     </div>
@@ -60,7 +60,7 @@
       <span>Код цвета для подложки</span>
       <color-picker
         (userSetColor)="onClickColor('background', $event)"
-        [color]="card$().background_hex_color"
+        [color]="card().background_hex_color"
       ></color-picker>
     </div>
 
@@ -80,17 +80,12 @@
       <span>Код цвета для кнопки</span>
       <color-picker
         (userSetColor)="onClickColor('btnColor', $event)"
-        [color]="card$().button_hex_color"
+        [color]="card().button_hex_color"
       ></color-picker>
+      <!-- <button (click)="testSend()">test</button> -->
     </div>
 
-    <app-buttons [buttonData]="btnText" (click)="OnCreateCard()"></app-buttons>
-
-    @if(error$()){
-    <p>Произошла ошибка при получении данных, {{ error$() }}</p>
-    } @if(errorPostCard$()){
-    <p>Произошла ошибка при отправке данных, {{ errorPostCard$() }}</p>
-    }
+    <app-buttons [text]="btnText" (click)="createEditCard()"></app-buttons>
   </div>
 
   <div class="createQRcode__body-right">

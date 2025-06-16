@@ -7,8 +7,22 @@
   align-items: center;
 
   --fill: inherit;
+  --mb: 0px;
+  --height: auto;
+  --width: auto;
+  --max-height: auto;
+  --lh: auto;
 }
 
 .isActive {
   fill: var(--fill);
+}
+
+svg {
+  margin-bottom: var(--mb);
+  height: var(--height);
+  width: var(--width);
+  line-height: var(--lh);
+
+  display: flex;
 }

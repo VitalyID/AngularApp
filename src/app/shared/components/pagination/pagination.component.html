@@ -1,0 +1,33 @@
+<div class="pagination">
+  <div class="pagination__left">
+    @if (back()) {
+    <app-buttons
+      [text]="previousBtn.text"
+      [background]="previousBtn.background"
+      (click)="clickBack()"
+    ></app-buttons>
+    }
+  </div>
+
+  <div class="pagination__buttonPage">
+    @for (button of paginationButton(); track button.id){
+    <app-buttons
+      [text]="button.text"
+      [id]="button.id"
+      (click)="selectPage(button.text ?? 'pagination error')"
+      [class.isActive]="activePage() === button.text"
+    ></app-buttons>
+
+    }
+  </div>
+
+  <div class="pagination__right">
+    @if(next()) {
+    <app-buttons
+      [text]="nextBtn.text"
+      [background]="nextBtn.background"
+      (click)="clickNext()"
+    ></app-buttons
+    >}
+  </div>
+</div>

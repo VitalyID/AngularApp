@@ -6,8 +6,10 @@ import { Breakpoints } from './../types/interfaces/breakpoints';
 @Injectable({ providedIn: 'root' })
 export class ScreenSizeService {
   breakpoints: Breakpoints = {
+    '1100': false,
     '1000': false,
     '768': false,
+    '685': false,
     // '650': false,
     // '520': false,
   };

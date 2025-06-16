@@ -1,6 +1,9 @@
 <div class="wrapTop__title">
   <h2>Агентам</h2>
-  <app-buttons [buttonData]="btnText"></app-buttons>
+  <app-buttons
+    [text]="btnText.text"
+    [classSvgFonts]="btnText.iconClass"
+  ></app-buttons>
 </div>
 
 <div class="wrapTop">

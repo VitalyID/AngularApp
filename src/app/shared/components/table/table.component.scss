@@ -16,7 +16,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    display: none;
+    // display: none;
   }
 
   &--tabs {
@@ -64,17 +64,48 @@
       cursor: pointer;
     }
   }
+
+  @media (max-width: 1500px) {
+    &--tabsUnit {
+      padding: 4px 10px;
+    }
+
+    &--tabsUnitElement {
+      padding: 5px 8px;
+      min-width: 100px;
+    }
+
+    &--mobile {
+      justify-content: start;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    &--tabsUnit {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 15px 15px 0;
+  }
+
+  @media (max-width: 685px) {
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.table__topMobile {
+  padding: 15px 15px 0;
 }
 
 .hiddenDataInput {
-  margin-top: 8px;
+  // margin-top: 8px;
   transition: transform 1s;
   transform-origin: left;
-
-  &.hidden {
-    transform: scaleX(0);
-    overflow: hidden;
-  }
+  transform: scaleX(0);
+  overflow: hidden;
 
   &.visible {
     max-width: 100%;
@@ -95,11 +126,14 @@
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr 2fr 1fr 1fr;
   box-sizing: border-box;
+  align-items: center;
 
   border-radius: 10px;
   padding: 15px 30px 0;
 
-  &--cell {
+  gap: 50px;
+
+  grid &--cell {
     padding: 8px;
     // border-bottom: 1px solid #ddd;
     width: 100%;
@@ -111,6 +145,10 @@
     // line-height: 20px;
 
     color: #101112;
+  }
+
+  @media (max-width: 1000px) {
+    gap: 15px;
   }
 }
 
@@ -174,6 +212,7 @@
     --bgColor: #ffffff;
     --brRadius: 46px;
     --padActive: 6px 20px;
+    --firstItemMarginTop: 35px;
   }
 }
 
@@ -199,36 +238,13 @@ mobile-transaction-card {
 // ===============================================================
 
 @media (max-width: 1500px) {
-  .table__top {
-    &--tabsUnit {
-      padding: 4px 10px;
-    }
-
-    &--tabsUnitElement {
-      padding: 5px 8px;
-      min-width: 100px;
-    }
-  }
-
   .calendar {
     --padding: 12px;
     display: block;
   }
 }
 
-@media (max-width: 1000px) {
-  .table__top {
-    &--tabsUnit {
-      display: none;
-    }
-  }
-}
-
 @media (max-width: 768px) {
-  .table__top {
-    padding: 15px 15px 0;
-  }
-
   .table__data--small {
     padding: 0 15px;
   }
@@ -253,21 +269,7 @@ mobile-transaction-card {
 
   .hiddenDataInput.table__data--small {
     display: flex;
-
-    transition: max-height 1s;
-    // transform: none;
-    transform-origin: top;
-    width: 100%;
-    overflow: hidden;
-
-    &.hidden {
-      max-height: 0;
-      overflow: hidden;
-    }
-
-    &.visible {
-      max-height: 59px;
-    }
+    flex-shrink: 1;
   }
 }
 
@@ -290,10 +292,6 @@ mobile-transaction-card {
 }
 
 @media (max-width: 520px) {
-  .table__top {
-    display: block;
-  }
-
   .table__data--small {
     margin-bottom: 10px;
   }

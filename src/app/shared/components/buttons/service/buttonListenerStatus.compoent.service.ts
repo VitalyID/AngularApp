@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { ButtonData } from '../../../../types/sectionItem';
+// import { Injectable } from '@angular/core';
+// import { Subject } from 'rxjs';
+// import { ButtonConfig } from '../../../../types/sectionItem';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ListenerService {
-  public aboutBTN$ = new Subject<{ data: ButtonData }>();
+// @Injectable({
+//   providedIn: 'root',
+// })
+// export class ListenerService {
+//   public aboutBTN$ = new Subject<{ data: ButtonConfig }>();
 
-  getStatusForBTN(data: ButtonData) {
-    this.transmitDataBTN(data);
-    // console.log(data);
-  }
+//   getStatusForBTN(data: ButtonConfig) {
+//     this.transmitDataBTN(data);
+//     // console.log(data);
+//   }
 
-  transmitDataBTN(data: ButtonData): void {
-    this.aboutBTN$.next({ data });
-  }
-}
+//   transmitDataBTN(data: ButtonConfig): void {
+//     this.aboutBTN$.next({ data });
+//   }
+// }

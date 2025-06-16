@@ -8,7 +8,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChartConfiguration, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { DataUserOperation } from '../../../types/sectionItem';
+import { DataUserOperation } from '../../../types/interfaces/userOperation';
 import { SortDataService } from '../filter/service/filter.component.service';
 
 @Component({

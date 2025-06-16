@@ -8,17 +8,17 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
+import * as uuid from 'uuid';
 import { v4 as uuidv4 } from 'uuid';
 import { ScreenSizeService } from '../../../services/screen-size.service';
 import { TransmitDataService } from '../../../services/transmit-data.service';
 import { TabsName } from '../../../types/enums/tabsName';
 import { Breakpoints } from '../../../types/interfaces/breakpoints';
-import { ButtonData, DataUserOperation } from '../../../types/sectionItem';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
+import { DataUserOperation } from '../../../types/interfaces/userOperation';
 import { BordeerLineComponent } from '../bordeer-line/border-line.component';
 import { ButtonsComponent } from '../buttons/buttons.component';
-import { ButtonService } from '../buttons/service/buttons.component.service';
 import { DataInputComponent } from '../data-input/data-input.component';
 import { switchOnService } from '../data-input/services/switchOnInput';
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -52,43 +52,29 @@ export class TableComponent implements OnInit {
   readonly #DestroyRef = inject(DestroyRef);
   readonly #ViewPort = inject(ScreenSizeService);
 
-  public btnText: ButtonData = {
+  public btnText: ButtonConfig = {
     text: 'Скачать в Exel',
     iconClass: 'icon-PaperDownload',
     background: '#F7F9FB',
     color: '#101112',
-    id: 1,
   };
 
-  transmitToBTN: ButtonData = {
+  transmitToBTN: ButtonConfig = {
     text: 'Ok',
     disabled: true,
-    id: 2,
   };
 
-  transmitToBTNmobile: ButtonData = {
-    text: 'Ok',
-    disabled: true,
-    id: 21,
-  };
-
-  transmitToBTNtabs: ButtonData = {
-    text: 'Ok',
-    disabled: true,
-    id: 22,
-  };
-
-  calendar: ButtonData = {
+  calendar: ButtonConfig = {
     iconClass: 'icon-Calendar',
-    disabled: true,
+    disabled: false,
     background: '#F7F9FB',
-    id: 20,
+
     borderStyle: '1px solid #C8C9CF',
   };
 
   filterMobile: ListDropdown[] = [];
   defaultValue: ListDropdown = {
-    id: '1',
+    id: uuid.v4(),
     item: 'Необходимо выбрать',
   };
 
@@ -106,39 +92,29 @@ export class TableComponent implements OnInit {
   tableBody$: Observable<DataUserOperation[]> =
     this.#filterService.dataOperationFromService$;
   windowSize$: Observable<Breakpoints> = this.#ViewPort.isMobileSubject$;
-  readonly #buttonService = inject(ButtonService);
 
-  // visibility: boolean = false;
   visibility = signal<boolean>(false);
 
   ngOnInit(): void {
+    console.log(this.visibility());
+
     const arrFilter = Object.values(TabsName);
 
     this.filterMobile = arrFilter.map((el) => {
       const arrEl: ListDropdown = { item: el, id: uuidv4() };
       return arrEl;
     });
+  }
 
-    this.#buttonService.eventClick$
-      .pipe(takeUntilDestroyed(this.#DestroyRef))
-      .subscribe((data) => {
-        console.log(data);
-        if (data.id === 20) {
-          this.visibility.set(true);
-        }
-      });
+  onClickDownload() {
+    // на текущий момент функционал не реализован
+  }
 
-    // this.#filterService.dataOperationFromService$
-    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
-    //   .subscribe((data) => {
-    //     // console.log(data);
-    //   });
+  OnClickCalendar() {
+    console.log('111');
 
-    // this.#ViewPort.isMobileSubject$
-    //   .pipe(takeUntilDestroyed(this.#DestroyRef))
-    //   .subscribe((data) => {
-    //     console.log(data, 'size');
-    //   });
+    this.visibility.update((current) => !current);
+    console.log(this.visibility());
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -172,7 +148,9 @@ export class TableComponent implements OnInit {
 
   getKeys(item: DataUserOperation[] | null) {
     if (!item || item.length === 0) return;
-    return Object.keys(item[0]);
+    return Object.keys(item[0]).filter((e) => {
+      return e !== 'id';
+    });
   }
 
   itemSelected(data: ListDropdown) {

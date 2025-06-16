@@ -1,20 +1,24 @@
-// import { Cards } from './cards.state';
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { catchError, concatMap, delay, of, take, tap, throwError } from 'rxjs';
-import { GetDataQrService } from '../services/get-data-qr.service';
-import { PostCardService } from '../services/post-data-qr.service';
-import UpdateCards, { PostCard, UpdateEditCard } from './cards.action';
+import { take, tap } from 'rxjs';
+import { CardService } from '../services/CardStoreActions.service';
+import {
+  CardsMeta,
+  PaginationMeta,
+} from '../shared/components/pagination/interface/PaginationMeta';
+import UpdateCards, {
+  DeleteCard,
+  EditCard,
+  PostCard,
+  PutCard,
+  UpdateEditCard,
+} from './cards.action';
 
 export interface UserCardState {
   cards: UserCard[];
   // editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
-  error: string | null;
-  retry: {
-    current: number;
-    max: number;
-  };
+  pagination: PaginationMeta;
 }
 
 export interface UserCard {
@@ -25,7 +29,6 @@ export interface UserCard {
   employee_display: boolean;
   id: number;
   logo_file_id: number | null | string;
-  platform_id: string;
   preset_payment_sizes: number[];
   qr_image: string;
   rating: boolean;
@@ -36,24 +39,23 @@ export interface UserCard {
 const defaultValue: UserCardState = {
   cards: [],
   userCard: {
-    background_hex_color: '#e7e9fo',
+    background_hex_color: '#E7E9F0',
     business_payment_type: 'TIPS',
     button_hex_color: '#3FA949',
     commission_coverage: false,
     employee_display: true,
     id: 0,
-    logo_file_id: '../../assets/images/logoDefault.png',
-    platform_id: '514159',
+    logo_file_id: 0,
     preset_payment_sizes: [100, 250, 500],
     qr_image: '',
     rating: false,
     reviews: false,
     smiles: false,
   },
-  error: null,
-  retry: {
-    current: 0,
-    max: 3,
+  pagination: {
+    limit: 12,
+    total: 1,
+    offset: 1,
   },
 };
 
@@ -65,11 +67,8 @@ const defaultValue: UserCardState = {
 export class ListOfCards {
   count = 0;
 
-  readonly #httpGet = inject(GetDataQrService);
-  readonly #httpPost = inject(PostCardService);
+  readonly #http = inject(CardService);
   readonly #store = inject(Store);
-
-  // cards$: Observable<Cards> = this.#store.select(ListOfCards.getCards);
 
   @Selector()
   static getCards(state: UserCardState) {
@@ -90,91 +89,55 @@ export class ListOfCards {
     ctx.patchState({
       userCard: { ...userSet.userCard, [newValue['key']]: newValue['value'] },
     });
-
-    // ctx.patchState({ userCard: newCard });
   }
 
   @Action(UpdateCards)
-  updateCards(ctx: StateContext<UserCardState>) {
-    console.log('сработал action UpdateCards');
-
-    // const state = ctx.getState();
-
-    return this.#httpGet.getQR().pipe(
-      tap((data) => {
-        ctx.patchState({
-          cards: data,
-        });
-      }),
-      catchError((error) => {
-        console.error('Ошибка: ', error);
-        ctx.patchState({
-          error: error.message,
-        });
-        return throwError(() => {
-          error;
-        });
-      }),
-      take(1)
+  updateCards(ctx: StateContext<UserCardState>, { rangeCards }: UpdateCards) {
+    const state = ctx.getState();
+    return this.#http.getCard(rangeCards, state.pagination.limit).pipe(
+      take(1),
+      tap(({ data, pagination }: CardsMeta) => {
+        ctx.patchState({ cards: data, pagination });
+      })
     );
   }
 
   @Action(PostCard)
   postCard(ctx: StateContext<UserCardState>, { newCard }: PostCard) {
-    // console.log('callback action', action);
-
-    return this.#httpPost.post(newCard).pipe(
+    return this.#http.postCard(newCard).pipe(
+      take(1),
       tap(() => {
-        const currentState = ctx.getState();
-
         ctx.patchState({
           // reset to defaultValue when send to server is success
           userCard: {
             ...defaultValue.userCard,
           },
-          error: null,
-          retry: { ...currentState.retry, current: 0 },
         });
-      }),
+      })
+    );
+  }
 
-      catchError((error) => {
-        console.log('При вызове сервиса произошли ошибки', error);
+  @Action(DeleteCard)
+  deleteCard(ctx: StateContext<UserCardState>, { id }: DeleteCard) {
+    return this.#http.deleteCard(id).pipe(
+      take(1),
+      tap(() => {
+        this.#store.dispatch(new UpdateCards(0));
+      })
+    );
+  }
 
-        const currentState = ctx.getState();
+  @Action(EditCard)
+  editCard(ctx: StateContext<UserCardState>, { userCard }: EditCard) {
+    ctx.patchState({ userCard });
+  }
 
-        // increase a counter attempt to send data to server
-        ctx.patchState({
-          retry: {
-            ...currentState.retry,
-            current: currentState.retry.current + 1,
-          },
-        });
-
-        if (ctx.getState().retry.max === ctx.getState().retry.current) {
-          console.log('Попытки завершены.');
-          return of();
-        } else {
-          // repeat to send data to server when a counter not equal max value
-
-          of(null)
-            .pipe(
-              delay(2000),
-              concatMap(() => {
-                return this.#store.dispatch(
-                  new PostCard(ctx.getState().userCard)
-                );
-              })
-            )
-            .subscribe();
-
-          ctx.patchState({
-            error: error,
-          });
-        }
-
-        return throwError(() => {
-          error;
-        });
+  @Action(PutCard)
+  putCArd(ctx: StateContext<UserCardState>, { userCard }: PutCard) {
+    return this.#http.putCard(userCard.id, userCard).pipe(
+      take(1),
+      tap(() => {
+        this.#store.dispatch(new UpdateCards(0));
       })
     );
   }

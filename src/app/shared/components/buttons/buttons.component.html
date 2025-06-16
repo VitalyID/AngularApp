@@ -1,12 +1,12 @@
 <button
-  [style.background]="buttonData?.background"
-  [style.color]="buttonData?.color"
-  [disabled]="buttonData?.disabled"
-  (click)="clickOn()"
-  [style.border]="buttonData?.borderStyle"
-  [style.boxShadow]="buttonData?.boxShadow"
-  [class.isActive]="buttonData?.isActive"
+  [style.background]="background"
+  [style.color]="color"
+  [disabled]="disabled"
+  [style.border]="borderStyle"
+  [style.boxShadow]="boxShadow"
+  [class.isActive]="isActive"
+  [style.border-radius]="borderRadius"
 >
-  <i *ngIf="buttonData?.iconClass" [class]="buttonData?.iconClass"></i>
-  {{ buttonData?.text }}
+  <i *ngIf="classSvgFonts" [class]="classSvgFonts"></i>
+  {{ text }}
 </button>

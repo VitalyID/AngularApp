@@ -5,7 +5,11 @@
   class="section"
 >
   <div class="section-icon">
-    <svg-icon [svgSetting]="item.iconSetting"></svg-icon>
+    <svg-icon
+      [iconID]="item.iconSetting.iconID"
+      [width]="item.iconSetting.width"
+      [height]="item.iconSetting.height"
+    ></svg-icon>
   </div>
   <span class="section-title">{{ item.title }}</span>
 </a>

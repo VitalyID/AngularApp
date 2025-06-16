@@ -43,7 +43,6 @@ export class LogoMenuComponent {
     height: '31px',
     fill: 'black',
   };
-  // @Output() clickOnMenu = new EventEmitter();
 
   readonly #servis = inject(StateMenuService);
   readonly #DestroyRef = inject(DestroyRef);

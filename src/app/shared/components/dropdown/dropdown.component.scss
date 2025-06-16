@@ -7,6 +7,7 @@
   --border: 1px solid #c8c9cf;
   --gap: 20px;
   --paddingTop: 80px;
+  --firstItemMarginTop: none;
 }
 @mixin flex($justifyContent: center, $align: center, $fd: column) {
   display: flex;
@@ -73,6 +74,9 @@
     @include flex($align: start, $fd: row);
     gap: var(--gap);
     cursor: pointer;
+    &:first-child {
+      margin-top: var(--firstItemMarginTop);
+    }
   }
 
   &__invisible.open {

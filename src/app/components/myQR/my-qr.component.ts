@@ -1,36 +1,29 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
+  effect,
   inject,
+  Injector,
   OnInit,
+  runInInjectionContext,
+  signal,
+  Signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { loremIpsum } from 'lorem-ipsum';
-import { Observable } from 'rxjs';
-// import { GetDataQrService } from '../../services/get-data-qr.service';
-import { RoutIDservice } from '../../services/transmitDataRout.service';
-import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
-
 import UpdateCards from '../../state/cards.action';
 import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
-import { ButtonData } from '../../types/sectionItem';
+import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
   standalone: false,
   selector: 'my-qr',
-  // imports: [QrCardComponent, ButtonsComponent, CommonModule, RouterLink],
-
   templateUrl: './my-qr.component.html',
   styleUrl: './my-qr.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyQRComponent implements OnInit {
-  asideID: number = 0;
-  btnText: ButtonData = {
-    id: 5,
+  btnSetUp: ButtonConfig = {
     text: 'Добавить QR код',
     iconClass: 'icon-add-outline',
   };
@@ -39,39 +32,58 @@ export class MyQRComponent implements OnInit {
   sumCard: number = 0;
   src: string = '';
   getCards: UserCard[] = [];
+  cardCount = signal(0);
+  pageOffset: number = 1;
+  currentPage = signal<string>('1');
 
-  readonly #route = inject(ActivatedRoute);
-  readonly #routService = inject(RoutIDservice);
-  readonly #buttonService = inject(ButtonService);
-  readonly #destroyRef = inject(DestroyRef);
+  // readonly #routService = inject(RoutIDservice);
   readonly #store = inject(Store);
-  // readonly #http = inject(GetDataQrService);
+  readonly #router = inject(Router);
+  readonly #inject = inject(Injector);
+  readonly #route = inject(ActivatedRoute);
 
-  cards$: Observable<UserCardState> = this.#store.select(ListOfCards.getCards);
+  cards: Signal<UserCardState> = this.#store.selectSignal(ListOfCards.getCards);
 
   ngOnInit(): void {
-    this.asideID = this.#route.snapshot.data['asideID'];
-    this.#routService.getIDroute(this.asideID);
-
-    this.#buttonService.eventClick$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data.id === 5) {
-          const lorem = this.randomText();
-          const baseUrl = 'http://api.qrserver.com/v1/create-qr-code/?data=';
-          const size = '&size=150x150';
-          this.src = `${baseUrl}${lorem}${size}`;
+    runInInjectionContext(this.#inject, () => {
+      effect(() => {
+        if (this.cards()) {
+          this.cardCount.set(this.cards().pagination.total);
         }
       });
+    });
 
-    // console.log('Запрашиваем сервер');
-    this.#store.dispatch(new UpdateCards());
-    console.log('сервер запрошен');
+    // when this page is started or reloaded, we send offset pagination to back
+    const offset = Math.max(
+      +(this.#route.snapshot.queryParamMap.get('offset') ?? '1'),
+      1
+    );
+    this.#store.dispatch(new UpdateCards(offset - 1));
+    this.setActivePaginationPage(offset);
   }
 
-  randomText(): string {
-    const range = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-    return loremIpsum({ count: range });
+  selectPage(offset: string) {
+    // we get offset page from pagination and send it backand
+    this.pageOffset = (Number(offset) - 1) * 12;
+
+    this.#store.dispatch(new UpdateCards(this.pageOffset));
+    this.#router.navigate(['my-qr'], {
+      queryParams: { offset: this.pageOffset + 1 },
+    });
+
+    this.setActivePaginationPage(this.pageOffset);
+  }
+
+  navigateCreateQrPage() {
+    this.#router.navigate(['create-qrcode']);
+  }
+
+  setActivePaginationPage(pageId: number): void {
+    this.currentPage.set((pageId / 12 + 1).toString());
+    // this check for reload pages
+    if (pageId % 2 !== 0) {
+      this.currentPage.set(Math.ceil(pageId / 12).toString());
+    }
   }
 
   constructor() {}

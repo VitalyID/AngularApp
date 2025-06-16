@@ -19,9 +19,9 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 // import { SharedModule } from '../../shared.module';
-import { ButtonData } from '../../../types/sectionItem';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
-import { ListenerService } from '../buttons/service/buttonListenerStatus.compoent.service';
+// import { ListenerService } from '../buttons/service/buttonListenerStatus.compoent.service';
 import { ButtonService } from '../buttons/service/buttons.component.service';
 import { switchOnService } from './services/switchOnInput';
 
@@ -53,11 +53,11 @@ export function customValidator(): ValidatorFn {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataInputComponent implements OnInit, OnDestroy {
-  @Input() dateForBTN!: ButtonData;
+  @Input() dateForBTN!: ButtonConfig;
 
   readonly #buttonService = inject(ButtonService);
   readonly #fb = inject(FormBuilder);
-  readonly #listenerBTNservice = inject(ListenerService);
+  // readonly #listenerBTNservice = inject(ListenerService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #switchInputService = inject(switchOnService);
   readonly myInputForm = this.#fb.group({
@@ -76,16 +76,6 @@ export class DataInputComponent implements OnInit, OnDestroy {
   #statusValidDataStart!: Subscription | undefined;
 
   ngOnInit(): void {
-    // принимаем клик с сервиса btn
-    this.#buttonService.eventClick$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data.id === 21 || data.id === 2 || data.id === 22) {
-          console.log('Кнопка нажата с ID:', data.id);
-          this.#buttonService.transmitData(this.myInputForm.value);
-        }
-      });
-
     // Enabled/Disabled dateFrom start
     this.#switchInputService.eventChangeInput$
       .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -115,12 +105,16 @@ export class DataInputComponent implements OnInit, OnDestroy {
       .get('dateEnd')
       ?.statusChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((status) => {
-        const enableBTN: ButtonData = {
+        const enableBTN: ButtonConfig = {
           id: this.dateForBTN.id,
           disabled: status !== 'VALID',
         };
-        this.#listenerBTNservice.getStatusForBTN(enableBTN);
+        // this.#listenerBTNservice.getStatusForBTN(enableBTN);
       });
+  }
+
+  onClick() {
+    this.#buttonService.transmitData(this.myInputForm.value);
   }
 
   ngOnDestroy(): void {

@@ -7,7 +7,7 @@ import {
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { DefaultColor } from '../../shared/components/color-picker/types/enum/default';
-import { ButtonData } from '../../types/sectionItem';
+import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SetColor } from './state/agents.actions';
 import { ColorPickerStore } from './state/agents.state';
 
@@ -20,33 +20,18 @@ import { ColorPickerStore } from './state/agents.state';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AgentsComponent implements OnInit {
-  // asideID: number = 0;
-  btnText: ButtonData = {
+  btnText: ButtonConfig = {
     text: 'Создать QR-Code',
     iconClass: 'icon-add-outline',
-    id: 12,
   };
   getColor$?: Observable<string>;
-  // #color?: Subscription;
+
   defaultColor: string = DefaultColor.color;
 
-  // readonly #routeService = inject(RoutIDservice);
-  // readonly #route = inject(ActivatedRoute);
   readonly #store = inject(Store);
-  // readonly #destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    // this.asideID = this.#route.snapshot.data['asideID'];
-    // this.#routeService.getIDroute(this.asideID);
-
     this.getColor$ = this.#store.select(ColorPickerStore.getColor);
-    // this.#color = this.getColor$
-    //   .pipe(takeUntilDestroyed(this.#destroyRef))
-    //   .subscribe((data) => {
-    //     console.log('Со стора пришли данные: ', data);
-    //   });
-
-    // this.#store.dispatch(new UpdateCards());
   }
 
   userSetColor(data: string) {

@@ -1,7 +1,14 @@
 <div class="card__wrap" [style.background]="backgroundCard">
+  {{ id }}
+
   <div class="card__title">
     <span>Ресторан Жиши-Суши</span>
-    <svg-icon [svgSetting]="svgSetting"></svg-icon>
+    <svg-icon
+      [iconID]="svgSetting.iconID"
+      [width]="svgSetting.width"
+      [height]="svgSetting.height"
+      [fill]="svgSetting.fill"
+    ></svg-icon>
   </div>
 
   <div class="card__body">
@@ -10,17 +17,41 @@
     </div>
   </div>
   <div class="card__wallet">
-    <app-buttons [buttonData]="walletBTN()"></app-buttons>
+    <app-buttons
+      [text]="walletBTN().text"
+      [background]="walletBTN().background"
+      [borderStyle]="walletBTN().borderStyle"
+    ></app-buttons>
   </div>
 
   <div class="card__footer">
     <div class="card__footer--left">
-      <app-buttons [buttonData]="chartIcon"></app-buttons>
-      <app-buttons [buttonData]="shareIcon"></app-buttons>
+      <app-buttons
+        [classSvgFonts]="chartIcon.iconClass"
+        [background]="chartIcon.background"
+        [borderStyle]="chartIcon.borderStyle"
+      ></app-buttons>
+
+      <app-buttons
+        [classSvgFonts]="shareIcon.iconClass"
+        [background]="shareIcon.background"
+        [borderStyle]="shareIcon.borderStyle"
+      ></app-buttons>
     </div>
+
     <div class="card__footer--right">
-      <app-buttons [buttonData]="editIcon"></app-buttons>
-      <app-buttons [buttonData]="deleteIcon"></app-buttons>
+      <app-buttons
+        [classSvgFonts]="editIcon.iconClass"
+        [background]="editIcon.background"
+        [borderStyle]="editIcon.borderStyle"
+        (click)="editCard(id)"
+      ></app-buttons>
+      <app-buttons
+        [classSvgFonts]="deleteIcon.iconClass"
+        [background]="deleteIcon.background"
+        [borderStyle]="deleteIcon.borderStyle"
+        (click)="deleteCard(id)"
+      ></app-buttons>
     </div>
   </div>
 </div>

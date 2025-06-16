@@ -1,17 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
-import { RoutIDservice } from '../../../services/transmitDataRout.service';
+// import { RoutIDservice } from '../../../services/transmitDataRout.service';
 import { BordeerLineComponent } from '../../../shared/components/bordeer-line/border-line.component';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
 import { ButtonService } from '../../../shared/components/buttons/service/buttons.component.service';
 import { LogoMenuComponent } from '../../../shared/components/logo-menu/logo-menu.component';
 import { SectionComponent } from '../../../shared/components/section/section.component';
-import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
 import { TitleAside } from '../../../types/enums/titleAside';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
-import { ButtonData } from '../../../types/sectionItem';
+
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 import { LinkAside } from './tupes/enum/routerLink';
 
@@ -20,7 +18,6 @@ import { LinkAside } from './tupes/enum/routerLink';
   standalone: true,
   imports: [
     CommonModule,
-    SvgIconComponent,
     SectionComponent,
     ButtonsComponent,
     LogoMenuComponent,
@@ -34,8 +31,8 @@ export class AsideComponent implements OnInit {
   readonly #btnService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
-  readonly #getRoutFromService = inject(RoutIDservice);
-  routeID$: Observable<number> = this.#getRoutFromService.SendRouteService$;
+  // readonly #getRoutFromService = inject(RoutIDservice);
+  // routeID$: Observable<number> = this.#getRoutFromService.SendRouteService$;
 
   public listSections: SectionItem[] = [
     {
@@ -112,10 +109,7 @@ export class AsideComponent implements OnInit {
   public generalGroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
 
-  public btnText: ButtonData = {
-    text: 'Служба поддержки',
-    id: 4,
-  };
+  public btnText: string = 'Служба поддержки';
 
   menuData: SvgSpriteSetting = {
     iconID: 'menu',

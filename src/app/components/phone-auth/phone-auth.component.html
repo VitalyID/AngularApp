@@ -1,0 +1,44 @@
+<div class="auth-phone-container">
+  <div class="auth-phone-container__enter">
+    <div class="auth-phone-container__top">
+      <div class="auth-phone-container__userPhone">
+        <svg-icon
+          [iconID]="svgLogo.iconID"
+          [width]="svgLogo.width"
+          [height]="svgLogo.height"
+        ></svg-icon>
+        <h1>Вход в Tips.me</h1>
+        <span>Номер телефона</span>
+        <input-text
+          [actualData]="userInput"
+          (updateValue)="phoneNumber($event)"
+        ></input-text>
+
+        <div class="auth-phone-container__switcher">
+          <switcher
+            [featureToggle]="isSaveLogin"
+            (updateSwitcher)="isSavePhone($event)"
+          ></switcher>
+          <span>Запомнить меня</span>
+        </div>
+
+        <app-buttons
+          [text]="buttonData.text"
+          [background]="buttonData.background"
+          [borderRadius]="buttonData.borderRadius"
+          [color]="buttonData.color"
+          (click)="login()"
+        ></app-buttons>
+      </div>
+    </div>
+    <div class="auth-phone-container__bottom"></div>
+  </div>
+
+  <div class="auth-phone-container__img">
+    <picture>
+      <source srcset="../../../assets/images/auth.webp" type="image/webp" />
+      <source srcset="../../../assets/images/auth.jpg" type="image/jpg" />
+      <img src="../../../assets/images/auth.png" alt="Авторизация" />
+    </picture>
+  </div>
+</div>

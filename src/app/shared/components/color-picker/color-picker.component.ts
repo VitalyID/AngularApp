@@ -22,8 +22,6 @@ export class ColorPickerComponent {
   @Input({ required: true }) color: string = '';
   @Output() userSetColor = new EventEmitter();
 
-  newColor: string = this.color;
-
   setColor(newColor: string) {
     this.userSetColor.emit(newColor);
   }

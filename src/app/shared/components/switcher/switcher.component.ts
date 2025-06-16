@@ -26,13 +26,11 @@ import { SwitcherData } from './types/interface/switcherDataTransmit';
 export class SwitcherComponent implements OnInit {
   @Input() styles: SwitcherStyles = {};
   @Input() title: string = '';
-  @Input({ required: true }) isOn!: Signal<boolean>;
-  // @Output() updateIsOn = new EventEmitter();
+  @Input({ required: true }) featureToggle!: Signal<boolean>;
   @Output() updateSwitcher = new EventEmitter(false);
 
   switcherForParent: SwitcherData = {
     title: '',
-    // title: Object.values(EnumSwitcher);
     value: false,
   };
 
@@ -49,7 +47,7 @@ export class SwitcherComponent implements OnInit {
 
   id: string = '';
   value: boolean = false;
-  checked = computed(() => this.isOn());
+  checked = computed(() => this.featureToggle());
 
   readonly #elRef = inject(ElementRef);
   readonly #render = inject(Renderer2);

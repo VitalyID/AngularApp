@@ -9,10 +9,8 @@ import {
   throwError,
 } from 'rxjs';
 import { ButtonService } from '../shared/components/buttons/service/buttons.component.service';
-import {
-  DataUserOperation,
-  DateTimeUserOperations,
-} from './../types/sectionItem';
+import { DateTimeUserOperations } from '../shared/components/filter/types/interface/dataRange';
+import { DataUserOperation } from '../types/interfaces/userOperation';
 import { GetDataService } from './get-data.service';
 
 @Injectable({
@@ -178,11 +176,6 @@ export class TransmitDataService implements OnDestroy {
       .subscribe({
         next: (data: DataUserOperation[]) => {
           this.dataUserOperations = data;
-          for (let item of this.dataUserOperations) {
-            let datePipe = new Date(item.data);
-            const unit = this.#datePipe.transform(datePipe, 'dd.MM.yyyy');
-            item.data = String(unit);
-          }
           this.fnMonth('forMonth');
         },
         error: (err) => console.log('Ошибка в получении данных'),

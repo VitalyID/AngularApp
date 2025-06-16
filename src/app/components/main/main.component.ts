@@ -1,22 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngxs/store';
 import { v4 as uuidv4 } from 'uuid';
-import { ButtonService } from '../../shared/components/buttons/service/buttons.component.service';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
-
-// import { CommonModule } from '@angular/common';
-// import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
-// import { ChartComponent } from '../../shared/components/chart/chart.component';
-// import { TableComponent } from '../../shared/components/table/table.component';
-import { ButtonData } from './../../types/sectionItem';
+import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
   selector: 'main',
@@ -26,19 +12,15 @@ import { ButtonData } from './../../types/sectionItem';
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent implements OnInit {
-  readonly #btnService = inject(ButtonService);
-  readonly #destroyRef = inject(DestroyRef);
+export class MainComponent {
   readonly #router = inject(Router);
-  readonly #store = inject(Store);
 
   // asideID: number = 0;
   parent: string = 'main';
 
-  public btnText: ButtonData = {
+  public btnText: ButtonConfig = {
     text: 'Создать QR-Code',
     iconClass: 'icon-add-outline',
-    id: 3,
   };
 
   list: ListDropdown[] = [
@@ -59,14 +41,7 @@ export class MainComponent implements OnInit {
     },
   ];
 
-  ngOnInit(): void {
-    this.#btnService.eventClick$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data.id == 3) {
-          // this.#store.dispatch(new UpdateCards());
-          this.#router.navigate(['/create-qrcode']);
-        }
-      });
+  goToCreateQrPage() {
+    this.#router.navigate(['/create-qrcode']);
   }
 }

@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // import { SharedModule } from '../../../shared.module';
 import { Store } from '@ngxs/store';
-import { ButtonData } from '../../../types/sectionItem';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
 import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.service';
@@ -28,9 +28,9 @@ export class UploadLogoComponent implements OnInit {
   @ViewChild('fileInput') input?: ElementRef;
   @Output() uploadLogo = new EventEmitter();
 
-  uploadPhoto: ButtonData = {
+  uploadPhoto: ButtonConfig = {
     iconClass: 'icon-icon-upload',
-    id: 6,
+    // id: uuid.v4(),
     text: 'Загрузите логотип',
     background: 'none',
     color: '#313436',

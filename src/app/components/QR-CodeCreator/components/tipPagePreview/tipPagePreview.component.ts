@@ -16,7 +16,6 @@ import { AmodzieComponent } from '../../../../shared/components/amodzie/amodzie.
 import { AmodzieData } from '../../../../shared/components/amodzie/types/interfaces/amodzieStateData';
 import { BordeerLineComponent } from '../../../../shared/components/bordeer-line/border-line.component';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
-import { ButtonService } from '../../../../shared/components/buttons/service/buttons.component.service';
 import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
 import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
@@ -28,10 +27,9 @@ import { SwitcherStateService } from '../../../../shared/components/switcher/ser
 import { SwitcherData } from '../../../../shared/components/switcher/types/interface/switcherDataTransmit';
 import { ListOfCards } from '../../../../state/cards.state';
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
+import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
-import { ButtonData } from '../../../../types/sectionItem';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
-// import { SetUserStarRate } from './../../state/qr-code-creator.state';
 
 @Component({
   selector: 'user-preview',
@@ -70,39 +68,36 @@ export class UserPreviewComponent implements OnInit {
     disabled: true,
   };
 
-  arrBTN: ButtonData[] = [
+  arrBTN: ButtonConfig[] = [
     {
       text: '0 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 8,
       borderStyle: 'none',
-      key: 'inputID-1',
+      isActive: false,
     },
     {
       text: '0 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 9,
       borderStyle: 'none',
-      key: 'inputID-2',
+      isActive: false,
     },
     {
       text: '0 ₽',
       background: '#EEEFF2',
       color: '#313436',
-      id: 10,
       borderStyle: 'none',
-      key: 'inputID-3',
+      isActive: false,
     },
   ];
 
-  btnSendData: ButtonData = {
+  btnSendData: ButtonConfig = {
     text: 'Поблагодарить',
     disabled: true,
     background: '#8f8f8f',
     color: 'black',
-    id: 11,
+    isActive: false,
   };
 
   dataToStarRate: DataStarRate = {
@@ -125,47 +120,12 @@ export class UserPreviewComponent implements OnInit {
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #cdr = inject(ChangeDetectorRef);
-  readonly #btnService = inject(ButtonService);
   readonly #switcherService = inject(SwitcherStateService);
   readonly #store = inject(Store);
 
   userCard$ = this.#store.select(ListOfCards.getEditCard);
 
   ngOnInit(): void {
-    this.#btnService.eventClick$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data.id === 8) {
-          this.changeActiveClass(8, this.arrBTN);
-
-          // if (!this.arrBTN[0].text) return;
-
-          // const tmp = String(parseInt(this.arrBTN[0].text));
-          // console.log(tmp);
-
-          // this.setUpTips = { ...this.setUpTips, value: tmp };
-
-          // this.#cdr.detectChanges();
-          // this.#cdr.markForCheck();
-        } else if (data.id === 9) {
-          // if (!this.arrBTN[1].text) return;
-          this.changeActiveClass(9, this.arrBTN);
-
-          // const tmp = String(parseInt(this.arrBTN[1].text));
-          // this.setUpTips = { ...this.setUpTips, value: tmp };
-
-          // this.#cdr.detectChanges();
-        } else if (data.id === 10) {
-          // if (!this.arrBTN[2].text) return;
-          this.changeActiveClass(10, this.arrBTN);
-
-          // const tmp = String(parseInt(this.arrBTN[2].text));
-          // this.setUpTips = { ...this.setUpTips, value: tmp };
-
-          // this.#cdr.detectChanges();
-        }
-      });
-
     this.#switcherService.channelSwitcherFromService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data: SwitcherData) => {
@@ -201,13 +161,14 @@ export class UserPreviewComponent implements OnInit {
     const key = Object.keys(data);
   }
 
-  changeActiveClass(data: number, buttons: ButtonData[]): void {
-    console.log(buttons);
-
-    const activeID = data - 8;
+  changeActiveClass(data: number): void {
     this.arrBTN.forEach((item, index) => {
-      item.isActive = index === activeID;
+      item.isActive = index === data;
     });
+
+    this.arrBTN[data] = { ...this.arrBTN[data], isActive: true };
+    this.btnSendData = { ...this.btnSendData, disabled: false, isActive: true };
+    console.log(this.btnSendData);
   }
 
   rating(data: DataStarRate) {
@@ -219,10 +180,6 @@ export class UserPreviewComponent implements OnInit {
   }
 
   onClick(text: string) {
-    console.log(text);
-
     this.setUpTips = { ...this.setUpTips, value: text };
-
-    console.log(this.setUpTips);
   }
 }

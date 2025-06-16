@@ -14,7 +14,11 @@
 <!-- --------------- -->
 
 <div class="userPreview__about">
-  <svg-icon [svgSetting]="svgLogo"></svg-icon>
+  <svg-icon
+    [iconID]="svgLogo.iconID"
+    [width]="svgLogo.width"
+    [height]="svgLogo.height"
+  ></svg-icon>
 
   <div class="userPreview__about--me">
     <img
@@ -46,23 +50,17 @@
     (userInput)="validInput($event)"
   ></input-text>
 
-  @if(userCard && userCard && userCard.preset_payment_sizes){
+  @if(userCard && userCard.preset_payment_sizes){
   <div class="userPreview__setTips--btn">
     @for (btn of arrBTN; track $index){
     <app-buttons
       (click)="onClick(userCard.preset_payment_sizes[$index].toString())"
-      [buttonData]="{
-        text: userCard.preset_payment_sizes[$index].toString(),
-        iconClass: btn.iconClass,
-        disabled: btn.disabled,
-        background: btn.background,
-        color: btn.color,
-        isActive: btn.isActive,
-        id: btn.id,
-        borderStyle: btn.borderStyle,
-        boxShadow: btn.boxShadow,
-        key: btn.key
-      }"
+      (click)="changeActiveClass($index)"
+      [text]="userCard.preset_payment_sizes[$index].toString()"
+      [background]="btn.background"
+      [color]="btn.color"
+      [borderStyle]="btn.borderStyle"
+      [isActive]="btn.isActive"
     ></app-buttons>
     }
   </div>
@@ -115,6 +113,11 @@
 </div>
 
 <div class="userPreview__sendData">
-  <app-buttons [buttonData]="btnSendData"></app-buttons>
+  <app-buttons
+    [text]="btnSendData.text"
+    [disabled]="btnSendData.disabled"
+    [background]="btnSendData.background"
+    [color]="btnSendData.color"
+    [isActive]="btnSendData.isActive"
+  ></app-buttons>
 </div>
-<!-- validInput -->

@@ -5,13 +5,22 @@
   --gap: 15px;
   --color: #ffffff;
   --fontSize: 16px;
+  --borderRadius: 54px;
+  --border: 2px solid black;
+  --transform: none;
+  --transition: 0s;
+
+  --isActiveColor: "red";
+  --isActiveTransform: none;
+  --isActiveTransition: 0s;
+  --isActiveBorder: 1px solid black;
 }
 
 button {
   background: linear-gradient(0deg, #3bc76b, #3bc76b), #3bc76b;
   box-shadow: 0px 5px 20px rgba(71, 155, 78, 0.15);
-  border: 2px solid black;
-  border-radius: 54px;
+  border: var(--border);
+  border-radius: var(--borderRadius);
   padding: var(--padding);
 
   font-family: "Formular";
@@ -30,12 +39,19 @@ button {
 
   color: var(--color);
   cursor: pointer;
+
+  transform: var(--transform);
+  transition: var(--transition);
 }
 
 .isActive {
   background-color: #3bc76b !important;
-  border: 1px solid black !important;
+  border: var(--isActiveBorder) !important;
+  color: var(--isActiveColor) !important;
+  transform: var(--isActiveTransform) !important;
+  transition: var(--isActiveTransition) !important;
 }
+
 .icon-add-outline:before {
   content: "\e901";
   color: #ffffff !important;

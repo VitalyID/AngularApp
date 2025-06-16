@@ -1,4 +1,6 @@
+@let windowSize = (windowSize$ | async); @if (windowSize){
 <div class="table__top">
+  @if ((windowSize['1000'] === true) ) {
   <div class="table__top--mobile">
     <div class="tableTop__onlyMobile">
       <dropdown
@@ -8,20 +10,25 @@
       ></dropdown>
     </div>
 
-    <app-buttons [buttonData]="calendar" class="calendar"></app-buttons>
+    <app-buttons
+      [classSvgFonts]="calendar.iconClass"
+      [disabled]="calendar.disabled"
+      [background]="calendar.background"
+      [borderStyle]="calendar.borderStyle"
+      class="calendar"
+      (click)="OnClickCalendar()"
+    ></app-buttons>
 
-    <!-- <ng-container> -->
-    @if(windowSize$ | async; as windowSize) { @if ((windowSize['1000'] === true)
-    && (windowSize['768'] === false)) {
+    @if ((windowSize['1100'] === true) && (windowSize['768'] === false)) {
     <div
       class="hiddenDataInput table__top--dataMiddle"
-      [ngClass]="{ hidden: !visibility, visible: visibility }"
+      [class.visible]="visibility()"
     >
       <data-input [dateForBTN]="transmitToBTN"></data-input>
     </div>
-    }}
-    <!-- </ng-container> -->
+    }
   </div>
+  }
 
   <div class="table__top--tabs">
     <div class="table__top--tabsUnit">
@@ -34,29 +41,43 @@
         {{ tab.value }}
       </div>
     </div>
-    <!-- <ng-container> -->
-    @if(windowSize$ | async; as windowSize) { @if (windowSize['1000'] === false)
-    {
+
+    @if (windowSize['1100'] === false) {
     <div class="table__top--topFilter">
       <data-input [dateForBTN]="transmitToBTN"></data-input>
     </div>
-    }}
-    <!-- </ng-container> -->
+    }
   </div>
 
-  <app-buttons [buttonData]="btnText"></app-buttons>
+  @if (windowSize['768'] === true){
+  <div
+    class="hiddenDataInput table__data--small"
+    [class.visible]="visibility()"
+  >
+    <data-input [dateForBTN]="transmitToBTN"></data-input>
+  </div>
+  } @if (windowSize['685'] === false){
+  <app-buttons
+    [text]="btnText.text"
+    [classSvgFonts]="btnText.iconClass"
+    [background]="btnText.background"
+    [color]="btnText.color"
+    (click)="onClickDownload()"
+  ></app-buttons>
+  }
 </div>
 
-<!-- <ng-container> -->
-@if(windowSize$ | async; as windowSize){ @if (windowSize['768'] === true){
-<div
-  class="hiddenDataInput table__data--small"
-  [ngClass]="{ hidden: !visibility, visible: visibility }"
->
-  <data-input [dateForBTN]="transmitToBTN"></data-input>
+<div class="table__topMobile">
+  @if(windowSize['685'] === true) {
+  <app-buttons
+    [text]="btnText.text"
+    [classSvgFonts]="btnText.iconClass"
+    [background]="btnText.background"
+    [color]="btnText.color"
+    (click)="onClickDownload()"
+  ></app-buttons>
+  }
 </div>
-} }
-<!-- </ng-container> -->
 
 <div class="table__filter">
   <div class="table__filter--cell" *ngFor="let filter of filters">
@@ -70,7 +91,6 @@
 
 <border-line class="footerBorder"></border-line>
 
-<
 <div class="table__total">
   @let totalTop = (tableTotal$ | async) ?? [];
   <div>
@@ -98,15 +118,12 @@
   </div>
 </div>
 
-<!-- <ng-container> -->
-<!-- @if (tableBody$ |async; as data) -->
 @let table = (tableBody$ |async) ?? []; @for(item of table; track item.id){
 <mobile-transaction-card
   [table]="item"
   class="table__body--mobileCard"
 ></mobile-transaction-card>
 }
-<!-- </ng-container> -->
 
 <border-line class="footerBorder"></border-line>
 
@@ -125,3 +142,4 @@
     <span>{{ total?.[2] }}</span>
   </div>
 </div>
+}
