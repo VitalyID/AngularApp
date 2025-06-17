@@ -23,9 +23,9 @@ export class InputTextComponent {
     placeholder: '',
     value: '',
     unitCurrency: '',
-    type: 'number',
+    type: 'text',
     disabled: false,
-    mask: '0 (000) 000-00-00',
+    mask: '(000) 000-00-00',
     dropSpecialCharacters: false,
   };
   @Output() updateValue = new EventEmitter();

@@ -15,7 +15,7 @@ export interface DataInput {
   validationTo?: string;
   unitCurrency?: string;
   value: string;
-  type: 'number' | 'text';
+  type: 'number' | 'text' | 'tel' | 'password';
   disabled: boolean;
   mask?: string;
   dropSpecialCharacters?: boolean;

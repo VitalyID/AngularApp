@@ -10,8 +10,12 @@
         <h1>Вход в Tips.me</h1>
         <span>Номер телефона</span>
         <input-text
-          [actualData]="userInput"
+          [actualData]="inputPhone"
           (updateValue)="phoneNumber($event)"
+        ></input-text>
+        <input-text
+          [actualData]="inputPassword"
+          (updateValue)="setPassword($event)"
         ></input-text>
 
         <div class="auth-phone-container__switcher">

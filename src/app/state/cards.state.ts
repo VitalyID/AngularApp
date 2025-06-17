@@ -1,12 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
+import { isAuthResponse, isCreateUserResponse } from '../services/auth.helper';
+import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/CardStoreActions.service';
 import {
   CardsMeta,
   PaginationMeta,
 } from '../shared/components/pagination/interface/PaginationMeta';
 import UpdateCards, {
+  AuthUser,
   DeleteCard,
   EditCard,
   PostCard,
@@ -19,6 +22,26 @@ export interface UserCardState {
   // editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
   pagination: PaginationMeta;
+  user: UserData;
+}
+
+export interface UserData {
+  phone: string;
+  password: string;
+  token: string;
+  userCreated: string;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  token_type: string;
+}
+
+export interface CreateUserResponse {
+  phone: '';
+  id: number;
+  created_at: '';
+  updated_at: '';
 }
 
 export interface UserCard {
@@ -57,6 +80,12 @@ const defaultValue: UserCardState = {
     total: 1,
     offset: 1,
   },
+  user: {
+    phone: '',
+    password: '',
+    token: '',
+    userCreated: '',
+  },
 };
 
 @State<UserCardState>({
@@ -69,6 +98,7 @@ export class ListOfCards {
 
   readonly #http = inject(CardService);
   readonly #store = inject(Store);
+  readonly #auth = inject(AuthService);
 
   @Selector()
   static getCards(state: UserCardState) {
@@ -138,6 +168,34 @@ export class ListOfCards {
       take(1),
       tap(() => {
         this.#store.dispatch(new UpdateCards(0));
+      })
+    );
+  }
+
+  @Action(AuthUser)
+  AuthUser(ctx: StateContext<UserCardState>, { phone, password }: AuthUser) {
+    const stateUser = ctx.getState();
+    return this.#auth.authUser(phone, password).pipe(
+      take(1),
+      tap((data) => {
+        // isCreateUserResponse and isAuthResponse are helpers for types
+
+        if (isCreateUserResponse(data)) {
+          ctx.patchState({
+            user: {
+              ...stateUser.user,
+              phone: data.phone,
+              password: password,
+              userCreated: data.updated_at,
+            },
+          });
+        } else if (isAuthResponse(data)) {
+          ctx.patchState({
+            user: { ...stateUser.user, token: data.access_token },
+          });
+        }
+
+        console.log('Стейт содержит: ', ctx.getState().user);
       })
     );
   }

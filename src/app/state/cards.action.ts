@@ -29,3 +29,8 @@ export class PutCard {
   static readonly type = '[putCard] putUserCard';
   constructor(public userCard: UserCard) {}
 }
+
+export class AuthUser {
+  static readonly type = '[AuthData] authUserPhone';
+  constructor(public phone: string, public password: string) {}
+}
