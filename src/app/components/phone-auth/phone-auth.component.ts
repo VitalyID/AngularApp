@@ -5,8 +5,8 @@ import {
   signal,
 } from '@angular/core';
 // import { Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { AuthService } from '../../services/auth.service';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { DataInput } from '../../shared/components/input-text/types/interfaces/dataInput';
 import { AuthUser } from '../../state/cards.action';
@@ -40,8 +40,9 @@ export class PhoneAuthComponent {
 
   // readonly #router = inject(Router);
   readonly #lSS = inject(LocalStorigeService);
-  readonly #getToken = inject(AuthService);
+  // readonly #getToken = inject(AuthService);
   readonly #store = inject(Store);
+  readonly #router = inject(Router);
 
   storigePhone = signal(this.#lSS.getLocalStorige());
 
@@ -62,15 +63,8 @@ export class PhoneAuthComponent {
   };
 
   login() {
-    console.log('CLICK');
-    // this.#router.navigate(['']);
-    // const userToken = this.#getToken
-    //   .authUser(this.userPhone, this.userPass)
-    //   .subscribe((data) => {
-    //     console.log(data);
-    //   });
-    // console.log(userToken);
     this.#store.dispatch(new AuthUser(this.userPhone, this.userPass));
+    this.#router.navigate(['']);
   }
 
   phoneNumber(phone: string) {

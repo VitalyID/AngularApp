@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { auth } from '../const';
 import { AuthResponse, CreateUserResponse } from '../state/cards.state';
 
@@ -20,37 +20,19 @@ export class AuthService {
         password: `${pwd}`,
       })
       .pipe(
-        tap(() => {
-          console.log('success');
-        }),
+        // tap(() => {}),
         catchError((error: HttpErrorResponse) => {
-          console.log('Получена ошибка', error.status);
           if (error.status === 400) {
             return this.#http.post<AuthResponse>(`${auth}/login`, {
               phone: `${phone}`,
               password: `${pwd}`,
             });
           } else {
-            console.log(error.message, error.status);
+            // console.log(error.message, error.status);
           }
           return of(error);
         })
       );
   }
-
-  // createUser(phone: string, pwd: string): Observable<CreateUserResponse> {
-  //   return this.#http.post<CreateUserResponse>(`${auth}/register`, {
-  //     phone: `${phone}`,
-  //     password: `${pwd}`,
-  //   });
-  // }
-
-  // authUser(phone: string, pwd: string) {
-  //   return this.#http.post<AuthResponse>(`${auth}/login`, {
-  //     phone: `${phone}`,
-  //     password: `${pwd}`,
-  //   });
-  // }
-
   constructor() {}
 }

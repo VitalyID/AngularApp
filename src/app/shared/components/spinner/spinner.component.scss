@@ -1,28 +1,30 @@
 .spinnerContainer {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
   position: relative;
   z-index: 1000;
-  background-color: rgb(184, 182, 182);
+  background-color: rgba(184, 182, 182, 0.5);
 }
 
 svg-icon {
-  --height: 32px;
-  --width: 32px;
+  --height: 64px;
+  --width: 64px;
 
-  animation: spinner 2s infinite;
+  animation: spinner 4s infinite linear;
 }
 
 @keyframes spinner {
   0% {
-    transform: rotate 0deg;
+    transform: rotate(0deg);
   }
   50% {
-    transform: rotate 180deg;
+    transform: rotate(180deg);
   }
   100% {
-    transform: rotate 360deg;
+    transform: rotate(360deg);
   }
 }

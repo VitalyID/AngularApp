@@ -1,16 +1,17 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class SpinnerService {
-  private spinnerState = signal(false);
-  getSpinnerState = this.spinnerState as Signal<boolean>;
+  spinnerState = signal(false);
 
   enableSpinner() {
     this.spinnerState.set(true);
+    console.log('On');
   }
 
   disableSpinner() {
     this.spinnerState.set(false);
+    console.log('Off');
   }
 
   constructor() {}

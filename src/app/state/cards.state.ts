@@ -106,6 +106,11 @@ export class ListOfCards {
   }
 
   @Selector()
+  static getUserData(state: UserCardState) {
+    return state.user;
+  }
+
+  @Selector()
   static getEditCard(state: UserCardState) {
     return state.userCard;
   }
@@ -124,6 +129,7 @@ export class ListOfCards {
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>, { rangeCards }: UpdateCards) {
     const state = ctx.getState();
+
     return this.#http.getCard(rangeCards, state.pagination.limit).pipe(
       take(1),
       tap(({ data, pagination }: CardsMeta) => {
@@ -189,13 +195,18 @@ export class ListOfCards {
               userCreated: data.updated_at,
             },
           });
+
+          // get token
+          ctx.dispatch(new AuthUser(phone, password));
         } else if (isAuthResponse(data)) {
           ctx.patchState({
-            user: { ...stateUser.user, token: data.access_token },
+            user: {
+              ...stateUser.user,
+              token: data.access_token,
+              userCreated: new Date().toString(),
+            },
           });
         }
-
-        console.log('Стейт содержит: ', ctx.getState().user);
       })
     );
   }

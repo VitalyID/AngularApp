@@ -1,9 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   Input,
   signal,
-  WritableSignal,
+  Signal,
 } from '@angular/core';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -16,8 +17,14 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerComponent {
-  @Input() spinnerConfig: WritableSignal<SvgSpriteSetting> = signal({
+  @Input() spinnerConfig: Signal<SvgSpriteSetting> = signal({
     iconID: '',
     isVisible: false,
   });
+
+  constructor() {
+    effect(() => {
+      console.log('spinner', this.spinnerConfig().isVisible);
+    });
+  }
 }
