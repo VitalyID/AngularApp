@@ -59,8 +59,4 @@ export class DropdownComponent {
     this.isOpen = false;
     this.itemSelected.emit(data);
   }
-
-  // generateID() {
-  //   return uuidv4();
-  // }
 }
