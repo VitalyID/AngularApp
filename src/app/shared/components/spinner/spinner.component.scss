@@ -7,12 +7,15 @@
   width: 100%;
   position: relative;
   z-index: 1000;
-  background-color: rgba(184, 182, 182, 0.5);
+  background-color: rgba(184, 182, 182, 0.3);
 }
 
 svg-icon {
   --height: 64px;
   --width: 64px;
+  --fill: black;
+  position: relative;
+  z-index: 1001;
 
   animation: spinner 4s infinite linear;
 }

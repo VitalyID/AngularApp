@@ -4,11 +4,9 @@ import {
   Component,
   computed,
   DestroyRef,
-  effect,
   inject,
   Injector,
   OnInit,
-  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -52,17 +50,12 @@ export class HomeComponent implements OnInit {
   isOpen = signal<boolean>(false);
 
   spinnerConfig = computed(() => ({
-    iconID: '',
+    iconID: 'icon-spinner',
+    // isVisible: true,
     isVisible: this.#spinner.spinnerState(),
   }));
 
   ngOnInit(): void {
-    runInInjectionContext(this.#inject, () => {
-      effect(() => {
-        console.log(this.spinnerConfig());
-      });
-    });
-
     this.#menuService.stateMenuService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {

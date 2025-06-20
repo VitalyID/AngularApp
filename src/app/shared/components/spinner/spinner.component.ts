@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   Input,
   signal,
   Signal,
@@ -21,10 +20,4 @@ export class SpinnerComponent {
     iconID: '',
     isVisible: false,
   });
-
-  constructor() {
-    effect(() => {
-      console.log('spinner', this.spinnerConfig().isVisible);
-    });
-  }
 }
