@@ -7,12 +7,10 @@ export class SpinnerService {
 
   enableSpinner() {
     this.spinnerState.set(true);
-    console.log('On', new Date());
   }
 
   disableSpinner() {
     this.spinnerState.set(false);
-    console.log('Off', new Date());
   }
 
   constructor() {}

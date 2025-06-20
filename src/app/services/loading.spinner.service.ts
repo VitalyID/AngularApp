@@ -1,3 +1,5 @@
+// this is analog spinner, which work by interseptor,only  it work by CardStoreActions.service.ts. For it, we need add addTask and removeTask in the service
+
 import {
   effect,
   inject,
