@@ -18,7 +18,10 @@ import { InputTextComponent } from '../../../../shared/components/input-text/inp
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
 import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
-import { DataInput } from './../../../../shared/components/input-text/types/interfaces/dataInput';
+import {
+  InputConfig,
+  InputValidation,
+} from './../../../../shared/components/input-text/types/interfaces/dataInput';
 import { ListOfCards, UserCard } from './../../../../state/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -73,31 +76,33 @@ export class CreateQRcodeComponent implements OnInit {
   // editCart - it's a flag, which denote about this card: editing it now or no
   editCard: boolean = false;
 
-  inputBaseTip: Signal<DataInput> = computed(() => ({
-    validation: true,
+  inputBaseTip: Signal<InputConfig> = computed(() => ({
     unitCurrency: 'rub',
-    validationFrom: '0',
-    validationTo: '1000',
     value: '',
     placeholder: '',
     type: 'number',
     disabled: false,
   }));
 
-  inputSmallTip: Signal<DataInput> = computed(() => ({
+  inputSmallTip: Signal<InputConfig> = computed(() => ({
     ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[0].toString(),
   }));
 
-  inputMiddleTip: Signal<DataInput> = computed(() => ({
+  inputMiddleTip: Signal<InputConfig> = computed(() => ({
     ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[1].toString(),
   }));
 
-  inputBigTip: Signal<DataInput> = computed(() => ({
+  inputBigTip: Signal<InputConfig> = computed(() => ({
     ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[2].toString(),
   }));
+
+  validation: InputValidation = {
+    validationFrom: '0',
+    validationTo: '1000',
+  };
 
   btnText: string = 'Создать QR-код';
 

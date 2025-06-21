@@ -25,6 +25,7 @@ export class LocalStorigeService {
   getLocalStorige(): string {
     if (this.#isBrowser) {
       try {
+        // return JSON.parse(localStorage.getItem('user') ?? '');
         return localStorage.getItem('user') ?? '';
       } catch (error) {
         console.log(error);

@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { CardService } from '../../services/CardStoreActions.service';
 import UpdateCards from '../../state/cards.action';
 import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
@@ -41,6 +42,7 @@ export class MyQRComponent implements OnInit {
   readonly #router = inject(Router);
   readonly #inject = inject(Injector);
   readonly #route = inject(ActivatedRoute);
+  readonly #test = inject(CardService);
 
   cards: Signal<UserCardState> = this.#store.selectSignal(ListOfCards.getCards);
 

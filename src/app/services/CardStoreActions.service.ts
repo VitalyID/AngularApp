@@ -25,14 +25,18 @@ export class CardService {
   }
 
   postCard(card: UserCard): Observable<UserCard> {
-    return this.#http.post<UserCard>(link, card);
+    // type newCard = Omit<UserCard, 'id'>
+    const { id, ...noIdUser } = card;
+    console.log(noIdUser);
+    return this.#http.post<UserCard>(link, noIdUser);
   }
 
   deleteCard(id: number): Observable<UserCard> {
     return this.#http.delete<UserCard>(`${link}/${id}`);
   }
 
-  putCard(id: number, card: UserCard) {
-    return this.#http.put(`${link}/${id}`, card);
+  putCard(idCard: number, card: UserCard) {
+    const { id, ...noIdUser } = card;
+    return this.#http.put(`${link}/${idCard}`, noIdUser);
   }
 }

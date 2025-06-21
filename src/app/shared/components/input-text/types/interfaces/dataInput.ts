@@ -1,3 +1,4 @@
+// import { Validation } from './dataInput';
 // placeholder: this field present text, which is visible as placeholder
 // inputID: Its ID for link on just input field (string);
 // validation: 'yes' | 'no';
@@ -7,16 +8,18 @@
 // mask: we transmit template for mask (ngx-mask);
 //   dropSpecialCharacters?: boolean - for using symbols by dash, brackets, spaces
 
-export interface DataInput {
+export interface InputConfig {
   placeholder?: string;
-  // inputID: string;
+  unitCurrency?: string;
+  value?: string;
+  type?: 'number' | 'text' | 'tel' | 'password';
+  disabled?: boolean;
+  mask?: string;
+  dropSpecialCharacters?: boolean;
+}
+
+export interface InputValidation {
   validation?: boolean;
   validationFrom?: string;
   validationTo?: string;
-  unitCurrency?: string;
-  value: string;
-  type: 'number' | 'text' | 'tel' | 'password';
-  disabled: boolean;
-  mask?: string;
-  dropSpecialCharacters?: boolean;
 }

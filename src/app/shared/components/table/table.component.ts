@@ -96,8 +96,6 @@ export class TableComponent implements OnInit {
   visibility = signal<boolean>(false);
 
   ngOnInit(): void {
-    console.log(this.visibility());
-
     const arrFilter = Object.values(TabsName);
 
     this.filterMobile = arrFilter.map((el) => {

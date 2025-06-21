@@ -1,4 +1,4 @@
-import { UserCard } from './cards.state';
+import { UserCard, UserData } from './cards.state';
 
 export default class UpdateCards {
   static readonly type = '[Cards] SetCards';
@@ -32,5 +32,5 @@ export class PutCard {
 
 export class AuthUser {
   static readonly type = '[AuthData] authUserPhone';
-  constructor(public phone: string, public password: string) {}
+  constructor(public user: UserData) {}
 }

@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 import { isAuthResponse, isCreateUserResponse } from '../services/auth.helper';
 import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/CardStoreActions.service';
+import { LocalStorigeService } from '../services/local-storige.service';
 import {
   CardsMeta,
   PaginationMeta,
@@ -100,6 +102,8 @@ export class ListOfCards {
   readonly #http = inject(CardService);
   readonly #store = inject(Store);
   readonly #auth = inject(AuthService);
+  readonly #lSS = inject(LocalStorigeService);
+  readonly #router = inject(Router);
 
   @Selector()
   static getCards(state: UserCardState) {
@@ -130,8 +134,18 @@ export class ListOfCards {
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>, { rangeCards }: UpdateCards) {
     const state = ctx.getState();
+    console.log('state-user', state.user);
+
+    // ctx.patchState({
+    //   user: { ...state, token: this.#lSS.getLocalStorige() },
+    // });
+
+    // this.#lSS.getLocalStorige();
 
     return this.#http.getCard(rangeCards, state.pagination.limit).pipe(
+      tap((data) => {
+        console.log(data);
+      }),
       take(1),
       tap(({ data, pagination }: CardsMeta) => {
         ctx.patchState({ cards: data, pagination });
@@ -180,9 +194,11 @@ export class ListOfCards {
   }
 
   @Action(AuthUser)
-  AuthUser(ctx: StateContext<UserCardState>, { phone, password }: AuthUser) {
+  AuthUser(ctx: StateContext<UserCardState>, { user }: AuthUser) {
+    console.log('action');
+
     const stateUser = ctx.getState();
-    return this.#auth.authUser(phone, password).pipe(
+    return this.#auth.authUser(user.phone, user.password).pipe(
       take(1),
       tap((data) => {
         // isCreateUserResponse and isAuthResponse are helpers for types
@@ -191,22 +207,29 @@ export class ListOfCards {
           ctx.patchState({
             user: {
               ...stateUser.user,
-              phone: data.phone,
-              password: password,
+              phone: user.phone,
+              password: user.password,
               userCreated: data.updated_at,
             },
           });
 
           // get token
-          ctx.dispatch(new AuthUser(phone, password));
+          ctx.dispatch(new AuthUser(user));
         } else if (isAuthResponse(data)) {
+          // get data from storage
+          const user = JSON.parse(this.#lSS.getLocalStorige());
+          this.#lSS.sendToLocalStorige(data.access_token);
+
           ctx.patchState({
             user: {
-              ...stateUser.user,
+              phone: user.phone,
+              password: user.password,
               token: data.access_token,
               userCreated: new Date().toString(),
             },
-          });
+          }),
+            console.log(ctx.getState().user.token);
+          this.#router.navigate([' ']);
         }
       })
     );

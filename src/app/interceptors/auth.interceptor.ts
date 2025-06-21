@@ -15,6 +15,11 @@ export const AuthInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const store = inject(Store);
+  // console.log(
+  //   store.select(ListOfCards.getUserData).subscribe((data) => {
+  //     data.token;
+  //   })
+  // );
 
   if (
     urlForAuth.some((url) => {
@@ -29,6 +34,8 @@ export const AuthInterceptor: HttpInterceptorFn = (
 
           return next(req);
         } else {
+          console.log('token', user.token);
+
           const headers = req.headers.set(
             'Authorization',
             ` Bearer ${user.token}`

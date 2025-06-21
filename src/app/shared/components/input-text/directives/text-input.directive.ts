@@ -1,12 +1,19 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { DataInput } from '../types/interfaces/dataInput';
+import { InputValidation } from '../types/interfaces/dataInput';
 
 @Directive({
   selector: '[myValidator]',
   standalone: true,
 })
 export class myValidatorDirective {
-  @Input({ required: true }) actualData?: DataInput;
+  // @Input({ required: true }) actualData?: DataInput;
+  @Input() type: 'number' | 'text' | 'tel' | 'password' = 'text';
+  @Input() placeholder: string = '';
+
+  @Input() validationSettings: InputValidation = {
+    validationFrom: '',
+    validationTo: '',
+  };
 
   constructor() {}
 
@@ -14,15 +21,15 @@ export class myValidatorDirective {
   onInput(event: any) {
     const inputValue = event.target.value;
 
-    if (this.actualData?.type === 'number') {
-      if (!this.actualData?.validationFrom) return;
-      if (!this.actualData?.validationTo) return;
+    if (this.type === 'number') {
+      if (!this.validationSettings?.validationFrom) return;
+      if (!this.validationSettings?.validationTo) return;
 
       if (
-        Number(inputValue) < Number(this.actualData.validationFrom) ||
-        Number(inputValue) > Number(this.actualData.validationTo)
+        Number(inputValue) < Number(this.validationSettings.validationFrom) ||
+        Number(inputValue) > Number(this.validationSettings.validationTo)
       ) {
-        event.target.value = this.actualData.placeholder;
+        event.target.value = this.placeholder;
       }
     }
   }

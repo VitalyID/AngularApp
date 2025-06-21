@@ -19,7 +19,7 @@ import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.
 import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
 import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
-import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput';
+import { InputConfig } from '../../../../shared/components/input-text/types/interfaces/dataInput';
 import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
 import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
@@ -58,10 +58,8 @@ export class UserPreviewComponent implements OnInit {
     width: '200px',
   };
 
-  setUpTips: DataInput = {
+  setUpTips: InputConfig = {
     placeholder: 'от 100 до 600',
-    // inputID: 'inputID-4',
-    validation: true,
     unitCurrency: 'rub',
     value: '',
     type: 'number',

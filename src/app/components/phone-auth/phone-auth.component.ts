@@ -2,16 +2,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnChanges,
   signal,
+  SimpleChanges,
 } from '@angular/core';
-// import { Router } from '@angular/router';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
-import { DataInput } from '../../shared/components/input-text/types/interfaces/dataInput';
+import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 import { AuthUser } from '../../state/cards.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { UserData } from './../../state/cards.state';
 
 @Component({
   selector: 'phone-auth',
@@ -20,16 +22,14 @@ import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
   styleUrl: './phone-auth.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PhoneAuthComponent {
+export class PhoneAuthComponent implements OnChanges {
   svgLogo: SvgSpriteSetting = {
     iconID: 'icon-logo',
     width: '98px',
     height: '31px',
   };
 
-  isSaveLogin = signal<boolean>(true);
-  userPhone: string = '';
-  userPass: string = '';
+  isSaveSwitcher = signal<boolean>(true);
 
   buttonData: ButtonConfig = {
     text: 'Продолжить',
@@ -38,48 +38,84 @@ export class PhoneAuthComponent {
     color: '#55595B',
   };
 
-  // readonly #router = inject(Router);
+  buttonMainPage: string = 'Главная страница';
+
   readonly #lSS = inject(LocalStorigeService);
   // readonly #getToken = inject(AuthService);
   readonly #store = inject(Store);
   readonly #router = inject(Router);
 
-  storigePhone = signal(this.#lSS.getLocalStorige());
+  userData = signal(this.getLocalStorageData());
 
-  inputPhone: DataInput = {
+  inputPhone: InputConfig = {
     placeholder: '+7 ( ___ ) ___-__-__',
-    value: this.storigePhone(),
-    unitCurrency: '',
     type: 'tel',
     disabled: false,
+    dropSpecialCharacters: true,
     mask: '0 (000) 000-00-00',
   };
 
-  inputPassword: DataInput = {
+  inputPassword: InputConfig = {
     placeholder: 'Пароль',
-    value: '',
     type: 'password',
-    disabled: false,
+    disabled: true,
   };
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // if (changes === )
+  }
+
   login() {
-    this.#store.dispatch(new AuthUser(this.userPhone, this.userPass));
-    this.#router.navigate(['']);
+    // send userData to localStorage
+    console.log('send to lss:', this.userData);
+
+    if (this.isSaveSwitcher()) {
+      this.userData.update((oldValue) => ({
+        ...oldValue,
+        userCreated: new Date().toString(),
+      }));
+      this.#lSS.sendToLocalStorige(JSON.stringify(this.userData));
+    }
+
+    // in store we get token and navigate to main page
+    this.#store.dispatch(new AuthUser(this.userData()));
   }
 
   phoneNumber(phone: string) {
-    this.userPhone = '+7' + phone.replace(/\D/g, '');
+    this.userData().phone = '+7' + phone.replace(/\D/g, '').slice(0, -1);
   }
 
   setPassword(pwd: string) {
-    this.userPass = pwd;
+    this.userData().password = pwd;
   }
 
-  isSavePhone(isSaving: boolean) {
-    // if (isSaving) {
-    //   this.#lSS.sendToLocalStorige(this.userPhone);
-    // } else {
-    //   this.#lSS.sendToLocalStorige((this.userPhone = ''));
-    // }
+  toggleSaveUser(isSaving: boolean) {
+    if (!isSaving) {
+      this.userData.update((oldPhone) => ({ ...oldPhone, phone: '' }));
+      this.userData.update((oldPassword) => ({ ...oldPassword, password: '' }));
+      this.userData.update((oldToken) => ({ ...oldToken, token: '' }));
+      this.userData.update((oldDate) => ({ ...oldDate, userCreated: '' }));
+    }
+  }
+
+  toMainPage() {
+    this.#router.navigate(['']);
+  }
+
+  getLocalStorageData(): UserData {
+    const localStorage = this.#lSS.getLocalStorige();
+    if (localStorage) {
+      try {
+        console.log(localStorage);
+        return JSON.parse(localStorage);
+      } catch {
+        console.log('error reading localStarage: ', localStorage);
+      }
+    }
+    return { phone: '', password: '', token: '', userCreated: '' };
   }
 }
+
+// in this realise, all user data is saving in local storige. It's need for correct work app.
+
+// password need go out from local storide

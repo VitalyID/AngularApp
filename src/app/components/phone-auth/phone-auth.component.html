@@ -10,18 +10,24 @@
         <h1>Вход в Tips.me</h1>
         <span>Номер телефона</span>
         <input-text
-          [actualData]="inputPhone"
+          [placeholder]="inputPhone.placeholder || ''"
+          [type]="inputPhone.type || 'tel'"
+          [disabled]="inputPhone.disabled || false"
+          [value]="userData().phone"
+          [dropSpecialCharacters]="inputPhone.dropSpecialCharacters || true"
+          [mask]="inputPhone.mask || ''"
           (updateValue)="phoneNumber($event)"
         ></input-text>
         <input-text
-          [actualData]="inputPassword"
+          [placeholder]="inputPassword.placeholder || ''"
+          [type]="inputPassword.type || 'password'"
           (updateValue)="setPassword($event)"
         ></input-text>
 
         <div class="auth-phone-container__switcher">
           <switcher
-            [featureToggle]="isSaveLogin"
-            (updateSwitcher)="isSavePhone($event)"
+            [featureToggle]="isSaveSwitcher"
+            (updateSwitcher)="toggleSaveUser($event)"
           ></switcher>
           <span>Запомнить меня</span>
         </div>
@@ -32,6 +38,11 @@
           [borderRadius]="buttonData.borderRadius"
           [color]="buttonData.color"
           (click)="login()"
+        ></app-buttons>
+
+        <app-buttons
+          [text]="buttonMainPage"
+          (click)="toMainPage()"
         ></app-buttons>
       </div>
     </div>
@@ -46,3 +57,13 @@
     </picture>
   </div>
 </div>
+
+<!-- <input-text
+          [placeholder]="inputPhone.placeholder || ''"
+          [type]="inputPhone.type || 'text'"
+          [value]="getLocalStorageData().phone"
+          [disabled]="inputPhone.disabled || false"
+          [mask]="inputPhone.mask || ''"
+          (updateValue)="phoneNumber($event)"
+          [dropSpecialCharacters]="inputPhone.dropSpecialCharacters ?? null"
+        ></input-text> -->

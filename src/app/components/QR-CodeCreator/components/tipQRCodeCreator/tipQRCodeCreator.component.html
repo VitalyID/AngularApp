@@ -13,15 +13,27 @@
 
       <div class="createQRcode__body-wrapForm-tips">
         <input-text
-          [actualData]="inputSmallTip()"
+          [placeholder]="inputSmallTip().placeholder || ''"
+          [disabled]="inputSmallTip().disabled || false"
+          [type]="inputSmallTip().type || 'number'"
+          [value]="inputSmallTip().value || ''"
+          [validationSettings]="validation"
           (updateValue)="sendDataStore(0, $event)"
         ></input-text>
         <input-text
-          [actualData]="inputMiddleTip()"
+          [placeholder]="inputMiddleTip().placeholder || ''"
+          [disabled]="inputMiddleTip().disabled || false"
+          [type]="inputMiddleTip().type || 'number'"
+          [value]="inputMiddleTip().value || ''"
+          [validationSettings]="validation"
           (updateValue)="sendDataStore(1, $event)"
         ></input-text>
         <input-text
-          [actualData]="inputBigTip()"
+          [placeholder]="inputBigTip().placeholder || ''"
+          [disabled]="inputBigTip().disabled || false"
+          [type]="inputBigTip().type || 'number'"
+          [value]="inputBigTip().value || ''"
+          [validationSettings]="validation"
           (updateValue)="sendDataStore(2, $event)"
         ></input-text>
       </div>

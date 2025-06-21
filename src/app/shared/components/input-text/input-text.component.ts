@@ -8,7 +8,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { myValidatorDirective } from './directives/text-input.directive';
-import { DataInput } from './types/interfaces/dataInput';
+import { InputValidation } from './types/interfaces/dataInput';
 
 @Component({
   selector: 'input-text',
@@ -19,15 +19,18 @@ import { DataInput } from './types/interfaces/dataInput';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputTextComponent {
-  @Input() actualData: DataInput = {
-    placeholder: '',
-    value: '',
-    unitCurrency: '',
-    type: 'text',
-    disabled: false,
-    mask: '(000) 000-00-00',
-    dropSpecialCharacters: false,
+  @Input() type: 'number' | 'text' | 'tel' | 'password' = 'text';
+  @Input() placeholder: string = '';
+  @Input() disabled: boolean = false;
+  @Input() value: string = '';
+  @Input() mask: string = '';
+  @Input() dropSpecialCharacters: boolean | null = null;
+  @Input() unitCurrency: string = '';
+  @Input() validationSettings: InputValidation = {
+    validationFrom: '',
+    validationTo: '',
   };
+
   @Output() updateValue = new EventEmitter();
 
   inputValue(data: Event) {
