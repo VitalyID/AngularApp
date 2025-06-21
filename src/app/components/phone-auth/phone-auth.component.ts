@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   OnChanges,
+  OnInit,
   signal,
   SimpleChanges,
 } from '@angular/core';
@@ -22,7 +23,7 @@ import { UserData } from './../../state/cards.state';
   styleUrl: './phone-auth.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PhoneAuthComponent implements OnChanges {
+export class PhoneAuthComponent implements OnChanges, OnInit {
   svgLogo: SvgSpriteSetting = {
     iconID: 'icon-logo',
     width: '98px',
@@ -61,6 +62,10 @@ export class PhoneAuthComponent implements OnChanges {
     disabled: true,
   };
 
+  ngOnInit(): void {
+    this.userData.set(this.getLocalStorageData());
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     // if (changes === )
   }
@@ -77,12 +82,26 @@ export class PhoneAuthComponent implements OnChanges {
       this.#lSS.sendToLocalStorige(JSON.stringify(this.userData()));
     }
 
+    const [firstLatter] = this.userData().phone.replaceAll(/\D/g, '');
+
+    const payload = {
+      ...this.userData(),
+      phone: this.userData().phone.replaceAll(/\D/g, '').replace(/^./, '+7'),
+    };
+    console.log(11111, payload);
+
     // in store we get token and navigate to main page
-    this.#store.dispatch(new AuthUser(this.userData()));
+    this.#store.dispatch(new AuthUser(payload));
   }
 
   phoneNumber(phone: string) {
-    this.userData().phone = '+7' + phone.replace(/\D/g, '').slice(0, -1);
+    // this.userData().phone = '+7' + phone;
+    this.userData.update((oldPhone) => ({
+      ...oldPhone,
+      phone,
+    }));
+    // this.userData().phone = '+7' + phone;
+    // .slice(0, -1);
   }
 
   setPassword(pwd: string) {

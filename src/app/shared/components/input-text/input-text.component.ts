@@ -5,14 +5,19 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { myValidatorDirective } from './directives/text-input.directive';
 import { InputValidation } from './types/interfaces/dataInput';
 
 @Component({
   selector: 'input-text',
-  imports: [ReactiveFormsModule, myValidatorDirective, NgxMaskDirective],
+  imports: [
+    ReactiveFormsModule,
+    myValidatorDirective,
+    NgxMaskDirective,
+    FormsModule,
+  ],
   providers: [provideNgxMask()],
   templateUrl: './input-text.component.html',
   styleUrl: './input-text.component.scss',

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { InputTextComponent } from '../../shared/components/input-text/input-text.component';
@@ -15,6 +16,7 @@ import { PhoneAuthRoutingModule } from './phone-auth.routing';
     InputTextComponent,
     SwitcherComponent,
     ButtonsComponent,
+    CommonModule,
   ],
   exports: [],
   declarations: [PhoneAuthComponent],

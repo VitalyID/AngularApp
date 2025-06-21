@@ -4,9 +4,9 @@ import {
   HttpInterceptorFn,
   HttpRequest,
 } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, Signal } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable, switchMap, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { urlForAuth } from '../const';
 import { ListOfCards } from '../state/cards.state';
 
@@ -15,6 +15,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const store = inject(Store);
+
   // console.log(
   //   store.select(ListOfCards.getUserData).subscribe((data) => {
   //     data.token;
@@ -26,25 +27,29 @@ export const AuthInterceptor: HttpInterceptorFn = (
       req.url.includes(url);
     })
   ) {
-    const user = store.select(ListOfCards.getUserData).pipe(
-      take(1),
-      switchMap((user) => {
-        if (!user.token) {
-          console.log(user.token);
+    const user: Signal<{
+      phone: string;
+      password: string;
+      token: string;
+      userCreated: string;
+    }> = store.selectSignal(ListOfCards.getUserData);
+    console.log(9999, user());
 
-          return next(req);
-        } else {
-          console.log('token', user.token);
+    if (!user().token) {
+      console.log(user().token);
 
-          const headers = req.headers.set(
-            'Authorization',
-            ` Bearer ${user.token}`
-          );
-          const authReq = req.clone({ headers });
-          return next(authReq);
-        }
-      })
-    );
-    return user;
+      return next(req);
+    } else {
+      console.log('token', user().token);
+
+      const headers = req.headers.set(
+        'Authorization',
+        ` Bearer ${user().token}`
+      );
+      const authReq = req.clone({ headers });
+      return next(authReq);
+    }
+
+    // return user();
   } else return next(req);
 };
