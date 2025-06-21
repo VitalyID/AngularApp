@@ -67,14 +67,14 @@ export class PhoneAuthComponent implements OnChanges {
 
   login() {
     // send userData to localStorage
-    console.log('send to lss:', this.userData);
+    console.log('send to lss:', this.userData());
 
     if (this.isSaveSwitcher()) {
       this.userData.update((oldValue) => ({
         ...oldValue,
         userCreated: new Date().toString(),
       }));
-      this.#lSS.sendToLocalStorige(JSON.stringify(this.userData));
+      this.#lSS.sendToLocalStorige(JSON.stringify(this.userData()));
     }
 
     // in store we get token and navigate to main page

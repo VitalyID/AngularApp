@@ -195,7 +195,7 @@ export class ListOfCards {
 
   @Action(AuthUser)
   AuthUser(ctx: StateContext<UserCardState>, { user }: AuthUser) {
-    console.log('action');
+    console.log('action', user);
 
     const stateUser = ctx.getState();
     return this.#auth.authUser(user.phone, user.password).pipe(
@@ -218,7 +218,6 @@ export class ListOfCards {
         } else if (isAuthResponse(data)) {
           // get data from storage
           const user = JSON.parse(this.#lSS.getLocalStorige());
-          this.#lSS.sendToLocalStorige(data.access_token);
 
           ctx.patchState({
             user: {
@@ -228,8 +227,9 @@ export class ListOfCards {
               userCreated: new Date().toString(),
             },
           }),
-            console.log(ctx.getState().user.token);
-          this.#router.navigate([' ']);
+            this.#lSS.sendToLocalStorige(JSON.stringify(ctx.getState().user));
+          console.log('localeStorage:', ctx.getState().user);
+          this.#router.navigate(['']);
         }
       })
     );
