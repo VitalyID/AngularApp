@@ -3,10 +3,9 @@ import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { urlForAuth } from '../const';
 import { LocalStorigeService } from '../services/local-storige.service';
-import { UserCard } from '../state/cards.state';
 
 export function AuthInterceptor(
-  req: HttpRequest<null | UserCard>,
+  req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   const token = JSON.parse(inject(LocalStorigeService).getLocalStorige()).token;
