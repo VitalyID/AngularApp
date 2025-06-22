@@ -2,10 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnChanges,
   OnInit,
   signal,
-  SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -23,7 +21,7 @@ import { UserData } from './../../state/cards.state';
   styleUrl: './phone-auth.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PhoneAuthComponent implements OnChanges, OnInit {
+export class PhoneAuthComponent implements OnInit {
   svgLogo: SvgSpriteSetting = {
     iconID: 'icon-logo',
     width: '98px',
@@ -66,13 +64,8 @@ export class PhoneAuthComponent implements OnChanges, OnInit {
     this.userData.set(this.getLocalStorageData());
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (changes === )
-  }
-
   login() {
     // send userData to localStorage
-    console.log('send to lss:', this.userData());
 
     if (this.isSaveSwitcher()) {
       this.userData.update((oldValue) => ({
@@ -82,14 +75,10 @@ export class PhoneAuthComponent implements OnChanges, OnInit {
       this.#lSS.sendToLocalStorige(JSON.stringify(this.userData()));
     }
 
-    const [firstLatter] = this.userData().phone.replaceAll(/\D/g, '');
-
     const payload = {
       ...this.userData(),
       phone: this.userData().phone.replaceAll(/\D/g, '').replace(/^./, '+7'),
     };
-    console.log(11111, payload);
-
     // in store we get token and navigate to main page
     this.#store.dispatch(new AuthUser(payload));
   }
@@ -100,8 +89,6 @@ export class PhoneAuthComponent implements OnChanges, OnInit {
       ...oldPhone,
       phone,
     }));
-    // this.userData().phone = '+7' + phone;
-    // .slice(0, -1);
   }
 
   setPassword(pwd: string) {
@@ -125,7 +112,6 @@ export class PhoneAuthComponent implements OnChanges, OnInit {
     const localStorage = this.#lSS.getLocalStorige();
     if (localStorage) {
       try {
-        console.log(localStorage);
         return JSON.parse(localStorage);
       } catch {
         console.log('error reading localStarage: ', localStorage);

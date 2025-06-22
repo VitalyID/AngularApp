@@ -1,55 +1,25 @@
-import {
-  HttpEvent,
-  HttpHandlerFn,
-  HttpInterceptorFn,
-  HttpRequest,
-} from '@angular/common/http';
-import { inject, Signal } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { urlForAuth } from '../const';
-import { ListOfCards } from '../state/cards.state';
+import { LocalStorigeService } from '../services/local-storige.service';
 
-export const AuthInterceptor: HttpInterceptorFn = (
-  req: HttpRequest<any>,
+export function AuthInterceptor(
+  req: HttpRequest<unknown>,
   next: HttpHandlerFn
-): Observable<HttpEvent<any>> => {
-  const store = inject(Store);
-
-  // console.log(
-  //   store.select(ListOfCards.getUserData).subscribe((data) => {
-  //     data.token;
-  //   })
-  // );
+): Observable<HttpEvent<unknown>> {
+  const token = JSON.parse(inject(LocalStorigeService).getLocalStorige()).token;
 
   if (
     urlForAuth.some((url) => {
-      req.url.includes(url);
+      return req.url.includes(url);
     })
   ) {
-    const user: Signal<{
-      phone: string;
-      password: string;
-      token: string;
-      userCreated: string;
-    }> = store.selectSignal(ListOfCards.getUserData);
-    console.log(9999, user());
+    const newReq = req.clone({
+      headers: req.headers.append('X-Authentication-Token', token),
+    });
+    return next(newReq);
+  }
 
-    if (!user().token) {
-      console.log(user().token);
-
-      return next(req);
-    } else {
-      console.log('token', user().token);
-
-      const headers = req.headers.set(
-        'Authorization',
-        ` Bearer ${user().token}`
-      );
-      const authReq = req.clone({ headers });
-      return next(authReq);
-    }
-
-    // return user();
-  } else return next(req);
-};
+  return next(req);
+}

@@ -134,18 +134,8 @@ export class ListOfCards {
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>, { rangeCards }: UpdateCards) {
     const state = ctx.getState();
-    console.log('state-user', state.user);
-
-    // ctx.patchState({
-    //   user: { ...state, token: this.#lSS.getLocalStorige() },
-    // });
-
-    // this.#lSS.getLocalStorige();
 
     return this.#http.getCard(rangeCards, state.pagination.limit).pipe(
-      tap((data) => {
-        console.log(data);
-      }),
       take(1),
       tap(({ data, pagination }: CardsMeta) => {
         ctx.patchState({ cards: data, pagination });
