@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
-import { isAuthResponse, isCreateUserResponse } from '../services/auth.helper';
 import { AuthService } from '../services/auth.service';
 import { CardService } from '../services/CardStoreActions.service';
 import { LocalStorigeService } from '../services/local-storige.service';
@@ -11,11 +10,12 @@ import {
   PaginationMeta,
 } from '../shared/components/pagination/interface/PaginationMeta';
 import UpdateCards, {
-  AuthUser,
   DeleteCard,
   EditCard,
+  LoginUser,
   PostCard,
   PutCard,
+  RegisterUser,
   UpdateEditCard,
 } from './cards.action';
 // import { UserCardState } from './cards.state';
@@ -184,45 +184,80 @@ export class ListOfCards {
     );
   }
 
-  @Action(AuthUser)
-  AuthUser(ctx: StateContext<UserCardState>, { user }: AuthUser) {
-    console.log('action', user);
-
-    const stateUser = ctx.getState();
-    return this.#auth.authUser(user.phone, user.password).pipe(
+  @Action(RegisterUser)
+  RegisterUser(ctx: StateContext<UserCardState>, { user }: RegisterUser) {
+    const stateUser = ctx.getState().user;
+    return this.#auth.registerUser(user.phone, user.password).pipe(
       take(1),
-      tap((data) => {
-        // isCreateUserResponse and isAuthResponse are helpers for types
-
-        if (isCreateUserResponse(data)) {
+      tap((data: CreateUserResponse | boolean) => {
+        // if user already created earlier, doing login
+        if (data === false) {
+          ctx.dispatch(new LoginUser(user));
+        } else {
           ctx.patchState({
-            user: {
-              ...stateUser.user,
-              phone: user.phone,
-              password: user.password,
-              userCreated: data.updated_at,
-            },
+            user: { ...stateUser, phone: user.phone, password: user.password },
           });
-
-          // get token
-          ctx.dispatch(new AuthUser(user));
-        } else if (isAuthResponse(data)) {
-          // get data from storage
-          const user = JSON.parse(this.#lSS.getLocalStorige());
-
-          ctx.patchState({
-            user: {
-              phone: user.phone,
-              password: user.password,
-              token: data.access_token,
-              userCreated: new Date().toString(),
-            },
-          }),
-            this.#lSS.sendToLocalStorige(JSON.stringify(ctx.getState().user));
-          console.log('localeStorage:', ctx.getState().user);
-          this.#router.navigate(['']);
         }
       })
     );
   }
+
+  @Action(LoginUser)
+  LoginUser(ctx: StateContext<UserCardState>, { user }: LoginUser) {
+    return this.#auth.login(user.phone, user.password).pipe(
+      take(1),
+      tap((data) => {
+        ctx.patchState({
+          user: {
+            phone: user.phone,
+            password: user.password,
+            token: data.access_token,
+            userCreated: new Date().toString(),
+          },
+        });
+      })
+    );
+  }
 }
+
+// @Action(AuthUser)
+// AuthUser(ctx: StateContext<UserCardState>, { user }: AuthUser) {
+//   console.log('action', user);
+
+//   const stateUser = ctx.getState();
+//   return this.#auth.authUser(user.phone, user.password).pipe(
+//     take(1),
+//     tap((data) => {
+//       // isCreateUserResponse and isAuthResponse are helpers for types
+
+//       if (isCreateUserResponse(data)) {
+//         ctx.patchState({
+//           user: {
+//             ...stateUser.user,
+//             phone: user.phone,
+//             password: user.password,
+//             userCreated: data.updated_at,
+//           },
+//         });
+
+//         // get token
+//         ctx.dispatch(new AuthUser(user));
+//       } else if (isAuthResponse(data)) {
+//         // get data from storage
+//         const user = JSON.parse(this.#lSS.getLocalStorige());
+
+//         ctx.patchState({
+//           user: {
+//             phone: user.phone,
+//             password: user.password,
+//             token: data.access_token,
+//             userCreated: new Date().toString(),
+//           },
+//         }),
+//           this.#lSS.sendToLocalStorige(JSON.stringify(ctx.getState().user));
+//         console.log('localeStorage:', ctx.getState().user);
+//         this.#router.navigate(['']);
+//       }
+//     })
+//   );
+// }

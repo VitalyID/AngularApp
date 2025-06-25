@@ -34,3 +34,13 @@ export class AuthUser {
   static readonly type = '[AuthData] authUserPhone';
   constructor(public user: UserData) {}
 }
+
+export class RegisterUser {
+  static readonly type = '[AuthData] authUserPhone';
+  constructor(public user: UserData) {}
+}
+
+export class LoginUser {
+  static readonly type = '[AuthData] LoginPhone';
+  constructor(public user: UserData) {}
+}

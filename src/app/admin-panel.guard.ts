@@ -22,7 +22,7 @@ export const adminPanelGuard: CanActivateFn = (
 
   const timestampToken = Date.parse(tokenDate);
 
-  // check date created token with current time. The difference more 5s to redirect authPage
+  // check date created token with current time. The difference more 5m to redirect authPage
   if (currentTimestamp - timestampToken > 300000) {
     router.navigate(['login']);
     return false;
