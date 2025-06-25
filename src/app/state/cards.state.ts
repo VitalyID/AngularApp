@@ -60,6 +60,7 @@ export interface UserCard {
   rating: boolean;
   reviews: boolean;
   smiles: boolean;
+  platform_id?: string;
 }
 
 const defaultValue: UserCardState = {

@@ -37,8 +37,6 @@ export class PhoneAuthComponent implements OnInit {
     color: '#55595B',
   };
 
-  buttonMainPage: string = 'Главная страница';
-
   readonly #lSS = inject(LocalStorigeService);
   // readonly #getToken = inject(AuthService);
   readonly #store = inject(Store);
@@ -102,10 +100,6 @@ export class PhoneAuthComponent implements OnInit {
       this.userData.update((oldToken) => ({ ...oldToken, token: '' }));
       this.userData.update((oldDate) => ({ ...oldDate, userCreated: '' }));
     }
-  }
-
-  toMainPage() {
-    this.#router.navigate(['']);
   }
 
   getLocalStorageData(): UserData {

@@ -27,6 +27,9 @@ export class CardService {
 
   putCard(idCard: number, card: UserCard): Observable<UserCard> {
     const { id, ...noIdUser } = card;
+    console.log(`${link}/${idCard}`);
+    console.log(noIdUser);
+
     return this.#http.put<UserCard>(`${link}/${idCard}`, noIdUser);
   }
 }
