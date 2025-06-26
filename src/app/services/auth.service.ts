@@ -14,6 +14,8 @@ export class AuthService {
     phone: string,
     password: string
   ): Observable<CreateUserResponse | boolean> {
+    console.log('start register');
+
     return this.#http
       .post<CreateUserResponse>(`${auth}/register`, {
         phone: `${phone}`,
@@ -29,35 +31,16 @@ export class AuthService {
   }
 
   login(phone: string, password: string): Observable<AuthResponse> {
-    return this.#http.post<AuthResponse>(`${auth}/login`, {
-      phone: `${phone}`,
-      password: `${password}`,
-    });
+    return this.#http
+      .post<AuthResponse>(`${auth}/login`, {
+        phone: `${phone}`,
+        password: `${password}`,
+      })
+      .pipe(
+        catchError((error) => {
+          return throwError(() => error);
+        })
+      );
   }
   constructor() {}
 }
-
-// authUser(
-//   phone: string,
-//   pwd: string
-// ): Observable<CreateUserResponse | AuthResponse | HttpErrorResponse> {
-//   return this.#http
-//     .post<CreateUserResponse>(`${auth}/register`, {
-//       phone: `${phone}`,
-//       password: `${pwd}`,
-//     })
-//     .pipe(
-//       // tap(() => {}),
-//       catchError((error: HttpErrorResponse) => {
-//         if (error.status === 400) {
-//           return this.#http.post<AuthResponse>(`${auth}/login`, {
-//             phone: `${phone}`,
-//             password: `${pwd}`,
-//           });
-//         } else {
-//           // console.log(error.message, error.status);
-//         }
-//         return of(error);
-//       })
-//     );
-// }

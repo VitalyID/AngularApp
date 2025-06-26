@@ -7,6 +7,7 @@
 // type : determinate  type data, which transmitted to child. It may be or number or string
 // mask: we transmit template for mask (ngx-mask);
 //   dropSpecialCharacters?: boolean - for using symbols by dash, brackets, spaces
+// prefix need for mask, ex prefix phone
 
 export interface InputConfig {
   placeholder?: string;
@@ -15,6 +16,7 @@ export interface InputConfig {
   type?: 'number' | 'text' | 'tel' | 'password';
   disabled?: boolean;
   mask?: string;
+  prefix?: string;
   dropSpecialCharacters?: boolean;
 }
 

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
-import { RegisterUser } from '../../state/cards.action';
+import { AuthUser } from '../../state/cards.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 import { UserData } from './../../state/cards.state';
@@ -49,7 +49,9 @@ export class PhoneAuthComponent implements OnInit {
     type: 'tel',
     disabled: false,
     dropSpecialCharacters: true,
-    mask: '0 (000) 000-00-00',
+    mask: '(000) 000-00-00',
+    prefix: '+7',
+    value: this.userData().phone,
   };
 
   inputPassword: InputConfig = {
@@ -78,7 +80,7 @@ export class PhoneAuthComponent implements OnInit {
       phone: this.userData().phone.replaceAll(/\D/g, '').replace(/^./, '+7'),
     };
     // in store we get token and navigate to main page
-    this.#store.dispatch(new RegisterUser(payload));
+    this.#store.dispatch(new AuthUser(payload));
   }
 
   phoneNumber(phone: string) {

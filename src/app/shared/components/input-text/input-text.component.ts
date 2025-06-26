@@ -29,6 +29,7 @@ export class InputTextComponent {
   @Input() disabled: boolean = false;
   @Input() value: string = '';
   @Input() mask: string = '';
+  @Input() prefix: string = '';
   @Input() dropSpecialCharacters: boolean | null = null;
   @Input() unitCurrency: string = '';
   @Input() validationSettings: InputValidation = {

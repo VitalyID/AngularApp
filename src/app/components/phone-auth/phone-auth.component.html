@@ -18,6 +18,7 @@
           [dropSpecialCharacters]="inputPhone.dropSpecialCharacters || true"
           [mask]="inputPhone.mask || ''"
           (updateValue)="phoneNumber($event)"
+          [prefix]="inputPhone.prefix || ''"
         ></input-text>
         <input-text
           [placeholder]="inputPassword.placeholder || ''"
