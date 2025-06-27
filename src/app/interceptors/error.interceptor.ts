@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, retry, throwError, timer } from 'rxjs';
+import { catchError, of, retry, throwError, timer } from 'rxjs';
 
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const toast = inject(ToastrService);
@@ -20,13 +20,13 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
           return timer(2000);
         } else if (error instanceof HttpErrorResponse && error.status === 401) {
           router.navigate(['login']);
-          toast.error('Срок действия токена истек. Выполните вход');
+          toast.error('Такой пользователь существует.');
           throw error;
         } else if (error instanceof HttpErrorResponse && error.status === 400) {
           // no toaster in display
-          throw error;
+          return of(null);
         } else {
-          throw error;
+          return of(error);
         }
       },
     }),

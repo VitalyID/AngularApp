@@ -20,4 +20,5 @@ export class ButtonsComponent {
   @Input() disabled?: boolean = false;
   @Input() text?: string = '';
   @Input() classSvgFonts?: string = '';
+  @Input() paddings?: string = '';
 }

@@ -17,6 +17,7 @@ import { MyQRComponentModule } from './components/myQR/my-qr.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import { UserAuthState } from './state/auth/auth.state';
 import { ListOfCards } from './state/cards/cards.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
@@ -37,7 +38,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       MainModule,
       MyQRComponentModule,
-      NgxsModule.forRoot([ListOfCards])
+      NgxsModule.forRoot([ListOfCards, UserAuthState])
     ),
     provideToastr({
       timeOut: 5000,

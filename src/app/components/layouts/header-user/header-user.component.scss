@@ -111,6 +111,8 @@
   }
 
   &__data {
+    @include flex();
+    flex-direction: column;
     & span {
       display: block;
       text-align: center;
@@ -124,6 +126,11 @@
         @include font();
         color: #62687a;
       }
+    }
+
+    app-buttons {
+      --padding: 0px 0px;
+      --color: #212529;
     }
 
     @media (max-width: 650px) {

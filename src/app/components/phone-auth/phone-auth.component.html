@@ -35,10 +35,19 @@
         </div>
 
         <app-buttons
-          [text]="buttonData.text"
-          [background]="buttonData.background"
-          [borderRadius]="buttonData.borderRadius"
-          [color]="buttonData.color"
+          [text]="buttonDataRegister.text"
+          [background]="buttonDataRegister.background"
+          [borderRadius]="buttonDataRegister.borderRadius"
+          [color]="buttonDataRegister.color"
+          (click)="registration()"
+        ></app-buttons>
+
+        <app-buttons
+          [text]="buttonDataLogin().text"
+          [background]="buttonDataLogin().background"
+          [borderRadius]="buttonDataLogin().borderRadius"
+          [color]="buttonDataLogin().color"
+          [disabled]="buttonDataLogin().disabled"
           (click)="login()"
         ></app-buttons>
       </div>
@@ -54,13 +63,3 @@
     </picture>
   </div>
 </div>
-
-<!-- <input-text
-          [placeholder]="inputPhone.placeholder || ''"
-          [type]="inputPhone.type || 'text'"
-          [value]="getLocalStorageData().phone"
-          [disabled]="inputPhone.disabled || false"
-          [mask]="inputPhone.mask || ''"
-          (updateValue)="phoneNumber($event)"
-          [dropSpecialCharacters]="inputPhone.dropSpecialCharacters ?? null"
-        ></input-text> -->

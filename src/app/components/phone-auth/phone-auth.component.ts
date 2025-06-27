@@ -10,8 +10,7 @@ import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
-import { AuthUser } from '../../state/cards/cards.action';
-import { UserData } from '../../state/cards/cards.state';
+import { CreateUser, LoginUser } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 
@@ -31,12 +30,20 @@ export class PhoneAuthComponent implements OnInit {
 
   isSaveSwitcher = signal<boolean>(true);
 
-  buttonData: ButtonConfig = {
-    text: 'Продолжить',
+  buttonDataRegister: ButtonConfig = {
+    text: 'Зарегистрироваться',
     background: 'linear-gradient(0deg, #EEEFF2, #EEEFF2), #E7E9F0',
     borderRadius: '46px',
     color: '#55595B',
   };
+
+  buttonDataLogin = signal<ButtonConfig>({
+    text: 'Войти',
+    background: 'linear-gradient(0deg, #EEEFF2, #EEEFF2), #E7E9F0',
+    borderRadius: '46px',
+    color: '#55595B',
+    disabled: false,
+  });
 
   readonly #lSS = inject(LocalStorigeService);
   // readonly #getToken = inject(AuthService);
@@ -65,30 +72,35 @@ export class PhoneAuthComponent implements OnInit {
     this.userData.set(this.getLocalStorageData());
   }
 
-  login() {
-    // send userData to localStorage
+  registration() {
+    this.SavingUserData();
 
+    this.#store.dispatch(new CreateUser(this.userData()));
+  }
+
+  login() {
+    this.SavingUserData();
+    this.#store.dispatch(new LoginUser(this.userData()));
+    this.#router.navigate(['']);
+  }
+
+  SavingUserData() {
     if (this.isSaveSwitcher()) {
+      console.log('saving');
+
       this.userData.update((oldValue) => ({
         ...oldValue,
         userCreated: new Date().toString(),
       }));
       this.#lSS.sendToLocalStorige(JSON.stringify(this.userData()));
     }
-
-    const payload = {
-      ...this.userData(),
-      phone: this.userData().phone.replaceAll(/\D/g, '').replace(/^./, '+7'),
-    };
-    // in store we get token and navigate to main page
-    this.#store.dispatch(new AuthUser(payload));
   }
 
   phoneNumber(phone: string) {
-    // this.userData().phone = '+7' + phone;
+    const newPhone = phone.replaceAll(/\D/g, '').replace(/^./, '+7');
     this.userData.update((oldPhone) => ({
       ...oldPhone,
-      phone,
+      phone: newPhone,
     }));
   }
 
@@ -97,15 +109,10 @@ export class PhoneAuthComponent implements OnInit {
   }
 
   toggleSaveUser(isSaving: boolean) {
-    if (!isSaving) {
-      this.userData.update((oldPhone) => ({ ...oldPhone, phone: '' }));
-      this.userData.update((oldPassword) => ({ ...oldPassword, password: '' }));
-      this.userData.update((oldToken) => ({ ...oldToken, token: '' }));
-      this.userData.update((oldDate) => ({ ...oldDate, userCreated: '' }));
-    }
+    this.isSaveSwitcher.set(isSaving);
   }
 
-  getLocalStorageData(): UserData {
+  getLocalStorageData() {
     const localStorage = this.#lSS.getLocalStorige();
     if (localStorage) {
       try {
@@ -114,7 +121,7 @@ export class PhoneAuthComponent implements OnInit {
         console.log('error reading localStarage: ', localStorage);
       }
     }
-    return { phone: '', password: '', token: '', userCreated: '' };
+    return { phone: '', id: 0, token: '', tokenUpdated_at: '' };
   }
 }
 
