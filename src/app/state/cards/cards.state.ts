@@ -2,13 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { catchError, of, switchMap, take, tap } from 'rxjs';
-import { CardService } from '../services/CardStoreActions.service';
-import { LocalStorigeService } from '../services/local-storige.service';
+
+import { CardService } from '../../services/CardStoreActions.service';
+import { AuthService } from '../../services/auth.service';
+import { LocalStorigeService } from '../../services/local-storige.service';
 import {
   CardsMeta,
   PaginationMeta,
-} from '../shared/components/pagination/interface/PaginationMeta';
-import { AuthService } from './../services/auth.service';
+} from '../../shared/components/pagination/interface/PaginationMeta';
 import UpdateCards, {
   AuthUser,
   DeleteCard,

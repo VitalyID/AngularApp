@@ -12,8 +12,13 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { CardService } from '../../services/CardStoreActions.service';
-import UpdateCards from '../../state/cards.action';
-import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
+
+import UpdateCards from '../../state/cards/cards.action';
+import {
+  ListOfCards,
+  UserCard,
+  UserCardState,
+} from '../../state/cards/cards.state';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({

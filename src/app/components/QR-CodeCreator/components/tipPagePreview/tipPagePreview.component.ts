@@ -25,7 +25,7 @@ import { DataStarRate } from '../../../../shared/components/stars-rate/types/int
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
 import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
 import { SwitcherData } from '../../../../shared/components/switcher/types/interface/switcherDataTransmit';
-import { ListOfCards } from '../../../../state/cards.state';
+import { ListOfCards } from '../../../../state/cards/cards.state';
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { auth } from '../const';
-import { AuthResponse, CreateUserResponse } from '../state/cards.state';
+import { AuthResponse, CreateUserResponse } from '../state/cards/cards.state';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

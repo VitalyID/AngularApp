@@ -17,7 +17,7 @@ import { MyQRComponentModule } from './components/myQR/my-qr.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
-import { ListOfCards } from './state/cards.state';
+import { ListOfCards } from './state/cards/cards.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],

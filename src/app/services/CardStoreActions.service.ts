@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 // import * as uuid from 'uuid';
 import { link } from '../const';
 import { CardsMeta } from '../shared/components/pagination/interface/PaginationMeta';
-import { UserCard } from './../state/cards.state';
+import { UserCard } from './../state/cards/cards.state';
 
 @Injectable({ providedIn: 'root' })
 export class CardService {

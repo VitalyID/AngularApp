@@ -22,16 +22,17 @@ import {
   InputConfig,
   InputValidation,
 } from './../../../../shared/components/input-text/types/interfaces/dataInput';
-import { ListOfCards, UserCard } from './../../../../state/cards.state';
+import { ListOfCards, UserCard } from './../../../../state/cards/cards.state';
 // import { InputUsers } from '../../types/interface/inputUsers';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as uuid from 'uuid';
+
 import {
   PostCard,
   PutCard,
   UpdateEditCard,
-} from '../../../../state/cards.action';
+} from '../../../../state/cards/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 

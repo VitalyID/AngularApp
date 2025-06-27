@@ -14,9 +14,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import * as uuid from 'uuid';
+import { UserCardState } from '../../../state/cards/cards.state';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
-import { UserCardState } from './../../../state/cards.state';
 
 @Component({
   selector: 'pagination',

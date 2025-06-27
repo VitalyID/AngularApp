@@ -1,4 +1,4 @@
-import { UserCard } from '../../../../state/cards.state';
+import { UserCard } from '../../../../state/cards/cards.state';
 
 export interface PaginationMeta {
   limit: number;

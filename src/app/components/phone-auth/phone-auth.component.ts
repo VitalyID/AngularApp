@@ -9,10 +9,11 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
-import { AuthUser } from '../../state/cards.action';
+
+import { AuthUser } from '../../state/cards/cards.action';
+import { UserData } from '../../state/cards/cards.state';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { UserData } from './../../state/cards.state';
 
 @Component({
   selector: 'phone-auth',
