@@ -73,6 +73,8 @@ export class UserAuthState {
         );
       }),
       tap(() => {
+        console.log('navition to main');
+
         this.#router.navigate(['']);
       })
     );

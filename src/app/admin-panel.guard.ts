@@ -24,12 +24,19 @@ export const adminPanelGuard: CanActivateFn = (
 
   // check date created token with current time. The difference more 5m to redirect authPage
 
-  console.log('guard:', currentTimestamp, timestampToken);
+  // console.log('guard:', currentTimestamp, timestampToken);
 
-  if (isNaN(timestampToken) || currentTimestamp - timestampToken > 300000) {
-    router.navigate(['login']);
+  if (isNaN(timestampToken)) {
+    router.navigate(['user-auth']);
+    return false;
+  } else if (currentTimestamp - timestampToken > 300000) {
+    // console.log('noGuard');
+
+    router.navigate(['user-auth', 'login']);
     return false;
   } else {
+    // console.log('okGuard');
+
     return true;
   }
 };

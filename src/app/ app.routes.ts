@@ -52,7 +52,14 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'login',
+    path: 'user-auth/:login',
+    loadChildren: () =>
+      import('./components/phone-auth/phone-auth.module').then(
+        (m) => m.PhoneAuthModule
+      ),
+  },
+  {
+    path: 'user-auth',
     loadChildren: () =>
       import('./components/phone-auth/phone-auth.module').then(
         (m) => m.PhoneAuthModule

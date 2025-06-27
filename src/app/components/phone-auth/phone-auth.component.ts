@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
@@ -29,6 +29,7 @@ export class PhoneAuthComponent implements OnInit {
   };
 
   isSaveSwitcher = signal<boolean>(true);
+  isLoginPage: boolean = false;
 
   buttonDataRegister: ButtonConfig = {
     text: 'Зарегистрироваться',
@@ -49,6 +50,7 @@ export class PhoneAuthComponent implements OnInit {
   // readonly #getToken = inject(AuthService);
   readonly #store = inject(Store);
   readonly #router = inject(Router);
+  readonly #route = inject(ActivatedRoute);
 
   userData = signal(this.getLocalStorageData());
 
@@ -70,6 +72,11 @@ export class PhoneAuthComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData.set(this.getLocalStorageData());
+
+    if (this.#route.snapshot.paramMap.get('login')) {
+      this.isLoginPage = true;
+    }
+    console.log(this.isLoginPage);
   }
 
   registration() {
