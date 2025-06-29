@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
   signal,
@@ -10,6 +11,7 @@ import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
+import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
 import { CreateUser, LoginUser } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
@@ -51,6 +53,7 @@ export class PhoneAuthComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
+  readonly #spinner = inject(SpinnerService);
 
   userData = signal(this.getLocalStorageData());
 
@@ -69,6 +72,12 @@ export class PhoneAuthComponent implements OnInit {
     type: 'password',
     disabled: true,
   };
+
+  spinnerConfig = computed(() => ({
+    iconID: 'icon-spinner',
+    // isVisible: true,
+    isVisible: this.#spinner.spinnerState(),
+  }));
 
   ngOnInit(): void {
     this.userData.set(this.getLocalStorageData());
