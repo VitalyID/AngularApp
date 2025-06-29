@@ -75,6 +75,6 @@ export class HeaderUserComponent {
 
   exitUser() {
     this.#localeStorageService.getLocalStorige();
-    this.#router.navigate(['login']);
+    this.#router.navigate(['user-auth']);
   }
 }

@@ -18,19 +18,19 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
           error.status < 600
         ) {
           return timer(2000);
-        } else if (error instanceof HttpErrorResponse && error.status === 401) {
-          router.navigate(['login']);
-          toast.error('Такой пользователь существует.');
-          throw error;
         } else if (error instanceof HttpErrorResponse && error.status === 400) {
-          // no toaster in display
-          return of(null);
+          toast.error('Такой пользователь существует.');
+          return throwError(() => error);
         } else {
           return of(error);
         }
       },
     }),
     catchError((error: HttpErrorResponse | any) => {
+      if (error instanceof HttpErrorResponse && error.status === 400) {
+        return throwError(() => error);
+      }
+
       toast.success('Ошибка при обращении к серверу', error.message);
       return throwError(() => error);
     })

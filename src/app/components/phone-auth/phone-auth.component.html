@@ -34,24 +34,26 @@
           <span>Запомнить меня</span>
         </div>
 
-        @if (!isLoginPage){
-        <app-buttons
-          [text]="buttonDataRegister.text"
-          [background]="buttonDataRegister.background"
-          [borderRadius]="buttonDataRegister.borderRadius"
-          [color]="buttonDataRegister.color"
-          (click)="registration()"
-        ></app-buttons
-        >}
+        <div class="auth-phone-container__buttons">
+          @if (!isLoginPage){
+          <app-buttons
+            [text]="buttonDataRegister.text"
+            [background]="buttonDataRegister.background"
+            [borderRadius]="buttonDataRegister.borderRadius"
+            [color]="buttonDataRegister.color"
+            (click)="registration()"
+          ></app-buttons
+          >}
 
-        <app-buttons
-          [text]="buttonDataLogin().text"
-          [background]="buttonDataLogin().background"
-          [borderRadius]="buttonDataLogin().borderRadius"
-          [color]="buttonDataLogin().color"
-          [disabled]="buttonDataLogin().disabled"
-          (click)="login()"
-        ></app-buttons>
+          <app-buttons
+            [text]="buttonDataLogin().text"
+            [background]="buttonDataLogin().background"
+            [borderRadius]="buttonDataLogin().borderRadius"
+            [color]="buttonDataLogin().color"
+            [disabled]="buttonDataLogin().disabled"
+            (click)="login()"
+          ></app-buttons>
+        </div>
       </div>
     </div>
     <div class="auth-phone-container__bottom"></div>
