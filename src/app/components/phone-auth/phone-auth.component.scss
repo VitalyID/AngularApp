@@ -22,7 +22,7 @@
 
 .auth-phone-container {
   @include flex($gap: 0, $justify: start);
-  max-height: 1024px;
+  height: 100vh;
   overflow-y: hidden;
 
   @media (max-width: 768px) {
@@ -31,11 +31,10 @@
 
   &__enter {
     @include flex($gap: 0px, $fd: column);
+    padding-top: 120px;
 
     background: #fff;
     width: 50%;
-    min-height: 100vh;
-    margin-top: 120px;
 
     @media (max-width: 768px) {
       width: 100%;
@@ -47,13 +46,12 @@
   }
 
   &__img {
-    @include flex($gap: 0);
+    @include flex($gap: 0, $align: start);
     align-self: stretch;
 
     background: #f4f5f7;
     width: 50%;
-    min-height: 100vh;
-    overflow: hidden;
+    padding-top: 120px;
 
     @media (max-width: 768px) {
       display: none;
@@ -65,7 +63,6 @@
     width: 100%;
     max-width: 465px;
     margin: 0 auto;
-    min-height: 50vh;
     padding: 0 20px;
   }
 
@@ -75,6 +72,7 @@
 
   &__userPhone {
     width: 100%;
+    padding-top: 120px;
 
     & svg-icon {
       --mb: 106px;
