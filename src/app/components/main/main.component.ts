@@ -21,6 +21,7 @@ export class MainComponent {
   public btnText: ButtonConfig = {
     text: 'Создать QR-Code',
     iconClass: 'icon-add-outline',
+    disabled: false,
   };
 
   list: ListDropdown[] = [
@@ -42,6 +43,8 @@ export class MainComponent {
   ];
 
   goToCreateQrPage() {
+    console.log(11111);
+
     this.#router.navigate(['/create-qrcode']);
   }
 }

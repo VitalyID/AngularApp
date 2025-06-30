@@ -46,10 +46,10 @@
     position: relative;
 
     &--logo {
+      @include flex();
       width: 25%;
       border-radius: 50%;
       overflow: hidden;
-      padding-top: 5px;
 
       flex: 1;
     }

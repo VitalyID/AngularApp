@@ -40,7 +40,7 @@ button {
   color: var(--color);
   cursor: pointer;
 
-  transform: scale(0.1) var(--transform);
+  transform: scale(1) var(--transform);
   transition: var(--transition);
 
   &:active {

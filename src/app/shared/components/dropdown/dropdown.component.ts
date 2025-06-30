@@ -46,7 +46,6 @@ export class DropdownComponent {
   isOpen: boolean = false;
 
   onClick() {
-    // console.log('click');
     this.isOpen = !this.isOpen;
   }
 
