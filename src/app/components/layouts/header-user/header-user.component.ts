@@ -16,7 +16,6 @@ import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
   standalone: true,
   imports: [
     SvgIconComponent,
-    // LanguageComponent,
     CommonModule,
     DropdownComponent,
     LanguageComponent,

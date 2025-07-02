@@ -6,10 +6,11 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { DataStarRate } from './types/interface/dataToStarRate';
@@ -21,8 +22,8 @@ import { DataStarRate } from './types/interface/dataToStarRate';
   styleUrl: './stars-rate.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// implements ControlValueAccessor, OnInit, OnChanges
-export class StarsRateComponent {
+
+export class StarsRateComponent implements OnInit, OnChanges{
   @Input() starRateSetup: DataStarRate = {
     disabled: false,
     rate: 0,
@@ -44,7 +45,7 @@ export class StarsRateComponent {
   tmp: number = 0;
 
   readonly #cdr = inject(ChangeDetectorRef);
-  readonly #store = inject(Store);
+
 
   ngOnInit(): void {
     this.general = Array(this.maxCounter).fill(0);

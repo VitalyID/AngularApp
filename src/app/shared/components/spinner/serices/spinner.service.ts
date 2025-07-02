@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-// this service get signals from interseptor
+// NOTE: this service get signals from interseptor
 
 @Injectable({ providedIn: 'root' })
 export class SpinnerService {
@@ -13,5 +13,4 @@ export class SpinnerService {
     this.spinnerState.set(false);
   }
 
-  constructor() {}
 }

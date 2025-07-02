@@ -8,6 +8,8 @@
       [height]="svgSetting.height"
       class="unitRate"
       (click)="onClick($index)"
+      (focus)="onMouseOver($index)"
+      (blur)="onMouseLeave()"
       (mouseover)="onMouseOver($index)"
       (mouseleave)="onMouseLeave()"
       [ngClass]="{

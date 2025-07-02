@@ -1,7 +1,4 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-// import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-// import { ActivatedRoute } from '@angular/router';
-// import { RoutIDservice } from '../../services/transmitDataRout.service';
 import { RouterLink, RouterModule } from '@angular/router';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';

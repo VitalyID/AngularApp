@@ -36,6 +36,8 @@
         class="table__top--tabsUnitElement"
         *ngFor="let tab of tabs"
         (click)="clickOnTab(tab.key)"
+        (keyup.enter)="clickOnTab(tab.key)"
+        tabindex="0"
         [ngClass]="classActiveTab(tab.key)"
       >
         {{ tab.value }}

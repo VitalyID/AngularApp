@@ -43,14 +43,13 @@ export class DropdownComponent {
   };
   spanActive: string = 'Необходимо выбрать';
 
-  isOpen: boolean = false;
+  isOpen : boolean = false;
 
   onClick() {
     this.isOpen = !this.isOpen;
   }
 
   onClickItem(data: ListDropdown) {
-    // console.log(data);
     this.spanActive = data.item;
     if (data.icon) {
       this.svgSettingActive = data.icon;

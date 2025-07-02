@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   inject,
-  Input,
+  Input
 } from '@angular/core';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -45,7 +44,6 @@ export class LogoMenuComponent {
   };
 
   readonly #servis = inject(StateMenuService);
-  readonly #DestroyRef = inject(DestroyRef);
 
   onClick(): void {
     this.#servis.stateMenuService.next(true);

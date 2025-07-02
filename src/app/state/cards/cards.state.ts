@@ -1,51 +1,27 @@
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 
 import { CardService } from '../../services/CardStoreActions.service';
-import { AuthService } from '../../services/auth.service';
-import { LocalStorigeService } from '../../services/local-storige.service';
 import {
   CardsMeta,
   PaginationMeta,
 } from '../../shared/components/pagination/interface/PaginationMeta';
 import UpdateCards, {
-  // AuthUser,
   DeleteCard,
   EditCard,
   PostCard,
   PutCard,
   UpdateEditCard,
 } from './cards.action';
-// import { UserCardState } from './cards.state';
 
 export interface UserCardState {
   cards: UserCard[];
-  // editCard need for changing property and reactive displaying in preview component
+  // NOTE: editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
   pagination: PaginationMeta;
-  // user: UserData;
+
 }
-
-// export interface UserData {
-//   phone: string;
-//   password: string;
-//   token: string;
-//   userCreated: string;
-// }
-
-// export interface AuthResponse {
-//   access_token: string;
-//   token_type: string;
-// }
-
-// export interface CreateUserResponse {
-//   phone: '';
-//   id: number;
-//   created_at: '';
-//   updated_at: '';
-// }
 
 export interface UserCard {
   background_hex_color: string;
@@ -84,12 +60,6 @@ const defaultValue: UserCardState = {
     total: 1,
     offset: 1,
   },
-  // user: {
-  //   phone: '',
-  //   password: '',
-  //   token: '',
-  //   userCreated: '',
-  // },
 };
 
 @State<UserCardState>({
@@ -102,19 +72,11 @@ export class ListOfCards {
 
   readonly #http = inject(CardService);
   readonly #store = inject(Store);
-  readonly #auth = inject(AuthService);
-  readonly #lSS = inject(LocalStorigeService);
-  readonly #router = inject(Router);
 
   @Selector()
   static getCards(state: UserCardState) {
     return state;
   }
-
-  // @Selector()
-  // static getUserData(state: UserCardState) {
-  //   return state.user;
-  // }
 
   @Selector()
   static getEditCard(state: UserCardState) {
@@ -150,7 +112,7 @@ export class ListOfCards {
       take(1),
       tap(() => {
         ctx.patchState({
-          // reset to defaultValue when send to server is success
+          // NOTE: reset to defaultValue when send to server is success
           userCard: {
             ...defaultValue.userCard,
           },
@@ -184,37 +146,4 @@ export class ListOfCards {
     );
   }
 
-  // @Action(AuthUser)
-  // AuthUser(ctx: StateContext<UserCardState>, { user }: AuthUser) {
-  //   return this.#auth.registerUser(user.phone, user.password).pipe(
-  //     take(1),
-  //     switchMap((response) => {
-  //       if (response === false) {
-  //         return this.#auth.login(user.phone, user.password).pipe(
-  //           take(1),
-  //           tap((data) => {
-  //             ctx.patchState({
-  //               user: {
-  //                 phone: user.phone,
-  //                 password: user.password,
-  //                 token: data.access_token,
-  //                 userCreated: new Date().toString(),
-  //               },
-  //             });
-  //           }),
-  //           tap(() => {
-  //             this.#lSS.sendToLocalStorige(JSON.stringify(ctx.getState().user));
-  //           }),
-  //           tap(() => {
-  //             this.#router.navigate(['']);
-  //           }),
-  //           catchError(() => {
-  //             return of(null);
-  //           })
-  //         );
-  //       }
-  //       return of(response);
-  //     })
-  //   );
-  // }
 }

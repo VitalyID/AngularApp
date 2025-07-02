@@ -23,8 +23,6 @@ const storagePluginOptions: NgxsStoragePluginOptions = {
     AppRoutingModule,
     AgentsModule,
     AgentsRoutingModule,
-    // NgxsModule.forRoot([ListOfCards]),
-    // MyQRComponentModule,
   ],
   providers: [
     provideCharts(withDefaultRegisterables()),

@@ -166,15 +166,14 @@ export class UserPreviewComponent implements OnInit {
 
     this.arrBTN[data] = { ...this.arrBTN[data], isActive: true };
     this.btnSendData = { ...this.btnSendData, disabled: false, isActive: true };
-    console.log(this.btnSendData);
   }
 
   rating(data: DataStarRate) {
-    console.log(data);
-  }
+    // no-empty-function
+   }
 
   amodzieSelected(smile: number) {
-    console.log(smile);
+    // no-empty-function
   }
 
   onClick(text: string) {

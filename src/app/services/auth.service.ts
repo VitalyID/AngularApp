@@ -12,7 +12,6 @@ export class AuthService {
     phone: string,
     password: string
   ): Observable<UserAuthStateModel> {
-    console.log('start register');
 
     return this.#http.post<UserAuthStateModel>(`${auth}/register`, {
       phone: `${phone}`,
@@ -26,5 +25,5 @@ export class AuthService {
       password: `${password}`,
     });
   }
-  constructor() {}
+
 }

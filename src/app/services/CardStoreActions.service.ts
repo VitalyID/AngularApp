@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-// import * as uuid from 'uuid';
 import { link } from '../const';
 import { CardsMeta } from '../shared/components/pagination/interface/PaginationMeta';
 import { UserCard } from './../state/cards/cards.state';
@@ -9,7 +8,6 @@ import { UserCard } from './../state/cards/cards.state';
 @Injectable({ providedIn: 'root' })
 export class CardService {
   #http = inject(HttpClient);
-  // #loadingSpinner = inject(LoadingSpinnerService);
 
   getCard(page: number, limit: number): Observable<CardsMeta> {
     const params = new HttpParams().set('limit', limit).set('offset', page);
@@ -27,9 +25,6 @@ export class CardService {
 
   putCard(idCard: number, card: UserCard): Observable<UserCard> {
     const { id, ...noIdUser } = card;
-    console.log(`${link}/${idCard}`);
-    console.log(noIdUser);
-
     return this.#http.put<UserCard>(`${link}/${idCard}`, noIdUser);
   }
 }

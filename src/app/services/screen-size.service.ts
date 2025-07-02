@@ -10,8 +10,6 @@ export class ScreenSizeService {
     '1000': false,
     '768': false,
     '685': false,
-    // '650': false,
-    // '520': false,
   };
 
   private resizeSubscription: Subscription;
@@ -28,7 +26,7 @@ export class ScreenSizeService {
   }
 
   UpdateBreakpoints(): Breakpoints {
-    const arrKey = Object.keys(this.breakpoints) as Array<keyof Breakpoints>;
+    const arrKey = Object.keys(this.breakpoints) as (keyof Breakpoints)[];
 
     arrKey.forEach((brPnt) => {
       this.breakpoints = {

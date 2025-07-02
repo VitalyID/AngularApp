@@ -49,7 +49,6 @@ export class PhoneAuthComponent implements OnInit {
   });
 
   readonly #lSS = inject(LocalStorigeService);
-  // readonly #getToken = inject(AuthService);
   readonly #store = inject(Store);
   readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
@@ -75,7 +74,6 @@ export class PhoneAuthComponent implements OnInit {
 
   spinnerConfig = computed(() => ({
     iconID: 'icon-spinner',
-    // isVisible: true,
     isVisible: this.#spinner.spinnerState(),
   }));
 
@@ -85,7 +83,6 @@ export class PhoneAuthComponent implements OnInit {
     if (this.#route.snapshot.paramMap.get('login')) {
       this.isLoginPage = true;
     }
-    console.log(this.isLoginPage);
   }
 
   registration() {
@@ -102,7 +99,6 @@ export class PhoneAuthComponent implements OnInit {
 
   SavingUserData() {
     if (this.isSaveSwitcher()) {
-      console.log('saving');
 
       this.userData.update((oldValue) => ({
         ...oldValue,
@@ -134,13 +130,10 @@ export class PhoneAuthComponent implements OnInit {
       try {
         return JSON.parse(localStorage);
       } catch {
-        console.log('error reading localStarage: ', localStorage);
+        console.log('DEBUG: error reading localStarage: ', localStorage);
       }
     }
     return { phone: '', id: 0, token: '', tokenUpdated_at: '' };
   }
 }
 
-// in this realise, all user data is saving in local storige. It's need for correct work app.
-
-// password need go out from local storide

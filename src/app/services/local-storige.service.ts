@@ -1,5 +1,3 @@
-// LocalStorige is used for saving user phone number in auth
-
 import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
@@ -7,11 +5,10 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorigeService {
-  #platformId: Object = inject(PLATFORM_ID);
+  #platformId: object = inject(PLATFORM_ID);
   #isBrowser: boolean = isPlatformBrowser(this.#platformId);
 
   sendToLocalStorige(data: string) {
-    console.log('storige service get data', data);
 
     if (this.#isBrowser) {
       try {
@@ -27,7 +24,7 @@ export class LocalStorigeService {
       try {
         return localStorage.getItem('user') ?? '';
       } catch (error) {
-        console.log(error);
+        console.log('DEBUG', error);
 
         return '';
       }
@@ -35,5 +32,4 @@ export class LocalStorigeService {
     return '';
   }
 
-  constructor() {}
 }

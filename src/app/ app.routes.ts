@@ -42,7 +42,6 @@ export const routes: Routes = [
           import('./components/agents/agents.module').then(
             (m) => m.AgentsModule
           ),
-        // data: { asideID: 3 },
       },
     ],
   },

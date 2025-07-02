@@ -1,5 +1,3 @@
-export interface UserSetting {
-  [key: string]: number;
-}
+export type UserSetting = Record<string , number>
 
-// this interfaces need for strong check types, when update input by updateUserSetting()
+// NOTE: this interfaces need for strong check types, when update input by updateUserSetting()

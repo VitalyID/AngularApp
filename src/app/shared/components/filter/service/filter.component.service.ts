@@ -24,7 +24,7 @@ export class SortDataService {
     this.#innerService$,
   ]).pipe(
     map(([getDataFromDateService, filter]) => {
-      // Counting Total and send them to table.component.ts
+      // NOTE: Counting Total and send them to table.component.ts
       this.getTotal(getDataFromDateService);
       this.totalFromService$.next(this.arrAmountTotal);
 
@@ -32,18 +32,17 @@ export class SortDataService {
     })
   );
 
-  // get user filter and transmitting them
+  // NOTE: get user filter and transmitting them
   changeUserFilter(data: CheckFilter) {
     this.#innerService$.next(data);
     this.userFilter = data;
   }
 
-  // this fn is filter type date, country etc.
+  // NOTE: this fn is filter type date, country etc.
   switch(arr: DataUserOperation[], data: CheckFilter): DataUserOperation[] {
     switch (data.nameFilter) {
       case 'date':
-        // this.test('switch');
-        arr.sort((a, b) => {
+        {arr.sort((a, b) => {
           const dateA = new Date(
             a.data.split('.').reverse().join('-')
           ).getTime();
@@ -57,19 +56,18 @@ export class SortDataService {
         this.sortedData$.next(arr);
         return arr;
 
-        break;
+        break;}
       case 'country':
-        arr.sort((a, b) => {
+        {arr.sort((a, b) => {
           return data.type === 'Up'
             ? a.country.localeCompare(b.country)
             : b.country.localeCompare(a.country);
         });
         this.sortedData$.next(arr);
         return arr;
-
-        break;
+}
       case 'tips':
-        arr.sort((a, b) => {
+        {arr.sort((a, b) => {
           const tipA = Number(a.tips.split(' ')[0]);
           const tipB = Number(b.tips.split(' ')[0]);
 
@@ -77,39 +75,34 @@ export class SortDataService {
         });
         this.sortedData$.next(arr);
         return arr;
-
-        break;
+}
       case 'commission':
-        arr.sort((a, b) => {
+        {arr.sort((a, b) => {
           const tipA = Number(a.tips.split(' ')[0]);
           const tipB = Number(b.tips.split(' ')[0]);
 
           return data.type === 'Up' ? tipA - tipB : tipB - tipA;
         });
         this.sortedData$.next(arr);
-        return arr;
-
-        break;
+        return arr;}
       case 'user':
-        arr.sort((a, b) => {
+        {arr.sort((a, b) => {
           return data.type === 'Up'
             ? a.country.localeCompare(b.country)
             : b.country.localeCompare(a.country);
         });
         this.sortedData$.next(arr);
         return arr;
-
-        break;
+}
       case 'card':
-        arr.sort((a, b) => {
+        {arr.sort((a, b) => {
           return data.type === 'Up'
             ? a.country.localeCompare(b.country)
             : b.country.localeCompare(a.country);
         });
         this.sortedData$.next(arr);
         return arr;
-
-        break;
+}
       default:
         console.error(`Unknown nameFilter: ${data.nameFilter}`);
         return arr;

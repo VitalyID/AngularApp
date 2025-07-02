@@ -2,11 +2,11 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { InputValidation } from '../types/interfaces/dataInput';
 
 @Directive({
-  selector: '[myValidator]',
+  selector: '[appMyValidator]',
   standalone: true,
 })
 export class myValidatorDirective {
-  // @Input({ required: true }) actualData?: DataInput;
+
   @Input() type: 'number' | 'text' | 'tel' | 'password' = 'text';
   @Input() placeholder: string = '';
 
@@ -15,7 +15,6 @@ export class myValidatorDirective {
     validationTo: '',
   };
 
-  constructor() {}
 
   @HostListener('input', ['$event'])
   onInput(event: any) {

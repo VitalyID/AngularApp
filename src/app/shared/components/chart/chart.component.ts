@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -19,7 +20,7 @@ import { SortDataService } from '../filter/service/filter.component.service';
   styleUrl: './chart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
   readonly #filterService = inject(SortDataService);
@@ -75,12 +76,12 @@ export class ChartComponent {
       .subscribe((dataFromService: DataUserOperation[]) => {
         if (dataFromService.length === 0) return;
         const getDateFromService = dataFromService.map((item) => item.data);
-        // У чаевых удаляем симввол валюты в значении
+        // NOTE: У чаевых удаляем симввол валюты в значении
         const getTipsFromService = dataFromService.map((item) =>
           Number(item.tips.split(' ')[0])
         );
         if (dataFromService) {
-          // Создаем новый график с новыми данными и обновляемся
+          // NOTE: Создаем новый график с новыми данными и обновляемся
           const newBarChartData = structuredClone(this.barChartData);
           newBarChartData.labels = getDateFromService;
           newBarChartData.datasets[0].data = getTipsFromService;

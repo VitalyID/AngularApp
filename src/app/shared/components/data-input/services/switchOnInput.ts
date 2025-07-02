@@ -7,8 +7,6 @@ import { Subject } from 'rxjs';
 export class switchOnService {
   eventChangeInput$ = new Subject<boolean>();
 
-  // statusInput?: boolean;
-
   handleClickOnPerioidTab(name: string) {
     this.eventChangeInput$.next(Boolean(name === 'forPeriod'));
   }

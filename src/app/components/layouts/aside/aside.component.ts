@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-// import { RoutIDservice } from '../../../services/transmitDataRout.service';
+import { Component, OnInit } from '@angular/core';
 import { BordeerLineComponent } from '../../../shared/components/bordeer-line/border-line.component';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
-import { ButtonService } from '../../../shared/components/buttons/service/buttons.component.service';
 import { LogoMenuComponent } from '../../../shared/components/logo-menu/logo-menu.component';
 import { SectionComponent } from '../../../shared/components/section/section.component';
 import { TitleAside } from '../../../types/enums/titleAside';
@@ -28,11 +25,7 @@ import { LinkAside } from './tupes/enum/routerLink';
   styleUrl: './aside.component.scss',
 })
 export class AsideComponent implements OnInit {
-  readonly #btnService = inject(ButtonService);
-  readonly #destroyRef = inject(DestroyRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
-  // readonly #getRoutFromService = inject(RoutIDservice);
-  // routeID$: Observable<number> = this.#getRoutFromService.SendRouteService$;
 
   public listSections: SectionItem[] = [
     {
@@ -131,18 +124,11 @@ export class AsideComponent implements OnInit {
     this.generalGroup = this.listSections.slice(0, 9);
     this.logOut = this.listSections.slice(9, 10);
 
-    this.#btnService.eventClick$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data.id == 4) {
-          console.log('Кнопка нажата с ID:', data.id);
-          // пишем логику клика по кнопке support
-        }
-      });
+
   }
 
-  // добавляем класс только к элементам с этими id
+  // NOTE: добавляем класс только к элементам с этими id
   getClassForSectionItem(id: number): boolean {
-    return this.activeMenuItem.indexOf(id) != -1;
+    return this.activeMenuItem.indexOf(id) !== -1;
   }
 }

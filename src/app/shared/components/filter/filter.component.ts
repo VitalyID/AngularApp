@@ -6,6 +6,7 @@ import {
   inject,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -21,7 +22,7 @@ import { TitleFilter } from './types/enum/nameFilter';
   styleUrl: './filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent implements OnChanges {
+export class FilterComponent implements OnChanges, OnInit {
   @Input() titleFilter: string = '';
   @Input() userFilterFromParent: string[] = ['', ''];
   @Output() titleFilterFromChild = new EventEmitter<string[]>();
@@ -44,7 +45,7 @@ export class FilterComponent implements OnChanges {
     this.titleFilterFromChild.emit([TitleFilter.date, 'Up']);
   }
 
-  // change color icon, depending on click
+  // NOTE: change color icon, depending on click
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['userFilterFromParent']) {
       const isSelected = this.userFilterFromParent[0] === this.titleFilter;
@@ -66,11 +67,11 @@ export class FilterComponent implements OnChanges {
 
     if (nameFilter?.textContent) {
       this.#textContent = nameFilter?.textContent ?? '';
-      // transmit data to parent for check color svg
+      // NOTE: transmit data to parent for check color svg
       this.titleFilterFromChild.emit([this.#textContent, this.typeSVG]);
-      // -------------------------------------------
 
-      for (let item of Object.keys(TitleFilter)) {
+
+      for (const item of Object.keys(TitleFilter)) {
         if (
           TitleFilter[item as keyof typeof TitleFilter] === this.#textContent
         ) {
@@ -81,11 +82,9 @@ export class FilterComponent implements OnChanges {
         }
       }
     } else {
-      console.log("Name filter is null, it's err");
+      console.log("DEBUG: Name filter is null, it's err");
     }
   }
-
-  // ----------------------------------------------------------
 
   clickSort(event: MouseEvent, typeSVG: 'Up' | 'Down') {
     this.SortData(event, typeSVG);

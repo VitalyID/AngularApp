@@ -15,7 +15,6 @@ import { AgentsComponent } from './agents.component';
     ButtonsComponent,
     ColorPickerComponent,
     StarsRateComponent,
-    // NgxsModule.forRoot([ColorPickerStore]),
   ],
   exports: [AgentsComponent],
 })

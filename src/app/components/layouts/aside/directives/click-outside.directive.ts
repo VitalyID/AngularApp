@@ -9,11 +9,10 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[clickOutside]',
+  selector: '[appClickOutside]',
 })
 export class ClickOutsideDirective {
   @Output() menuClose = new EventEmitter<boolean>();
-  // @Input() menuState: boolean = false;
   readonly menuState = input<boolean>(false);
 
   readonly #elRef = inject(ElementRef);

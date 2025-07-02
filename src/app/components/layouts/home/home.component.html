@@ -5,9 +5,9 @@
     <app-aside
       class="aside adaptive"
       [ngClass]="{ close: !menuState(), open: menuState() }"
-      escClose
+      appEscClose
       (menuClose)="onMenuClose($event)"
-      clickOutside
+      appClickOutside
       [menuState]="isOpen()"
     ></app-aside>
 

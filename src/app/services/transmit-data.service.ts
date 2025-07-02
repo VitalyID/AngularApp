@@ -1,5 +1,3 @@
-import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
@@ -28,19 +26,17 @@ export class TransmitDataService implements OnDestroy {
   private arrCorrectElements: DataUserOperation[] = [];
   private dateFromInput!: Subscription;
   #tmp?: DateTimeUserOperations;
-  readonly #datePipe = inject(DatePipe);
 
   public dataObject$ = new BehaviorSubject<DataUserOperation[]>([]);
 
   getDataUserTab(name: string) {
     this.name = name;
-    // this.transmitData(name);
 
     let arrUserActualOperations;
 
     switch (this.name) {
       case 'today':
-        const filterToday = this.dataUserOperations.filter((item) => {
+        {const filterToday = this.dataUserOperations.filter((item) => {
           this.arrDateItem = item.data.split('.');
 
           return (
@@ -51,9 +47,9 @@ export class TransmitDataService implements OnDestroy {
         });
         this.dataObject$.next(filterToday);
 
-        break;
+        break;}
       case 'yestarday':
-        const today = new Date();
+        {const today = new Date();
         const setYesterday = new Date(today.setDate(today.getDate() - 1));
 
         const filterYestarday = this.dataUserOperations.filter((item) => {
@@ -67,16 +63,16 @@ export class TransmitDataService implements OnDestroy {
         });
         this.dataObject$.next(filterYestarday);
 
-        break;
+        break;}
       case 'forWeek':
-        let dayWeek: number = new Date().getDay();
+        {let dayWeek: number = new Date().getDay();
 
-        // change number day in week
+        // NOTE: change number day in week
         dayWeek = dayWeek === 0 ? 6 : dayWeek - 1;
-        // get first and end day of week
+        // NOTE: get first and end day of week
         const currentData = new Date();
-
         const startOfWeek = new Date(currentData);
+
         startOfWeek.setDate(currentData.getDate() - dayWeek);
         startOfWeek.setHours(0, 0, 0, 0);
         const dayOfWeek = new Date(currentData);
@@ -84,10 +80,8 @@ export class TransmitDataService implements OnDestroy {
         dayOfWeek.setHours(0, 0, 0, 0);
 
         const filterWeek = this.dataUserOperations.filter((item) => {
-          // console.log(item.data.split('.').reverse().join('-'));
           const actualData = new Date(item.data.split('.').reverse().join('-'));
 
-          // console.log(actualData.getTime(), ' ', startOfWeek.getTime());
           return (
             actualData.getTime() >= startOfWeek.getTime() &&
             actualData.getTime() <= dayOfWeek.getTime()
@@ -95,15 +89,15 @@ export class TransmitDataService implements OnDestroy {
         });
         this.dataObject$.next(filterWeek);
 
-        break;
+        break;}
       case 'forMonth':
-        const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
+        {const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
           return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
         });
         this.dataObject$.next(arrOperationsForMonth);
 
-        break;
-      case 'forLastMonth':
+        break;}
+      case 'forLastMonth':{
         new Date().setMonth(-1);
 
         const arrOperationsForLastMonth = this.dataUserOperations.filter(
@@ -114,16 +108,15 @@ export class TransmitDataService implements OnDestroy {
 
         this.dataObject$.next(arrOperationsForLastMonth);
 
-        break;
+        break;}
       case 'forPeriod':
-        this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
+       { this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
           this.#tmp = data.obj as DateTimeUserOperations;
 
-          let dataStart = new Date(this.#tmp.dateFrom);
-          let dataEnd = new Date(this.#tmp.dateEnd);
+          const dataStart = new Date(this.#tmp.dateFrom);
+          const dataEnd = new Date(this.#tmp.dateEnd);
 
           arrUserActualOperations = this.dataUserOperations.filter((item) => {
-            // console.log(item);
 
             const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
             const match = item.data.match(regex);
@@ -144,18 +137,18 @@ export class TransmitDataService implements OnDestroy {
           this.dataObject$.next(arrUserActualOperations);
         });
 
-        break;
+        break;}
     }
   }
 
   fnMonth(data: string): void {
     this.arrDate = new Date().toLocaleDateString().split('.');
-    if (this.name == data) {
-      for (let item of this.dataUserOperations) {
+    if (this.name === data) {
+      for (const item of this.dataUserOperations) {
         this.arrDateItem = item.data.split('.');
 
         if (this.arrDate[1] === this.arrDateItem[1]) {
-          // месяц совпадает
+          // NOTE: месяц совпадает
           this.arrCorrectElements.push(item);
         }
       }
@@ -164,7 +157,7 @@ export class TransmitDataService implements OnDestroy {
     }
   }
 
-  constructor(tmp: HttpClient) {
+  constructor() {
     this.#getDataServer
       .getDataUserOperationAPI()
       .pipe(
@@ -178,7 +171,7 @@ export class TransmitDataService implements OnDestroy {
           this.dataUserOperations = data;
           this.fnMonth('forMonth');
         },
-        error: (err) => console.log('Ошибка в получении данных'),
+        error: (err) => console.log('DEBUG: Ошибка в получении данных'),
       });
   }
 

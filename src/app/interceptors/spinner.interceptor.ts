@@ -12,8 +12,6 @@ export const SpinnerInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ) => {
   const spinnerService = inject(SpinnerService);
-  console.log('start');
-
   spinnerService.enableSpinner();
   return next(req).pipe(
     finalize(() => {
