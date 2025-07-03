@@ -1,6 +1,13 @@
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 
+<sumbol id="icon-close" width="24" height="24" viewBox="0 0 24 24">
+<rect width="24" height="24" rx="12" fill="#E7E9F0"/>
+<rect width="24" height="24" rx="12" fill="#EEEFF2"/>
+<path d="M8 8L16 16" stroke="#55595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 8L8 16" stroke="#55595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+
 <symbol id="icon-spinner" viewBox="0 0 32 32">
 <path d="M16 9.472c-1.030 0-1.865-0.835-1.865-1.865v-5.596c0-1.030 0.835-1.865 1.865-1.865s1.865 0.835 1.865 1.865v5.596c0 1.030-0.835 1.865-1.865 1.865z"></path>
 <path d="M16 31.155c-0.644 0-1.166-0.522-1.166-1.166v-5.596c0-0.644 0.522-1.166 1.166-1.166s1.166 0.522 1.166 1.166v5.596c0 0.644-0.522 1.166-1.166 1.166z"></path>

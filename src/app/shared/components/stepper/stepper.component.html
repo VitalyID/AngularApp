@@ -1,0 +1,28 @@
+<div class="stepper">
+  <div class="step">
+    @for (step of stepperData(); track step.stepNumber) {
+      <div class="step__left" [class.isActiveStep]="step.isActive"></div>
+
+      <!-- drawing the ring -->
+      <div class="step__unit">
+        <div class="step__ring" [class.isActiveStep]="step.isActive">
+          <div class="step__ring--outer">
+            <div
+              class="step__ring--inner"
+              [class.isActiveStep]="step.isActive"
+            ></div>
+          </div>
+        </div>
+        <span>Шаг{{ step.stepNumber }}</span>
+      </div>
+
+      <div
+        class="step__right"
+        [class.isActiveStep]="lastActiveStep() > step.stepNumber"
+        [class.isActiveLastStep]="
+          lastActiveStep() === (stepperData() | keyvalue).length
+        "
+      ></div>
+    }
+  </div>
+</div>
