@@ -85,11 +85,11 @@ export class UserProfilePopupComponent implements OnInit {
 
     this.stepperData.update((data) => {
       const newStepper = [...data];
-      newStepper[this.step] = { ...newStepper[1], isActive: true };
+      newStepper[this.step] = { ...newStepper[this.step], isActive: true };
       return newStepper;
     });
 
-    if (this.step > 2) {
+    if (this.step > 3) {
       this.closePopUp();
     }
   }
