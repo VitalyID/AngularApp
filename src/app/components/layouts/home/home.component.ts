@@ -6,13 +6,15 @@ import {
   DestroyRef,
   inject,
   OnInit,
-  signal
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
+import { PopupService } from '../../../services/popup.service';
 import { StateMenuService } from '../../../services/state-menu';
 import { SpinnerService } from '../../../shared/components/spinner/serices/spinner.service';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { UserProfilePopupModule } from '../../user-profile-popup/user-profile-popup.module';
 import { AsideComponent } from '../aside/aside.component';
 import { ClickOutsideDirective } from '../aside/directives/click-outside.directive';
 import { EscCloseDirective } from '../aside/directives/esc-close.directive';
@@ -31,25 +33,28 @@ import { HeaderComponent } from '../header/header.component';
     EscCloseDirective,
     ClickOutsideDirective,
     SpinnerComponent,
+    UserProfilePopupModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  readonly #menuService = inject(StateMenuService);
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #cdr = inject(ChangeDetectorRef);
-  readonly activeMenuItem: number[] = [6, 7, 8];
-  readonly #spinner = inject(SpinnerService);
-
   isShadow = signal<boolean>(false);
   menuState = signal<boolean>(false);
   isOpen = signal<boolean>(false);
+  overflow: string = 'auto';
 
   spinnerConfig = computed(() => ({
     iconID: 'icon-spinner',
     isVisible: this.#spinner.spinnerState(),
   }));
+
+  readonly #menuService = inject(StateMenuService);
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #cdr = inject(ChangeDetectorRef);
+  readonly activeMenuItem: number[] = [6, 7, 8];
+  readonly #spinner = inject(SpinnerService);
+  readonly #popupSevice = inject(PopupService);
 
   ngOnInit(): void {
     this.#menuService.stateMenuService
@@ -66,6 +71,13 @@ export class HomeComponent implements OnInit {
             this.#cdr.detectChanges();
           }, 1000);
         }
+      });
+
+    this.#popupSevice.popupState$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((state) => {
+        // eslint-disable-next-line
+        state === true ? (this.overflow = 'hidden') : (this.overflow = 'auto');
       });
   }
 

@@ -1,13 +1,56 @@
-<div class="popup__wrap">
+<div class="popup__wrap" [class.open]="isOpen">
   <div class="popup">
     <div class="popup__top">
-      <h3>Идентификация аккаунта</h3>
+      <h2>Идентификация аккаунта</h2>
     </div>
+
+    <svg-icon [iconID]="iconClose" (click)="closePopUp()"></svg-icon>
 
     <stepper [stepperData]="stepperData"></stepper>
 
     <div class="popup__down">
-      <p>А тут будут окна</p>
+      @if (step === 0) {
+        <h3>Персональные данные:</h3>
+        <form [formGroup]="userForm">
+          <span>Имя</span>
+          <input type="text" formControlName="name" placeholder="Введите имя" />
+
+          <span>Фамилия</span>
+          <input
+            type="text"
+            formControlName="lastName"
+            placeholder="Введите фамилию"
+          />
+
+          <span>E-mail</span>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Введите E-mail"
+          />
+
+          <span>Страна</span>
+          <input
+            type="text"
+            formControlName="country"
+            placeholder="Выберите страну"
+          />
+
+          <span>Город</span>
+          <input
+            type="text"
+            formControlName="city"
+            placeholder="Выберите город"
+          />
+        </form>
+      }
+      <div class="button">
+        <app-buttons
+          [text]="button.text"
+          [borderStyle]="button.borderStyle"
+          (click)="nextStep()"
+        ></app-buttons>
+      </div>
     </div>
   </div>
 </div>

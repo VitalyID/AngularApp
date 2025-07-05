@@ -87,7 +87,6 @@ export class PhoneAuthComponent implements OnInit {
 
   registration() {
     this.SavingUserData();
-
     this.#store.dispatch(new CreateUser(this.userData()));
   }
 
@@ -99,7 +98,6 @@ export class PhoneAuthComponent implements OnInit {
 
   SavingUserData() {
     if (this.isSaveSwitcher()) {
-
       this.userData.update((oldValue) => ({
         ...oldValue,
         userCreated: new Date().toString(),
@@ -136,4 +134,3 @@ export class PhoneAuthComponent implements OnInit {
     return { phone: '', id: 0, token: '', tokenUpdated_at: '' };
   }
 }
-

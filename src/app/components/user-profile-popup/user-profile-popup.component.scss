@@ -1,3 +1,11 @@
+@mixin flex($justify: center, $align: center, $gap: 0px, $fd: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+  flex-direction: $fd;
+}
+
 .popup__wrap {
   position: fixed;
   top: 0;
@@ -5,28 +13,80 @@
 
   width: 100%;
   height: 100vh;
+  overflow: auto;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex();
+
+  padding: 25px;
 
   background: rgba(23, 27, 39, 0.4);
   backdrop-filter: blur(10px);
 
   z-index: 1000;
+  transform: scale(0);
+  transition: transform 1s;
+  transform-origin: center;
+
+  &.open {
+    transform: scale(1);
+    transition: transform 1s;
+    transform-origin: center;
+  }
 
   & .popup {
-    width: 30%;
+    width: 33%;
+    max-height: 90vh;
 
     background: #ffffff;
     border-radius: 10px;
+
+    position: relative;
+    overflow: auto;
+
+    & svg-icon {
+      --width: 24px;
+      --height: 24px;
+
+      position: absolute;
+      top: 3%;
+      right: 3.33%;
+
+      cursor: pointer;
+    }
   }
 
   & .popup__top {
     padding: 30px 50px;
   }
 
+  & stepper {
+    display: block;
+    margin-bottom: 69px;
+  }
+
   & .popup__down {
     padding: 30px 50px;
+
+    & h3 {
+      margin-bottom: 34px;
+    }
+
+    & span {
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    & input {
+      margin-bottom: 28px;
+
+      border: 1px solid #c8c9cf;
+      border-radius: 8px;
+      padding: 21px 22px;
+      width: 100%;
+    }
+
+    & .button {
+      @include flex($justify: end);
+    }
   }
 }

@@ -22,3 +22,23 @@ Single-colored icons can be modified like so:
 .icon-flag {
   width: 1.2001953125em;
 }
+
+h2 {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+
+  color: #121212;
+}
+
+h3 {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #101112;
+}

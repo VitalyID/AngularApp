@@ -16,7 +16,7 @@ import { StepperConfig } from './types/interfaces/stepperConfig';
 })
 export class StepperComponent {
   @Input() stepperData = signal<StepperConfig[]>([
-    { stepNumber: 0, isActive: false },
+    { stepNumber: 0, isActive: false, stepperEnd: false },
   ]);
 
   lastActiveStep() {

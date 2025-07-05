@@ -1,3 +1,5 @@
+<!-- NOTE: stepperEnd - its parameter, which need for last gorizontal line in stapper component -->
+
 <div class="stepper">
   <div class="step">
     @for (step of stepperData(); track step.stepNumber) {
@@ -19,9 +21,7 @@
       <div
         class="step__right"
         [class.isActiveStep]="lastActiveStep() > step.stepNumber"
-        [class.isActiveLastStep]="
-          lastActiveStep() === (stepperData() | keyvalue).length
-        "
+        [class.isActiveLastStep]="step.stepperEnd"
       ></div>
     }
   </div>

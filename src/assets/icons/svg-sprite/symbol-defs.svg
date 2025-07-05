@@ -1,7 +1,7 @@
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
 
-<sumbol id="icon-close" width="24" height="24" viewBox="0 0 24 24">
+<symbol id="icon-close" width="24" height="24" viewBox="0 0 24 24">
 <rect width="24" height="24" rx="12" fill="#E7E9F0"/>
 <rect width="24" height="24" rx="12" fill="#EEEFF2"/>
 <path d="M8 8L16 16" stroke="#55595B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

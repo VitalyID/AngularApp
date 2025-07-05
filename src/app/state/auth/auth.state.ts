@@ -4,6 +4,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorigeService } from '../../services/local-storige.service';
+import { PopupService } from '../../services/popup.service';
 import { CreateUser, LoginUser } from './auth.action';
 
 export interface UserAuthStateModel {
@@ -32,6 +33,7 @@ export class UserAuthState {
   readonly #auth = inject(AuthService);
   readonly #localStorageService = inject(LocalStorigeService);
   readonly #router = inject(Router);
+  readonly #popupService = inject(PopupService);
 
   @Selector()
   static userAccount(state: UserAuthStateModel) {
@@ -49,9 +51,13 @@ export class UserAuthState {
       }),
       tap(() => {
         this.#localStorageService.sendToLocalStorige(
-          JSON.stringify(ctx.getState())
+          JSON.stringify(ctx.getState()),
         );
-      })
+      }),
+      tap(() => {
+        this.#popupService.setPopupState(true);
+        console.log('debug', 'popup service is changed');
+      }),
     );
   }
 
@@ -69,12 +75,12 @@ export class UserAuthState {
       }),
       tap(() => {
         this.#localStorageService.sendToLocalStorige(
-          JSON.stringify(ctx.getState())
+          JSON.stringify(ctx.getState()),
         );
       }),
       tap(() => {
         this.#router.navigate(['']);
-      })
+      }),
     );
   }
 }
