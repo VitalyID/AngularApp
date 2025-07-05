@@ -3,15 +3,16 @@
   [class]="{
     rub: unitCurrency === 'rub',
     usd: unitCurrency === 'usd',
-    noneCurrency: unitCurrency === 'none'
+    noneCurrency: unitCurrency === 'none',
   }"
 >
   <input
     [attr.type]="type"
     [attr.placeholder]="placeholder"
-    [disabled]="disabled"
-    [ngModel]="value"
+    [disabled]="disabledState"
+    [value]="valueCVA"
     (input)="inputValue($event)"
+    (blur)="onTouched()"
     [mask]="mask"
     [prefix]="prefix"
     [dropSpecialCharacters]="dropSpecialCharacters ?? null"

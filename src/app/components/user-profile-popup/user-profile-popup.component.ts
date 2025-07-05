@@ -28,17 +28,17 @@ export class UserProfilePopupComponent implements OnInit {
     },
     {
       stepNumber: 2,
-      isActive: true,
+      isActive: false,
       stepperEnd: false,
     },
     {
       stepNumber: 3,
-      isActive: true,
+      isActive: false,
       stepperEnd: false,
     },
     {
       stepNumber: 4,
-      isActive: true,
+      isActive: false,
       stepperEnd: false,
     },
   ]);
