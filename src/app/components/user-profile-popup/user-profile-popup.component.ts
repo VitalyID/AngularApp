@@ -83,14 +83,30 @@ export class UserProfilePopupComponent implements OnInit {
   nextStep() {
     this.step++;
 
+    if (this.step < this.stepperData().length) {
+      this.activateNextStep();
+    } else if (this.step === this.stepperData().length) {
+      this.completeStep();
+    }
+  }
+
+  activateNextStep() {
     this.stepperData.update((data) => {
       const newStepper = [...data];
       newStepper[this.step] = { ...newStepper[this.step], isActive: true };
       return newStepper;
     });
+  }
 
-    if (this.step > 3) {
-      this.closePopUp();
-    }
+  completeStep() {
+    this.stepperData.update((data) => {
+      const newStepper = [...data];
+      newStepper[this.step - 1] = {
+        ...newStepper[this.step - 1],
+        stepperEnd: true,
+      };
+      return newStepper;
+    });
+    this.closePopUp();
   }
 }

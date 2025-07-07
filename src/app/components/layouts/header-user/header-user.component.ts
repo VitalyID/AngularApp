@@ -28,6 +28,8 @@ export class HeaderUserComponent {
   defaultValue: ListDropdown = {
     id: uuidv4(),
     item: 'RU',
+    width: '24px',
+    height: '20px',
   };
 
   languageItems: ListDropdown[] = [

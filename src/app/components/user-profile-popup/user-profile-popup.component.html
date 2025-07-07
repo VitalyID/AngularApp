@@ -13,35 +13,34 @@
         <h3>Персональные данные:</h3>
         <form [formGroup]="userForm">
           <span>Имя</span>
-          <input type="text" formControlName="name" placeholder="Введите имя" />
+          <input-text
+            formControlName="name"
+            placeholder="Введите имя"
+          ></input-text>
 
           <span>Фамилия</span>
-          <input
-            type="text"
+          <input-text
             formControlName="lastName"
             placeholder="Введите фамилию"
-          />
+          ></input-text>
 
           <span>E-mail</span>
-          <input
-            type="email"
+          <input-text
             formControlName="email"
             placeholder="Введите E-mail"
-          />
+          ></input-text>
 
           <span>Страна</span>
-          <input
-            type="text"
+          <input-text
             formControlName="country"
             placeholder="Выберите страну"
-          />
+          ></input-text>
 
           <span>Город</span>
-          <input
-            type="text"
+          <input-text
             formControlName="city"
             placeholder="Выберите город"
-          />
+          ></input-text>
         </form>
       }
       <div class="button">
