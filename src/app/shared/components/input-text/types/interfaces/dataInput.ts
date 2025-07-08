@@ -24,4 +24,5 @@ export interface InputValidation {
   validation?: boolean;
   validationFrom?: string;
   validationTo?: string;
+  minlength?: number;
 }

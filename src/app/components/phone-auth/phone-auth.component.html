@@ -36,15 +36,15 @@
         </div>
 
         <div class="auth-phone-container__buttons">
-          @if (!isLoginPage){
-          <app-buttons
-            [text]="buttonDataRegister.text"
-            [background]="buttonDataRegister.background"
-            [borderRadius]="buttonDataRegister.borderRadius"
-            [color]="buttonDataRegister.color"
-            (click)="registration()"
-          ></app-buttons
-          >}
+          @if (!isLoginPage) {
+            <app-buttons
+              [text]="buttonDataRegister.text"
+              [background]="buttonDataRegister.background"
+              [borderRadius]="buttonDataRegister.borderRadius"
+              [color]="buttonDataRegister.color"
+              (click)="registration()"
+            ></app-buttons>
+          }
 
           <app-buttons
             [text]="buttonDataLogin().text"

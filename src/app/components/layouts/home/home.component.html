@@ -1,4 +1,7 @@
-<user-profile-popup></user-profile-popup>
+@if (newUser) {
+  <user-profile-popup (userCreated)="userIsDone($event)"></user-profile-popup>
+}
+
 <div class="home-container" [style.overflow]="overflow">
   <div class="header">
     <!-- [menuState]="isOpen" it's need for directives, which is controlling state components-->

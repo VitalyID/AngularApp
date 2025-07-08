@@ -5,6 +5,7 @@ import { SvgIconComponent } from '../../shared/components/svg-icon/svg-icon.comp
 import { UserProfilePopupComponent } from './user-profile-popup.component';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { InputTextComponent } from '../../shared/components/input-text/input-text.component';
+import { DropdownComponent } from '../../shared/components/dropdown/dropdown.component';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { InputTextComponent } from '../../shared/components/input-text/input-tex
     ReactiveFormsModule,
     ButtonsComponent,
     InputTextComponent,
+    DropdownComponent,
   ],
   exports: [UserProfilePopupComponent],
   declarations: [UserProfilePopupComponent],

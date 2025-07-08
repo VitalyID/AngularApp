@@ -71,14 +71,40 @@
       margin-bottom: 34px;
     }
 
+    &--name,
+    &--lastName,
+    &--email {
+      position: relative;
+    }
+
     & span {
       display: block;
       margin-bottom: 15px;
     }
 
+    // span error validation
+    & input-text + span {
+      position: absolute;
+      bottom: -24px;
+      left: 0;
+      margin-bottom: 0;
+      color: red;
+    }
+
     & input-text {
       margin-bottom: 28px;
       width: 100%;
+      clear: both;
+    }
+
+    & dropdown {
+      --padding: 20px 0px;
+      --brRadiusSmall: 6px;
+      --bgColorInvis: #cfcece;
+
+      margin-bottom: 28px;
+      display: block;
+      height: 76px;
     }
 
     & .button {

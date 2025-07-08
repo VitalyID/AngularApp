@@ -2,6 +2,8 @@
   --width: 100%;
   --content: none;
   --margin-bottom: 0px;
+  --colorErr: red;
+  --sizeErr: 14px;
   display: block;
   width: 100%;
 }
@@ -64,4 +66,10 @@ input[type="number"] {
   &::after {
     content: "$";
   }
+}
+
+span {
+  display: block;
+  color: var(--colorErr);
+  font-size: var(--sizeErr);
 }

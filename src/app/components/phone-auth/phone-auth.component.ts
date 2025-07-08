@@ -6,11 +6,12 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
+import { PopupService } from '../../services/popup.service';
 import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
 import { CreateUser, LoginUser } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
@@ -50,9 +51,9 @@ export class PhoneAuthComponent implements OnInit {
 
   readonly #lSS = inject(LocalStorigeService);
   readonly #store = inject(Store);
-  readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
   readonly #spinner = inject(SpinnerService);
+  readonly #popupService = inject(PopupService);
 
   userData = signal(this.getLocalStorageData());
 
@@ -86,6 +87,8 @@ export class PhoneAuthComponent implements OnInit {
   }
 
   registration() {
+    // NOTE: open popup in main page
+    this.#popupService.setPopupState(true);
     this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
   }
@@ -93,7 +96,7 @@ export class PhoneAuthComponent implements OnInit {
   login() {
     this.SavingUserData();
     this.#store.dispatch(new LoginUser(this.userData()));
-    this.#router.navigate(['']);
+    // debug: this.#router.navigate(['']);
   }
 
   SavingUserData() {

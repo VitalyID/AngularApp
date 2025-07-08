@@ -44,6 +44,9 @@ export class HomeComponent implements OnInit {
   isOpen = signal<boolean>(false);
   overflow: string = 'auto';
 
+  // NOTE: newUser need for forbid to render popup when user is done. We get it true from PopUpService and 'close' from 'close popup click on latest step'
+  newUser: boolean = false;
+
   spinnerConfig = computed(() => ({
     iconID: 'icon-spinner',
     isVisible: this.#spinner.spinnerState(),
@@ -76,6 +79,9 @@ export class HomeComponent implements OnInit {
     this.#popupSevice.popupState$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((state) => {
+        if (state) {
+          this.newUser = true;
+        }
         // eslint-disable-next-line
         state === true ? (this.overflow = 'hidden') : (this.overflow = 'auto');
       });
@@ -92,5 +98,9 @@ export class HomeComponent implements OnInit {
   // NOTE: добавляем класс только к элементам с этими id
   getClassForSectionItem(id: number): boolean {
     return this.activeMenuItem.indexOf(id) !== -1;
+  }
+
+  userIsDone(data: boolean) {
+    this.newUser = data;
   }
 }

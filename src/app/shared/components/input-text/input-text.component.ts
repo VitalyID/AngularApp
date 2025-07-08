@@ -1,19 +1,22 @@
 // NOTE: this component work in two mode: for template form and ControlValueAccess mode. This state controlled by parameter modeCVA. When it's 'true', cva-mode is active and component get/send data from FormControl
-
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   forwardRef,
+  inject,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
   NG_VALUE_ACCESSOR,
+  NgModel,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
@@ -53,13 +56,20 @@ export class InputTextComponent implements ControlValueAccessor, OnChanges {
   @Input() validationSettings: InputValidation = {
     validationFrom: '',
     validationTo: '',
+    minlength: 0,
   };
 
   @Output() updateValue = new EventEmitter();
 
+  // NOTE: when validation in component worked, we get some problem with margin-bottom, because our height was more. We will get jump on next component. We control validation on our ngModel and class 'error' on host, to catch it and change css-style in the parent component
+
+  @ViewChild(NgModel) myInput!: NgModel;
+
   valueCVA: string | number = '';
   modeCVA: boolean = false;
   disabledState: boolean = false;
+
+  readonly #elRef = inject(ElementRef);
 
   // NOTE: when get data from parent and modeCVA=false
   ngOnChanges(changes: SimpleChanges): void {
@@ -75,6 +85,14 @@ export class InputTextComponent implements ControlValueAccessor, OnChanges {
     }
   }
 
+  toggleErrorClass() {
+    if (this.myInput.control.errors) {
+      this.#elRef.nativeElement.classList.add('error');
+    } else {
+      this.#elRef.nativeElement.classList.remove('error');
+    }
+  }
+
   inputValue(data: Event) {
     const target = data.target as HTMLInputElement;
 
@@ -85,6 +103,8 @@ export class InputTextComponent implements ControlValueAccessor, OnChanges {
       this.updateValue.emit(target.value);
       this.valueCVA = target.value;
     }
+
+    this.toggleErrorClass();
   }
 
   registerOnChange(fn: any): void {
