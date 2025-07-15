@@ -1,3 +1,15 @@
+<ng-template #invalidInput let-control="control" let-minLength="minLength">
+  @if (control?.errors?.["required"]) {
+    <span class="spanErr">Обязательное поле</span>
+  }
+  @if (control?.errors?.["minlength"]) {
+    <span class="spanErr">В поле не менее {{ minLength }} символов</span>
+  }
+  @if (control?.errors?.["numbersInName"]) {
+    <span class="spanErr">Некорректное имя</span>
+  }
+</ng-template>
+
 <div class="popup__wrap" [class.open]="isOpen">
   <div class="popup">
     <div class="popup__top">
@@ -18,16 +30,16 @@
               formControlName="name"
               placeholder="Введите имя"
             ></input-text>
-            @if (userForm.invalid && (userForm.dirty || userForm.touched)) {
-              @if (userForm.get("name")?.errors?.["required"]) {
-                <span class="spanErr">Обязательное поле</span>
-              }
-              @if (userForm.get("name")?.errors?.["minlength"]) {
-                <span class="spanErr">В поле не менее 3 символов</span>
-              }
-              @if (userForm.get("name")?.errors?.["numbersInName"]) {
-                <span class="spanErr">Некорректное имя</span>
-              }
+            @if (
+              userForm.get("name")?.invalid &&
+              (userForm.get("name")?.dirty || userForm.get("name")?.touched)
+            ) {
+              <ng-container
+                *ngTemplateOutlet="
+                  invalidInput;
+                  context: { control: userForm.get('name'), minLength: 3 }
+                "
+              ></ng-container>
             }
           </div>
 
@@ -37,16 +49,17 @@
               formControlName="lastName"
               placeholder="Введите фамилию"
             ></input-text>
-            @if (userForm.invalid && (userForm.dirty || userForm.touched)) {
-              @if (userForm.get("lastName")?.errors?.["required"]) {
-                <span class="spanErr">Обязательное поле</span>
-              }
-              @if (userForm.get("lastName")?.errors?.["minlength"]) {
-                <span class="spanErr">В поле не менее 2 символов</span>
-              }
-              @if (userForm.get("lastName")?.errors?.["numbersInName"]) {
-                <span class="spanErr">Некорректное имя</span>
-              }
+            @if (
+              userForm.get("lastName")?.invalid &&
+              (userForm.get("lastName")?.dirty ||
+                userForm.get("lastName")?.touched)
+            ) {
+              <ng-container
+                *ngTemplateOutlet="
+                  invalidInput;
+                  context: { control: userForm.get('lastName'), minLength: 2 }
+                "
+              ></ng-container>
             }
           </div>
 
@@ -56,16 +69,16 @@
               formControlName="email"
               placeholder="Введите E-mail"
             ></input-text>
-            @if (userForm.invalid && (userForm.dirty || userForm.touched)) {
-              @if (userForm.get("email")?.errors?.["required"]) {
-                <span class="spanErr">Обязательное поле</span>
-              }
-              @if (userForm.get("email")?.errors?.["minlength"]) {
-                <span class="spanErr">В поле не менее 2 символов</span>
-              }
-              @if (userForm.get("email")?.errors?.["numbersInName"]) {
-                <span class="spanErr">Некорректное имя</span>
-              }
+            @if (
+              userForm.get("email")?.invalid &&
+              (userForm.get("email")?.dirty || userForm.get("email")?.touched)
+            ) {
+              <ng-container
+                *ngTemplateOutlet="
+                  invalidInput;
+                  context: { control: userForm.get('email') }
+                "
+              ></ng-container>
             }
           </div>
 
@@ -83,6 +96,9 @@
             [dropdownItems]="cityDropdownItems"
           ></dropdown>
         </form>
+      }
+      @if (step === 1) {
+        <h3>Выберите ваш тип</h3>
       }
       <div class="button">
         <app-buttons

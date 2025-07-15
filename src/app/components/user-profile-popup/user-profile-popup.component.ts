@@ -17,6 +17,7 @@ import * as uuid from 'uuid';
 import { ListOfService } from '../../const';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../../shared/components/input-text/directives/validators/noNumbersInNameValidator';
+import { UserInfoService } from '../../state/user/userInfo.service';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
@@ -78,6 +79,7 @@ export class UserProfilePopupComponent implements OnInit {
   readonly #popupService = inject(PopupService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
+  readonly #userInfoService = inject(UserInfoService);
 
   ngOnInit(): void {
     // NOTE: open popup if the registration component send true to service
@@ -175,6 +177,14 @@ export class UserProfilePopupComponent implements OnInit {
   }
 
   nextStep() {
+    this.#userInfoService.userProfile.next({
+      userName: this.userName(),
+      userLastName: this.userLastName(),
+      email: this.email(),
+      country: this.country().item as string,
+      city: this.city().item as string,
+    });
+
     this.step++;
 
     if (this.step < this.stepperData().length) {
@@ -183,15 +193,6 @@ export class UserProfilePopupComponent implements OnInit {
       this.completeStep();
       this.userCreated.emit(true);
     }
-
-    console.log(
-      'debug',
-      this.userName(),
-      this.userLastName(),
-      this.email(),
-      this.country().item,
-      this.city().item,
-    );
   }
 
   activateNextStep() {
