@@ -54,8 +54,10 @@ export class UserProfilePopupComponent implements OnInit {
 
   countryDropdownItems: ListDropdown[] = this.createListDropdown('countries');
   countryDefaultValue: ListDropdown = this.countryDropdownItems[0];
-  cityDropdownItems: ListDropdown[] = [{ id: '', item: 'USA' }];
-  cityDefaultValue: ListDropdown = { id: '', item: '' };
+  cityDropdownItems: ListDropdown[] = this.createListDropdown('cities');
+  cityDefaultValue: ListDropdown = this.cityDropdownItems[0];
+  // debug cityDropdownItems: ListDropdown[] = [{ id: '', item: 'USA' }];
+  // debug cityDefaultValue: ListDropdown = { id: '', item: '' };
 
   button: ButtonConfig = {
     text: 'Далее',
@@ -124,10 +126,7 @@ export class UserProfilePopupComponent implements OnInit {
       .get('country')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userCountry) => {
-        console.log('DEBUG', 11111);
-
         this.country.set(userCountry);
-        console.log('DEBUG', userCountry, this.country());
 
         this.cityDropdownItems = this.createListDropdown(
           'cities',
@@ -151,7 +150,6 @@ export class UserProfilePopupComponent implements OnInit {
     fromCountry: string = 'USA',
   ): ListDropdown[] {
     const list: any = [];
-    console.log('DEBUG', data, fromCountry);
 
     if (data === 'countries') {
       const countries = Object.keys(ListOfService).sort();
@@ -160,15 +158,11 @@ export class UserProfilePopupComponent implements OnInit {
       });
       return list;
     } else {
-      console.log('DEBUG', fromCountry);
-
       const cities = ListOfService[fromCountry];
-      console.log('DEBUG', cities);
 
       cities.forEach((city) => {
         list.push({ id: uuid.v4(), item: city });
       });
-      console.log('DEBUG', list);
 
       return list;
     }

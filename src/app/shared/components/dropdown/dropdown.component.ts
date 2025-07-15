@@ -6,10 +6,12 @@ import {
   forwardRef,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { defaultDropDown } from '../../../const';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 import { ListDropdown } from './types/interface/listDropdown';
@@ -28,12 +30,11 @@ import { ListDropdown } from './types/interface/listDropdown';
   styleUrl: './dropdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownComponent implements ControlValueAccessor, OnChanges {
+export class DropdownComponent
+  implements ControlValueAccessor, OnChanges, OnInit
+{
   @Input() dropdownItems: ListDropdown[] = [];
-  @Input() defaultValue: ListDropdown = {
-    id: '',
-    item: '',
-  };
+  @Input() defaultValue: ListDropdown = defaultDropDown;
   @Output() itemSelected = new EventEmitter();
 
   DropdownOpenIcon: SvgSpriteSetting = {
@@ -56,6 +57,13 @@ export class DropdownComponent implements ControlValueAccessor, OnChanges {
   isOpen: boolean = false;
   disabled: boolean = false;
   modeDropdown: boolean = false;
+
+  // NOTE: work on a situation, when some value is checked by default.
+  ngOnInit(): void {
+    if (this.defaultValue.item !== defaultDropDown.item) {
+      this.itemSelected.emit(this.defaultValue);
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['defaultValue']) {
@@ -96,6 +104,9 @@ export class DropdownComponent implements ControlValueAccessor, OnChanges {
   registerOnChange(fn: any) {
     this.onChange = fn;
     this.modeDropdown = true;
+    if (this.defaultValue.item !== defaultDropDown.item) {
+      this.onChange(this.defaultValue);
+    }
   }
 
   registerOnTouched(fn: any) {
