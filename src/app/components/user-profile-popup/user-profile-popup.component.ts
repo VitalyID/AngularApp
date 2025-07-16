@@ -57,10 +57,13 @@ export class UserProfilePopupComponent implements OnInit {
   countryDefaultValue: ListDropdown = this.countryDropdownItems[0];
   cityDropdownItems: ListDropdown[] = this.createListDropdown('cities');
   cityDefaultValue: ListDropdown = this.cityDropdownItems[0];
-  // debug cityDropdownItems: ListDropdown[] = [{ id: '', item: 'USA' }];
-  // debug cityDefaultValue: ListDropdown = { id: '', item: '' };
 
-  button: ButtonConfig = {
+  buttonBack: ButtonConfig = {
+    text: 'Назад',
+    borderStyle: 'none',
+  };
+
+  buttonNext: ButtonConfig = {
     text: 'Далее',
     borderStyle: 'none',
   };
@@ -69,12 +72,20 @@ export class UserProfilePopupComponent implements OnInit {
   isOpen: boolean = false;
   userForm!: FormGroup;
   step: number = 0;
+  nonFirstStep: boolean = false;
+
+  payerConfig = signal<boolean>(false);
+  recipientConfig = signal<boolean>(false);
+  agentConfig = signal<boolean>(false);
+  busineccConfig = signal<boolean>(false);
 
   userName = signal('');
   userLastName = signal('');
   email = signal('');
   country = signal<ListDropdown>({ id: '', item: '' });
   city = signal<ListDropdown>({ id: '', item: '' });
+  user = signal({});
+  typesUser: Record<string, boolean> = {};
 
   readonly #popupService = inject(PopupService);
   readonly #destroyRef = inject(DestroyRef);
@@ -176,6 +187,30 @@ export class UserProfilePopupComponent implements OnInit {
     this.#popupService.setPopupState(false);
   }
 
+  userSettingCheckbox(typeUser: string, setUser: boolean) {
+    console.log('debug', typeUser, setUser);
+
+    switch (typeUser) {
+      case 'payer':
+        this.typesUser['payer'] = setUser;
+        break;
+      case 'recipient':
+        this.typesUser['recipient'] = setUser;
+        break;
+      case 'agent':
+        this.typesUser['agent'] = setUser;
+        break;
+      case 'businecc':
+        this.typesUser['businecc'] = setUser;
+        break;
+    }
+    console.log('debug', this.typesUser);
+  }
+
+  lastStep() {
+    this.step--;
+  }
+
   nextStep() {
     this.#userInfoService.userProfile.next({
       userName: this.userName(),
@@ -183,6 +218,7 @@ export class UserProfilePopupComponent implements OnInit {
       email: this.email(),
       country: this.country().item as string,
       city: this.city().item as string,
+      user: this.typesUser,
     });
 
     this.step++;

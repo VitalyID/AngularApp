@@ -4,4 +4,5 @@ export interface UserInfo {
   email: string;
   country: string;
   city: string;
+  user: Record<string, boolean>;
 }

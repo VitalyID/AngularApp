@@ -99,11 +99,52 @@
       }
       @if (step === 1) {
         <h3>Выберите ваш тип</h3>
+
+        <div class="user__set">
+          <custom-check-box
+            [iconState]="payerConfig"
+            (setCheckbox)="userSettingCheckbox('payer', $event)"
+          ></custom-check-box>
+          <span>Плательщик</span>
+        </div>
+        <div class="user__set">
+          <custom-check-box
+            [iconState]="recipientConfig"
+            (setCheckbox)="userSettingCheckbox('recipient', $event)"
+          ></custom-check-box>
+          <span>Получатель</span>
+        </div>
+        <div class="user__set">
+          <custom-check-box
+            [iconState]="agentConfig"
+            (setCheckbox)="userSettingCheckbox('agent', $event)"
+          ></custom-check-box>
+          <span>Агент</span>
+        </div>
+        <div class="user__set">
+          <custom-check-box
+            [iconState]="busineccConfig"
+            (setCheckbox)="userSettingCheckbox('businecc', $event)"
+          ></custom-check-box>
+          <span>Бизнес</span>
+        </div>
       }
-      <div class="button">
+      @if (step === 2) {
+        <h3>Введите данные вашей карты</h3>
+      }
+
+      <div class="button" [class.twoBTN]="step > 0">
+        @if (step > 0) {
+          <app-buttons
+            [text]="buttonBack.text"
+            [borderStyle]="buttonBack.borderStyle"
+            (click)="lastStep()"
+          ></app-buttons>
+        }
+
         <app-buttons
-          [text]="button.text"
-          [borderStyle]="button.borderStyle"
+          [text]="buttonNext.text"
+          [borderStyle]="buttonNext.borderStyle"
           (click)="nextStep()"
         ></app-buttons>
       </div>

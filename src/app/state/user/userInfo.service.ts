@@ -10,6 +10,7 @@ export class UserInfoService {
     email: '',
     country: '',
     city: '',
+    user: {},
   });
 
   // NOTE: control-test

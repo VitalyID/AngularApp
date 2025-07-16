@@ -1,16 +1,20 @@
 input {
   position: absolute;
-  top: -1000px;
+  top: 0px;
   left: -1000px;
   width: 0;
   height: 0;
   opacity: 0;
   cursor: none;
 }
-.checkBox__wrap {
+.checkBox {
   & svg-icon {
     cursor: pointer;
     --width: 20px;
     --height: 20px;
   }
+}
+
+label {
+  display: block;
 }

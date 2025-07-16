@@ -2,18 +2,19 @@
   type="checkbox"
   name="name"
   id="id"
-  [checked]="isChecked()"
-  (change)="isCheckedChange($event)"
+  [checked]="iconState()"
+  (change)="setUser($event)"
 />
+{{ iconState() }}
 <label for="id">
   @if (iconState() === false) {
-    <div class="checkBox__wrap">
-      <svg-icon [iconID]="icon" (click)="iconClick()"></svg-icon>
+    <div class="checkBox">
+      <svg-icon [iconID]="icon" (click)="toggle($event)"></svg-icon>
     </div>
   }
   @if (iconState() === true) {
-    <div class="checkBox__wrap">
-      <svg-icon [iconID]="iconActive" (click)="iconClick()"></svg-icon>
+    <div class="checkBox">
+      <svg-icon [iconID]="iconActive" (click)="toggle($event)"></svg-icon>
     </div>
   }
 </label>

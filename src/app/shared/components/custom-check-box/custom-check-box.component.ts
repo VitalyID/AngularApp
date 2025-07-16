@@ -23,15 +23,13 @@ export class CustomCheckBoxComponent {
   icon: string = 'checkbox';
   iconActive: string = 'checkboxActive';
 
-  isChecked = signal<boolean>(false);
-
-  iconClick() {
+  toggle(event: Event) {
+    event.preventDefault();
     this.iconState.set(!this.iconState());
   }
 
-  isCheckedChange(setChecked: Event) {
-    const userSetCheckbox = setChecked.target as HTMLInputElement;
-    this.isChecked.set(userSetCheckbox.checked);
-    this.setCheckbox.emit(this.isChecked());
+  setUser(event: Event) {
+    const user = event.target as HTMLInputElement;
+    this.setCheckbox.emit(user.checked);
   }
 }
