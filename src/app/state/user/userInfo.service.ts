@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { profileLink } from '../../const';
 import { UserInfo } from '../../types/interfaces/userInfo';
 
 @Injectable({ providedIn: 'root' })
 export class UserInfoService {
-  // DEBUG: readonly #http = inject(HttpClient);
+  readonly #http = inject(HttpClient);
 
   postUserInfo(user: UserInfo) {
-    console.log('debug', user);
-
-    // DEBUG: return this.#http.post<UserInfo>(profileLink, user);
+    return this.#http.post<UserInfo>(profileLink, user);
   }
 }

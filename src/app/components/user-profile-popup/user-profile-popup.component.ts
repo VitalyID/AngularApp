@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PopupService } from '../../services/popup.service';
 import { StepperConfig } from '../../shared/components/stepper/types/interfaces/stepperConfig';
 
+import { take } from 'rxjs';
 import * as uuid from 'uuid';
 import { ListOfService } from '../../const';
 import { TypeUser } from '../../shared/components/custom-check-box/types/enum/typeUser';
@@ -146,10 +147,7 @@ export class UserProfilePopupComponent implements OnInit {
       .get('name')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userName) => {
-        console.log('debug:', userName);
-
         this.first_name.set(userName);
-        console.log('debug:', this.first_name());
       });
 
     this.userForm
@@ -177,6 +175,13 @@ export class UserProfilePopupComponent implements OnInit {
           String(this.country()),
         );
         this.cityDefaultValue = this.cityDropdownItems[0];
+      });
+
+    this.userForm
+      .get('city')
+      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((userCity: ListDropdown) => {
+        this.city.set(userCity.item.toString());
       });
 
     this.cardForm
@@ -246,7 +251,10 @@ export class UserProfilePopupComponent implements OnInit {
     } else if (this.step === this.stepperData().length) {
       this.completeStep();
       this.userCreated.emit(true);
-      this.#userInfoService.postUserInfo(this.userConfig());
+      this.#userInfoService
+        .postUserInfo(this.userConfig())
+        .pipe(take(1))
+        .subscribe();
     }
   }
 
