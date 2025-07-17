@@ -122,5 +122,9 @@
         margin-bottom: 0;
       }
     }
+
+    .card-data-cvc {
+      @include flex($gap: 21px);
+    }
   }
 }

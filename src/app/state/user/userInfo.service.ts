@@ -1,20 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { UserInfo } from '../../types/interfaces/userInfo';
 
 @Injectable({ providedIn: 'root' })
 export class UserInfoService {
-  userProfile = new BehaviorSubject<UserInfo>({
-    userName: '',
-    userLastName: '',
-    email: '',
-    country: '',
-    city: '',
-    user: {},
-  });
+  // DEBUG: readonly #http = inject(HttpClient);
 
-  // NOTE: control-test
-  user = this.userProfile.subscribe((user) => {
-    console.log('DEBUG:', user);
-  });
+  postUserInfo(user: UserInfo) {
+    console.log('debug', user);
+
+    // DEBUG: return this.#http.post<UserInfo>(profileLink, user);
+  }
 }

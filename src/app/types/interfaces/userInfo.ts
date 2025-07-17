@@ -1,8 +1,9 @@
 export interface UserInfo {
-  userName: string;
-  userLastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   country: string;
   city: string;
-  user: Record<string, boolean>;
+  client_type?: string;
+  card?: { card_number: string; expiry: string; cvc: string };
 }

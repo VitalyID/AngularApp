@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { TypeUser } from './types/enum/typeUser';
+import { RadioButtons } from './types/interface/radioButton';
 
 @Component({
   selector: 'custom-check-box',
@@ -17,19 +19,39 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomCheckBoxComponent {
-  @Input() iconState = signal<boolean>(false);
-  @Output() setCheckbox = new EventEmitter<boolean>();
+  @Input() radioConfig = signal<RadioButtons>({
+    icon: '',
+    iconActive: '',
+    button: [
+      {
+        name: '',
+        checked: false,
+        id: '',
+      },
+    ],
+  });
 
-  icon: string = 'checkbox';
-  iconActive: string = 'checkboxActive';
-
-  toggle(event: Event) {
-    event.preventDefault();
-    this.iconState.set(!this.iconState());
-  }
+  @Output() userConfiture = new EventEmitter();
 
   setUser(event: Event) {
-    const user = event.target as HTMLInputElement;
-    this.setCheckbox.emit(user.checked);
+    const checkedButton = event.target as HTMLInputElement;
+
+    const newRadioConfig = this.radioConfig();
+    const newButtons = this.radioConfig().button.map((element) => {
+      return { ...element, checked: element.id === checkedButton.id };
+    });
+
+    this.radioConfig.set({ ...newRadioConfig, button: newButtons });
+
+    const userValue = this.radioConfig().button.find(
+      (el) => el.checked === true,
+    )?.name;
+
+    const userKey = Object.keys(TypeUser) as (keyof typeof TypeUser)[];
+    userKey.forEach((userKey) => {
+      if (TypeUser[userKey] === userValue) {
+        this.userConfiture.emit(userKey);
+      }
+    });
   }
 }

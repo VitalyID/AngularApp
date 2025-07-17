@@ -97,40 +97,78 @@
           ></dropdown>
         </form>
       }
-      @if (step === 1) {
-        <h3>Выберите ваш тип</h3>
 
-        <div class="user__set">
-          <custom-check-box
-            [iconState]="payerConfig"
-            (setCheckbox)="userSettingCheckbox('payer', $event)"
-          ></custom-check-box>
-          <span>Плательщик</span>
-        </div>
-        <div class="user__set">
-          <custom-check-box
-            [iconState]="recipientConfig"
-            (setCheckbox)="userSettingCheckbox('recipient', $event)"
-          ></custom-check-box>
-          <span>Получатель</span>
-        </div>
-        <div class="user__set">
-          <custom-check-box
-            [iconState]="agentConfig"
-            (setCheckbox)="userSettingCheckbox('agent', $event)"
-          ></custom-check-box>
-          <span>Агент</span>
-        </div>
-        <div class="user__set">
-          <custom-check-box
-            [iconState]="busineccConfig"
-            (setCheckbox)="userSettingCheckbox('businecc', $event)"
-          ></custom-check-box>
-          <span>Бизнес</span>
-        </div>
+      @if (step === 1) {
+        <custom-check-box
+          [radioConfig]="radioButtonConfig"
+          (userConfiture)="userChoice($event)"
+        ></custom-check-box>
       }
+
       @if (step === 2) {
         <h3>Введите данные вашей карты</h3>
+        <form [formGroup]="cardForm">
+          <span>Номер карты</span>
+          <input-text
+            formControlName="card"
+            type="text"
+            mask="0000 0000 0000 0000"
+            placeholder="**** **** **** ****"
+          ></input-text>
+          @if (
+            cardForm.get("card")?.invalid &&
+            (cardForm.get("card")?.dirty || cardForm.get("card")?.touched)
+          ) {
+            <ng-container
+              *ngTemplateOutlet="
+                invalidInput;
+                context: { control: cardForm.get('card') }
+              "
+            >
+            </ng-container>
+          }
+          <div class="card-data-cvc">
+            <div class="card-data">
+              <span>Месяц/год</span>
+              <input-text
+                formControlName="data"
+                type="text"
+                mask="M0/00"
+                placeholder="00/00"
+              ></input-text>
+              @if (
+                cardForm.get("data")?.invalid &&
+                (cardForm.get("data")?.dirty || cardForm.get("data")?.touched)
+              ) {
+                <ng-container
+                  *ngTemplateOutlet="
+                    invalidInput;
+                    context: { control: cardForm.get('data'), minLength: 4 }
+                  "
+                ></ng-container>
+              }
+            </div>
+            <div class="card-cvc">
+              <span>CVC/CVV-код</span>
+              <input-text
+                formControlName="cvc"
+                placeholder="***"
+                type="password"
+              ></input-text>
+              @if (
+                (cardForm.get("cardCvv")?.invalid && cardForm.get("cardCvv")) ||
+                cardForm.get("cardCvv")
+              ) {
+                <ng-container
+                  *ngTemplateOutlet="
+                    invalidInput;
+                    context: { control: cardForm.get('cardCvv') }
+                  "
+                ></ng-container>
+              }
+            </div>
+          </div>
+        </form>
       }
 
       <div class="button" [class.twoBTN]="step > 0">

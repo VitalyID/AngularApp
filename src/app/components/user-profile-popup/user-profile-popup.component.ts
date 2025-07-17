@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   EventEmitter,
   inject,
   OnInit,
   Output,
   signal,
+  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,10 +17,16 @@ import { StepperConfig } from '../../shared/components/stepper/types/interfaces/
 
 import * as uuid from 'uuid';
 import { ListOfService } from '../../const';
+import { TypeUser } from '../../shared/components/custom-check-box/types/enum/typeUser';
+import {
+  radioButtonConfig,
+  RadioButtons,
+} from '../../shared/components/custom-check-box/types/interface/radioButton';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../../shared/components/input-text/directives/validators/noNumbersInNameValidator';
 import { UserInfoService } from '../../state/user/userInfo.service';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
+import { UserInfo } from '../../types/interfaces/userInfo';
 
 @Component({
   selector: 'user-profile-popup',
@@ -28,6 +36,7 @@ import { ButtonConfig } from '../../types/interfaces/sectionItem';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserProfilePopupComponent implements OnInit {
+  // NOTE: if user created, popup don't show
   @Output() userCreated = new EventEmitter<boolean>();
 
   stepperData = signal<StepperConfig[]>([
@@ -43,11 +52,6 @@ export class UserProfilePopupComponent implements OnInit {
     },
     {
       stepNumber: 3,
-      isActive: false,
-      stepperEnd: false,
-    },
-    {
-      stepNumber: 4,
       isActive: false,
       stepperEnd: false,
     },
@@ -68,24 +72,36 @@ export class UserProfilePopupComponent implements OnInit {
     borderStyle: 'none',
   };
 
+  // NOTE: for change types user you need to change enum with types
+  radioButtonConfig!: WritableSignal<RadioButtons>;
+  radioButtons: radioButtonConfig[] = [];
+
   iconClose: string = 'icon-close';
   isOpen: boolean = false;
+
   userForm!: FormGroup;
+  cardForm!: FormGroup;
   step: number = 0;
   nonFirstStep: boolean = false;
 
-  payerConfig = signal<boolean>(false);
-  recipientConfig = signal<boolean>(false);
-  agentConfig = signal<boolean>(false);
-  busineccConfig = signal<boolean>(false);
-
-  userName = signal('');
-  userLastName = signal('');
+  first_name = signal('');
+  last_name = signal('');
   email = signal('');
-  country = signal<ListDropdown>({ id: '', item: '' });
-  city = signal<ListDropdown>({ id: '', item: '' });
+  country = signal('');
+  city = signal('');
   user = signal({});
-  typesUser: Record<string, boolean> = {};
+  client_type = signal('');
+  card = signal({ card_number: '', expiry: '', cvc: '' });
+
+  userConfig = computed<UserInfo>(() => ({
+    first_name: this.first_name(),
+    last_name: this.last_name(),
+    email: this.email(),
+    country: this.country(),
+    city: this.city(),
+    client_type: this.client_type(),
+    card: this.card(),
+  }));
 
   readonly #popupService = inject(PopupService);
   readonly #destroyRef = inject(DestroyRef);
@@ -93,6 +109,12 @@ export class UserProfilePopupComponent implements OnInit {
   readonly #userInfoService = inject(UserInfoService);
 
   ngOnInit(): void {
+    this.radioButtonConfig = signal<RadioButtons>({
+      icon: 'checkbox',
+      iconActive: 'checkboxActive',
+      button: this.generatorRadioButtonConfig(),
+    });
+
     // NOTE: open popup if the registration component send true to service
     this.#popupService.popupState$
       .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -114,18 +136,27 @@ export class UserProfilePopupComponent implements OnInit {
       city: [''],
     });
 
+    this.cardForm = this.#fb.group({
+      card: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
+      data: ['', [Validators.required, Validators.minLength(4)]],
+      cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+    });
+
     this.userForm
       .get('name')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userName) => {
-        this.userName.set(userName);
+        console.log('debug:', userName);
+
+        this.first_name.set(userName);
+        console.log('debug:', this.first_name());
       });
 
     this.userForm
       .get('lastName')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userLastName) => {
-        this.userLastName.set(userLastName);
+        this.last_name.set(userLastName);
       });
 
     this.userForm
@@ -138,21 +169,35 @@ export class UserProfilePopupComponent implements OnInit {
     this.userForm
       .get('country')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userCountry) => {
-        this.country.set(userCountry);
+      .subscribe((userCountry: ListDropdown) => {
+        this.country.set(userCountry.item.toString());
 
         this.cityDropdownItems = this.createListDropdown(
           'cities',
-          String(this.country().item),
+          String(this.country()),
         );
         this.cityDefaultValue = this.cityDropdownItems[0];
       });
 
-    this.userForm
-      .get('city')
+    this.cardForm
+      .get('card')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((city) => {
-        this.city.set(city);
+      .subscribe((card) => {
+        this.card.update((oldValue) => ({ ...oldValue, card_number: card }));
+      });
+
+    this.cardForm
+      .get('data')
+      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((data) => {
+        this.card.update((oldValue) => ({ ...oldValue, expiry: data }));
+      });
+
+    this.cardForm
+      .get('cvc')
+      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((cvc) => {
+        this.card.update((oldValue) => ({ ...oldValue, cvc: cvc }));
       });
 
     this.createListDropdown('countries');
@@ -187,47 +232,21 @@ export class UserProfilePopupComponent implements OnInit {
     this.#popupService.setPopupState(false);
   }
 
-  userSettingCheckbox(typeUser: string, setUser: boolean) {
-    console.log('debug', typeUser, setUser);
-
-    switch (typeUser) {
-      case 'payer':
-        this.typesUser['payer'] = setUser;
-        break;
-      case 'recipient':
-        this.typesUser['recipient'] = setUser;
-        break;
-      case 'agent':
-        this.typesUser['agent'] = setUser;
-        break;
-      case 'businecc':
-        this.typesUser['businecc'] = setUser;
-        break;
-    }
-    console.log('debug', this.typesUser);
-  }
-
   lastStep() {
     this.step--;
   }
 
   nextStep() {
-    this.#userInfoService.userProfile.next({
-      userName: this.userName(),
-      userLastName: this.userLastName(),
-      email: this.email(),
-      country: this.country().item as string,
-      city: this.city().item as string,
-      user: this.typesUser,
-    });
-
     this.step++;
+
+    console.log('debug:', this.userConfig());
 
     if (this.step < this.stepperData().length) {
       this.activateNextStep();
     } else if (this.step === this.stepperData().length) {
       this.completeStep();
       this.userCreated.emit(true);
+      this.#userInfoService.postUserInfo(this.userConfig());
     }
   }
 
@@ -249,5 +268,25 @@ export class UserProfilePopupComponent implements OnInit {
       return newStepper;
     });
     this.closePopUp();
+  }
+
+  generatorRadioButtonConfig(): radioButtonConfig[] {
+    const typeValue = Object.values(TypeUser);
+
+    typeValue.forEach((user) => {
+      const newButtonConfig: radioButtonConfig = {
+        name: user,
+        checked: false,
+        id: uuid.v4(),
+      };
+
+      this.radioButtons = [...this.radioButtons, newButtonConfig];
+    });
+
+    return this.radioButtons;
+  }
+
+  userChoice(data: string) {
+    this.client_type.set(data);
   }
 }

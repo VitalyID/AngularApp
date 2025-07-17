@@ -1,3 +1,18 @@
+:host {
+  --mbElement: 17px;
+  --justify: start;
+  --align: center;
+  --gap: 12px;
+}
+
+.radioButton {
+  display: flex;
+  justify-content: var(--justify);
+  align-items: var(--align);
+  gap: var(--gap);
+  margin-bottom: var(--mbElement);
+}
+
 input {
   position: absolute;
   top: 0px;
@@ -7,7 +22,8 @@ input {
   opacity: 0;
   cursor: none;
 }
-.checkBox {
+
+.radioBox {
   & svg-icon {
     cursor: pointer;
     --width: 20px;
@@ -16,5 +32,9 @@ input {
 }
 
 label {
+  display: block;
+}
+
+span {
   display: block;
 }
