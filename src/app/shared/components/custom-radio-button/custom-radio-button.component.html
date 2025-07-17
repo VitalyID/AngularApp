@@ -1,0 +1,23 @@
+@for (radioButton of radioConfig().button; track radioButton.id) {
+  <div class="radioButton">
+    <input
+      type="radio"
+      name="nameRadio"
+      [id]="radioButton.id"
+      (change)="setUser($event)"
+    />
+    <label [for]="radioButton.id">
+      @if (radioButton.checked === false) {
+        <div class="radioBox">
+          <svg-icon [iconID]="radioConfig().icon"></svg-icon>
+        </div>
+      }
+      @if (radioButton.checked === true) {
+        <div class="radioBox">
+          <svg-icon [iconID]="radioConfig().iconActive"></svg-icon>
+        </div>
+      }
+    </label>
+    <span>{{ radioButton.name }}</span>
+  </div>
+}

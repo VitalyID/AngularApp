@@ -1,0 +1,40 @@
+:host {
+  --mbElement: 17px;
+  --justify: start;
+  --align: center;
+  --gap: 12px;
+}
+
+.radioButton {
+  display: flex;
+  justify-content: var(--justify);
+  align-items: var(--align);
+  gap: var(--gap);
+  margin-bottom: var(--mbElement);
+}
+
+input {
+  position: absolute;
+  top: 0px;
+  left: -1000px;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  cursor: none;
+}
+
+.radioBox {
+  & svg-icon {
+    cursor: pointer;
+    --width: 20px;
+    --height: 20px;
+  }
+}
+
+label {
+  display: block;
+}
+
+span {
+  display: block;
+}
