@@ -10,25 +10,28 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { provideNgxMask } from 'ngx-mask';
+import * as uuid from 'uuid';
 import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.component';
 import { ColorPickerComponent } from '../../../../shared/components/color-picker/color-picker.component';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
 import { SwitcherComponent } from '../../../../shared/components/switcher/switcher.component';
 import { UploadLogoComponent } from '../../../../shared/components/upload-logo/upload-logo.component';
 import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
-import { DataInput } from './../../../../shared/components/input-text/types/interfaces/dataInput';
-import { ListOfCards, UserCard } from './../../../../state/cards.state';
-// import { InputUsers } from '../../types/interface/inputUsers';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as uuid from 'uuid';
+import {
+  InputConfig,
+  InputValidation,
+} from './../../../../shared/components/input-text/types/interfaces/dataInput';
+import { ListOfCards, UserCard } from './../../../../state/cards/cards.state';
+
 import {
   PostCard,
   PutCard,
   UpdateEditCard,
-} from '../../../../state/cards.action';
+} from '../../../../state/cards/cards.action';
 import { UserPreviewComponent } from '../tipPagePreview/tipPagePreview.component';
 import { EnumSwitcher } from './../../../../shared/components/switcher/types/enum/enumSwitcher';
 
@@ -60,44 +63,45 @@ export class CreateQRcodeComponent implements OnInit {
   myForm!: FormGroup;
   backgroundColor: string = '';
   btnColor: string = '';
-  // logo: string = '';
   logo: number = 0;
   rate: boolean = false;
   feedback: boolean = false;
   impression: boolean = false;
 
-  // isOpen transmitted to Directives for checking state component aside.
-  // Component Aside is open after 1s, because its time need for animations
+  // NOTE: isOpen transmitted to Directives for checking state component aside.
+  // NOTE: Component Aside is open after 1s, because its time need for animations
   isOpen: boolean = false;
 
   // editCart - it's a flag, which denote about this card: editing it now or no
   editCard: boolean = false;
 
-  inputBaseTip: Signal<DataInput> = computed(() => ({
-    validation: true,
+  inputBaseTip: Signal<InputConfig> = computed(() => ({
     unitCurrency: 'rub',
-    validationFrom: '0',
-    validationTo: '1000',
     value: '',
     placeholder: '',
     type: 'number',
     disabled: false,
   }));
 
-  inputSmallTip: Signal<DataInput> = computed(() => ({
+  inputSmallTip: Signal<InputConfig> = computed(() => ({
     ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[0].toString(),
   }));
 
-  inputMiddleTip: Signal<DataInput> = computed(() => ({
+  inputMiddleTip: Signal<InputConfig> = computed(() => ({
     ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[1].toString(),
   }));
 
-  inputBigTip: Signal<DataInput> = computed(() => ({
+  inputBigTip: Signal<InputConfig> = computed(() => ({
     ...this.inputBaseTip(),
     placeholder: this.card()?.preset_payment_sizes[2].toString(),
   }));
+
+  validation: InputValidation = {
+    validationFrom: '0',
+    validationTo: '1000',
+  };
 
   btnText: string = 'Создать QR-код';
 
@@ -133,7 +137,6 @@ export class CreateQRcodeComponent implements OnInit {
     employee_display: true,
     id: 0,
     logo_file_id: 0,
-    // platform_id: '',
     preset_payment_sizes: [0, 0, 0],
     qr_image: '',
     rating: false,
@@ -141,13 +144,12 @@ export class CreateQRcodeComponent implements OnInit {
     smiles: false,
   };
 
-  // transmit state switcher to component (true/false) by Signal
+  // NOTE: transmit state switcher to component (true/false) by Signal
   isOnRate: Signal<boolean> = computed(() => this.card()?.rating);
   isOnFeedback: Signal<boolean> = computed(() => this.card()?.reviews);
   isOnImpressions: Signal<boolean> = computed(() => this.card()?.smiles);
 
   readonly #store = inject(Store);
-  readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
 
   card: Signal<UserCard> = this.#store.selectSignal(ListOfCards.getEditCard);
@@ -175,7 +177,7 @@ export class CreateQRcodeComponent implements OnInit {
   }
 
   listItemSwitch() {
-    for (let item of Object.keys(EnumSwitcher)) {
+    for (const item of Object.keys(EnumSwitcher)) {
       this.listSwitchKeys.push(item as keyof typeof EnumSwitcher);
     }
   }
@@ -201,10 +203,7 @@ export class CreateQRcodeComponent implements OnInit {
   }
 
   uploadLogo(data: string) {
-    // Don't switch on logo, because there is problem with types
-    // this.#store.dispatch(
-    //   new UpdateEditCard(this.updateCard('logo_file_id', data))
-    // );
+    // NOTE: Don't switch on logo, because there is problem with types
   }
 
   sendDataStore(index: number, tip: number) {
@@ -214,7 +213,7 @@ export class CreateQRcodeComponent implements OnInit {
       ...this.defaultDataInput.slice(index + 1),
     ];
 
-    // Update inputs
+    // NOTE: Update inputs
 
     this.#store.dispatch(
       new UpdateEditCard(

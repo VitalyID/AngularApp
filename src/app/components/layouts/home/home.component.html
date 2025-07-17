@@ -5,9 +5,9 @@
     <app-aside
       class="aside adaptive"
       [ngClass]="{ close: !menuState(), open: menuState() }"
-      escClose
+      appEscClose
       (menuClose)="onMenuClose($event)"
-      clickOutside
+      appClickOutside
       [menuState]="isOpen()"
     ></app-aside>
 
@@ -20,13 +20,9 @@
   <app-aside class="aside desctop"></app-aside>
 
   <div class="main">
+    <spinner [spinnerConfig]="spinnerConfig"></spinner>
     <router-outlet></router-outlet>
   </div>
 
   <div class="overlay" [class.shadowActive]="isShadow()"></div>
 </div>
-
-<!-- [ngClass]="{
-  isMyGroup: getClassForSectionItem(item.ID),firstItem: i+1 === activeMenuItem[0],
-  lastItem: i+1 === activeMenuItem.at(-1),
-}" -->

@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './buttons.component.scss',
 })
 export class ButtonsComponent {
-  // @Input() buttonData?: ButtonData;
+
   @Input() background?: string = '';
   @Input() color?: string = '';
   @Input() borderStyle?: string = '';
@@ -20,4 +20,5 @@ export class ButtonsComponent {
   @Input() disabled?: boolean = false;
   @Input() text?: string = '';
   @Input() classSvgFonts?: string = '';
+  @Input() paddings?: string = '';
 }

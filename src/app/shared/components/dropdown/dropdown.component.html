@@ -24,9 +24,15 @@
     <div class="dropdown__invisible" [class.open]="isOpen">
       @for (item of dropdownItems; track item.id){
 
-      <div class="dropdown__item" (click)="onClickItem(item)">
-        @if (item.icon){ [iconID]="item.iconID" [width]="item.width"
-        [height]="item.height"}
+      <div class="dropdown__item" (click)="onClickItem(item)" (keyup.enter)='onClickItem(item)' tabindex="=0">
+        @if (item.icon?.iconID){
+        <svg-icon
+          [iconID]="item.icon?.iconID || ''"
+          [width]="item.icon?.width"
+          [height]="item.icon?.height"
+        ></svg-icon
+        >}
+
         <span>{{ item.item }}</span>
       </div>
       }

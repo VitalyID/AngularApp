@@ -7,8 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { ColorPickerModule } from 'ngx-color-picker';
-// import { ColorPicker, ColorPickerStore } from '../../../agents/state/agents.state'
-// import { Observable } from 'rxjs'
 
 @Component({
   selector: 'color-picker',

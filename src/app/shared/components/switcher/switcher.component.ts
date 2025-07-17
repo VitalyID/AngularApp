@@ -52,16 +52,15 @@ export class SwitcherComponent implements OnInit {
   readonly #elRef = inject(ElementRef);
   readonly #render = inject(Renderer2);
   readonly #cdr = inject(ChangeDetectorRef);
-  // readonly #switcherService = inject(SwitcherStateService);
 
-  // this method setup some new styles for custom checkbox from parent
+  // note: this method setup some new styles for custom checkbox from parent
   #setCssVariable() {
     const dash = '--';
     let lineStyles: string = '';
 
     const mixStyles = { ...this.defaultStyles, ...this.styles };
 
-    for (let item of Object.keys(mixStyles) as (keyof SwitcherStyles)[]) {
+    for (const item of Object.keys(mixStyles) as (keyof SwitcherStyles)[]) {
       lineStyles = lineStyles + dash + item + ': ' + mixStyles[item] + '; ';
     }
 
@@ -69,14 +68,14 @@ export class SwitcherComponent implements OnInit {
     this.#cdr.markForCheck();
   }
 
-  // in this realization we get status checkbox only after changed them.
+  // NOTE: in this realization we get status checkbox only after changed them.
   sendValue(data: Event) {
     this.value = (data.target as HTMLInputElement).checked;
     this.updateSwitcher.emit(this.value);
   }
 
   ngOnInit(): void {
-    // This code generates unik ID for the component
+    // NOTE: This code generates unik ID for the component
     this.id = uuidv4();
     this.#setCssVariable();
   }

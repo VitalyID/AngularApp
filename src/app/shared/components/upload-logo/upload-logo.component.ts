@@ -10,12 +10,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-// import { SharedModule } from '../../../shared.module';
-import { Store } from '@ngxs/store';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { ButtonService } from '../buttons/service/buttons.component.service';
-import { UploadTransmitPhotoService } from './services/uploadTransmitPhoto.service';
 
 @Component({
   selector: 'upload-logo',
@@ -30,7 +27,6 @@ export class UploadLogoComponent implements OnInit {
 
   uploadPhoto: ButtonConfig = {
     iconClass: 'icon-icon-upload',
-    // id: uuid.v4(),
     text: 'Загрузите логотип',
     background: 'none',
     color: '#313436',
@@ -40,8 +36,6 @@ export class UploadLogoComponent implements OnInit {
 
   readonly #dataFromButtonService = inject(ButtonService);
   readonly #destroyRef = inject(DestroyRef);
-  readonly #transmitLogoService = inject(UploadTransmitPhotoService);
-  readonly #store = inject(Store);
 
   ngOnInit(): void {
     this.#dataFromButtonService.eventClick$

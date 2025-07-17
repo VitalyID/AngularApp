@@ -1,3 +1,1 @@
-export interface DataFromUserInput {
-  [key: string]: number | null;
-}
+export type DataFromUserInput = Record<string, string | number>;

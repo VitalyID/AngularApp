@@ -1,22 +1,19 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   EventEmitter,
-  inject,
   Input,
   Output,
   signal,
-  Signal,
+  Signal
 } from '@angular/core';
-// import { EventEmitter } from 'stream';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import * as uuid from 'uuid';
+import { UserCardState } from '../../../state/cards/cards.state';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
-import { UserCardState } from './../../../state/cards.state';
 
 @Component({
   selector: 'pagination',
@@ -43,6 +40,12 @@ export class PaginationComponent {
       smiles: false,
     },
     pagination: { limit: 1, total: 1, offset: 1 },
+    user: {
+      phone: '',
+      password: '',
+      token: '',
+      userCreated: '',
+    },
   });
   @Input() activePage = signal('1');
   @Output() userClick = new EventEmitter<string>();
@@ -62,13 +65,11 @@ export class PaginationComponent {
   back = signal<boolean>(false);
   next = signal<boolean>(false);
 
-  // offset is need for change number-text in button page
+  // NOTE: offset is need for change number-text in button page
   offset = signal<number>(0);
   buttonText = signal<number[]>([]);
 
   buttons: ButtonConfig[] = [];
-
-  readonly #route = inject(ActivatedRoute);
 
   paginationButton = computed(() => {
     this.buttons = [];
@@ -86,22 +87,20 @@ export class PaginationComponent {
   });
 
   ChangeByEffect = effect(() => {
-    // switch onn button NEXT
+    // NOTE: switch onn button NEXT
     if (
       Math.ceil(this.state().pagination.total / this.state().pagination.limit) >
       3
     ) {
       this.next.set(true);
     }
-    // =============================================
 
-    // fill in the array with button
+    // NOTE: fill in the array with button
     this.buttonText.set(
       this.fillInByNumber(this.offset() + 1, this.offset() + 3)
     );
-    // ============================================
 
-    // switch off button "NEXT" when cards finished
+    // NOTE: switch off button "NEXT" when cards finished
     if (
       this.buttonText()[this.buttonText().length - 1] *
         this.state().pagination.limit >=
@@ -109,9 +108,8 @@ export class PaginationComponent {
     ) {
       this.next.set(false);
     }
-    // ==============================================
 
-    // if the first button equal '1', the button BACK is off
+    // NOTE: if the first button equal '1', the button BACK is off
     if (this.buttonText()[0] === 1) {
       this.back.set(false);
     }
@@ -140,6 +138,6 @@ export class PaginationComponent {
   }
 
   changeActivePage() {
-    console.log(222, this.#route.snapshot.queryParamMap.get('offset'));
+// no-empty-function
   }
 }

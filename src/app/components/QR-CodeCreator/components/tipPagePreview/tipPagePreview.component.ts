@@ -19,13 +19,13 @@ import { ButtonsComponent } from '../../../../shared/components/buttons/buttons.
 import { FeedbacksComponent } from '../../../../shared/components/feedbacks/feedbacks.component';
 import { FeedbackData } from '../../../../shared/components/feedbacks/types/interfces/feedback';
 import { InputTextComponent } from '../../../../shared/components/input-text/input-text.component';
-import { DataInput } from '../../../../shared/components/input-text/types/interfaces/dataInput';
+import { InputConfig } from '../../../../shared/components/input-text/types/interfaces/dataInput';
 import { StarsRateComponent } from '../../../../shared/components/stars-rate/stars-rate.component';
 import { DataStarRate } from '../../../../shared/components/stars-rate/types/interface/dataToStarRate';
 import { SvgIconComponent } from '../../../../shared/components/svg-icon/svg-icon.component';
 import { SwitcherStateService } from '../../../../shared/components/switcher/service/switch.service';
 import { SwitcherData } from '../../../../shared/components/switcher/types/interface/switcherDataTransmit';
-import { ListOfCards } from '../../../../state/cards.state';
+import { ListOfCards } from '../../../../state/cards/cards.state';
 import { LogoProfileDefaultSource } from '../../../../types/enums/logoProfile';
 import { ButtonConfig } from '../../../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../../../types/interfaces/svgIcon';
@@ -58,10 +58,8 @@ export class UserPreviewComponent implements OnInit {
     width: '200px',
   };
 
-  setUpTips: DataInput = {
+  setUpTips: InputConfig = {
     placeholder: 'от 100 до 600',
-    // inputID: 'inputID-4',
-    validation: true,
     unitCurrency: 'rub',
     value: '',
     type: 'number',
@@ -168,15 +166,14 @@ export class UserPreviewComponent implements OnInit {
 
     this.arrBTN[data] = { ...this.arrBTN[data], isActive: true };
     this.btnSendData = { ...this.btnSendData, disabled: false, isActive: true };
-    console.log(this.btnSendData);
   }
 
   rating(data: DataStarRate) {
-    console.log(data);
-  }
+    // no-empty-function
+   }
 
   amodzieSelected(smile: number) {
-    console.log(smile);
+    // no-empty-function
   }
 
   onClick(text: string) {

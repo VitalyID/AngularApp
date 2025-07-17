@@ -7,8 +7,9 @@ export default class UpdateCards {
 
 export class UpdateEditCard {
   static readonly type = '[editCard] SetNewCard';
-  constructor(public newValue: { [key: string]: any }) {}
+  constructor(public newValue: Record<string, any>) {}
 }
+
 
 export class PostCard {
   static readonly type = '[postCard] postUserCard';
@@ -29,3 +30,4 @@ export class PutCard {
   static readonly type = '[putCard] putUserCard';
   constructor(public userCard: UserCard) {}
 }
+

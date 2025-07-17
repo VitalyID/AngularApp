@@ -7,7 +7,6 @@ import { ButtonConfig } from '../../types/interfaces/sectionItem';
 @Component({
   selector: 'main',
   standalone: false,
-  // imports: [TableComponent, ChartComponent, ButtonsComponent, CommonModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,12 +14,12 @@ import { ButtonConfig } from '../../types/interfaces/sectionItem';
 export class MainComponent {
   readonly #router = inject(Router);
 
-  // asideID: number = 0;
   parent: string = 'main';
 
   public btnText: ButtonConfig = {
     text: 'Создать QR-Code',
     iconClass: 'icon-add-outline',
+    disabled: false,
   };
 
   list: ListDropdown[] = [
@@ -42,6 +41,6 @@ export class MainComponent {
   ];
 
   goToCreateQrPage() {
-    this.#router.navigate(['/create-qrcode']);
+      this.#router.navigate(['/create-qrcode']);
   }
 }

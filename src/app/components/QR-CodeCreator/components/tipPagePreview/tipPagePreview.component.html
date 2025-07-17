@@ -46,7 +46,11 @@
 <div class="userPreview__setTips">
   <span class="spanBold">Сумма чаевых</span>
   <input-text
-    [actualData]="setUpTips"
+    [placeholder]="setUpTips.placeholder || ''"
+    [value]="setUpTips.value || ''"
+    [type]="setUpTips.type || 'number'"
+    [disabled]="setUpTips.disabled || false"
+    [unitCurrency]="setUpTips.unitCurrency || 'rub'"
     (userInput)="validInput($event)"
   ></input-text>
 

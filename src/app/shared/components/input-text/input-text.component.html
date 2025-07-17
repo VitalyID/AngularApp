@@ -1,20 +1,21 @@
 <div
   class="userInputWrap"
   [class]="{
-    rub: actualData.unitCurrency === 'rub',
-    usd: actualData.unitCurrency === 'usd',
-    noneCurrency: actualData.unitCurrency === 'none'
+    rub: unitCurrency === 'rub',
+    usd: unitCurrency === 'usd',
+    noneCurrency: unitCurrency === 'none'
   }"
 >
   <input
-    [type]="actualData.type"
-    [placeholder]="actualData.placeholder"
-    [disabled]="actualData.disabled"
-    [actualData]="actualData"
-    [value]="actualData.value"
+    [attr.type]="type"
+    [attr.placeholder]="placeholder"
+    [disabled]="disabled"
+    [ngModel]="value"
     (input)="inputValue($event)"
-    [mask]="actualData.mask"
-    [dropSpecialCharacters]="actualData.dropSpecialCharacters ?? null"
-    myValidator
+    [mask]="mask"
+    [prefix]="prefix"
+    [dropSpecialCharacters]="dropSpecialCharacters ?? null"
+    appMyValidator
+    [validationSettings]="validationSettings"
   />
 </div>

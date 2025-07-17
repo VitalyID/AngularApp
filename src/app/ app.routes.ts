@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { adminPanelGuard } from './admin-panel.guard';
 import { EmptyRouteComponent } from './components/empty-route/empty-route.component';
 import { HomeComponent } from './components/layouts/home/home.component';
 
@@ -10,6 +11,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [adminPanelGuard],
         loadChildren: () =>
           import('./components/main/main.module').then((m) => m.MainModule),
       },
@@ -40,7 +42,6 @@ export const routes: Routes = [
           import('./components/agents/agents.module').then(
             (m) => m.AgentsModule
           ),
-        // data: { asideID: 3 },
       },
     ],
   },
@@ -50,7 +51,14 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'login',
+    path: 'user-auth/:login',
+    loadChildren: () =>
+      import('./components/phone-auth/phone-auth.module').then(
+        (m) => m.PhoneAuthModule
+      ),
+  },
+  {
+    path: 'user-auth',
     loadChildren: () =>
       import('./components/phone-auth/phone-auth.module').then(
         (m) => m.PhoneAuthModule

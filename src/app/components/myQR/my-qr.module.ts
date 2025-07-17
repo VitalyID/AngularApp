@@ -10,7 +10,6 @@ import { MyQrRoutingModule } from './my-qr.routing';
 @NgModule({
   imports: [
     CommonModule,
-    // NgxsModule.forFeature([ListOfCards]),
     QrCardComponent,
     ButtonsComponent,
     RouterModule,

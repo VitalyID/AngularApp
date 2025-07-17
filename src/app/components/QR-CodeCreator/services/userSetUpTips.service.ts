@@ -4,9 +4,10 @@ import { UserSetting } from '../../../shared/components/input-text/types/interfa
 
 @Injectable({ providedIn: 'root' })
 export class UserSetButtonService {
-  channelDataInputTips$ = new Subject<{}>();
+  channelDataInputTips$ = new Subject<any>();
 
   getTipsFromInput(data: UserSetting) {
     this.channelDataInputTips$.next(data);
   }
 }
+// NOTE: this service do't use.

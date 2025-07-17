@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { take, tap } from 'rxjs';
-import { CardService } from '../services/CardStoreActions.service';
+
+import { CardService } from '../../services/CardStoreActions.service';
 import {
   CardsMeta,
   PaginationMeta,
-} from '../shared/components/pagination/interface/PaginationMeta';
+} from '../../shared/components/pagination/interface/PaginationMeta';
 import UpdateCards, {
   DeleteCard,
   EditCard,
@@ -16,9 +17,10 @@ import UpdateCards, {
 
 export interface UserCardState {
   cards: UserCard[];
-  // editCard need for changing property and reactive displaying in preview component
+  // NOTE: editCard need for changing property and reactive displaying in preview component
   userCard: UserCard;
   pagination: PaginationMeta;
+
 }
 
 export interface UserCard {
@@ -34,6 +36,7 @@ export interface UserCard {
   rating: boolean;
   reviews: boolean;
   smiles: boolean;
+  platform_id?: string;
 }
 
 const defaultValue: UserCardState = {
@@ -94,6 +97,7 @@ export class ListOfCards {
   @Action(UpdateCards)
   updateCards(ctx: StateContext<UserCardState>, { rangeCards }: UpdateCards) {
     const state = ctx.getState();
+
     return this.#http.getCard(rangeCards, state.pagination.limit).pipe(
       take(1),
       tap(({ data, pagination }: CardsMeta) => {
@@ -108,7 +112,7 @@ export class ListOfCards {
       take(1),
       tap(() => {
         ctx.patchState({
-          // reset to defaultValue when send to server is success
+          // NOTE: reset to defaultValue when send to server is success
           userCard: {
             ...defaultValue.userCard,
           },
@@ -141,4 +145,5 @@ export class ListOfCards {
       })
     );
   }
+
 }

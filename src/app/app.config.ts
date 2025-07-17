@@ -14,10 +14,11 @@ import { provideToastr } from 'ngx-toastr';
 import { routes } from './ app.routes';
 import { MainModule } from './components/main/main.module';
 import { MyQRComponentModule } from './components/myQR/my-qr.module';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { ListOfCards } from './state/cards.state';
-// import { provideNgxs } from '@ngxs/store'
-// import { UploadLogoState } from './components/QR-CodeCreator/state/qr-code-creator.state';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import { UserAuthState } from './state/auth/auth.state';
+import { ListOfCards } from './state/cards/cards.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],
@@ -29,14 +30,15 @@ export const CUSTOM_NGXS_EXECUTION_STRATEGY =
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([ErrorInterceptor])),
+    provideHttpClient(
+      withInterceptors([SpinnerInterceptor, AuthInterceptor, ErrorInterceptor])
+    ),
     provideCharts(withDefaultRegisterables()),
     DatePipe,
-    // provideStore([]),
     importProvidersFrom(
       MainModule,
       MyQRComponentModule,
-      NgxsModule.forRoot([ListOfCards])
+      NgxsModule.forRoot([ListOfCards, UserAuthState])
     ),
     provideToastr({
       timeOut: 5000,

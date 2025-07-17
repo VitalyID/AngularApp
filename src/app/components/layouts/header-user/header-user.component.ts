@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
+import { LocalStorigeService } from '../../../services/local-storige.service';
+import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
 import { DropdownComponent } from '../../../shared/components/dropdown/dropdown.component';
 import { ListDropdown } from '../../../shared/components/dropdown/types/interface/listDropdown';
+import { LanguageComponent } from '../../../shared/components/language/language.component';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 
 @Component({
@@ -11,10 +16,10 @@ import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
   standalone: true,
   imports: [
     SvgIconComponent,
-    // LanguageComponent,
     CommonModule,
     DropdownComponent,
-    // DropdownComponent,
+    LanguageComponent,
+    ButtonsComponent,
   ],
   templateUrl: './header-user.component.html',
   styleUrl: './header-user.component.scss',
@@ -51,13 +56,24 @@ export class HeaderUserComponent {
     height: '24px',
   };
 
-  // isOpen: boolean = false;
+  exitBtn: ButtonConfig = {
+    text: 'Выход',
+    background: 'none',
+    borderStyle: 'none',
+    borderRadius: '0px',
+  };
+
   isOpen = signal<boolean>(false);
 
-  onClickContact() {
-    // console.log('click on contact');
-    // this.isOpen = !this.isOpen;
+  readonly #localeStorageService = inject(LocalStorigeService);
+  readonly #router = inject(Router);
 
+  onClickContact() {
     this.isOpen.update((value) => !value);
+  }
+
+  exitUser() {
+    this.#localeStorageService.getLocalStorige();
+    this.#router.navigate(['user-auth']);
   }
 }

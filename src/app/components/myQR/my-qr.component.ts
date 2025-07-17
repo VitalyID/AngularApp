@@ -11,8 +11,13 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import UpdateCards from '../../state/cards.action';
-import { ListOfCards, UserCard, UserCardState } from '../../state/cards.state';
+
+import UpdateCards from '../../state/cards/cards.action';
+import {
+  ListOfCards,
+  UserCard,
+  UserCardState,
+} from '../../state/cards/cards.state';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
@@ -36,7 +41,6 @@ export class MyQRComponent implements OnInit {
   pageOffset: number = 1;
   currentPage = signal<string>('1');
 
-  // readonly #routService = inject(RoutIDservice);
   readonly #store = inject(Store);
   readonly #router = inject(Router);
   readonly #inject = inject(Injector);
@@ -53,7 +57,7 @@ export class MyQRComponent implements OnInit {
       });
     });
 
-    // when this page is started or reloaded, we send offset pagination to back
+    // NOTE: when this page is started or reloaded, we send offset pagination to back
     const offset = Math.max(
       +(this.#route.snapshot.queryParamMap.get('offset') ?? '1'),
       1
@@ -63,7 +67,7 @@ export class MyQRComponent implements OnInit {
   }
 
   selectPage(offset: string) {
-    // we get offset page from pagination and send it backand
+    // NOTE: we get offset page from pagination and send it backand
     this.pageOffset = (Number(offset) - 1) * 12;
 
     this.#store.dispatch(new UpdateCards(this.pageOffset));
@@ -80,11 +84,9 @@ export class MyQRComponent implements OnInit {
 
   setActivePaginationPage(pageId: number): void {
     this.currentPage.set((pageId / 12 + 1).toString());
-    // this check for reload pages
+    // NOTE: this check for reload pages
     if (pageId % 2 !== 0) {
       this.currentPage.set(Math.ceil(pageId / 12).toString());
     }
   }
-
-  constructor() {}
 }

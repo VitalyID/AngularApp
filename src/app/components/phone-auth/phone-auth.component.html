@@ -1,5 +1,6 @@
 <div class="auth-phone-container">
   <div class="auth-phone-container__enter">
+    <spinner [spinnerConfig]="spinnerConfig"></spinner>
     <div class="auth-phone-container__top">
       <div class="auth-phone-container__userPhone">
         <svg-icon
@@ -9,26 +10,51 @@
         ></svg-icon>
         <h1>Вход в Tips.me</h1>
         <span>Номер телефона</span>
+
         <input-text
-          [actualData]="userInput"
+          [placeholder]="inputPhone.placeholder || ''"
+          [type]="inputPhone.type || 'tel'"
+          [disabled]="inputPhone.disabled || false"
+          [value]="userData().phone"
+          [dropSpecialCharacters]="inputPhone.dropSpecialCharacters || true"
+          [mask]="inputPhone.mask || ''"
           (updateValue)="phoneNumber($event)"
+          [prefix]="inputPhone.prefix || ''"
+        ></input-text>
+        <input-text
+          [placeholder]="inputPassword.placeholder || ''"
+          [type]="inputPassword.type || 'password'"
+          (updateValue)="setPassword($event)"
         ></input-text>
 
         <div class="auth-phone-container__switcher">
           <switcher
-            [featureToggle]="isSaveLogin"
-            (updateSwitcher)="isSavePhone($event)"
+            [featureToggle]="isSaveSwitcher"
+            (updateSwitcher)="toggleSaveUser($event)"
           ></switcher>
           <span>Запомнить меня</span>
         </div>
 
-        <app-buttons
-          [text]="buttonData.text"
-          [background]="buttonData.background"
-          [borderRadius]="buttonData.borderRadius"
-          [color]="buttonData.color"
-          (click)="login()"
-        ></app-buttons>
+        <div class="auth-phone-container__buttons">
+          @if (!isLoginPage){
+          <app-buttons
+            [text]="buttonDataRegister.text"
+            [background]="buttonDataRegister.background"
+            [borderRadius]="buttonDataRegister.borderRadius"
+            [color]="buttonDataRegister.color"
+            (click)="registration()"
+          ></app-buttons
+          >}
+
+          <app-buttons
+            [text]="buttonDataLogin().text"
+            [background]="buttonDataLogin().background"
+            [borderRadius]="buttonDataLogin().borderRadius"
+            [color]="buttonDataLogin().color"
+            [disabled]="buttonDataLogin().disabled"
+            (click)="login()"
+          ></app-buttons>
+        </div>
       </div>
     </div>
     <div class="auth-phone-container__bottom"></div>

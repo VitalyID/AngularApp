@@ -40,8 +40,13 @@ button {
   color: var(--color);
   cursor: pointer;
 
-  transform: var(--transform);
+  transform: scale(1) var(--transform);
   transition: var(--transition);
+
+  &:active {
+    transform: scale(0.95);
+    transition: var(--transition);
+  }
 }
 
 .isActive {

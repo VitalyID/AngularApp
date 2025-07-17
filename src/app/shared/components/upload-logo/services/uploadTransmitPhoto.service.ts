@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UploadTransmitPhotoService {
-  // channelTransmitPhoto$ = new Subject<File>();
   getUserPhotoFromService$ = new Subject<File>();
 
   getPhotoFromComponent(data: File) {

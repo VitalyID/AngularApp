@@ -18,20 +18,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-// import { SharedModule } from '../../shared.module';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
-// import { ListenerService } from '../buttons/service/buttonListenerStatus.compoent.service';
 import { ButtonService } from '../buttons/service/buttons.component.service';
 import { switchOnService } from './services/switchOnInput';
 
 export function customValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    let dateFrom = new Date(control.parent?.get('dateFrom')?.value);
+    const dateFrom = new Date(control.parent?.get('dateFrom')?.value);
     const dateEnd = new Date(control.value);
 
     const dateNow = new Date();
-    let data = new Date();
+    const data = new Date();
     const timeZone = data.getTimezoneOffset() * 60 * 1000;
     const dateNowOffTimeZone = dateNow.getTime() - timeZone;
 
@@ -57,7 +55,6 @@ export class DataInputComponent implements OnInit, OnDestroy {
 
   readonly #buttonService = inject(ButtonService);
   readonly #fb = inject(FormBuilder);
-  // readonly #listenerBTNservice = inject(ListenerService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #switchInputService = inject(switchOnService);
   readonly myInputForm = this.#fb.group({
@@ -71,24 +68,17 @@ export class DataInputComponent implements OnInit, OnDestroy {
     ],
   });
 
-  // public data: number = 2;
-
   #statusValidDataStart!: Subscription | undefined;
 
   ngOnInit(): void {
-    // Enabled/Disabled dateFrom start
     this.#switchInputService.eventChangeInput$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
-        // console.log(data);
-        if (data == true) {
+        if (data === true) {
           this.myInputForm.get('dateFrom')?.enable();
-          // this.myInputForm.get('dateEnd')?.enable();
         }
       });
-    // Enabled/Disabled dateFrom end
 
-    // Enabled/Disabled dateEnd start
     this.#statusValidDataStart = this.myInputForm
       .get('dateFrom')
       ?.statusChanges.subscribe((status) => {
@@ -98,9 +88,7 @@ export class DataInputComponent implements OnInit, OnDestroy {
           this.myInputForm.get('dateEnd')?.disable();
         }
       });
-    // Enabled/Disabled dateEnd end
 
-    // this.#valueChangesSubscription;
     this.myInputForm
       .get('dateEnd')
       ?.statusChanges.pipe(takeUntilDestroyed(this.#destroyRef))
@@ -109,7 +97,7 @@ export class DataInputComponent implements OnInit, OnDestroy {
           id: this.dateForBTN.id,
           disabled: status !== 'VALID',
         };
-        // this.#listenerBTNservice.getStatusForBTN(enableBTN);
+
       });
   }
 

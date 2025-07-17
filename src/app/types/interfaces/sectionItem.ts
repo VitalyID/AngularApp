@@ -9,4 +9,5 @@ export interface ButtonConfig {
   borderStyle?: string;
   borderRadius?: string;
   boxShadow?: string;
+  paddings?: string;
 }

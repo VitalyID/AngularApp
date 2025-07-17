@@ -3,10 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   inject,
   OnInit,
-  signal,
+  signal
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as uuid from 'uuid';
@@ -49,7 +48,6 @@ export class TableComponent implements OnInit {
   readonly #inputService = inject(switchOnService);
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
-  readonly #DestroyRef = inject(DestroyRef);
   readonly #ViewPort = inject(ScreenSizeService);
 
   public btnText: ButtonConfig = {
@@ -79,7 +77,7 @@ export class TableComponent implements OnInit {
   };
 
   public keys: string[] = [];
-  // меняем enum to obj чтобы корректно отображать порядок
+  // NOTE: меняем enum to obj чтобы корректно отображать порядок
   public tabs: { key: string; value: string }[] =
     this.convertEnumToArray(TabsName);
   public filters: { key: string; value: string }[] =
@@ -96,8 +94,6 @@ export class TableComponent implements OnInit {
   visibility = signal<boolean>(false);
 
   ngOnInit(): void {
-    console.log(this.visibility());
-
     const arrFilter = Object.values(TabsName);
 
     this.filterMobile = arrFilter.map((el) => {
@@ -107,14 +103,11 @@ export class TableComponent implements OnInit {
   }
 
   onClickDownload() {
-    // на текущий момент функционал не реализован
+    // NO-EMPTY-FUNCTION
   }
 
   OnClickCalendar() {
-    console.log('111');
-
     this.visibility.update((current) => !current);
-    console.log(this.visibility());
   }
 
   convertEnumToArray(myEnum: any): { key: string; value: string }[] {
@@ -130,7 +123,6 @@ export class TableComponent implements OnInit {
 
   clickOnTab(name: string) {
     this.IDActiveTab = name;
-    // console.log(name);
 
     this.#myServiceGetData.getDataUserTab(this.IDActiveTab);
     this.#inputService.handleClickOnPerioidTab(this.IDActiveTab);
@@ -143,7 +135,7 @@ export class TableComponent implements OnInit {
   }
 
   classActiveTab(name: string): string {
-    return name == this.IDActiveTab ? 'isActive' : 'isUnactive';
+    return name === this.IDActiveTab ? 'isActive' : 'isUnactive';
   }
 
   getKeys(item: DataUserOperation[] | null) {
@@ -154,7 +146,6 @@ export class TableComponent implements OnInit {
   }
 
   itemSelected(data: ListDropdown) {
-    // console.log(data);
 
     const arrTabsKey: (keyof typeof TabsName)[] = Object.keys(
       TabsName

@@ -43,15 +43,13 @@ export class DropdownComponent {
   };
   spanActive: string = 'Необходимо выбрать';
 
-  isOpen: boolean = false;
+  isOpen : boolean = false;
 
   onClick() {
-    // console.log('click');
     this.isOpen = !this.isOpen;
   }
 
   onClickItem(data: ListDropdown) {
-    // console.log(data);
     this.spanActive = data.item;
     if (data.icon) {
       this.svgSettingActive = data.icon;
@@ -59,8 +57,4 @@ export class DropdownComponent {
     this.isOpen = false;
     this.itemSelected.emit(data);
   }
-
-  // generateID() {
-  //   return uuidv4();
-  // }
 }
