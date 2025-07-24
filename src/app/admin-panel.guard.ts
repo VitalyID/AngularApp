@@ -19,6 +19,7 @@ export const adminPanelGuard: CanActivateFn = (
   const tokenDate: string = JSON.parse(
     authService.getLocalStorige(),
   ).tokenUpdated_at;
+  console.log('debug:', tokenDate);
 
   const timestampToken = Date.parse(tokenDate);
 

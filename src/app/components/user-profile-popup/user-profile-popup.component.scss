@@ -6,133 +6,133 @@
   flex-direction: $fd;
 }
 
-.popup__wrap {
-  position: fixed;
-  top: 0;
-  left: 0;
+// .popup__wrap {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
 
-  width: 100%;
-  height: 100vh;
-  overflow: auto;
+//   width: 100%;
+//   height: 100vh;
+//   overflow: auto;
 
-  @include flex();
+//   @include flex();
 
-  padding: 25px;
+//   padding: 25px;
 
-  background: rgba(23, 27, 39, 0.4);
-  backdrop-filter: blur(10px);
+//   background: rgba(23, 27, 39, 0.4);
+//   backdrop-filter: blur(10px);
 
-  z-index: 1000;
-  transform: scale(0);
-  transition: transform 1s;
-  transform-origin: center;
+//   z-index: 1000;
+//   transform: scale(0);
+//   transition: transform 1s;
+//   transform-origin: center;
 
-  &.open {
-    transform: scale(1);
-    transition: transform 1s;
-    transform-origin: center;
+//   &.open {
+//     transform: scale(1);
+//     transition: transform 1s;
+//     transform-origin: center;
+//   }
+
+// & .popup {
+//   width: 33%;
+//   max-height: 90vh;
+
+//   background: #ffffff;
+//   border-radius: 10px;
+
+//   position: relative;
+//   overflow: auto;
+
+//   @media (max-width: 1100px) {
+//     width: 66%;
+//   }
+
+//   @media (max-width: 768px) {
+//     width: 95%;
+//   }
+
+//   & svg-icon {
+//     --width: 24px;
+//     --height: 24px;
+
+//     position: absolute;
+//     top: 3%;
+//     right: 3.33%;
+
+//     cursor: pointer;
+//   }
+// }
+
+// & .popup__top {
+//   padding: 30px 50px;
+// }
+
+stepper {
+  display: block;
+  margin-bottom: 26px;
+}
+
+.popup__down {
+  padding: 35px 50px 30px;
+
+  & h3 {
+    margin-bottom: 22px;
   }
 
-  & .popup {
-    width: 33%;
-    max-height: 90vh;
-
-    background: #ffffff;
-    border-radius: 10px;
-
+  &--name,
+  &--lastName,
+  &--email {
     position: relative;
-    overflow: auto;
-
-    @media (max-width: 1100px) {
-      width: 66%;
-    }
-
-    @media (max-width: 768px) {
-      width: 95%;
-    }
-
-    & svg-icon {
-      --width: 24px;
-      --height: 24px;
-
-      position: absolute;
-      top: 3%;
-      right: 3.33%;
-
-      cursor: pointer;
-    }
   }
 
-  & .popup__top {
-    padding: 30px 50px;
-  }
-
-  & stepper {
+  & span {
     display: block;
-    margin-bottom: 69px;
+    margin-bottom: 15px;
   }
 
-  & .popup__down {
-    padding: 30px 50px;
+  // span error validation
+  & input-text + span {
+    position: absolute;
+    bottom: -24px;
+    left: 0;
+    margin-bottom: 0;
+    color: red;
+  }
 
-    & h3 {
-      margin-bottom: 34px;
-    }
+  & input-text {
+    margin-bottom: 28px;
+    width: 100%;
+    clear: both;
+  }
 
-    &--name,
-    &--lastName,
-    &--email {
-      position: relative;
-    }
+  & dropdown {
+    --padding: 10px 0px;
+    --brRadiusSmall: 6px;
+    --bgColorInvis: #cfcece;
 
+    margin-bottom: 28px;
+    display: block;
+    height: 76px;
+  }
+
+  & .button {
+    @include flex($justify: end);
+  }
+
+  & .button.twoBTN {
+    @include flex($justify: space-between);
+  }
+
+  & .user__set {
+    @include flex($justify: start, $gap: 12px);
+    margin-bottom: 17px;
     & span {
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    // span error validation
-    & input-text + span {
-      position: absolute;
-      bottom: -24px;
-      left: 0;
       margin-bottom: 0;
-      color: red;
     }
+  }
 
-    & input-text {
-      margin-bottom: 28px;
-      width: 100%;
-      clear: both;
-    }
-
-    & dropdown {
-      --padding: 20px 0px;
-      --brRadiusSmall: 6px;
-      --bgColorInvis: #cfcece;
-
-      margin-bottom: 28px;
-      display: block;
-      height: 76px;
-    }
-
-    & .button {
-      @include flex($justify: end);
-    }
-
-    & .button.twoBTN {
-      @include flex($justify: space-between);
-    }
-
-    & .user__set {
-      @include flex($justify: start, $gap: 12px);
-      margin-bottom: 17px;
-      & span {
-        margin-bottom: 0;
-      }
-    }
-
-    .card-data-cvc {
-      @include flex($gap: 21px);
-    }
+  .card-data-cvc {
+    @include flex($gap: 21px);
   }
 }
+// }

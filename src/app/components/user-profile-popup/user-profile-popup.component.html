@@ -1,191 +1,165 @@
-<ng-template #invalidInput let-control="control" let-minLength="minLength">
-  @if (control?.errors?.["required"]) {
-    <span class="spanErr">Обязательное поле</span>
-  }
-  @if (control?.errors?.["minlength"]) {
-    <span class="spanErr">В поле не менее {{ minLength }} символов</span>
-  }
-  @if (control?.errors?.["numbersInName"]) {
-    <span class="spanErr">Некорректное имя</span>
-  }
-</ng-template>
+@let name = this.userForm.get("name");
+@let lastName = this.userForm.get("lastName");
+@let email = userForm.get("email");
+@let card = cardForm.get("card");
+@let data = cardForm.get("data");
+@let cvv = cardForm.get("cvv");
 
-<div class="popup__wrap" [class.open]="isOpen">
-  <div class="popup">
-    <div class="popup__top">
-      <h2>Идентификация аккаунта</h2>
-    </div>
+<stepper [stepperData]="stepperData"></stepper>
 
-    <svg-icon [iconID]="iconClose" (click)="closePopUp()"></svg-icon>
-
-    <stepper [stepperData]="stepperData"></stepper>
-
-    <div class="popup__down">
-      @if (step === 0) {
-        <h3>Персональные данные:</h3>
-        <form [formGroup]="userForm">
-          <div class="popup__down--name">
-            <span>Имя</span>
-            <input-text
-              formControlName="name"
-              placeholder="Введите имя"
-            ></input-text>
-            @if (
-              userForm.get("name")?.invalid &&
-              (userForm.get("name")?.dirty || userForm.get("name")?.touched)
-            ) {
-              <ng-container
-                *ngTemplateOutlet="
-                  invalidInput;
-                  context: { control: userForm.get('name'), minLength: 3 }
-                "
-              ></ng-container>
-            }
-          </div>
-
-          <div class="popup__down--lastName">
-            <span>Фамилия</span>
-            <input-text
-              formControlName="lastName"
-              placeholder="Введите фамилию"
-            ></input-text>
-            @if (
-              userForm.get("lastName")?.invalid &&
-              (userForm.get("lastName")?.dirty ||
-                userForm.get("lastName")?.touched)
-            ) {
-              <ng-container
-                *ngTemplateOutlet="
-                  invalidInput;
-                  context: { control: userForm.get('lastName'), minLength: 2 }
-                "
-              ></ng-container>
-            }
-          </div>
-
-          <div class="popup__down--email">
-            <span>E-mail</span>
-            <input-text
-              formControlName="email"
-              placeholder="Введите E-mail"
-            ></input-text>
-            @if (
-              userForm.get("email")?.invalid &&
-              (userForm.get("email")?.dirty || userForm.get("email")?.touched)
-            ) {
-              <ng-container
-                *ngTemplateOutlet="
-                  invalidInput;
-                  context: { control: userForm.get('email') }
-                "
-              ></ng-container>
-            }
-          </div>
-
-          <span>Страна</span>
-          <dropdown
-            formControlName="country"
-            [defaultValue]="countryDefaultValue"
-            [dropdownItems]="countryDropdownItems"
-          ></dropdown>
-
-          <span>Город</span>
-          <dropdown
-            formControlName="city"
-            [defaultValue]="cityDefaultValue"
-            [dropdownItems]="cityDropdownItems"
-          ></dropdown>
-        </form>
-      }
-
-      @if (step === 1) {
-        <custom-check-box
-          [radioConfig]="radioButtonConfig"
-          (userConfiture)="userChoice($event)"
-        ></custom-check-box>
-      }
-
-      @if (step === 2) {
-        <h3>Введите данные вашей карты</h3>
-        <form [formGroup]="cardForm">
-          <span>Номер карты</span>
-          <input-text
-            formControlName="card"
-            type="text"
-            mask="0000 0000 0000 0000"
-            placeholder="**** **** **** ****"
-          ></input-text>
-          @if (
-            cardForm.get("card")?.invalid &&
-            (cardForm.get("card")?.dirty || cardForm.get("card")?.touched)
-          ) {
-            <ng-container
-              *ngTemplateOutlet="
-                invalidInput;
-                context: { control: cardForm.get('card') }
-              "
-            >
-            </ng-container>
+<div class="popup__down">
+  @if (step === RegistrationStep.PERSONAL_INFO) {
+    <h3>Персональные данные:</h3>
+    <form [formGroup]="userForm">
+      <div class="popup__down--name">
+        <span>Имя</span>
+        <input-text
+          formControlName="name"
+          placeholder="Введите имя"
+        ></input-text>
+        @if (name?.invalid && (name?.dirty || name?.touched)) {
+          @if (name?.errors?.["required"]) {
+            <span class="spanErr">Обязательное поле</span>
           }
-          <div class="card-data-cvc">
-            <div class="card-data">
-              <span>Месяц/год</span>
-              <input-text
-                formControlName="data"
-                type="text"
-                mask="M0/00"
-                placeholder="00/00"
-              ></input-text>
-              @if (
-                cardForm.get("data")?.invalid &&
-                (cardForm.get("data")?.dirty || cardForm.get("data")?.touched)
-              ) {
-                <ng-container
-                  *ngTemplateOutlet="
-                    invalidInput;
-                    context: { control: cardForm.get('data'), minLength: 4 }
-                  "
-                ></ng-container>
-              }
-            </div>
-            <div class="card-cvc">
-              <span>CVC/CVV-код</span>
-              <input-text
-                formControlName="cvc"
-                placeholder="***"
-                type="password"
-              ></input-text>
-              @if (
-                (cardForm.get("cardCvv")?.invalid && cardForm.get("cardCvv")) ||
-                cardForm.get("cardCvv")
-              ) {
-                <ng-container
-                  *ngTemplateOutlet="
-                    invalidInput;
-                    context: { control: cardForm.get('cardCvv') }
-                  "
-                ></ng-container>
-              }
-            </div>
-          </div>
-        </form>
-      }
-
-      <div class="button" [class.twoBTN]="step > 0">
-        @if (step > 0) {
-          <app-buttons
-            [text]="buttonBack.text"
-            [borderStyle]="buttonBack.borderStyle"
-            (click)="lastStep()"
-          ></app-buttons>
+          @if (name?.errors?.["minlength"]) {
+            <span class="spanErr">В поле не менее {{ 3 }} символов</span>
+          }
+          @if (name?.errors?.["numbersInName"]) {
+            <span class="spanErr">Некорректное имя</span>
+          }
         }
-
-        <app-buttons
-          [text]="buttonNext.text"
-          [borderStyle]="buttonNext.borderStyle"
-          (click)="nextStep()"
-        ></app-buttons>
       </div>
-    </div>
+
+      <div class="popup__down--lastName">
+        <span>Фамилия</span>
+        <input-text
+          formControlName="lastName"
+          placeholder="Введите фамилию"
+        ></input-text>
+        @if (lastName?.invalid && (lastName?.dirty || lastName?.touched)) {
+          @if (lastName?.errors?.["required"]) {
+            <span class="spanErr">Обязательное поле</span>
+          }
+          @if (lastName?.errors?.["minlength"]) {
+            <span class="spanErr">В поле не менее {{ 2 }} символов</span>
+          }
+          @if (lastName?.errors?.["numbersInName"]) {
+            <span class="spanErr">Некорректное имя</span>
+          }
+        }
+      </div>
+
+      <div class="popup__down--email">
+        <span>E-mail</span>
+        <input-text
+          formControlName="email"
+          placeholder="Введите E-mail"
+        ></input-text>
+        @if (email?.invalid && (email?.dirty || email?.touched)) {
+          @if (email?.errors?.["required"]) {
+            <span class="spanErr">Обязательное поле</span>
+          }
+          @if (email?.errors?.["numbersInName"]) {
+            <span class="spanErr">Некорректное имя</span>
+          }
+        }
+      </div>
+
+      <span>Страна</span>
+      <dropdown
+        formControlName="country"
+        [defaultValue]="countryDefaultValue"
+        [dropdownItems]="countryDropdownItems"
+      ></dropdown>
+
+      <span>Город</span>
+      <dropdown
+        formControlName="city"
+        [defaultValue]="cityDefaultValue"
+        [dropdownItems]="cityDropdownItems"
+      ></dropdown>
+    </form>
+  }
+
+  @if (step === RegistrationStep.ACCOUNT_TYPE) {
+    <custom-check-box
+      [radioConfig]="radioButtonConfig"
+      (userConfiture)="userChoice($event)"
+    ></custom-check-box>
+  }
+
+  @if (step === RegistrationStep.PAYMENT_DETAILS) {
+    <h3>Введите данные вашей карты</h3>
+    <form [formGroup]="cardForm">
+      <span>Номер карты</span>
+      <input-text
+        formControlName="card"
+        type="text"
+        mask="0000 0000 0000 0000"
+        placeholder="**** **** **** ****"
+      ></input-text>
+      @if (card?.invalid && (card?.dirty || card?.touched)) {
+        @if (card?.errors?.["required"]) {
+          <span class="spanErr">Обязательное поле</span>
+        }
+        @if (card?.errors?.["numbersInName"]) {
+          <span class="spanErr">Некорректное имя</span>
+        }
+      }
+      <div class="card-data-cvc">
+        <div class="card-data">
+          <span>Месяц/год</span>
+          <input-text
+            formControlName="data"
+            type="text"
+            mask="M0/00"
+            placeholder="00/00"
+          ></input-text>
+          @if (data?.invalid && (data?.dirty || data?.touched)) {
+            @if (data?.errors?.["required"]) {
+              <span class="spanErr">Обязательное поле</span>
+            }
+            @if (data?.errors?.["minlength"]) {
+              <span class="spanErr">В поле не менее {{ 4 }} символов</span>
+            }
+            @if (data?.errors?.["numbersInName"]) {
+              <span class="spanErr">Некорректное имя</span>
+            }
+          }
+        </div>
+        <div class="card-cvc">
+          <span>CVC/CVV-код</span>
+          <input-text
+            formControlName="cvc"
+            placeholder="***"
+            type="password"
+          ></input-text>
+          @if (cvv?.invalid && (cvv?.dirty || cvv?.touched)) {
+            @if (cvv?.errors?.["required"]) {
+              <span class="spanErr">Обязательное поле</span>
+            }
+            @if (cvv?.errors?.["numbersInName"]) {
+              <span class="spanErr">Некорректное имя</span>
+            }
+          }
+        </div>
+      </div>
+    </form>
+  }
+
+  <div class="button" [class.twoBTN]="step > 0">
+    @if (step > 0) {
+      <app-buttons
+        [text]="buttonBack.text"
+        [borderStyle]="buttonBack.borderStyle"
+        (click)="lastStep()"
+      ></app-buttons>
+    }
+
+    <app-buttons
+      [text]="buttonNext.text"
+      [borderStyle]="buttonNext.borderStyle"
+      (click)="nextStep()"
+    ></app-buttons>
   </div>
 </div>

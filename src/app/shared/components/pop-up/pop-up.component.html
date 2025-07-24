@@ -1,0 +1,10 @@
+<div class="popup__wrap" [class.open]="popupData?.state">
+  <div class="popup">
+    <div class="popup__top">
+      <h2>{{ popupData?.title }}</h2>
+    </div>
+    <svg-icon [iconID]="iconClose" (click)="closePopUp()"></svg-icon>
+
+    <ng-container #dynamicComponent> </ng-container>
+  </div>
+</div>

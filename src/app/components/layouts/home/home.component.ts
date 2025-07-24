@@ -20,6 +20,7 @@ import { ClickOutsideDirective } from '../aside/directives/click-outside.directi
 import { EscCloseDirective } from '../aside/directives/esc-close.directive';
 import { HeaderUserComponent } from '../header-user/header-user.component';
 import { HeaderComponent } from '../header/header.component';
+import { PopupComponent } from '../../../shared/components/pop-up/pop-up.component';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +35,7 @@ import { HeaderComponent } from '../header/header.component';
     ClickOutsideDirective,
     SpinnerComponent,
     UserProfilePopupModule,
+    PopupComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -57,7 +59,6 @@ export class HomeComponent implements OnInit {
   readonly #cdr = inject(ChangeDetectorRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
   readonly #spinner = inject(SpinnerService);
-  readonly #popupSevice = inject(PopupService);
 
   ngOnInit(): void {
     this.#menuService.stateMenuService
@@ -74,16 +75,6 @@ export class HomeComponent implements OnInit {
             this.#cdr.detectChanges();
           }, 1000);
         }
-      });
-
-    this.#popupSevice.popupState$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((state) => {
-        if (state) {
-          this.newUser = true;
-        }
-        // eslint-disable-next-line
-        state === true ? (this.overflow = 'hidden') : (this.overflow = 'auto');
       });
   }
 

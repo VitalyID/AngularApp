@@ -11,9 +11,9 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PopupService } from '../../services/popup.service';
+import { FormBuilder, Validators } from '@angular/forms';
 import { StepperConfig } from '../../shared/components/stepper/types/interfaces/stepperConfig';
+import { RegistrationStep } from './../../types/enums/registrationStep';
 
 import { take } from 'rxjs';
 import * as uuid from 'uuid';
@@ -42,17 +42,17 @@ export class UserProfilePopupComponent implements OnInit {
 
   stepperData = signal<StepperConfig[]>([
     {
-      stepNumber: 1,
+      stepNumber: RegistrationStep.PERSONAL_INFO,
       isActive: true,
       stepperEnd: false,
     },
     {
-      stepNumber: 2,
+      stepNumber: RegistrationStep.ACCOUNT_TYPE,
       isActive: false,
       stepperEnd: false,
     },
     {
-      stepNumber: 3,
+      stepNumber: RegistrationStep.PAYMENT_DETAILS,
       isActive: false,
       stepperEnd: false,
     },
@@ -77,13 +77,9 @@ export class UserProfilePopupComponent implements OnInit {
   radioButtonConfig!: WritableSignal<RadioButtons>;
   radioButtons: radioButtonConfig[] = [];
 
-  iconClose: string = 'icon-close';
-  isOpen: boolean = false;
-
-  userForm!: FormGroup;
-  cardForm!: FormGroup;
   step: number = 0;
   nonFirstStep: boolean = false;
+  RegistrationStep = RegistrationStep;
 
   first_name = signal('');
   last_name = signal('');
@@ -104,10 +100,28 @@ export class UserProfilePopupComponent implements OnInit {
     card: this.card(),
   }));
 
-  readonly #popupService = inject(PopupService);
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
   readonly #userInfoService = inject(UserInfoService);
+
+  userForm = this.#fb.group({
+    name: [
+      '',
+      [Validators.required, Validators.minLength(3), letterNameValidator()],
+    ],
+    lastName: [
+      '',
+      [Validators.required, Validators.minLength(2), letterNameValidator()],
+    ],
+    email: ['', [Validators.required, Validators.email]],
+    country: [this.countryDefaultValue],
+    city: [this.cityDefaultValue],
+  });
+  cardForm = this.#fb.group({
+    card: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
+    data: ['', [Validators.required, Validators.minLength(4)]],
+    cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
+  });
 
   ngOnInit(): void {
     this.radioButtonConfig = signal<RadioButtons>({
@@ -117,92 +131,81 @@ export class UserProfilePopupComponent implements OnInit {
     });
 
     // NOTE: open popup if the registration component send true to service
-    this.#popupService.popupState$
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data: boolean) => {
-        this.isOpen = data;
-      });
-
-    this.userForm = this.#fb.group({
-      name: [
-        '',
-        [Validators.required, Validators.minLength(3), letterNameValidator()],
-      ],
-      lastName: [
-        '',
-        [Validators.required, Validators.minLength(2), letterNameValidator()],
-      ],
-      email: ['', [Validators.required, Validators.email]],
-      country: [''],
-      city: [''],
-    });
-
-    this.cardForm = this.#fb.group({
-      card: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
-      data: ['', [Validators.required, Validators.minLength(4)]],
-      cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
-    });
-
     this.userForm
       .get('name')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userName) => {
-        this.first_name.set(userName);
+        if (userName) {
+          this.first_name.set(userName);
+        }
       });
 
     this.userForm
       .get('lastName')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userLastName) => {
-        this.last_name.set(userLastName);
+        if (userLastName) {
+          this.last_name.set(userLastName);
+        }
       });
 
     this.userForm
       .get('email')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((email) => {
-        this.email.set(email);
+        if (email) {
+          this.email.set(email);
+        }
       });
 
     this.userForm
       .get('country')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userCountry: ListDropdown) => {
-        this.country.set(userCountry.item.toString());
-
-        this.cityDropdownItems = this.createListDropdown(
-          'cities',
-          String(this.country()),
-        );
-        this.cityDefaultValue = this.cityDropdownItems[0];
+      .subscribe((userCountry: ListDropdown | null) => {
+        if (userCountry) {
+          this.country.set(userCountry.item.toString());
+          this.cityDropdownItems = this.createListDropdown(
+            'cities',
+            String(this.country()),
+          );
+          this.cityDefaultValue = this.cityDropdownItems[0];
+        }
       });
 
     this.userForm
       .get('city')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userCity: ListDropdown) => {
-        this.city.set(userCity.item.toString());
+      .subscribe((userCity: ListDropdown | null) => {
+        if (userCity) {
+          this.city.set(userCity.item.toString());
+        }
       });
 
     this.cardForm
       .get('card')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((card) => {
-        this.card.update((oldValue) => ({ ...oldValue, card_number: card }));
+        if (card) {
+          this.card.update((oldValue) => ({ ...oldValue, card_number: card }));
+        }
       });
 
     this.cardForm
       .get('data')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
-        this.card.update((oldValue) => ({ ...oldValue, expiry: data }));
+        if (data) {
+          this.card.update((oldValue) => ({ ...oldValue, expiry: data }));
+        }
       });
 
     this.cardForm
       .get('cvc')
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((cvc) => {
-        this.card.update((oldValue) => ({ ...oldValue, cvc: cvc }));
+        if (cvc) {
+          this.card.update((oldValue) => ({ ...oldValue, cvc: cvc }));
+        }
       });
 
     this.createListDropdown('countries');
@@ -229,12 +232,6 @@ export class UserProfilePopupComponent implements OnInit {
 
       return list;
     }
-  }
-
-  closePopUp() {
-    this.isOpen = false;
-    // NOTE: send false by service to switch onn a scroll in home-component
-    this.#popupService.setPopupState(false);
   }
 
   lastStep() {
@@ -275,7 +272,7 @@ export class UserProfilePopupComponent implements OnInit {
       };
       return newStepper;
     });
-    this.closePopUp();
+    // debug: this.closePopUp();
   }
 
   generatorRadioButtonConfig(): radioButtonConfig[] {

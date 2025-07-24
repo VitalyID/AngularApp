@@ -16,6 +16,7 @@ import { SpinnerService } from '../../shared/components/spinner/serices/spinner.
 import { CreateUser, LoginUser } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { UserProfilePopupComponent } from '../user-profile-popup/user-profile-popup.component';
 
 @Component({
   selector: 'phone-auth',
@@ -88,7 +89,7 @@ export class PhoneAuthComponent implements OnInit {
 
   registration() {
     // NOTE: open popup in main page
-    this.#popupService.setPopupState(true);
+
     this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
   }
@@ -97,6 +98,12 @@ export class PhoneAuthComponent implements OnInit {
     this.SavingUserData();
     this.#store.dispatch(new LoginUser(this.userData()));
     // debug: this.#router.navigate(['']);
+    this.#popupService.popupState$.next({
+      title: 'Идентификация аккаунта',
+      id: 'SetUser',
+      state: true,
+      component: UserProfilePopupComponent,
+    });
   }
 
   SavingUserData() {

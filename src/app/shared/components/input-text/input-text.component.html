@@ -13,7 +13,8 @@
     [disabled]="disabledState"
     [ngModel]="valueCVA"
     (input)="inputValue($event)"
-    (blur)="onTouched()"
+    (blur)="onBlur()"
+    (focus)="onFocus()"
     [mask]="mask"
     [prefix]="prefix"
     [dropSpecialCharacters]="dropSpecialCharacters ?? null"
@@ -23,8 +24,3 @@
     [type]="type"
   />
 </div>
-@if (input.errors?.["minlength"]) {
-  <span class="spanEr"
-    >Должно быть не меньше {{ validationSettings.minlength }} знаков</span
-  >
-}

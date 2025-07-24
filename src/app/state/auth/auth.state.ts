@@ -72,8 +72,6 @@ export class UserAuthState {
         this.#localStorageService.sendToLocalStorige(
           JSON.stringify(ctx.getState()),
         );
-      }),
-      tap(() => {
         this.#router.navigate(['']);
       }),
     );
