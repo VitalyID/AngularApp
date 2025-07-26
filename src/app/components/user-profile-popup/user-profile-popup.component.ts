@@ -15,17 +15,19 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { StepperConfig } from '../../shared/components/stepper/types/interfaces/stepperConfig';
 import { RegistrationStep } from './../../types/enums/registrationStep';
 
-import { take } from 'rxjs';
 import * as uuid from 'uuid';
 import { ListOfService } from '../../const';
-import { TypeUser } from '../../shared/components/custom-check-box/types/enum/typeUser';
+
+import { TypeUser } from '../../shared/components/custom-radio-button/types/enum/typeUser';
 import {
-  radioButtonConfig,
+  RadioButtonConfig,
   RadioButtons,
-} from '../../shared/components/custom-check-box/types/interface/radioButton';
+} from '../../shared/components/custom-radio-button/types/interface/radioButton';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../../shared/components/input-text/directives/validators/noNumbersInNameValidator';
-import { UserInfoService } from '../../state/user/userInfo.service';
+import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
+import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
+import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { UserInfo } from '../../types/interfaces/userInfo';
 
@@ -40,18 +42,21 @@ export class UserProfilePopupComponent implements OnInit {
   // NOTE: if user created, popup don't show
   @Output() userCreated = new EventEmitter<boolean>();
 
-  stepperData = signal<StepperConfig[]>([
+  tepperData = signal<StepperConfig[]>([
     {
+      component: RegistrationFormComponent,
       stepNumber: RegistrationStep.PERSONAL_INFO,
       isActive: true,
       stepperEnd: false,
     },
     {
+      component: RegistrationTypeComponent,
       stepNumber: RegistrationStep.ACCOUNT_TYPE,
       isActive: false,
       stepperEnd: false,
     },
     {
+      component: RegistrationCardComponent,
       stepNumber: RegistrationStep.PAYMENT_DETAILS,
       isActive: false,
       stepperEnd: false,
@@ -74,8 +79,8 @@ export class UserProfilePopupComponent implements OnInit {
   };
 
   // NOTE: for change types user you need to change enum with types
-  radioButtonConfig!: WritableSignal<RadioButtons>;
-  radioButtons: radioButtonConfig[] = [];
+  RadioButtonConfig!: WritableSignal<RadioButtons>;
+  radioButtons: RadioButtonConfig[] = [];
 
   step: number = 0;
   nonFirstStep: boolean = false;
@@ -102,7 +107,7 @@ export class UserProfilePopupComponent implements OnInit {
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
-  readonly #userInfoService = inject(UserInfoService);
+  // debug: readonly #userInfoService = inject(UserInfoService);
 
   userForm = this.#fb.group({
     name: [
@@ -124,7 +129,7 @@ export class UserProfilePopupComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.radioButtonConfig = signal<RadioButtons>({
+    this.RadioButtonConfig = signal<RadioButtons>({
       icon: 'checkbox',
       iconActive: 'checkboxActive',
       button: this.generatorRadioButtonConfig(),
@@ -238,48 +243,48 @@ export class UserProfilePopupComponent implements OnInit {
     this.step--;
   }
 
-  nextStep() {
-    this.step++;
+  // debug: nextStep() {
+  // debug:   this.step++;
 
-    console.log('debug:', this.userConfig());
+  // debug:   console.log('debug:', this.userConfig());
 
-    if (this.step < this.stepperData().length) {
-      this.activateNextStep();
-    } else if (this.step === this.stepperData().length) {
-      this.completeStep();
-      this.userCreated.emit(true);
-      this.#userInfoService
-        .postUserInfo(this.userConfig())
-        .pipe(take(1))
-        .subscribe();
-    }
-  }
+  // debug:   if (this.step < this.stepperData().length) {
+  // debug:     this.activateNextStep();
+  // debug:   } else if (this.step === this.stepperData().length) {
+  // debug:     this.completeStep();
+  // debug:     this.userCreated.emit(true);
+  // debug:     this.#userInfoService
+  // debug:       .postUserInfo(this.userConfig())
+  // debug:       .pipe(take(1))
+  // debug:       .subscribe();
+  // debug:   }
+  // debug: }
 
-  activateNextStep() {
-    this.stepperData.update((data) => {
-      const newStepper = [...data];
-      newStepper[this.step] = { ...newStepper[this.step], isActive: true };
-      return newStepper;
-    });
-  }
+  // debug: activateNextStep() {
+  // debug:  this.stepperData.update((data) => {
+  // debug:    const newStepper = [...data];
+  // debug:    newStepper[this.step] = { ...newStepper[this.step], isActive: true };
+  // debug:    return newStepper;
+  // debug:  });
+  // debug: }
 
-  completeStep() {
-    this.stepperData.update((data) => {
-      const newStepper = [...data];
-      newStepper[this.step - 1] = {
-        ...newStepper[this.step - 1],
-        stepperEnd: true,
-      };
-      return newStepper;
-    });
-    // debug: this.closePopUp();
-  }
+  // debug: completeStep() {
+  // debug:  this.stepperData.update((data) => {
+  // debug:    const newStepper = [...data];
+  // debug:    newStepper[this.step - 1] = {
+  // debug:      ...newStepper[this.step - 1],
+  // debug:      stepperEnd: true,
+  // debug:    };
+  // debug:    return newStepper;
+  // debug:  });
+  // debug:  // debug: this.closePopUp();
+  // debug: }
 
-  generatorRadioButtonConfig(): radioButtonConfig[] {
+  generatorRadioButtonConfig(): RadioButtonConfig[] {
     const typeValue = Object.values(TypeUser);
 
     typeValue.forEach((user) => {
-      const newButtonConfig: radioButtonConfig = {
+      const newButtonConfig: RadioButtonConfig = {
         name: user,
         checked: false,
         id: uuid.v4(),

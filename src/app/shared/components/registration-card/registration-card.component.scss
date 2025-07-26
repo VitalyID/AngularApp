@@ -1,0 +1,78 @@
+@mixin flex($justify: center, $align: center, $gap: 0px, $fd: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+  flex-direction: $fd;
+}
+
+h3 {
+  margin-bottom: 22px;
+}
+
+.card-data,
+.card-cvc,
+.card-form {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.card-data,
+.card-cvc {
+  width: 50%;
+}
+
+span {
+  display: block;
+  margin-bottom: 15px;
+}
+
+// span error validation
+input-text + span {
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+  margin-bottom: 0;
+  color: red;
+  font-size: small;
+}
+
+input-text {
+  width: 100%;
+  clear: both;
+}
+
+.card-data-cvc {
+  @include flex($gap: 21px, $justify: space-between);
+}
+
+@media (max-width: 1472px) {
+  .card-data,
+  .card-cvc {
+    margin-bottom: 35px;
+  }
+
+  .card-data input-text + span,
+  .card-cvc input-text + span {
+    bottom: -39px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .card-data input-text + span,
+  .card-cvc input-text + span {
+    bottom: -24px;
+  }
+}
+
+@media (max-width: 545px) {
+  .card-data,
+  .card-cvc {
+    margin-bottom: 35px;
+  }
+
+  .card-data input-text + span,
+  .card-cvc input-text + span {
+    bottom: -39px;
+  }
+}

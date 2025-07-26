@@ -2,7 +2,7 @@
 
 <div class="stepper">
   <div class="step">
-    @for (step of stepperData(); track step.stepNumber) {
+    @for (step of stepperConfig(); track step.stepNumber) {
       <div class="step__left" [class.isActiveStep]="step.isActive"></div>
 
       <!-- drawing the ring -->
@@ -15,14 +15,30 @@
             ></div>
           </div>
         </div>
-        <span>Шаг{{ step.stepNumber }}</span>
+        <span>Шаг{{ step.stepNumber + 1 }}</span>
       </div>
 
-      <div
-        class="step__right"
-        [class.isActiveStep]="lastActiveStep() > step.stepNumber"
-        [class.isActiveLastStep]="step.stepperEnd"
-      ></div>
+      <div class="step__right" [class.isActiveStep]="step.stepperEnd"></div>
     }
+  </div>
+
+  <div class="step__content">
+    <ng-container #stepContent></ng-container>
+  </div>
+
+  <div class="button" [class.twoBTN]="step > 0">
+    @if (step > 0) {
+      <app-buttons
+        [text]="buttonBack.text"
+        [borderStyle]="buttonBack.borderStyle"
+        (click)="lastStep()"
+      ></app-buttons>
+    }
+
+    <app-buttons
+      [text]="buttonNext.text"
+      [borderStyle]="buttonNext.borderStyle"
+      (click)="nextStep()"
+    ></app-buttons>
   </div>
 </div>

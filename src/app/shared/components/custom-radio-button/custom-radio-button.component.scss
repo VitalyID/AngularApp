@@ -23,12 +23,10 @@ input {
   cursor: none;
 }
 
-.radioBox {
-  & svg-icon {
-    cursor: pointer;
-    --width: 20px;
-    --height: 20px;
-  }
+svg-icon {
+  cursor: pointer;
+  --width: 20px;
+  --height: 20px;
 }
 
 label {

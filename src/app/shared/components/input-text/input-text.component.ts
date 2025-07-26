@@ -68,12 +68,12 @@ export class InputTextComponent implements ControlValueAccessor, OnChanges {
   // NOTE: when get data from parent and modeCVA=false
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['value']) {
-      if (this.modeCVA === false) {
+      if (!this.modeCVA) {
         this.valueCVA = changes['value'].currentValue;
       }
     }
     if (changes['disabled']) {
-      if (this.modeCVA === false) {
+      if (!this.modeCVA) {
         this.disabledState = this.disabled;
       }
     }
@@ -82,7 +82,7 @@ export class InputTextComponent implements ControlValueAccessor, OnChanges {
   inputValue(data: Event) {
     const target = data.target as HTMLInputElement;
 
-    if (this.modeCVA === true) {
+    if (this.modeCVA) {
       this.valueCVA = target.value;
       this.onChange(target.value);
     } else {
@@ -110,7 +110,7 @@ export class InputTextComponent implements ControlValueAccessor, OnChanges {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    if (this.modeCVA === true) {
+    if (this.modeCVA) {
       this.disabledState = isDisabled;
     }
   }

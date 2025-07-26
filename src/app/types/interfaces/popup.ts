@@ -5,4 +5,5 @@ export interface Popup {
   id: string;
   state: boolean;
   component: Type<any> | null;
+  componentProps?: any;
 }

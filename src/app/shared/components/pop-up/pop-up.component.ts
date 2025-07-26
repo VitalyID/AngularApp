@@ -49,7 +49,15 @@ export class PopupComponent implements OnInit, AfterViewInit {
       this.hostContentRef.clear();
     }
     if (this.popupData !== null && this.popupData.component) {
-      this.hostContentRef.createComponent(this.popupData?.component);
+      const componentRef = this.hostContentRef.createComponent(
+        this.popupData?.component,
+      );
+      if (this.popupData.componentProps) {
+        componentRef.setInput(
+          'propsForHostContent',
+          this.popupData.componentProps,
+        );
+      }
     }
   }
 

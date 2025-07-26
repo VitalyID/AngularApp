@@ -1,10 +1,10 @@
 export interface RadioButtons {
   icon: string;
   iconActive: string;
-  button: radioButtonConfig[];
+  button: RadioButtonConfig[];
 }
 
-export interface radioButtonConfig {
+export interface RadioButtonConfig {
   name: string;
   checked: boolean;
   id: string;

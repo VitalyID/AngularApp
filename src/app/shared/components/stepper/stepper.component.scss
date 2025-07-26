@@ -67,3 +67,16 @@
   height: 3px;
   background: #e1e3e1;
 }
+
+.button {
+  @include flex($justify: start);
+  padding: 0 50px 30px;
+}
+
+.twoBTN {
+  @include flex($justify: space-between);
+}
+
+.step__content {
+  padding: 62px 50px 0px;
+}

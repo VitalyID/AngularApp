@@ -5,10 +5,10 @@
 @let data = cardForm.get("data");
 @let cvv = cardForm.get("cvv");
 
-<stepper [stepperData]="stepperData"></stepper>
+<!-- <stepper [stepperData]="stepperData"></stepper> -->
 
 <div class="popup__down">
-  @if (step === RegistrationStep.PERSONAL_INFO) {
+  <!-- @if (step === RegistrationStep.PERSONAL_INFO) {
     <h3>Персональные данные:</h3>
     <form [formGroup]="userForm">
       <div class="popup__down--name">
@@ -79,13 +79,13 @@
         [dropdownItems]="cityDropdownItems"
       ></dropdown>
     </form>
-  }
+  } -->
 
   @if (step === RegistrationStep.ACCOUNT_TYPE) {
-    <custom-check-box
-      [radioConfig]="radioButtonConfig"
+    <custom-radio-button
+      [radioConfig]="RadioButtonConfig"
       (userConfiture)="userChoice($event)"
-    ></custom-check-box>
+    ></custom-radio-button>
   }
 
   @if (step === RegistrationStep.PAYMENT_DETAILS) {
@@ -159,7 +159,6 @@
     <app-buttons
       [text]="buttonNext.text"
       [borderStyle]="buttonNext.borderStyle"
-      (click)="nextStep()"
     ></app-buttons>
   </div>
 </div>

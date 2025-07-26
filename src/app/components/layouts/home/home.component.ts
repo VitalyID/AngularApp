@@ -34,7 +34,6 @@ import { PopupComponent } from '../../../shared/components/pop-up/pop-up.compone
     EscCloseDirective,
     ClickOutsideDirective,
     SpinnerComponent,
-    UserProfilePopupModule,
     PopupComponent,
   ],
   templateUrl: './home.component.html',
