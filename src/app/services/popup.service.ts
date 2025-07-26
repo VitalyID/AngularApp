@@ -12,7 +12,9 @@ export class PopupService {
     component: null,
   });
 
-  closePopup(id: string) {
-    this.popupState$.next({ id: id, state: false, component: null });
+  closePopup(popup: Popup) {
+    console.log('debug service:', popup);
+
+    this.popupState$.next(popup);
   }
 }

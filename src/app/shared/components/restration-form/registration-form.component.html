@@ -68,4 +68,11 @@
     [defaultValue]="cityDefaultValue"
     [dropdownItems]="cityDropdownItems"
   ></dropdown>
+
+  <app-buttons
+    [text]="buttonNext.text"
+    [borderStyle]="buttonNext.borderStyle"
+    (click)="nextStep()"
+    [disabled]="userForm.invalid"
+  ></app-buttons>
 </form>

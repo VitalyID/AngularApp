@@ -56,4 +56,9 @@
       }
     </div>
   </div>
+  <app-buttons
+    [text]="button.text"
+    [borderStyle]="button.borderStyle"
+    (click)="lastStep()"
+  ></app-buttons>
 </form>

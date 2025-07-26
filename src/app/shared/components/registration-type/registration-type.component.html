@@ -2,3 +2,16 @@
   [radioConfig]="RadioButtonConfig"
   (userConfiture)="userChoice($event)"
 ></custom-radio-button>
+<div class="button">
+  <app-buttons
+    [text]="buttonLast.text"
+    [borderStyle]="buttonLast.borderStyle"
+    (click)="lastStep()"
+  ></app-buttons>
+  <app-buttons
+    [text]="buttonNext.text"
+    [borderStyle]="buttonNext.borderStyle"
+    [disabled]="disabled"
+    (click)="nextStep()"
+  ></app-buttons>
+</div>

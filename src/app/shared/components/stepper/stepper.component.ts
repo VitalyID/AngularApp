@@ -3,9 +3,12 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
+  OnInit,
   Output,
   signal,
   SimpleChanges,
@@ -14,12 +17,10 @@ import {
   ViewContainerRef,
   WritableSignal,
 } from '@angular/core';
-import { RegistrationStep } from '../../../types/enums/registrationStep';
-import { ButtonConfig } from '../../../types/interfaces/sectionItem';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PopupService } from '../../../services/popup.service';
 import { ButtonsComponent } from '../buttons/buttons.component';
-import { RegistrationCardComponent } from '../registration-card/registration-card.component';
-import { RegistrationTypeComponent } from '../registration-type/registration-type.component';
-import { RegistrationFormComponent } from '../restration-form/registration-form.component';
+import { StepService } from './service/step.service';
 import { StepperConfig } from './types/interfaces/stepperConfig';
 
 @Component({
@@ -29,25 +30,29 @@ import { StepperConfig } from './types/interfaces/stepperConfig';
   styleUrl: './stepper.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StepperComponent implements AfterViewInit, OnChanges {
+export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
   @Input({ required: true }) propsForHostContent: Type<any>[] = [];
   @Output() userCreated = new EventEmitter<boolean>();
 
   @ViewChild('stepContent', { read: ViewContainerRef })
   hostContentRef!: ViewContainerRef;
 
-  buttonBack: ButtonConfig = {
-    text: 'Назад',
-    borderStyle: 'none',
-  };
+  // debug: buttonBack: ButtonConfig = {
+  // debug:   text: 'Назад',
+  // debug:   borderStyle: 'none',
+  // debug: };
 
-  buttonNext: ButtonConfig = {
-    text: 'Далее',
-    borderStyle: 'none',
-  };
+  // debug: buttonNext: ButtonConfig = {
+  // debug:   text: 'Далее',
+  // debug:   borderStyle: 'none',
+  // debug: };
 
   step: number = 0;
   stepperConfig: WritableSignal<StepperConfig[]> = signal([]);
+
+  readonly #popupService = inject(PopupService);
+  readonly #stepService = inject(StepService);
+  readonly #destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['propsForHostContent']) {
@@ -55,22 +60,51 @@ export class StepperComponent implements AfterViewInit, OnChanges {
     }
   }
 
+  ngOnInit(): void {
+    // NOTE: get data from dynamic components(propsForHostContent: Type<any>[]) and send it to store
+    this.#stepService.changeStep$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((step) => {
+        this.step = step;
+        this.changeActiveStep();
+        if (this.step === this.stepperConfig().length) {
+          this.#popupService.closePopup({
+            id: 'SetUser',
+            state: false,
+            component: null,
+          });
+        } else {
+          this.changeComponent();
+        }
+      });
+  }
+
   ngAfterViewInit(): void {
     this.hostContentRef.clear();
     this.changeComponent();
-  }
-
-  lastStep() {
-    this.step--;
-    this.changeActiveStep();
     this.changeComponent();
   }
 
-  nextStep() {
-    this.step++;
-    this.changeActiveStep();
-    this.changeComponent();
-  }
+  // debug: lastStep() {
+  // debug:   this.step--;
+  // debug:   this.changeActiveStep();
+  // debug:   this.changeComponent();
+  // debug: }
+
+  // debug: nextStep() {
+  // debug:   this.step++;
+  // debug:   this.changeActiveStep();
+
+  //  debug:  if (this.step === this.stepperConfig().length) {
+  //  debug:    this.#popupService.closePopup({
+  //  debug:      id: 'SetUser',
+  //  debug:      state: false,
+  //  debug:      component: null,
+  //  debug:    });
+  //  debug:  } else {
+  //  debug:    this.changeComponent();
+  //  debug:  }
+  // debug: }
 
   generateConfig(): StepperConfig[] {
     const generateConf: StepperConfig[] = [];
@@ -87,20 +121,8 @@ export class StepperComponent implements AfterViewInit, OnChanges {
   }
 
   changeComponent() {
-    switch (this.step) {
-      case RegistrationStep.PERSONAL_INFO:
-        this.hostContentRef.clear();
-        this.hostContentRef.createComponent(RegistrationFormComponent);
-        break;
-      case RegistrationStep.ACCOUNT_TYPE:
-        this.hostContentRef.clear();
-        this.hostContentRef.createComponent(RegistrationTypeComponent);
-        break;
-      case RegistrationStep.PAYMENT_DETAILS:
-        this.hostContentRef.clear();
-        this.hostContentRef.createComponent(RegistrationCardComponent);
-        break;
-    }
+    this.hostContentRef.clear();
+    this.hostContentRef.createComponent(this.propsForHostContent[this.step]);
   }
 
   changeActiveStep() {

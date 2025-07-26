@@ -17,6 +17,7 @@ import {
 import * as uuid from 'uuid';
 import { ListOfService } from '../../../const';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
+import { ButtonsComponent } from '../buttons/buttons.component';
 import {
   RadioButtonConfig,
   RadioButtons,
@@ -25,7 +26,7 @@ import { DropdownComponent } from '../dropdown/dropdown.component';
 import { ListDropdown } from '../dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../input-text/directives/validators/noNumbersInNameValidator';
 import { InputTextComponent } from '../input-text/input-text.component';
-
+import { StepService } from '../stepper/service/step.service';
 @Component({
   selector: 'registration-form',
   imports: [
@@ -33,6 +34,7 @@ import { InputTextComponent } from '../input-text/input-text.component';
     DropdownComponent,
     FormsModule,
     InputTextComponent,
+    ButtonsComponent,
   ],
   templateUrl: './registration-form.component.html',
   styleUrl: './registration-form.component.scss',
@@ -43,11 +45,6 @@ export class RegistrationFormComponent implements OnInit {
   countryDefaultValue: ListDropdown = this.countryDropdownItems[0];
   cityDropdownItems: ListDropdown[] = this.createListDropdown('cities');
   cityDefaultValue: ListDropdown = this.cityDropdownItems[0];
-
-  buttonBack: ButtonConfig = {
-    text: 'Назад',
-    borderStyle: 'none',
-  };
 
   buttonNext: ButtonConfig = {
     text: 'Далее',
@@ -66,7 +63,7 @@ export class RegistrationFormComponent implements OnInit {
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
-  // debug: readonly #userInfoService = inject(UserInfoService);
+  readonly #stepService = inject(StepService);
 
   userForm = this.#fb.group({
     name: [
@@ -158,5 +155,16 @@ export class RegistrationFormComponent implements OnInit {
 
       return list;
     }
+  }
+
+  nextStep() {
+    console.log('debug: ', {
+      first_name: this.first_name,
+      last_name: this.last_name,
+      email: this.email,
+      country: this.country,
+      city: this.city,
+    });
+    this.#stepService.changeStep$.next(1);
   }
 }

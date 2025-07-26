@@ -16,7 +16,10 @@ import { SpinnerService } from '../../shared/components/spinner/serices/spinner.
 import { CreateUser, LoginUser } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { UserProfilePopupComponent } from '../user-profile-popup/user-profile-popup.component';
+import { StepperComponent } from '../../shared/components/stepper/stepper.component';
+import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
+import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
+import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
 
 @Component({
   selector: 'phone-auth',
@@ -102,7 +105,12 @@ export class PhoneAuthComponent implements OnInit {
       title: 'Идентификация аккаунта',
       id: 'SetUser',
       state: true,
-      component: UserProfilePopupComponent,
+      component: StepperComponent,
+      componentProps: [
+        RegistrationFormComponent,
+        RegistrationTypeComponent,
+        RegistrationCardComponent,
+      ],
     });
   }
 

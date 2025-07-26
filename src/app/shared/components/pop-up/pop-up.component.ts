@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { UserProfilePopupModule } from '../../../components/user-profile-popup/user-profile-popup.module';
+
 import { PopupService } from '../../../services/popup.service';
 import { Popup } from '../../../types/interfaces/popup';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -17,7 +17,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 @Component({
   selector: 'popup',
   standalone: true,
-  imports: [CommonModule, SvgIconComponent, UserProfilePopupModule],
+  imports: [CommonModule, SvgIconComponent],
   templateUrl: './pop-up.component.html',
   styleUrl: './pop-up.component.scss',
 })
@@ -49,6 +49,7 @@ export class PopupComponent implements OnInit, AfterViewInit {
       this.hostContentRef.clear();
     }
     if (this.popupData !== null && this.popupData.component) {
+      // debug: ERROR IS HEIR
       const componentRef = this.hostContentRef.createComponent(
         this.popupData?.component,
       );
@@ -63,6 +64,6 @@ export class PopupComponent implements OnInit, AfterViewInit {
 
   closePopUp() {
     if (!this.popupData?.id) return;
-    this.#popupService.closePopup(this.popupData?.id);
+    this.#popupService.closePopup({ ...this.popupData, state: false });
   }
 }

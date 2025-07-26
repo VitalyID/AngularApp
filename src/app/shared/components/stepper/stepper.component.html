@@ -25,20 +25,4 @@
   <div class="step__content">
     <ng-container #stepContent></ng-container>
   </div>
-
-  <div class="button" [class.twoBTN]="step > 0">
-    @if (step > 0) {
-      <app-buttons
-        [text]="buttonBack.text"
-        [borderStyle]="buttonBack.borderStyle"
-        (click)="lastStep()"
-      ></app-buttons>
-    }
-
-    <app-buttons
-      [text]="buttonNext.text"
-      [borderStyle]="buttonNext.borderStyle"
-      (click)="nextStep()"
-    ></app-buttons>
-  </div>
 </div>

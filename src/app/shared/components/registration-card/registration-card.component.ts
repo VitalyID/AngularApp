@@ -9,19 +9,27 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ButtonsComponent } from '../buttons/buttons.component';
+import { ButtonConfig } from '../../../types/interfaces/sectionItem';
+import { StepService } from '../stepper/service/step.service';
 
 @Component({
   selector: 'registration-card',
-  imports: [InputTextComponent, ReactiveFormsModule],
+  imports: [InputTextComponent, ReactiveFormsModule, ButtonsComponent],
   templateUrl: './registration-card.component.html',
   styleUrl: './registration-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationCardComponent implements OnInit {
   card = signal({ card_number: '', expiry: '', cvc: '' });
+  button: ButtonConfig = {
+    text: 'Назад',
+    borderStyle: 'none',
+  };
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
+  readonly #stepService = inject(StepService);
 
   cardForm = this.#fb.group({
     card: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
@@ -56,5 +64,9 @@ export class RegistrationCardComponent implements OnInit {
           this.card.update((oldValue) => ({ ...oldValue, cvc: cvc }));
         }
       });
+  }
+
+  lastStep() {
+    this.#stepService.changeStep$.next(1);
   }
 }

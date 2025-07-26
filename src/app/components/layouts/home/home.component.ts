@@ -14,7 +14,6 @@ import { PopupService } from '../../../services/popup.service';
 import { StateMenuService } from '../../../services/state-menu';
 import { SpinnerService } from '../../../shared/components/spinner/serices/spinner.service';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { UserProfilePopupModule } from '../../user-profile-popup/user-profile-popup.module';
 import { AsideComponent } from '../aside/aside.component';
 import { ClickOutsideDirective } from '../aside/directives/click-outside.directive';
 import { EscCloseDirective } from '../aside/directives/esc-close.directive';
