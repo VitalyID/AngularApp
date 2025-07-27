@@ -11,7 +11,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        // debug: canActivate: [adminPanelGuard],
+        canActivate: [adminPanelGuard],
         loadChildren: () =>
           import('./components/main/main.module').then((m) => m.MainModule),
       },

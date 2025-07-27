@@ -76,6 +76,6 @@ export class UserState {
   AddUser(ctx: StateContext<StateUserModel>, { info }: AddUser) {
     const oldUser = ctx.getState().userProfile;
     ctx.patchState({ userProfile: { ...oldUser, ...info } });
-    this.#http.postUserInfo(ctx.getState()).pipe(take(1));
+    return this.#http.postUserInfo(ctx.getState()).pipe(take(1));
   }
 }

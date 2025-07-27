@@ -95,12 +95,6 @@ export class PhoneAuthComponent implements OnInit {
 
     this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
-  }
-
-  login() {
-    this.SavingUserData();
-    this.#store.dispatch(new LoginUser(this.userData()));
-    // debug: this.#router.navigate(['']);
     this.#popupService.popupState$.next({
       title: 'Идентификация аккаунта',
       id: 'SetUser',
@@ -112,6 +106,12 @@ export class PhoneAuthComponent implements OnInit {
         RegistrationCardComponent,
       ],
     });
+  }
+
+  login() {
+    this.SavingUserData();
+    this.#store.dispatch(new LoginUser(this.userData()));
+    // debug: this.#router.navigate(['']);
   }
 
   SavingUserData() {
