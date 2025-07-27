@@ -16,6 +16,9 @@
       @if (card?.errors?.["required"]) {
         <span class="spanErr">Обязательное поле</span>
       }
+      @if (card?.errors?.["pattern"]) {
+        <span class="spanErr">Неверный номер</span>
+      }
     }
   </div>
   <div class="card-data-cvc">
@@ -45,6 +48,7 @@
         formControlName="cvc"
         placeholder="***"
         type="password"
+        mask="000"
       ></input-text>
       @if (cvv?.invalid && (cvv?.dirty || cvv?.touched)) {
         @if (cvv?.errors?.["required"]) {
@@ -56,9 +60,17 @@
       }
     </div>
   </div>
+</form>
+<div class="button">
   <app-buttons
-    [text]="button.text"
-    [borderStyle]="button.borderStyle"
+    [text]="buttonLast.text"
+    [borderStyle]="buttonLast.borderStyle"
     (click)="lastStep()"
   ></app-buttons>
-</form>
+  <app-buttons
+    [text]="buttonNext.text"
+    [borderStyle]="buttonNext.borderStyle"
+    [disabled]="cardForm.invalid"
+    (click)="nextStep()"
+  ></app-buttons>
+</div>

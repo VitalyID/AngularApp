@@ -11,10 +11,4 @@ export class PopupService {
     state: false,
     component: null,
   });
-
-  closePopup(popup: Popup) {
-    console.log('debug service:', popup);
-
-    this.popupState$.next(popup);
-  }
 }

@@ -46,6 +46,10 @@ input-text {
   @include flex($gap: 21px, $justify: space-between);
 }
 
+.button {
+  @include flex($justify: space-between);
+}
+
 @media (max-width: 1472px) {
   .card-data,
   .card-cvc {

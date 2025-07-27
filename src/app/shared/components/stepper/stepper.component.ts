@@ -19,13 +19,12 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PopupService } from '../../../services/popup.service';
-import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from './service/step.service';
 import { StepperConfig } from './types/interfaces/stepperConfig';
 
 @Component({
   selector: 'stepper',
-  imports: [CommonModule, ButtonsComponent],
+  imports: [CommonModule],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,16 +35,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
 
   @ViewChild('stepContent', { read: ViewContainerRef })
   hostContentRef!: ViewContainerRef;
-
-  // debug: buttonBack: ButtonConfig = {
-  // debug:   text: 'Назад',
-  // debug:   borderStyle: 'none',
-  // debug: };
-
-  // debug: buttonNext: ButtonConfig = {
-  // debug:   text: 'Далее',
-  // debug:   borderStyle: 'none',
-  // debug: };
 
   step: number = 0;
   stepperConfig: WritableSignal<StepperConfig[]> = signal([]);
@@ -68,7 +57,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
         this.step = step;
         this.changeActiveStep();
         if (this.step === this.stepperConfig().length) {
-          this.#popupService.closePopup({
+          this.#popupService.popupState$.next({
             id: 'SetUser',
             state: false,
             component: null,
@@ -84,27 +73,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     this.changeComponent();
     this.changeComponent();
   }
-
-  // debug: lastStep() {
-  // debug:   this.step--;
-  // debug:   this.changeActiveStep();
-  // debug:   this.changeComponent();
-  // debug: }
-
-  // debug: nextStep() {
-  // debug:   this.step++;
-  // debug:   this.changeActiveStep();
-
-  //  debug:  if (this.step === this.stepperConfig().length) {
-  //  debug:    this.#popupService.closePopup({
-  //  debug:      id: 'SetUser',
-  //  debug:      state: false,
-  //  debug:      component: null,
-  //  debug:    });
-  //  debug:  } else {
-  //  debug:    this.changeComponent();
-  //  debug:  }
-  // debug: }
 
   generateConfig(): StepperConfig[] {
     const generateConf: StepperConfig[] = [];

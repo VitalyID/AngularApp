@@ -5,7 +5,10 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
+import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
+import { AddUser } from '../../../state/user/user.action';
+import { UserType } from '../../../state/user/user.state';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { CustomRadioButtonComponent } from '../custom-radio-button/custom-radio-button.component';
@@ -41,10 +44,11 @@ export class RegistrationTypeComponent {
     borderStyle: 'none',
   };
 
-  client_type = signal('');
-  disabled: boolean = true;
+  client_type: UserType = { client_type: 'Payer' };
+  disabledBtn: boolean = true;
 
   readonly #stepService = inject(StepService);
+  readonly #store = inject(Store);
 
   generatorRadioButtonConfig(): RadioButtonConfig[] {
     const typeValue = Object.values(TypeUser);
@@ -63,15 +67,31 @@ export class RegistrationTypeComponent {
   }
 
   userChoice(data: string) {
-    this.client_type.set(data);
-    this.disabled = false;
+    this.updateClientType(data);
+    this.updateButtonState();
   }
 
   nextStep() {
+    this.#store.dispatch(new AddUser(this.client_type));
     this.#stepService.changeStep$.next(2);
   }
 
   lastStep() {
     this.#stepService.changeStep$.next(0);
+  }
+
+  getTypeUser(user: string) {
+    const data = Object.entries(TypeUser);
+    const result = data.find(([key, value]) => value === user);
+    return result?.[0];
+  }
+
+  updateButtonState() {
+    this.disabledBtn = !this.client_type;
+  }
+
+  updateClientType(data: string) {
+    const user = this.getTypeUser(data);
+    this.client_type = { client_type: user as keyof typeof TypeUser };
   }
 }

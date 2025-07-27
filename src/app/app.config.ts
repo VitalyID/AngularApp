@@ -19,6 +19,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { UserAuthState } from './state/auth/auth.state';
 import { ListOfCards } from './state/cards/cards.state';
+import { UserState } from './state/user/user.state';
 
 const storagePluginOptions: NgxsStoragePluginOptions = {
   keys: ['amodzie'],
@@ -31,20 +32,21 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([SpinnerInterceptor, AuthInterceptor, ErrorInterceptor])
+      withInterceptors([SpinnerInterceptor, AuthInterceptor, ErrorInterceptor]),
     ),
     provideCharts(withDefaultRegisterables()),
     DatePipe,
     importProvidersFrom(
       MainModule,
       MyQRComponentModule,
-      NgxsModule.forRoot([ListOfCards, UserAuthState])
+      NgxsModule.forRoot([ListOfCards, UserAuthState, UserState]),
     ),
     provideToastr({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-    provideAnimations(), provideCharts(withDefaultRegisterables()),
+    provideAnimations(),
+    provideCharts(withDefaultRegisterables()),
   ],
 };

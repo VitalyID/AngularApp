@@ -14,8 +14,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { ListOfService } from '../../../const';
+import { AddUser } from '../../../state/user/user.action';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import {
@@ -55,15 +57,16 @@ export class RegistrationFormComponent implements OnInit {
   RadioButtonConfig!: WritableSignal<RadioButtons>;
   radioButtons: RadioButtonConfig[] = [];
 
-  first_name = signal('');
-  last_name = signal('');
-  email = signal('');
-  country = signal('');
-  city = signal('');
+  first_name = '';
+  last_name = '';
+  email = '';
+  country = '';
+  city = '';
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
   readonly #stepService = inject(StepService);
+  readonly #store = inject(Store);
 
   userForm = this.#fb.group({
     name: [
@@ -86,7 +89,7 @@ export class RegistrationFormComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userName) => {
         if (userName) {
-          this.first_name.set(userName);
+          this.first_name = userName;
         }
       });
 
@@ -95,7 +98,7 @@ export class RegistrationFormComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userLastName) => {
         if (userLastName) {
-          this.last_name.set(userLastName);
+          this.last_name = userLastName;
         }
       });
 
@@ -104,7 +107,7 @@ export class RegistrationFormComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((email) => {
         if (email) {
-          this.email.set(email);
+          this.email = email;
         }
       });
 
@@ -113,10 +116,10 @@ export class RegistrationFormComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userCountry: ListDropdown | null) => {
         if (userCountry) {
-          this.country.set(userCountry.item.toString());
+          this.country = userCountry.item.toString();
           this.cityDropdownItems = this.createListDropdown(
             'cities',
-            String(this.country()),
+            String(this.country),
           );
           this.cityDefaultValue = this.cityDropdownItems[0];
         }
@@ -127,7 +130,7 @@ export class RegistrationFormComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userCity: ListDropdown | null) => {
         if (userCity) {
-          this.city.set(userCity.item.toString());
+          this.city = userCity.item.toString();
         }
       });
 
@@ -158,13 +161,16 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   nextStep() {
-    console.log('debug: ', {
-      first_name: this.first_name,
-      last_name: this.last_name,
-      email: this.email,
-      country: this.country,
-      city: this.city,
-    });
+    this.#store.dispatch(
+      new AddUser({
+        first_name: this.first_name,
+        last_name: this.last_name,
+        email: this.email,
+        country: this.country,
+        city: this.city,
+      }),
+    );
+
     this.#stepService.changeStep$.next(1);
   }
 }
