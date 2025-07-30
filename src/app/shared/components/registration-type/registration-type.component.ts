@@ -82,8 +82,9 @@ export class RegistrationTypeComponent {
 
   getTypeUser(user: string) {
     const data = Object.entries(TypeUser);
-    const result = data.find(([key, value]) => value === user);
-    return result?.[0];
+    const [typeUser] = data.find(([key, value]) => value === user) || [];
+
+    return typeUser;
   }
 
   updateButtonState() {

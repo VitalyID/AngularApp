@@ -141,22 +141,12 @@ export class RegistrationFormComponent implements OnInit {
     data: 'countries' | 'cities',
     fromCountry: string = 'USA',
   ): ListDropdown[] {
-    const list: any = [];
-
     if (data === 'countries') {
       const countries = Object.keys(ListOfService).sort();
-      countries.forEach((country) => {
-        list.push({ id: uuid.v4(), item: country });
-      });
-      return list;
+      return countries.map((country) => ({ id: uuid.v4(), item: country }));
     } else {
       const cities = ListOfService[fromCountry];
-
-      cities.forEach((city) => {
-        list.push({ id: uuid.v4(), item: city });
-      });
-
-      return list;
+      return cities.map((city) => ({ id: uuid.v4(), item: city }));
     }
   }
 

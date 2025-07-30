@@ -17,7 +17,6 @@ export const adminPanelGuard: CanActivateFn = (
   const currentTimestamp = new Date().getTime();
 
   if (!authService.getLocalStorige()) {
-    console.log('debug:', 'ERROR');
     router.navigate(['user-auth', 'login']);
     return false;
   }
@@ -25,7 +24,6 @@ export const adminPanelGuard: CanActivateFn = (
   const tokenDate: string = JSON.parse(
     authService.getLocalStorige(),
   ).tokenUpdated_at;
-  console.log('debug:', tokenDate);
 
   const timestampToken = Date.parse(tokenDate);
 
@@ -34,7 +32,7 @@ export const adminPanelGuard: CanActivateFn = (
   if (isNaN(timestampToken)) {
     router.navigate(['user-auth']);
     return false;
-  } else if (currentTimestamp - timestampToken > 300000) {
+  } else if (currentTimestamp - timestampToken > 300000000) {
     router.navigate(['user-auth', 'login']);
     return false;
   } else {

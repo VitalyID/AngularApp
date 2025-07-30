@@ -67,7 +67,7 @@ export class DropdownComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['defaultValue']) {
-      if (this.modeDropdown === true) return;
+      if (this.modeDropdown) return;
     }
   }
 
