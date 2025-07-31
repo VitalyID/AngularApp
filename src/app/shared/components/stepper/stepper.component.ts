@@ -36,7 +36,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
   @ViewChild('stepContent', { read: ViewContainerRef })
   hostContentRef!: ViewContainerRef;
 
-  step: number = 0;
+  step = signal<number>(0);
   stepperConfig: WritableSignal<StepperConfig[]> = signal([]);
 
   readonly #popupService = inject(PopupService);
@@ -46,6 +46,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['propsForHostContent']) {
       this.stepperConfig.set(this.generateConfig());
+      console.log('debug on changes', this.stepperConfig());
     }
   }
 
@@ -54,50 +55,43 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     this.#stepService.changeStep$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((step) => {
-        this.step = step;
+        this.step.set(step);
         this.changeActiveStep();
-        if (this.step === this.stepperConfig().length) {
+        if (this.step() === this.stepperConfig().length) {
           this.#popupService.popupState$.next({
             id: 'SetUser',
             state: false,
             component: null,
           });
-        } else {
-          this.changeComponent();
+          return;
         }
+        this.changeComponent();
       });
   }
 
   ngAfterViewInit(): void {
-    this.hostContentRef.clear();
-    this.changeComponent();
     this.changeComponent();
   }
 
   generateConfig(): StepperConfig[] {
-    const generateConf: StepperConfig[] = [];
-    this.propsForHostContent.forEach((component, index) =>
-      generateConf.push({
-        component: component,
-        stepNumber: index,
-        isActive: index === 0,
-        stepperEnd: false,
-      }),
-    );
-
-    return generateConf;
+    return this.propsForHostContent.map((component, index) => ({
+      component: component,
+      stepNumber: index,
+      isActive: index === 0,
+      stepperEnd: false,
+    }));
   }
 
   changeComponent() {
     this.hostContentRef.clear();
-    this.hostContentRef.createComponent(this.propsForHostContent[this.step]);
+    this.hostContentRef.createComponent(this.propsForHostContent[this.step()]);
   }
 
   changeActiveStep() {
     this.stepperConfig.update((currentStepperConfig) => {
-      const resultStep = currentStepperConfig.map((el, index) => {
-        const isActive = this.step >= index;
-        const stepperEnd = this.step > index;
+      return currentStepperConfig.map((el, index) => {
+        const isActive = this.step() >= index;
+        const stepperEnd = this.step() > index;
 
         return {
           ...el,
@@ -105,8 +99,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
           stepperEnd,
         };
       });
-
-      return resultStep;
     });
   }
 }

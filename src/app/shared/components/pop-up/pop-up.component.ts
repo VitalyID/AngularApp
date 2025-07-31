@@ -49,7 +49,6 @@ export class PopupComponent implements OnInit, AfterViewInit {
       this.hostContentRef.clear();
     }
     if (this.popupData !== null && this.popupData.component) {
-      // debug: ERROR IS HEIR
       const componentRef = this.hostContentRef.createComponent(
         this.popupData?.component,
       );
