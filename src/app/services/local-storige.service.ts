@@ -9,7 +9,6 @@ export class LocalStorigeService {
   #isBrowser: boolean = isPlatformBrowser(this.#platformId);
 
   sendToLocalStorige(data: string) {
-
     if (this.#isBrowser) {
       try {
         localStorage.setItem('user', data);
@@ -31,5 +30,4 @@ export class LocalStorigeService {
     }
     return '';
   }
-
 }

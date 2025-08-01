@@ -1,15 +1,13 @@
+// .eslintrc.js
 // @ts-check
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const angular = require("angular-eslint");
-const path = require('node:path'); // Для работы с путями
-
-// Убираем явный импорт плагина для HTML, так как будем полагаться на extends
-// const pluginAngularTemplate = require('@angular-eslint/eslint-plugin-template');
+const eslint = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const angular = require('angular-eslint');
+const path = require('node:path');
 
 module.exports = tseslint.config(
   {
-    files: ["**/*.ts"],
+    files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -20,51 +18,65 @@ module.exports = tseslint.config(
     plugins: {
       'my-rules': {
         rules: {
-          'no-comments': require(path.resolve(__dirname, '.eslint-rules/no-comments.js')),
-          'no-console-log': require(path.resolve(__dirname, '.eslint-rules/no-console-log.js')),
-        }
-      }
+          'no-comments': require(
+            path.resolve(__dirname, '.eslint-rules/no-comments.js')
+          ),
+          'no-console-log': require(
+            path.resolve(__dirname, '.eslint-rules/no-console-log.js')
+          ),
+        },
+      },
     },
     rules: {
-      "@angular-eslint/directive-selector": [
-        "error",
+      // Ваши правила ESLint.
+      // Теперь ESLint будет сам проверять 'semi', 'no-multi-spaces' и т.д.
+      // Если вы хотите, чтобы Prettier управлял этими правилами, а ESLint их игнорировал,
+      // вам придется отключить их здесь (например, "semi": "off").
+      // Но если вы хотите, чтобы ESLint проверял их независимо от Prettier, оставьте их.
+      // Для начала, давайте оставим ваши оригинальные правила.
+      '@angular-eslint/directive-selector': [
+        'error',
         {
-          type: "attribute",
-          prefix: "app",
-          style: "camelCase",
+          type: 'attribute',
+          prefix: 'app',
+          style: 'camelCase',
         },
       ],
-      "@angular-eslint/prefer-standalone": "off",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/no-inferrable-types": "off",
-      "spaced-comment": [
-        "error",
-        "always",
+      '@angular-eslint/prefer-standalone': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-inferrable-types': 'off',
+      'spaced-comment': [
+        'error',
+        'always',
         {
-          markers: ["TODO", "FIXME", "NOTE", "DEBUG", "HACK"],
-          exceptions: ["-", "eslint", "ts-ignore", "ts-nocheck", "*"]
-        }
+          markers: ['TODO', 'FIXME', 'NOTE', 'DEBUG', 'HACK'],
+          exceptions: ['-', 'eslint', 'ts-ignore', 'ts-nocheck', ''],
+        },
       ],
-      "no-restricted-syntax": "off",
-      "my-rules/no-comments": "error",
-      "my-rules/no-console-log": "error",
-      "eqeqeq": ["error", "always"],
-      "no-multi-spaces": "error",
-      "semi": ["error", "always"]
-    }
+      'no-restricted-syntax': 'off',
+      'my-rules/no-comments': 'error',
+      'my-rules/no-console-log': 'error',
+      eqeqeq: ['error', 'always'],
+      'no-multi-spaces': 'error', // <-- Вернули, ESLint будет проверять это
+      semi: ['error', 'always'], // <-- Вернули, ESLint будет проверять это
+    },
   },
   {
-    files: ["**/*.html"],
-    // *** ИЗМЕНЕНИЕ ЗДЕСЬ: ПОЛНОСТЬЮ ПОЛАГАЕМСЯ НА EXTENDS ***
-    // Эти конфигурации уже включают правила accessibility-alt-text и accessibility-table-scope
-    // и должны правильно регистрировать плагины.
+    files: ['**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    // УДАЛЯЕМ СЕКЦИИ plugins И rules ДЛЯ HTML-ФАЙЛОВ
-    // plugins: { ... },
-    // rules: { ... },
+  },
+  {
+    // Игнорирование файлов для ESLint
+    // Это важно, чтобы ESLint не пытался линтить файлы, которые ему не по зубам.
+    // Добавьте сюда все файлы, которые вызывали "Parsing error: Unexpected token".
+    ignores: [
+      'src/assets/**/*.html', // Пример: если у вас там SVG-спрайты или другие не-HTML файлы
+      'src/index.html', // Часто index.html не нужно линтить
+      // Добавьте другие пути, которые вы хотите игнорировать
+    ],
   }
 );

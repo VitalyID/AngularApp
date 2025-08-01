@@ -1,0 +1,28 @@
+<!-- NOTE: stepperEnd - its parameter, which need for last gorizontal line in stapper component -->
+
+<div class="stepper">
+  <div class="step">
+    @for (step of stepperConfig(); track step.stepNumber) {
+      <div class="step__left" [class.isActiveStep]="step.isActive"></div>
+
+      <!-- drawing the ring -->
+      <div class="step__unit">
+        <div class="step__ring" [class.isActiveStep]="step.isActive">
+          <div class="step__ring--outer">
+            <div
+              class="step__ring--inner"
+              [class.isActiveStep]="step.isActive"
+            ></div>
+          </div>
+        </div>
+        <span>Шаг{{ step.stepNumber + 1 }}</span>
+      </div>
+
+      <div class="step__right" [class.isActiveStep]="step.stepperEnd"></div>
+    }
+  </div>
+
+  <div class="step__content">
+    <ng-container #stepContent></ng-container>
+  </div>
+</div>

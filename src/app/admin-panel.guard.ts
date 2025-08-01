@@ -9,15 +9,20 @@ import { LocalStorigeService } from './services/local-storige.service';
 
 export const adminPanelGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => {
   const authService = inject(LocalStorigeService);
   const router = inject(Router);
 
   const currentTimestamp = new Date().getTime();
 
+  if (!authService.getLocalStorige()) {
+    router.navigate(['user-auth', 'login']);
+    return false;
+  }
+
   const tokenDate: string = JSON.parse(
-    authService.getLocalStorige()
+    authService.getLocalStorige(),
   ).tokenUpdated_at;
 
   const timestampToken = Date.parse(tokenDate);
@@ -27,7 +32,7 @@ export const adminPanelGuard: CanActivateFn = (
   if (isNaN(timestampToken)) {
     router.navigate(['user-auth']);
     return false;
-  } else if (currentTimestamp - timestampToken > 300000) {
+  } else if (currentTimestamp - timestampToken > 300000000) {
     router.navigate(['user-auth', 'login']);
     return false;
   } else {

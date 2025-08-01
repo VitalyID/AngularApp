@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
+import { PopupService } from '../../services/popup.service';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
+import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
+import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
+import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
+import { StepperComponent } from '../../shared/components/stepper/stepper.component';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
@@ -13,6 +18,7 @@ import { ButtonConfig } from '../../types/interfaces/sectionItem';
 })
 export class MainComponent {
   readonly #router = inject(Router);
+  readonly #popupService = inject(PopupService);
 
   parent: string = 'main';
 
@@ -21,6 +27,8 @@ export class MainComponent {
     iconClass: 'icon-add-outline',
     disabled: false,
   };
+
+  popupText: string = 'Модалка!';
 
   list: ListDropdown[] = [
     {
@@ -41,6 +49,19 @@ export class MainComponent {
   ];
 
   goToCreateQrPage() {
-      this.#router.navigate(['/create-qrcode']);
+    this.#router.navigate(['/create-qrcode']);
+  }
+  popupCall() {
+    this.#popupService.popupState$.next({
+      title: 'Идентификация аккаунта',
+      id: 'SetUser',
+      state: true,
+      component: StepperComponent,
+      componentProps: [
+        RegistrationFormComponent,
+        RegistrationTypeComponent,
+        RegistrationCardComponent,
+      ],
+    });
   }
 }

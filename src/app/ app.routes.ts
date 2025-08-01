@@ -19,28 +19,28 @@ export const routes: Routes = [
         path: 'my-qr',
         loadChildren: () =>
           import('./components/myQR/my-qr.module').then(
-            (m) => m.MyQRComponentModule
+            (m) => m.MyQRComponentModule,
           ),
       },
       {
         path: 'create-qrcode/:id',
         loadChildren: () =>
           import('./components/QR-CodeCreator/qr-code-creator.module').then(
-            (m) => m.CreateQrcodeModule
+            (m) => m.CreateQrcodeModule,
           ),
       },
       {
         path: 'create-qrcode',
         loadChildren: () =>
           import('./components/QR-CodeCreator/qr-code-creator.module').then(
-            (m) => m.CreateQrcodeModule
+            (m) => m.CreateQrcodeModule,
           ),
       },
       {
         path: 'agents',
         loadChildren: () =>
           import('./components/agents/agents.module').then(
-            (m) => m.AgentsModule
+            (m) => m.AgentsModule,
           ),
       },
     ],
@@ -54,14 +54,14 @@ export const routes: Routes = [
     path: 'user-auth/:login',
     loadChildren: () =>
       import('./components/phone-auth/phone-auth.module').then(
-        (m) => m.PhoneAuthModule
+        (m) => m.PhoneAuthModule,
       ),
   },
   {
     path: 'user-auth',
     loadChildren: () =>
       import('./components/phone-auth/phone-auth.module').then(
-        (m) => m.PhoneAuthModule
+        (m) => m.PhoneAuthModule,
       ),
   },
   {

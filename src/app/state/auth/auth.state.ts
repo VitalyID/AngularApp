@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { take, tap } from 'rxjs';
@@ -28,6 +28,7 @@ export interface UserAuthData {
     tokenUpdated_at: '',
   },
 })
+@Injectable()
 export class UserAuthState {
   readonly #auth = inject(AuthService);
   readonly #localStorageService = inject(LocalStorigeService);
@@ -49,9 +50,9 @@ export class UserAuthState {
       }),
       tap(() => {
         this.#localStorageService.sendToLocalStorige(
-          JSON.stringify(ctx.getState())
+          JSON.stringify(ctx.getState()),
         );
-      })
+      }),
     );
   }
 
@@ -69,12 +70,10 @@ export class UserAuthState {
       }),
       tap(() => {
         this.#localStorageService.sendToLocalStorige(
-          JSON.stringify(ctx.getState())
+          JSON.stringify(ctx.getState()),
         );
-      }),
-      tap(() => {
         this.#router.navigate(['']);
-      })
+      }),
     );
   }
 }

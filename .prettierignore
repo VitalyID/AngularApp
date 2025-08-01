@@ -1,0 +1,7 @@
+# .prettierignore
+# Игнорируем файлы, которые Prettier не должен форматировать
+# Добавьте сюда пути к файлам, которые вызывали "Parsing error: Unexpected token"
+src/assets/**/*.html
+src/index.html
+# node_modules/
+# dist/

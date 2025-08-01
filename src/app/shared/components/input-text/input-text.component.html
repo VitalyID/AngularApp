@@ -3,19 +3,24 @@
   [class]="{
     rub: unitCurrency === 'rub',
     usd: unitCurrency === 'usd',
-    noneCurrency: unitCurrency === 'none'
+    noneCurrency: unitCurrency === 'none',
   }"
 >
   <input
+    #input="ngModel"
     [attr.type]="type"
     [attr.placeholder]="placeholder"
-    [disabled]="disabled"
-    [ngModel]="value"
+    [disabled]="disabledState"
+    [ngModel]="valueCVA"
     (input)="inputValue($event)"
+    (blur)="onBlur()"
+    (focus)="onFocus()"
     [mask]="mask"
     [prefix]="prefix"
     [dropSpecialCharacters]="dropSpecialCharacters ?? null"
     appMyValidator
     [validationSettings]="validationSettings"
+    [minlength]="validationSettings.minlength || 0"
+    [type]="type"
   />
 </div>

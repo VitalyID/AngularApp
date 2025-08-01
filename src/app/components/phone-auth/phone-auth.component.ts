@@ -6,15 +6,20 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
+import { PopupService } from '../../services/popup.service';
 import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
 import { CreateUser, LoginUser } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { StepperComponent } from '../../shared/components/stepper/stepper.component';
+import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
+import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
+import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
 
 @Component({
   selector: 'phone-auth',
@@ -50,9 +55,9 @@ export class PhoneAuthComponent implements OnInit {
 
   readonly #lSS = inject(LocalStorigeService);
   readonly #store = inject(Store);
-  readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
   readonly #spinner = inject(SpinnerService);
+  readonly #popupService = inject(PopupService);
 
   userData = signal(this.getLocalStorageData());
 
@@ -86,20 +91,31 @@ export class PhoneAuthComponent implements OnInit {
   }
 
   registration() {
-    this.SavingUserData();
+    // NOTE: open popup in main page
 
+    this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
+    this.#popupService.popupState$.next({
+      title: 'Идентификация аккаунта',
+      id: 'SetUser',
+      state: true,
+      component: StepperComponent,
+      componentProps: [
+        RegistrationFormComponent,
+        RegistrationTypeComponent,
+        RegistrationCardComponent,
+      ],
+    });
   }
 
   login() {
     this.SavingUserData();
     this.#store.dispatch(new LoginUser(this.userData()));
-    this.#router.navigate(['']);
+    // debug: this.#router.navigate(['']);
   }
 
   SavingUserData() {
     if (this.isSaveSwitcher()) {
-
       this.userData.update((oldValue) => ({
         ...oldValue,
         userCreated: new Date().toString(),
@@ -136,4 +152,3 @@ export class PhoneAuthComponent implements OnInit {
     return { phone: '', id: 0, token: '', tokenUpdated_at: '' };
   }
 }
-
