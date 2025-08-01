@@ -23,8 +23,6 @@ export class LocalStorigeService {
       try {
         return localStorage.getItem('user') ?? '';
       } catch (error) {
-        console.log('DEBUG', error);
-
         return '';
       }
     }

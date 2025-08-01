@@ -1,0 +1,37 @@
+<div class="personalData">
+  <h2>Персональные данные</h2>
+  <div class="personalData__body">
+    <span>Имя</span>
+    <input-text
+      [placeholder]="name"
+      [value]="userInfo().first_name"
+    ></input-text>
+
+    <span>Фамилия</span>
+    <input-text
+      [placeholder]="surName"
+      [value]="userInfo().last_name"
+    ></input-text>
+
+    <span>E-mail</span>
+    <input-text [placeholder]="email" [value]="userInfo().email"></input-text>
+
+    <span>Номер телефона</span>
+    <input-text [placeholder]="tel"></input-text>
+
+    <span>Страна</span>
+    <div class="personalData__country">
+      @if (listCountries$ | async; as countries) {
+        <dropdown
+          [defaultValue]="countries[0]"
+          [dropdownItems]="countries"
+        ></dropdown>
+      }
+    </div>
+
+    <span>Город</span>
+    @if (listCities$ | async; as cities) {
+      <dropdown [defaultValue]="cities[0]" [dropdownItems]="cities"></dropdown>
+    }
+  </div>
+</div>

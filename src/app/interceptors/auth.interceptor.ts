@@ -6,7 +6,7 @@ import { LocalStorigeService } from '../services/local-storige.service';
 
 export function AuthInterceptor(
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
   const token = JSON.parse(inject(LocalStorigeService).getLocalStorige()).token;
 

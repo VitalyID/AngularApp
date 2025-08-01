@@ -11,11 +11,12 @@ import { Store } from '@ngxs/store';
 import { filter, map, take, tap } from 'rxjs';
 import { PopupService } from '../../../services/popup.service';
 import { AddUser } from '../../../state/user/user.action';
-import { UserCard } from '../../../state/user/user.state';
+
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from '../stepper/service/step.service';
 import { InputTextComponent } from './../input-text/input-text.component';
+import { UserCard } from '../../../state/user/user.models';
 
 @Component({
   selector: 'registration-card',

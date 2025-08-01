@@ -8,7 +8,7 @@ import {
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { AddUser } from '../../../state/user/user.action';
-import { UserType } from '../../../state/user/user.state';
+
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { CustomRadioButtonComponent } from '../custom-radio-button/custom-radio-button.component';
@@ -18,6 +18,7 @@ import {
   RadioButtons,
 } from '../custom-radio-button/types/interface/radioButton';
 import { StepService } from '../stepper/service/step.service';
+import { UserType } from '../../../state/user/user.models';
 
 @Component({
   selector: 'registration-type',

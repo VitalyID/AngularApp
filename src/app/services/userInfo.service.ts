@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { profileLink } from '../const';
-import { StateUserModel } from '../state/user/user.state';
+import { StateUserModel } from '../state/user/user.models';
 
 @Injectable({ providedIn: 'root' })
 export class UserInfoService {
