@@ -49,8 +49,6 @@ export class UserAuthState {
         ctx.patchState({ ...state, phone: user.phone, id: response.id });
       }),
       tap(() => {
-        console.log('debug: token from back', ctx.getState());
-
         this.#localStorageService.sendToLocalStorige(
           JSON.stringify(ctx.getState()),
         );

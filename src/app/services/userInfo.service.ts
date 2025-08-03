@@ -8,8 +8,6 @@ export class UserInfoService {
   readonly #http = inject(HttpClient);
 
   postUserInfo(user: StateUser) {
-    console.log('debug: ', user);
-
     return this.#http.post<StateUser>(profileLink, user);
   }
 }
