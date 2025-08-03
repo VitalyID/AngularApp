@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { auth } from '../const';
 import { UserAuthStateModel } from '../state/auth/auth.state';
+import { RefreshToken } from '../types/interfaces/refreshToken';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -10,9 +11,8 @@ export class AuthService {
 
   registerUser(
     phone: string,
-    password: string
+    password: string,
   ): Observable<UserAuthStateModel> {
-
     return this.#http.post<UserAuthStateModel>(`${auth}/register`, {
       phone: `${phone}`,
       password: `${password}`,
@@ -26,4 +26,7 @@ export class AuthService {
     });
   }
 
+  refresh(): Observable<RefreshToken> {
+    return this.#http.post<RefreshToken>(`${auth}/refresh`, {});
+  }
 }
