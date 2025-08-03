@@ -8,7 +8,9 @@ export function AuthInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  const token = JSON.parse(inject(LocalStorigeService).getLocalStorige()).token;
+  const token = JSON.parse(
+    inject(LocalStorigeService).getLocalStorige(),
+  ).access_token;
 
   if (
     urlForAuth.some((url) => {
@@ -16,7 +18,7 @@ export function AuthInterceptor(
     })
   ) {
     const newReq = req.clone({
-      headers: req.headers.append('X-Authentication-Token', token),
+      headers: req.headers.append('Authorization', `Bearer ${token}`),
     });
     return next(newReq);
   }

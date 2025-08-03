@@ -31,8 +31,14 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
         return throwError(() => error);
       }
 
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        toast.error('Ошибка авторизации');
+        router.navigate(['user-auth/:login']);
+        return throwError(() => error);
+      }
+
       toast.success('Ошибка при обращении к серверу', error.message);
       return throwError(() => error);
-    })
+    }),
   );
 };
