@@ -1,6 +1,6 @@
 export enum TypeUser {
-  Payer = 'Плательщик',
-  Recipient = 'Получатель',
-  Agent = 'Агент',
-  Businecc = 'Бизнесс',
+  payer = 'Плательщик',
+  recipient = 'Получатель',
+  agent = 'Агент',
+  business = 'Бизнесс',
 }

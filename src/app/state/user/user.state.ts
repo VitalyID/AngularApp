@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { take } from 'rxjs';
 import { UserInfoService } from '../../services/userInfo.service';
 import { AddUser } from './user.action';
+import { IsUserCard } from './user.utilites';
 import { StateUserModel } from './user.models';
+import { EMPTY } from 'rxjs';
 
 @State<StateUserModel>({
   name: 'userProfile',
@@ -14,11 +15,11 @@ import { StateUserModel } from './user.models';
       email: '',
       country: '',
       city: '',
-      client_type: 'Payer',
+      client_type: 'payer',
       card: {
-        card_number: '',
-        expiry: '',
-        cvc: '',
+        card_number: '1234123412341234',
+        expiry: '12/12',
+        cvc: '123',
       },
     },
   },
@@ -36,6 +37,10 @@ export class UserState {
   AddUser(ctx: StateContext<StateUserModel>, { info }: AddUser) {
     const oldUser = ctx.getState().userProfile;
     ctx.patchState({ userProfile: { ...oldUser, ...info } });
-    return this.#http.postUserInfo(ctx.getState());
+
+    if (IsUserCard(info)) {
+      return this.#http.postUserInfo(ctx.getState().userProfile);
+    }
+    return EMPTY;
   }
 }

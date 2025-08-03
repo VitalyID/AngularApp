@@ -45,7 +45,7 @@ export class RegistrationTypeComponent {
     borderStyle: 'none',
   };
 
-  client_type: UserType = { client_type: 'Payer' };
+  client_type: UserType = { client_type: 'payer' };
   disabledBtn: boolean = true;
 
   readonly #stepService = inject(StepService);

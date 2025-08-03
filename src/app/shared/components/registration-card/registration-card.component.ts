@@ -59,7 +59,8 @@ export class RegistrationCardComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userCard) => {
         if (userCard) {
-          this.card.card = { ...this.card.card, card_number: userCard };
+          const newCard = userCard.replace(/ /g, '');
+          this.card.card = { ...this.card.card, card_number: newCard };
         }
       });
 
