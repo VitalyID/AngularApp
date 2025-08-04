@@ -9,8 +9,6 @@ export class LocalStorigeService {
   #isBrowser: boolean = isPlatformBrowser(this.#platformId);
 
   sendToLocalStorige(data: string) {
-    console.log('debug:', data);
-
     if (this.#isBrowser) {
       try {
         localStorage.setItem('user', data);

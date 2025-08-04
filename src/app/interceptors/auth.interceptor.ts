@@ -24,8 +24,6 @@ export function AuthInterceptor(
       return req.url.includes(url);
     })
   ) {
-    if (!user.access_token) return throwError(() => Error);
-
     const newReq = req.clone({
       headers: req.headers.append(
         'Authorization',
@@ -35,7 +33,7 @@ export function AuthInterceptor(
     return next(newReq).pipe(
       catchError((error: HttpErrorResponse) => {
         // NOTE: we don't send request for refresh
-        if (error.status === 401 && !req.url.includes('/api/refresh')) {
+        if (error.status === 401 && !req.url.includes('/refresh')) {
           return authService.refresh().pipe(
             tap((response: RefreshToken) => {
               const newUser = {
