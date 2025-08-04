@@ -25,7 +25,10 @@ export function AuthInterceptor(
     })
   ) {
     const newReq = req.clone({
-      headers: req.headers.append('Authorization', `Bearer ${user.token}`),
+      headers: req.headers.append(
+        'Authorization',
+        `Bearer ${user.access_token}`,
+      ),
     });
     return next(newReq).pipe(
       catchError((error: HttpErrorResponse) => {
