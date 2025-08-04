@@ -24,6 +24,8 @@ export function AuthInterceptor(
       return req.url.includes(url);
     })
   ) {
+    if (!user.access_token) return throwError(() => Error);
+
     const newReq = req.clone({
       headers: req.headers.append(
         'Authorization',
