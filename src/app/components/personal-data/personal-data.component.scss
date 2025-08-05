@@ -22,4 +22,9 @@
     margin-bottom: 1.375rem;
     height: 58px;
   }
+
+  & dropdown {
+    --brRadiusSmall: 10px;
+    --padActive: 8px 0px;
+  }
 }

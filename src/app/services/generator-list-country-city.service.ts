@@ -8,12 +8,20 @@ import { ListDropdown } from '../shared/components/dropdown/types/interface/list
   providedIn: 'root',
 })
 export class GeneratorListCountryCityService {
-  dropdownUserCountry$ = new Subject<ListDropdown[]>();
-  dropdownUserCities$ = new Subject<ListDropdown[]>();
+  dropdownUserCountry$ = new BehaviorSubject<ListDropdown[]>([
+    { id: '', item: '' },
+  ]);
+  dropdownUserCities$ = new BehaviorSubject<ListDropdown[]>([
+    { id: '', item: '' },
+  ]);
 
   setCountry() {
     const countries = Object.keys(ListOfService).sort();
     this.dropdownUserCountry$.next(
+      countries.map((country) => ({ id: uuid.v4(), item: country })),
+    );
+    console.log(
+      'debug: ',
       countries.map((country) => ({ id: uuid.v4(), item: country })),
     );
   }
