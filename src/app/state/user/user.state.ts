@@ -49,7 +49,5 @@ export class UserState {
     return IsUserCard(info) && isNewUser === false
       ? this.#http.postUserInfo(ctx.getState().userProfile)
       : this.#http.putUserInfo(ctx.getState().userProfile);
-
-    console.log('debug: ', isNewUser);
   }
 }
