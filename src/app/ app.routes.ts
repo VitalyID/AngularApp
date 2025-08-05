@@ -43,6 +43,20 @@ export const routes: Routes = [
             (m) => m.AgentsModule,
           ),
       },
+      {
+        path: 'personal-data/:edit',
+        loadChildren: () =>
+          import('./components/personal-data/personal-data.module').then(
+            (m) => m.PersonalDataModule,
+          ),
+      },
+      {
+        path: 'personal-data/:create',
+        loadChildren: () =>
+          import('./components/personal-data/personal-data.module').then(
+            (m) => m.PersonalDataModule,
+          ),
+      },
     ],
   },
   {

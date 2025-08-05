@@ -9,7 +9,7 @@ import { CreateUser, LoginUser } from './auth.action';
 export interface UserAuthStateModel {
   phone: string;
   id: number;
-  token: string;
+  access_token: string;
   tokenUpdated_at: string;
 }
 
@@ -24,7 +24,7 @@ export interface UserAuthData {
   defaults: {
     phone: '',
     id: 0,
-    token: '',
+    access_token: '',
     tokenUpdated_at: '',
   },
 })
@@ -61,14 +61,18 @@ export class UserAuthState {
     return this.#auth.login(user.phone, user.password).pipe(
       take(1),
       tap((response) => {
+        if (!response.access_token) {
+          console.log('debug: Token is none');
+          return;
+        }
+
         const state = ctx.getState();
         ctx.patchState({
           ...state,
-          token: response.token,
+          access_token: response.access_token,
           tokenUpdated_at: new Date().toString(),
         });
-      }),
-      tap(() => {
+
         this.#localStorageService.sendToLocalStorige(
           JSON.stringify(ctx.getState()),
         );

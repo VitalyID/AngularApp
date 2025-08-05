@@ -7,8 +7,9 @@ import {
 } from '@angular/core';
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
-import { AddUser } from '../../../state/user/user.action';
-import { UserType } from '../../../state/user/user.state';
+import { UpdateUser } from '../../../state/user/user.action';
+
+import { UserType } from '../../../state/user/user.models';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { CustomRadioButtonComponent } from '../custom-radio-button/custom-radio-button.component';
@@ -44,7 +45,7 @@ export class RegistrationTypeComponent {
     borderStyle: 'none',
   };
 
-  client_type: UserType = { client_type: 'Payer' };
+  client_type: UserType = { client_type: 'payer' };
   disabledBtn: boolean = true;
 
   readonly #stepService = inject(StepService);
@@ -72,7 +73,7 @@ export class RegistrationTypeComponent {
   }
 
   nextStep() {
-    this.#store.dispatch(new AddUser(this.client_type));
+    this.#store.dispatch(new UpdateUser(this.client_type));
     this.#stepService.changeStep$.next(2);
   }
 

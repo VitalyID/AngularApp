@@ -46,7 +46,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['propsForHostContent']) {
       this.stepperConfig.set(this.generateConfig());
-      console.log('debug on changes', this.stepperConfig());
     }
   }
 

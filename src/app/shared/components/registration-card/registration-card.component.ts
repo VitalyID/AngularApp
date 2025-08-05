@@ -8,10 +8,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { filter, map, take, tap } from 'rxjs';
 import { PopupService } from '../../../services/popup.service';
-import { AddUser } from '../../../state/user/user.action';
-import { UserCard } from '../../../state/user/user.state';
+import { UpdateUser } from '../../../state/user/user.action';
+
+import { UserCard } from '../../../state/user/user.models';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from '../stepper/service/step.service';
@@ -58,7 +58,8 @@ export class RegistrationCardComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((userCard) => {
         if (userCard) {
-          this.card.card = { ...this.card.card, card_number: userCard };
+          const newCard = userCard.replace(/ /g, '');
+          this.card.card = { ...this.card.card, card_number: newCard };
         }
       });
 
@@ -86,7 +87,7 @@ export class RegistrationCardComponent implements OnInit {
   }
 
   nextStep() {
-    this.#store.dispatch(new AddUser(this.card));
+    this.#store.dispatch(new UpdateUser(this.card));
     this.#popupService.popupState$.next({
       id: 'SetUser',
       state: false,
