@@ -69,6 +69,7 @@ export class UserAuthState {
         const state = ctx.getState();
         ctx.patchState({
           ...state,
+          phone: user.phone,
           access_token: response.access_token,
           tokenUpdated_at: new Date().toString(),
         });

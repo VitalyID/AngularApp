@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import * as uuid from 'uuid';
 import { ListOfService } from '../const';
 import { ListDropdown } from '../shared/components/dropdown/types/interface/listDropdown';
@@ -18,10 +18,6 @@ export class GeneratorListCountryCityService {
   setCountry() {
     const countries = Object.keys(ListOfService).sort();
     this.dropdownUserCountry$.next(
-      countries.map((country) => ({ id: uuid.v4(), item: country })),
-    );
-    console.log(
-      'debug: ',
       countries.map((country) => ({ id: uuid.v4(), item: country })),
     );
   }

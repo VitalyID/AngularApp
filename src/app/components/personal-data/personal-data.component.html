@@ -1,3 +1,5 @@
+@let phone = userTel$ | async;
+
 <div class="personalData">
   <h2>Персональные данные</h2>
   <div class="personalData__body">
@@ -17,7 +19,11 @@
     <input-text [placeholder]="email" [value]="userInfo().email"></input-text>
 
     <span>Номер телефона</span>
-    <input-text [placeholder]="tel"></input-text>
+    <input-text
+      [placeholder]="tel"
+      [disabled]="true"
+      [value]="userTel()"
+    ></input-text>
 
     <span>Страна</span>
     <div class="personalData__country">

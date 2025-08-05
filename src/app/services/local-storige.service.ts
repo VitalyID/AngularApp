@@ -11,6 +11,8 @@ export class LocalStorigeService {
   sendToLocalStorige(data: string) {
     if (this.#isBrowser) {
       try {
+        console.log('debug: sent to service ', data);
+
         localStorage.setItem('user', data);
       } catch {
         return;

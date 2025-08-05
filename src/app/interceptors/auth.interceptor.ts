@@ -41,6 +41,7 @@ export function AuthInterceptor(
                 access_token: response.access_token,
                 tokenUpdated_at: new Date().toString(),
               };
+
               storageService.sendToLocalStorige(JSON.stringify(newUser));
             }),
             switchMap((response: RefreshToken) => {

@@ -11,10 +11,15 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ListOfService } from '../../const';
 import { GeneratorListCountryCityService } from '../../services/generator-list-country-city.service';
+import { LocalStorigeService } from '../../services/local-storige.service';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { UpdateUser } from '../../state/user/user.action';
 import { UserState } from '../../state/user/user.state';
 import { UserInfo } from '../../types/interfaces/userInfo';
+import {
+  UserAuthState,
+  UserAuthStateModel,
+} from './../../state/auth/auth.state';
 
 @Component({
   selector: 'personal-data',
@@ -36,12 +41,17 @@ export class PersonalDataComponent implements OnInit {
   readonly #dropdownService = inject(GeneratorListCountryCityService);
   readonly #store = inject(Store);
   readonly #router = inject(Router);
+  readonly #lss = inject(LocalStorigeService);
 
   listCountries$: Observable<ListDropdown[]> =
     this.#dropdownService.dropdownUserCountry$;
 
   listCities$: Observable<ListDropdown[]> =
     this.#dropdownService.dropdownUserCities$;
+
+  userTel$: Observable<UserAuthStateModel> = this.#store.select(
+    UserAuthState.userAccount,
+  );
 
   userInfo: Signal<UserInfo> = this.#store.selectSignal(UserState.getUserInfo);
 
@@ -67,5 +77,12 @@ export class PersonalDataComponent implements OnInit {
     return this.isTypePage()
       ? this.#store.dispatch(new UpdateUser(this.userInfo(), true))
       : this.#store.dispatch(new UpdateUser(this.userInfo()));
+  }
+
+  userTel() {
+    const userData: any = this.#lss.getLocalStorige();
+    console.log('debug ', JSON.parse(userData));
+
+    return JSON.parse(userData).phone;
   }
 }

@@ -57,6 +57,13 @@ export const routes: Routes = [
             (m) => m.PersonalDataModule,
           ),
       },
+      {
+        path: 'personal-data',
+        loadChildren: () =>
+          import('./components/personal-data/personal-data.module').then(
+            (m) => m.PersonalDataModule,
+          ),
+      },
     ],
   },
   {

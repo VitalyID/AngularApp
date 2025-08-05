@@ -120,6 +120,7 @@ export class PhoneAuthComponent implements OnInit {
         ...oldValue,
         userCreated: new Date().toString(),
       }));
+
       this.#lSS.sendToLocalStorige(JSON.stringify(this.userData()));
     }
   }
