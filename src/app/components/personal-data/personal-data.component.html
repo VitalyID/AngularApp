@@ -31,7 +31,12 @@
 
     <span>Город</span>
     @if (listCities$ | async; as cities) {
-      <dropdown [defaultValue]="cities[0]" [dropdownItems]="cities"></dropdown>
+      <dropdown
+        [defaultValue]="cities[0]"
+        [dropdownItems]="cities"
+        class="personalData--cities"
+      ></dropdown>
     }
   </div>
+  <app-buttons [text]="btnText()" (click)="sendUserInfo()"></app-buttons>
 </div>

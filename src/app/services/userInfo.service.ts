@@ -10,4 +10,8 @@ export class UserInfoService {
   postUserInfo(user: StateUser) {
     return this.#http.post<StateUser>(profileLink, user);
   }
+
+  putUserInfo(user: StateUser) {
+    return this.#http.post<StateUser>(profileLink, user);
+  }
 }

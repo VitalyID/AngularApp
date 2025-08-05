@@ -4,7 +4,6 @@ import {
   DestroyRef,
   inject,
   OnInit,
-  signal,
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -17,7 +16,7 @@ import {
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { ListOfService } from '../../../const';
-import { AddUser } from '../../../state/user/user.action';
+import { UpdateUser } from '../../../state/user/user.action';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import {
@@ -152,7 +151,7 @@ export class RegistrationFormComponent implements OnInit {
 
   nextStep() {
     this.#store.dispatch(
-      new AddUser({
+      new UpdateUser({
         first_name: this.first_name,
         last_name: this.last_name,
         email: this.email,

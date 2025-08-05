@@ -8,15 +8,14 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { filter, map, take, tap } from 'rxjs';
 import { PopupService } from '../../../services/popup.service';
-import { AddUser } from '../../../state/user/user.action';
+import { UpdateUser } from '../../../state/user/user.action';
 
+import { UserCard } from '../../../state/user/user.models';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from '../stepper/service/step.service';
 import { InputTextComponent } from './../input-text/input-text.component';
-import { UserCard } from '../../../state/user/user.models';
 
 @Component({
   selector: 'registration-card',
@@ -88,7 +87,7 @@ export class RegistrationCardComponent implements OnInit {
   }
 
   nextStep() {
-    this.#store.dispatch(new AddUser(this.card));
+    this.#store.dispatch(new UpdateUser(this.card));
     this.#popupService.popupState$.next({
       id: 'SetUser',
       state: false,

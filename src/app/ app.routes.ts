@@ -44,7 +44,14 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'personal-data',
+        path: 'personal-data/:edit',
+        loadChildren: () =>
+          import('./components/personal-data/personal-data.module').then(
+            (m) => m.PersonalDataModule,
+          ),
+      },
+      {
+        path: 'personal-data/:create',
         loadChildren: () =>
           import('./components/personal-data/personal-data.module').then(
             (m) => m.PersonalDataModule,
