@@ -24,6 +24,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 export class PopupComponent implements OnInit, AfterViewInit {
   popupData: Popup | null = null;
   iconClose: string = 'icon-close';
+  isViewRendered: boolean = false;
 
   readonly #popupService = inject(PopupService);
   readonly #DestroyRef = inject(DestroyRef);
@@ -36,11 +37,14 @@ export class PopupComponent implements OnInit, AfterViewInit {
       .pipe(takeUntilDestroyed(this.#DestroyRef))
       .subscribe((popupData) => {
         this.popupData = popupData;
-        this.#loadContent();
+        if (this.isViewRendered) {
+          this.#loadContent();
+        }
       });
   }
 
   ngAfterViewInit(): void {
+    this.isViewRendered = true;
     this.#loadContent();
   }
 
@@ -48,7 +52,11 @@ export class PopupComponent implements OnInit, AfterViewInit {
     if (this.hostContentRef && this.popupData !== null) {
       this.hostContentRef.clear();
     }
-    if (this.popupData !== null && this.popupData.component) {
+    if (
+      this.popupData !== undefined &&
+      this.popupData !== null &&
+      this.popupData.component
+    ) {
       const componentRef = this.hostContentRef.createComponent(
         this.popupData?.component,
       );

@@ -1,4 +1,4 @@
-import { UpdateUserInfo } from './user.state';
+import { UpdateUserInfo } from './user.models';
 
 export class AddUser {
   static readonly type = '[user] Add User';

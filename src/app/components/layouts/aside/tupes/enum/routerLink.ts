@@ -3,7 +3,7 @@ export enum LinkAside {
   myQR = '/my-qr',
   agents = '/agents',
   requisites = '/requisites',
-  personalData = '/personalData',
+  personalData = '/personal-data',
   myPlace = '/myPlace',
   myStaff = '/myStaff',
   myFeedbacks = '/myFeedbacks',

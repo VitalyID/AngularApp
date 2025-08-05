@@ -33,6 +33,6 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
       toast.success('Ошибка при обращении к серверу', error.message);
       return throwError(() => error);
-    })
+    }),
   );
 };

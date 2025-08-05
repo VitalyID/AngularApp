@@ -1,0 +1,25 @@
+.personalData {
+  padding: 1.875rem;
+
+  & h2 {
+    margin-bottom: 1.875rem;
+  }
+
+  &__body {
+    width: 66%;
+
+    & span {
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+
+    & input-text {
+      margin-bottom: 1.375rem;
+    }
+  }
+
+  &__country {
+    margin-bottom: 1.375rem;
+    height: 58px;
+  }
+}
