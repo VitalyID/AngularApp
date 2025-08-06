@@ -17,6 +17,7 @@ export interface UserAuthData {
   phone: string;
   password: string;
   token: string;
+  silentMode: boolean;
 }
 
 @State<UserAuthStateModel>({
@@ -58,7 +59,7 @@ export class UserAuthState {
 
   @Action(LoginUser)
   LoginUser(ctx: StateContext<UserAuthStateModel>, { user }: LoginUser) {
-    return this.#auth.login(user.phone, user.password).pipe(
+    return this.#auth.login(user.phone, user.password, user.silentMode).pipe(
       take(1),
       tap((response) => {
         if (!response.access_token) {

@@ -12,14 +12,14 @@ import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
 import { PopupService } from '../../services/popup.service';
+import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
+import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
+import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
 import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
+import { StepperComponent } from '../../shared/components/stepper/stepper.component';
 import { CreateUser, LoginUser } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { StepperComponent } from '../../shared/components/stepper/stepper.component';
-import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
-import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
-import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
 
 @Component({
   selector: 'phone-auth',
@@ -110,7 +110,18 @@ export class PhoneAuthComponent implements OnInit {
 
   login() {
     this.SavingUserData();
+    this.userData.update((oldValue) => {
+      const newValue = { ...oldValue, silentMode: true };
+      return newValue;
+    });
+    console.log('debug000', this.userData());
+
     this.#store.dispatch(new LoginUser(this.userData()));
+
+    setInterval(
+      () => this.#store.dispatch(new LoginUser(this.userData())),
+      1200000,
+    );
     // debug: this.#router.navigate(['']);
   }
 
@@ -145,7 +156,8 @@ export class PhoneAuthComponent implements OnInit {
     const localStorage = this.#lSS.getLocalStorige();
     if (localStorage) {
       try {
-        return JSON.parse(localStorage);
+        // NOTE: silentMode - is control for spinner in refresh token
+        return { ...JSON.parse(localStorage), silentMode: false };
       } catch {
         console.log('DEBUG: error reading localStarage: ', localStorage);
       }
