@@ -15,25 +15,33 @@ export class GeneratorListCountryCityService {
     { id: '', item: '' },
   ]);
 
-  setCountry() {
+  defaultCountry: ListDropdown = { id: '', item: '' };
+
+  setCountry(): ListDropdown[] {
     const countries = Object.keys(ListOfService).sort();
-    this.dropdownUserCountry$.next(
-      countries.map((country) => ({ id: uuid.v4(), item: country })),
-    );
+    const newListCountries = countries.map((country) => ({
+      id: uuid.v4(),
+      item: country,
+    }));
+    this.dropdownUserCountry$.next(newListCountries);
+    this.defaultCountry = newListCountries[0];
+    return newListCountries;
   }
 
-  setCities(country: string) {
-    const cities = ListOfService[country];
-    this.dropdownUserCities$.next(
-      cities.map((city) => ({ id: uuid.v4(), item: city })),
-    );
+  setCities(defaultCountry: ListDropdown): ListDropdown[] {
+    const cities = ListOfService[defaultCountry.item];
+    const userCity = cities.map((city) => ({ id: uuid.v4(), item: city }));
+    this.dropdownUserCities$.next(userCity);
+    return userCity;
   }
 
-  userCountry(country: string) {
+  // NOTE: click user on dropdown country
+  userCountry(country: ListDropdown) {
     this.setCities(country);
   }
 
   constructor() {
-    this.setCountry();
+    const userCountry = this.setCountry();
+    this.setCities(userCountry[0]);
   }
 }

@@ -14,6 +14,7 @@ import { GeneratorListCountryCityService } from '../../services/generator-list-c
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { UpdateUser } from '../../state/user/user.action';
+import { UserPersonalInfo } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { UserInfo } from '../../types/interfaces/userInfo';
 import {
@@ -29,10 +30,18 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalDataComponent implements OnInit {
-  name: string = 'Введите имя';
-  surName: string = 'Введите фамилию';
-  email: string = 'Введите e-mail';
-  tel: string = 'Введите телефон';
+  placeName: string = 'Введите имя';
+  placeSurName: string = 'Введите фамилию';
+  placeEmail: string = 'Введите e-mail';
+  placeTel: string = 'Введите телефон';
+
+  newUserInfo: UserPersonalInfo = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    country: '',
+    city: '',
+  };
 
   btnText = computed(() =>
     this.isTypePage() ? 'Создать сотрудника' : 'Редактировать сотрудника',
@@ -67,22 +76,44 @@ export class PersonalDataComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.#dropdownService.userCountry(Object.keys(ListOfService)[0]);
-
     const route = this.isTypePage() ? 'edit' : 'create';
     this.#router.navigate(['personal-data', route]);
   }
 
+  updateFirstName(firstName: string) {
+    this.newUserInfo = { ...this.newUserInfo, first_name: firstName };
+  }
+
+  updateLastName(lastName: string) {
+    this.newUserInfo = { ...this.newUserInfo, last_name: lastName };
+  }
+
+  updateEmail(userEmail: string) {
+    this.newUserInfo = { ...this.newUserInfo, email: userEmail };
+  }
+
+  userCountry(userCountry: ListDropdown) {
+    this.newUserInfo = {
+      ...this.newUserInfo,
+      country: userCountry.item.toString(),
+    };
+    this.#dropdownService.userCountry(userCountry);
+  }
+
+  userCity(userCity: ListDropdown) {
+    this.newUserInfo = { ...this.newUserInfo, city: userCity.item.toString() };
+  }
+
   sendUserInfo() {
+    console.log('debug: component ', this.newUserInfo, this.isTypePage());
+
     return this.isTypePage()
-      ? this.#store.dispatch(new UpdateUser(this.userInfo(), true))
-      : this.#store.dispatch(new UpdateUser(this.userInfo()));
+      ? this.#store.dispatch(new UpdateUser(this.newUserInfo, true))
+      : this.#store.dispatch(new UpdateUser(this.newUserInfo));
   }
 
   userTel() {
     const userData: any = this.#lss.getLocalStorige();
-    console.log('debug ', JSON.parse(userData));
-
     return JSON.parse(userData).phone;
   }
 }

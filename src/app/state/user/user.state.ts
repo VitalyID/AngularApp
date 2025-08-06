@@ -38,6 +38,8 @@ export class UserState {
     ctx: StateContext<StateUserModel>,
     { info, isNewUser }: UpdateUser,
   ) {
+    console.log('debug state start:', info, isNewUser);
+
     const oldUser = ctx.getState().userProfile;
     ctx.patchState({ userProfile: { ...oldUser, ...info } });
 
@@ -46,8 +48,10 @@ export class UserState {
       return EMPTY;
     }
 
-    return IsUserCard(info) && isNewUser === false
-      ? this.#http.postUserInfo(ctx.getState().userProfile)
-      : this.#http.putUserInfo(ctx.getState().userProfile);
+    console.log('debug: state', ctx.getState().userProfile);
+
+    return isNewUser
+      ? this.#http.putUserInfo(ctx.getState().userProfile)
+      : this.#http.postUserInfo(ctx.getState().userProfile);
   }
 }

@@ -5,22 +5,28 @@
   <div class="personalData__body">
     <span>Имя</span>
     <input-text
-      [placeholder]="name"
+      [placeholder]="placeName"
       [value]="userInfo().first_name"
+      (updateValue)="updateFirstName($event)"
     ></input-text>
 
     <span>Фамилия</span>
     <input-text
-      [placeholder]="surName"
+      [placeholder]="placeSurName"
       [value]="userInfo().last_name"
+      (updateValue)="updateLastName($event)"
     ></input-text>
 
     <span>E-mail</span>
-    <input-text [placeholder]="email" [value]="userInfo().email"></input-text>
+    <input-text
+      [placeholder]="placeEmail"
+      [value]="userInfo().email"
+      (updateValue)="updateEmail($event)"
+    ></input-text>
 
     <span>Номер телефона</span>
     <input-text
-      [placeholder]="tel"
+      [placeholder]="placeTel"
       [disabled]="true"
       [value]="userTel()"
     ></input-text>
@@ -31,6 +37,7 @@
         <dropdown
           [defaultValue]="countries[0]"
           [dropdownItems]="countries"
+          (itemSelected)="userCountry($event)"
         ></dropdown>
       }
     </div>
@@ -41,6 +48,7 @@
         [defaultValue]="cities[0]"
         [dropdownItems]="cities"
         class="personalData--cities"
+        (itemSelected)="userCity($event)"
       ></dropdown>
     }
   </div>

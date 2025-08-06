@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { TypeUser } from '../../shared/components/custom-radio-button/types/enum/typeUser';
 
 export interface UserPersonalInfo {
@@ -6,10 +7,12 @@ export interface UserPersonalInfo {
   email: string;
   country: string;
   city: string;
+  currentComponent: Type<any>;
 }
 
 export interface UserType {
   client_type: keyof typeof TypeUser;
+  currentComponent: Type<any>;
 }
 
 export interface UserCard {
@@ -18,6 +21,7 @@ export interface UserCard {
     expiry: string;
     cvc: string;
   };
+  currentComponent: Type<any>;
 }
 
 export interface StateUser {
