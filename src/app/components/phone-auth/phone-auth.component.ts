@@ -114,7 +114,6 @@ export class PhoneAuthComponent implements OnInit {
       const newValue = { ...oldValue, silentMode: true };
       return newValue;
     });
-    console.log('debug000', this.userData());
 
     this.#store.dispatch(new LoginUser(this.userData()));
 

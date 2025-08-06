@@ -9,7 +9,6 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ListOfService } from '../../const';
 import { GeneratorListCountryCityService } from '../../services/generator-list-country-city.service';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
@@ -41,6 +40,7 @@ export class PersonalDataComponent implements OnInit {
     email: '',
     country: '',
     city: '',
+    currentComponent: PersonalDataComponent,
   };
 
   btnText = computed(() =>
@@ -101,7 +101,11 @@ export class PersonalDataComponent implements OnInit {
   }
 
   userCity(userCity: ListDropdown) {
-    this.newUserInfo = { ...this.newUserInfo, city: userCity.item.toString() };
+    this.newUserInfo = {
+      ...this.newUserInfo,
+      city: userCity.item.toString(),
+      currentComponent: PersonalDataComponent,
+    };
   }
 
   sendUserInfo() {

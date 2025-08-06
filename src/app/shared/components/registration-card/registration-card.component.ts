@@ -25,7 +25,10 @@ import { InputTextComponent } from './../input-text/input-text.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationCardComponent implements OnInit {
-  card: UserCard = { card: { card_number: '', expiry: '', cvc: '' } };
+  card: UserCard = {
+    card: { card_number: '', expiry: '', cvc: '' },
+    currentComponent: RegistrationCardComponent,
+  };
 
   buttonLast: ButtonConfig = {
     text: 'Назад',

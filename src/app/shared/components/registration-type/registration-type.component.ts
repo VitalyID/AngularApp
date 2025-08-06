@@ -45,7 +45,10 @@ export class RegistrationTypeComponent {
     borderStyle: 'none',
   };
 
-  client_type: UserType = { client_type: 'payer' };
+  client_type: UserType = {
+    client_type: 'payer',
+    currentComponent: RegistrationTypeComponent,
+  };
   disabledBtn: boolean = true;
 
   readonly #stepService = inject(StepService);
@@ -94,6 +97,9 @@ export class RegistrationTypeComponent {
 
   updateClientType(data: string) {
     const user = this.getTypeUser(data);
-    this.client_type = { client_type: user as keyof typeof TypeUser };
+    this.client_type = {
+      client_type: user as keyof typeof TypeUser,
+      currentComponent: RegistrationTypeComponent,
+    };
   }
 }

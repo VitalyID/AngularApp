@@ -157,6 +157,7 @@ export class RegistrationFormComponent implements OnInit {
         email: this.email,
         country: this.country,
         city: this.city,
+        currentComponent: RegistrationFormComponent,
       }),
     );
 
