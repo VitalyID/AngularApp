@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { EMPTY } from 'rxjs';
+import { EMPTY, take, tap } from 'rxjs';
 import { UserInfoService } from '../../services/userInfo.service';
 import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
 import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
-import { UpdateUser } from './user.action';
-import { StateUserModel } from './user.models';
+import { GetUserInfo, UpdateUser } from './user.action';
+import { StateUser, StateUserModel } from './user.models';
 
 @State<StateUserModel>({
   name: 'userProfile',
@@ -48,10 +48,20 @@ export class UserState {
     )
       return EMPTY;
 
-    delete info.currentComponent;
+    const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
 
     return isNewUser
-      ? this.#http.putUserInfo(ctx.getState().userProfile)
-      : this.#http.postUserInfo(ctx.getState().userProfile);
+      ? this.#http.putUserInfo(updateUserInfo)
+      : this.#http.postUserInfo(updateUserInfo);
+  }
+
+  @Action(GetUserInfo)
+  getUserInfo(ctx: StateContext<StateUserModel>) {
+    return this.#http.getUserService().pipe(
+      take(1),
+      tap((userInfo: StateUser) => {
+        ctx.patchState({ userProfile: userInfo });
+      }),
+    );
   }
 }

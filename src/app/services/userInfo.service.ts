@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { profileLink } from '../const';
@@ -17,5 +18,9 @@ export class UserInfoService {
     console.log('debug: put-request', user);
 
     return this.#http.put<StateUser>(profileLink, user);
+  }
+
+  getUserService() {
+    return this.#http.get<StateUser>(profileLink);
   }
 }

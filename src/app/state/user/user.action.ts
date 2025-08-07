@@ -7,3 +7,7 @@ export class UpdateUser {
     public isNewUser: boolean = false,
   ) {}
 }
+
+export class GetUserInfo {
+  static readonly type = '[getInfo] GetInfoUser';
+}

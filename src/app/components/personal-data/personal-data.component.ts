@@ -6,20 +6,21 @@ import {
   OnInit,
   Signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GeneratorListCountryCityService } from '../../services/generator-list-country-city.service';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
-import { UpdateUser } from '../../state/user/user.action';
+import { GetUserInfo, UpdateUser } from '../../state/user/user.action';
 import { UserPersonalInfo } from '../../state/user/user.models';
-import { UserState } from '../../state/user/user.state';
 import { UserInfo } from '../../types/interfaces/userInfo';
 import {
   UserAuthState,
   UserAuthStateModel,
 } from './../../state/auth/auth.state';
+import { UserState } from '../../state/user/user.state';
 
 @Component({
   selector: 'personal-data',
@@ -76,6 +77,8 @@ export class PersonalDataComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.#store.dispatch(new GetUserInfo());
+
     const route = this.isTypePage() ? 'edit' : 'create';
     this.#router.navigate(['personal-data', route]);
   }

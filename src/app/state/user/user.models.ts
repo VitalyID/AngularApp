@@ -38,6 +38,7 @@ export interface StateUser {
     expiry: string;
     cvc: string;
   };
+  currentComponent?: Type<any>;
 }
 
 export type UpdateUserInfo = UserPersonalInfo | UserType | UserCard;
