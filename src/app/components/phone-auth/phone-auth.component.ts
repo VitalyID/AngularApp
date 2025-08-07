@@ -92,7 +92,6 @@ export class PhoneAuthComponent implements OnInit {
 
   registration() {
     // NOTE: open popup in main page
-
     this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
     this.#popupService.popupState$.next({
@@ -106,6 +105,8 @@ export class PhoneAuthComponent implements OnInit {
         RegistrationCardComponent,
       ],
     });
+
+    this.isLoginPage = true;
   }
 
   login() {
