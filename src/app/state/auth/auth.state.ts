@@ -4,7 +4,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { take, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorigeService } from '../../services/local-storige.service';
-import { CreateUser, LoginUser } from './auth.action';
+import { CreateUser, LoginUser, RefreshToken } from './auth.action';
 
 export interface UserAuthStateModel {
   phone: string;
@@ -63,8 +63,7 @@ export class UserAuthState {
       take(1),
       tap((response) => {
         if (!response.access_token) {
-          console.log('debug: Token is none');
-          return;
+          throw new Error('Access token missing');
         }
 
         const state = ctx.getState();
@@ -79,6 +78,29 @@ export class UserAuthState {
           JSON.stringify(ctx.getState()),
         );
         this.#router.navigate(['']);
+      }),
+    );
+  }
+
+  @Action(RefreshToken)
+  refreshToken(ctx: StateContext<UserAuthStateModel>) {
+    return this.#auth.refresh().pipe(
+      take(1),
+      tap((response) => {
+        if (!response.access_token) {
+          throw new Error('Refresh token missing');
+        }
+
+        const state = ctx.getState();
+        ctx.patchState({
+          ...state,
+          access_token: response.access_token,
+          tokenUpdated_at: new Date().toString(),
+        });
+
+        this.#localStorageService.sendToLocalStorige(
+          JSON.stringify(ctx.getState()),
+        );
       }),
     );
   }

@@ -17,7 +17,11 @@ import { RegistrationTypeComponent } from '../../shared/components/registration-
 import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
 import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
 import { StepperComponent } from '../../shared/components/stepper/stepper.component';
-import { CreateUser, LoginUser } from '../../state/auth/auth.action';
+import {
+  CreateUser,
+  LoginUser,
+  RefreshToken,
+} from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
 
@@ -118,10 +122,7 @@ export class PhoneAuthComponent implements OnInit {
 
     this.#store.dispatch(new LoginUser(this.userData()));
 
-    setInterval(
-      () => this.#store.dispatch(new LoginUser(this.userData())),
-      1200000,
-    );
+    setInterval(() => this.#store.dispatch(new RefreshToken()), 1200000);
     // debug: this.#router.navigate(['']);
   }
 

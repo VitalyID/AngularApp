@@ -9,3 +9,7 @@ export class CreateUser {
   static readonly type = '[AuthData] Register';
   constructor(public user: UserAuthData) {}
 }
+
+export class RefreshToken {
+  static readonly type = '[Token] refreshToken';
+}
