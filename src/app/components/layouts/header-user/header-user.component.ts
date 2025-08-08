@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 import { v4 as uuidv4 } from 'uuid';
 import { LocalStorigeService } from '../../../services/local-storige.service';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
 import { DropdownComponent } from '../../../shared/components/dropdown/dropdown.component';
 import { ListDropdown } from '../../../shared/components/dropdown/types/interface/listDropdown';
-import { LanguageComponent } from '../../../shared/components/language/language.component';
 import { SvgIconComponent } from '../../../shared/components/svg-icon/svg-icon.component';
+import { GetUserInfo } from '../../../state/user/user.action';
+import { StateUser } from '../../../state/user/user.models';
+import { UserState } from '../../../state/user/user.state';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
 
@@ -18,13 +21,12 @@ import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
     SvgIconComponent,
     CommonModule,
     DropdownComponent,
-    LanguageComponent,
     ButtonsComponent,
   ],
   templateUrl: './header-user.component.html',
   styleUrl: './header-user.component.scss',
 })
-export class HeaderUserComponent {
+export class HeaderUserComponent implements OnInit {
   defaultValue: ListDropdown = {
     id: uuidv4(),
     item: 'RU',
@@ -69,6 +71,13 @@ export class HeaderUserComponent {
 
   readonly #localeStorageService = inject(LocalStorigeService);
   readonly #router = inject(Router);
+  readonly #store = inject(Store);
+
+  user: Signal<StateUser> = this.#store.selectSignal(UserState.getUserInfo);
+
+  ngOnInit(): void {
+    this.#store.dispatch(new GetUserInfo());
+  }
 
   onClickContact() {
     this.isOpen.update((value) => !value);
