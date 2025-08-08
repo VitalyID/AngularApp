@@ -6,7 +6,6 @@ import {
   OnInit,
   Signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -15,12 +14,12 @@ import { LocalStorigeService } from '../../services/local-storige.service';
 import { ListDropdown } from '../../shared/components/dropdown/types/interface/listDropdown';
 import { GetUserInfo, UpdateUser } from '../../state/user/user.action';
 import { UserPersonalInfo } from '../../state/user/user.models';
+import { UserState } from '../../state/user/user.state';
 import { UserInfo } from '../../types/interfaces/userInfo';
 import {
   UserAuthState,
   UserAuthStateModel,
 } from './../../state/auth/auth.state';
-import { UserState } from '../../state/user/user.state';
 
 @Component({
   selector: 'personal-data',
@@ -45,7 +44,7 @@ export class PersonalDataComponent implements OnInit {
   };
 
   btnText = computed(() =>
-    this.isTypePage() ? 'Создать сотрудника' : 'Редактировать сотрудника',
+    this.isEditMode() ? 'Редактировать сотрудника' : 'Создать сотрудника',
   );
 
   readonly #dropdownService = inject(GeneratorListCountryCityService);
@@ -66,7 +65,7 @@ export class PersonalDataComponent implements OnInit {
   userInfo: Signal<UserInfo> = this.#store.selectSignal(UserState.getUserInfo);
 
   // NOTE: check type page: edit or create if user hasn't filled in the form fields
-  isTypePage = computed(() => {
+  isEditMode = computed(() => {
     if (
       this.userInfo().first_name &&
       this.userInfo().last_name &&
@@ -78,9 +77,7 @@ export class PersonalDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.#store.dispatch(new GetUserInfo());
-
-    const route = this.isTypePage() ? 'edit' : 'create';
-    this.#router.navigate(['personal-data', route]);
+    this.changeUrlPage();
   }
 
   updateFirstName(firstName: string) {
@@ -112,9 +109,9 @@ export class PersonalDataComponent implements OnInit {
   }
 
   sendUserInfo() {
-    console.log('debug: component ', this.newUserInfo, this.isTypePage());
+    console.log('debug: component ', this.newUserInfo, this.isEditMode());
 
-    return this.isTypePage()
+    return this.isEditMode()
       ? this.#store.dispatch(new UpdateUser(this.newUserInfo, true))
       : this.#store.dispatch(new UpdateUser(this.newUserInfo));
   }
@@ -122,5 +119,10 @@ export class PersonalDataComponent implements OnInit {
   userTel() {
     const userData: any = this.#lss.getLocalStorige();
     return JSON.parse(userData).phone;
+  }
+
+  changeUrlPage() {
+    const route = this.isEditMode() ? 'edit' : 'create';
+    this.#router.navigate(['personal-data', route]);
   }
 }
