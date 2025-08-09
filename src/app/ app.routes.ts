@@ -64,6 +64,13 @@ export const routes: Routes = [
             (m) => m.PersonalDataModule,
           ),
       },
+      {
+        path: 'requisites',
+        loadChildren: () =>
+          import('./components/card-details/card-details.module').then(
+            (m) => m.CardDetailsModule,
+          ),
+      },
     ],
   },
   {

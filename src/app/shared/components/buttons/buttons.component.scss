@@ -9,7 +9,7 @@
   --border: 2px solid black;
   --transform: none;
   --transition: 0s;
-
+  --display: flex;
   --isActiveColor: "red";
   --isActiveTransform: none;
   --isActiveTransition: 0s;
@@ -31,7 +31,7 @@ button {
   font-size: var(--fontSize);
   line-height: 22px;
 
-  display: flex;
+  display: var(--display);
   justify-content: center;
   align-items: center;
   gap: var(--gap);

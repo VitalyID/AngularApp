@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  Input,
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,6 +26,8 @@ import { InputTextComponent } from './../input-text/input-text.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationCardComponent implements OnInit {
+  @Input() title: string = '';
+
   card: UserCard = {
     card: { card_number: '', expiry: '', cvc: '' },
     currentComponent: RegistrationCardComponent,

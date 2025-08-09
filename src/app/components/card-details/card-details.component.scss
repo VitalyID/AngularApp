@@ -1,0 +1,56 @@
+@mixin flex($justify: center, $alight: center, $gap: 0px, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $alight;
+  gap: $gap;
+  flex-direction: $direction;
+}
+
+.cardDetail {
+  background: #f9fafc;
+  padding: 25px 35px;
+
+  & h2 {
+    margin-bottom: 30px;
+  }
+
+  &__body {
+    display: inline-block;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+
+    & > img {
+      margin-bottom: 20px;
+    }
+
+    app-buttons {
+      --display: block;
+      --width: 100%;
+    }
+  }
+
+  &__userCard {
+    @include flex($gap: 8px, $justify: start);
+    background-color: #f4f5f7;
+    border-radius: 8px;
+
+    &:last-of-type {
+      margin-bottom: 22px;
+    }
+  }
+
+  &__userCard--activeType {
+    padding: 7px 0 7px 12px;
+    @include flex($gap: 12px);
+
+    & custom-radio-button {
+      --mbElement: 0px;
+      --gap: 0px;
+    }
+  }
+
+  registration-card {
+    --width: 420px;
+  }
+}
