@@ -9,6 +9,15 @@
 .cardDetail {
   background: #f9fafc;
   padding: 25px 35px;
+  height: 100vh;
+
+  &__top {
+    width: 83.334%;
+
+    & > img {
+      margin-bottom: 20px;
+    }
+  }
 
   & h2 {
     margin-bottom: 30px;
@@ -19,15 +28,6 @@
     background-color: #fff;
     padding: 40px;
     border-radius: 10px;
-
-    & > img {
-      margin-bottom: 20px;
-    }
-
-    app-buttons {
-      --display: block;
-      --width: 100%;
-    }
   }
 
   &__userCard {
@@ -52,5 +52,10 @@
 
   registration-card {
     --width: 420px;
+  }
+
+  app-buttons {
+    --display: block;
+    --width: 100%;
   }
 }

@@ -18,6 +18,8 @@ export class CardDetailsComponent {
   });
 
   numberCard = signal<string>('1234 5678 9124 5678');
+  isTitle: boolean = false;
+  isButtons: boolean = false;
 
   removeCard: ButtonConfig = {
     text: 'Удаление карты',
@@ -26,6 +28,11 @@ export class CardDetailsComponent {
     borderStyle: '1px solid #E1E3E1',
     color: '#101011',
     boxShadow: 'none',
+  };
+
+  addCard: ButtonConfig = {
+    text: 'Привязать карту',
+    borderStyle: 'none',
   };
 
   typeBankCard() {

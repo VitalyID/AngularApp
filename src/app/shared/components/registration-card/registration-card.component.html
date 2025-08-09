@@ -2,7 +2,9 @@
 @let data = cardForm.get("data");
 @let cvv = cardForm.get("cvv");
 
-<h3>{{ title }}</h3>
+@if (isTitle) {
+  <h3>Введите данные вашей карты</h3>
+}
 <form [formGroup]="cardForm">
   <span>Номер карты</span>
   <div class="card-form">
@@ -61,16 +63,18 @@
     </div>
   </div>
 </form>
-<div class="button">
-  <app-buttons
-    [text]="buttonLast.text"
-    [borderStyle]="buttonLast.borderStyle"
-    (click)="lastStep()"
-  ></app-buttons>
-  <app-buttons
-    [text]="buttonNext.text"
-    [borderStyle]="buttonNext.borderStyle"
-    [disabled]="cardForm.invalid"
-    (click)="nextStep()"
-  ></app-buttons>
-</div>
+@if (isButtons) {
+  <div class="button">
+    <app-buttons
+      [text]="buttonLast.text"
+      [borderStyle]="buttonLast.borderStyle"
+      (click)="lastStep()"
+    ></app-buttons>
+    <app-buttons
+      [text]="buttonNext.text"
+      [borderStyle]="buttonNext.borderStyle"
+      [disabled]="cardForm.invalid"
+      (click)="nextStep()"
+    ></app-buttons>
+  </div>
+}

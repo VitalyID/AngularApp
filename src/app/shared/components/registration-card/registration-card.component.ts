@@ -26,7 +26,8 @@ import { InputTextComponent } from './../input-text/input-text.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationCardComponent implements OnInit {
-  @Input() title: string = '';
+  @Input() isTitle?: boolean = true;
+  @Input() isButtons?: boolean = true;
 
   card: UserCard = {
     card: { card_number: '', expiry: '', cvc: '' },
