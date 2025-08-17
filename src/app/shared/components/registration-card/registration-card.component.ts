@@ -30,7 +30,7 @@ export class RegistrationCardComponent implements OnInit {
   @Input() isButtons?: boolean = true;
 
   card: UserCard = {
-    card: { card_number: '', expiry: '', cvc: '' },
+    cards: [{ card_number: '', expiry: '', cvc: '', isActive: true }],
     currentComponent: RegistrationCardComponent,
   };
 
@@ -66,7 +66,7 @@ export class RegistrationCardComponent implements OnInit {
       .subscribe((userCard) => {
         if (userCard) {
           const newCard = userCard.replace(/ /g, '');
-          this.card.card = { ...this.card.card, card_number: newCard };
+          this.card.cards = [{ ...this.card.cards[0], card_number: newCard }];
         }
       });
 
@@ -75,7 +75,7 @@ export class RegistrationCardComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         if (data) {
-          this.card.card = { ...this.card.card, expiry: data };
+          this.card.cards = [{ ...this.card.cards[0], expiry: data }];
         }
       });
 
@@ -84,7 +84,7 @@ export class RegistrationCardComponent implements OnInit {
       ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((cvc) => {
         if (cvc) {
-          this.card.card = { ...this.card.card, cvc: cvc };
+          this.card.cards = [{ ...this.card.cards[0], cvc: cvc }];
         }
       });
   }

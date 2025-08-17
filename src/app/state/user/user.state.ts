@@ -17,11 +17,14 @@ import { StateUser, StateUserModel } from './user.models';
       country: '',
       city: '',
       client_type: 'payer',
-      card: {
-        card_number: '1234123412341234',
-        expiry: '12/12',
-        cvc: '123',
-      },
+      cards: [
+        {
+          card_number: '1234123412341234',
+          expiry: '12/12',
+          cvc: '123',
+          isActive: false,
+        },
+      ],
     },
   },
 })
@@ -30,8 +33,10 @@ export class UserState {
   readonly #http = inject(UserInfoService);
 
   @Selector()
-  static getUserInfo(state: StateUserModel) {
-    return state.userProfile;
+  static getUserInfo(state: StateUserModel): StateUser {
+    return {
+      ...state.userProfile,
+    };
   }
 
   @Action(UpdateUser)
@@ -48,6 +53,8 @@ export class UserState {
     )
       return EMPTY;
 
+    console.log('debug', ctx.getState().userProfile);
+
     const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
 
     return isNewUser
@@ -60,7 +67,14 @@ export class UserState {
     return this.#http.getUserService().pipe(
       take(1),
       tap((userInfo: StateUser) => {
-        ctx.patchState({ userProfile: userInfo });
+        if (typeof userInfo.cards === 'string') {
+          const parseCards = JSON.parse(userInfo.cards);
+          userInfo = { ...userInfo, cards: parseCards };
+        }
+
+        ctx.patchState({
+          userProfile: userInfo,
+        });
       }),
     );
   }

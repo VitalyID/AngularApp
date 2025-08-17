@@ -3,20 +3,30 @@
 
   <div class="cardDetail__body">
     <div class="cardDetail__top">
-      <img
-        src="../../../assets/images/bankCard/Card-min.png"
-        alt="Банковская карточка"
-      />
+      <bank-card
+        [balance]="bankCard.balansCard"
+        [typeCard]="bankCard.typeBankCard"
+        [name]="bankCard.nameCardHolder"
+        [number]="bankCard.numberCard"
+        [data]="bankCard.expirationDate"
+      ></bank-card>
 
-      <div class="cardDetail__userCard">
-        <div class="cardDetail__userCard--activeType">
-          <custom-radio-button
-            [radioConfig]="radioConfig"
-          ></custom-radio-button>
-          <img [src]="typeBankCard()" alt="Тип банковской карточки" />
+      @for (card of user().cards; track card.card_number || $index) {
+        <div
+          class="cardDetail__userCard"
+          (click)="isActiveCard(card.card_number)"
+          (keyup)="isActiveCard(card.card_number)"
+          tabindex="0"
+        >
+          <div class="cardDetail__userCard--activeType">
+            <custom-radio-button
+              [radioConfig]="radioConfig"
+            ></custom-radio-button>
+            <img [src]="typeBankCard()" alt="Тип банковской карточки" />
+          </div>
+          <span>{{ card.card_number | bankCardNumber }}</span>
         </div>
-        <span>{{ numberCard() }}</span>
-      </div>
+      }
 
       <app-buttons
         [text]="removeCard.text"

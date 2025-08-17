@@ -24,6 +24,14 @@ export class AuthService {
     password: string,
     silentMode: boolean,
   ): Observable<UserAuthStateModel> {
+    console.log(
+      'debug: ',
+      `${auth}/login`,
+      `${phone}`,
+      `${password}`,
+      `${silentMode}`,
+    );
+
     return this.#http.post<UserAuthStateModel>(`${auth}/login`, {
       phone: `${phone}`,
       password: `${password}`,

@@ -1,6 +1,24 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  Injector,
+  OnInit,
+  runInInjectionContext,
+  Signal,
+  signal,
+} from '@angular/core';
+import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
-import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
+import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
+import {
+  RadioButtonConfig,
+  RadioButtons,
+} from '../../shared/components/custom-radio-button/types/interface/radioButton';
+import { GetUserInfo } from '../../state/user/user.action';
+import { StateUser } from '../../state/user/user.models';
+import { UserState } from '../../state/user/user.state';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
 @Component({
@@ -10,16 +28,41 @@ import { ButtonConfig } from '../../types/interfaces/sectionItem';
   styleUrl: './card-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardDetailsComponent {
+export class CardDetailsComponent implements OnInit {
+  readonly #store = inject(Store);
+  readonly #inject = inject(Injector);
+
+  user: Signal<StateUser> = this.#store.selectSignal(UserState.getUserInfo);
+
   radioConfig = signal<RadioButtons>({
     icon: 'checkbox',
     iconActive: 'checkboxActive',
     button: [{ name: '', checked: false, id: uuid.v4() }],
   });
 
-  numberCard = signal<string>('1234 5678 9124 5678');
+  numberCard = signal<string>('0000 0000 0000 0000');
   isTitle: boolean = false;
   isButtons: boolean = false;
+
+  ngOnInit(): void {
+    this.#store.dispatch(new GetUserInfo());
+
+    runInInjectionContext(this.#inject, () => {
+      effect(() => {
+        if (this.user()) {
+          this.updateRadioConfig();
+        }
+      });
+    });
+  }
+
+  bankCard: UserBankCard = {
+    typeBankCard: signal('../../../assets/images/Visa card.png'),
+    balansCard: signal(0),
+    nameCardHolder: signal('Алибеков Гайсир'),
+    numberCard: signal('1234 5678 1234 5678'),
+    expirationDate: signal('06/28'),
+  };
 
   removeCard: ButtonConfig = {
     text: 'Удаление карты',
@@ -40,5 +83,20 @@ export class CardDetailsComponent {
     return random === 1
       ? '../../../assets/images/Master card.png'
       : '../../../assets/images/Visa card.png';
+  }
+
+  isActiveCard(cardNumber: string) {}
+
+  updateRadioConfig() {
+    const newButtons: RadioButtonConfig[] = this.user().cards.map((card) => ({
+      name: '',
+      checked: card.isActive,
+      id: uuid.v4(),
+    }));
+
+    this.radioConfig.update((oldValue) => ({
+      ...oldValue,
+      button: newButtons,
+    }));
   }
 }

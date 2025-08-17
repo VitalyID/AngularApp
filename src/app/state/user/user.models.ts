@@ -18,11 +18,7 @@ export interface UserType {
 }
 
 export interface UserCard {
-  card: {
-    card_number: string;
-    expiry: string;
-    cvc: string;
-  };
+  cards: BankCard[];
   currentComponent?: Type<any>;
 }
 
@@ -33,11 +29,7 @@ export interface StateUser {
   country: string;
   city: string;
   client_type: keyof typeof TypeUser;
-  card: {
-    card_number: string;
-    expiry: string;
-    cvc: string;
-  };
+  cards: BankCard[];
   currentComponent?: Type<any>;
 }
 
@@ -45,4 +37,11 @@ export type UpdateUserInfo = UserPersonalInfo | UserType | UserCard;
 
 export interface StateUserModel {
   userProfile: StateUser;
+}
+
+export interface BankCard {
+  card_number: string;
+  expiry: string;
+  cvc: string;
+  isActive: boolean;
 }

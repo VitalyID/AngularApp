@@ -14,8 +14,13 @@
   &__top {
     width: 83.334%;
 
+    & bank-card {
+      display: block;
+      margin-bottom: 1.25rem;
+    }
+
     & > img {
-      margin-bottom: 20px;
+      margin-bottom: 1.25rem;
     }
   }
 
@@ -36,7 +41,7 @@
     border-radius: 8px;
 
     &:last-of-type {
-      margin-bottom: 22px;
+      margin-bottom: 1.375rem;
     }
   }
 

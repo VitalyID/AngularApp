@@ -1,0 +1,51 @@
+@mixin flex($justify: center, $align: center, $gap: 0px, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin font($style: normal, $fw: 400, $fs: 16px, $lh: 16px, $color: black) {
+  font-family: "Formular";
+  font-style: $style;
+  font-weight: $fw;
+  font-size: $fs;
+  line-height: $lh;
+  color: $color;
+}
+
+.bankCard {
+  width: 100%;
+  padding: 23px 20px;
+  background: #3539ec;
+  box-shadow: 0px 10px 40px rgba(20, 32, 60, 0.05);
+  border-radius: 8px;
+
+  &__top,
+  &__bottom {
+    @include flex($justify: space-between);
+  }
+
+  &__spanInfo {
+    @include font($fs: 14px, $lh: 20px, $color: #ffffff);
+    opacity: 0.5;
+    mix-blend-mode: normal;
+  }
+
+  &__balance {
+    @include font($lh: 32px, $fs: 24px, $color: #ffffff);
+    display: block;
+    margin-bottom: 75px;
+  }
+
+  &__name {
+    @include font($lh: 20px, $fs: 14px, $color: #ffffff);
+    opacity: 0.5;
+  }
+
+  &__number,
+  &__data {
+    @include font($lh: 20px, $fs: 14px, $color: #ffffff);
+  }
+}
