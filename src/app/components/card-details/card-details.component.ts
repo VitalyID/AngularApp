@@ -12,10 +12,7 @@ import {
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
-import {
-  RadioButtonConfig,
-  RadioButtons,
-} from '../../shared/components/custom-radio-button/types/interface/radioButton';
+import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
 import { GetUserInfo } from '../../state/user/user.action';
 import { StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
@@ -36,8 +33,9 @@ export class CardDetailsComponent implements OnInit {
 
   radioConfig = signal<RadioButtons>({
     icon: 'checkbox',
-    iconActive: 'checkboxActive',
-    button: [{ name: '', checked: false, id: uuid.v4() }],
+    name: '',
+    checked: false,
+    id: uuid.v4(),
   });
 
   numberCard = signal<string>('0000 0000 0000 0000');
@@ -87,16 +85,14 @@ export class CardDetailsComponent implements OnInit {
 
   isActiveCard(cardNumber: string) {}
 
-  updateRadioConfig() {
-    const newButtons: RadioButtonConfig[] = this.user().cards.map((card) => ({
-      name: '',
-      checked: card.isActive,
-      id: uuid.v4(),
-    }));
-
-    this.radioConfig.update((oldValue) => ({
-      ...oldValue,
-      button: newButtons,
-    }));
+  updateRadioConfig(): signal<RadioButtons[]> {
+    return signal(
+      this.user().cards.map((card) => ({
+        icon: card.isActive ? 'checkboxActive' : 'checkbox',
+        name: '',
+        checked: card.isActive,
+        id: uuid.v4(),
+      })),
+    );
   }
 }

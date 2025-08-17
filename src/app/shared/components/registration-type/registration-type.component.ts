@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -14,10 +15,7 @@ import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { CustomRadioButtonComponent } from '../custom-radio-button/custom-radio-button.component';
 import { TypeUser } from '../custom-radio-button/types/enum/typeUser';
-import {
-  RadioButtonConfig,
-  RadioButtons,
-} from '../custom-radio-button/types/interface/radioButton';
+import { RadioButtons } from '../custom-radio-button/types/interface/radioButton';
 import { StepService } from '../stepper/service/step.service';
 
 @Component({
@@ -28,12 +26,7 @@ import { StepService } from '../stepper/service/step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationTypeComponent {
-  radioButtons: RadioButtonConfig[] = [];
-  RadioButtonConfig: WritableSignal<RadioButtons> = signal<RadioButtons>({
-    icon: 'checkbox',
-    iconActive: 'checkboxActive',
-    button: this.generatorRadioButtonConfig(),
-  });
+  radioButtons = signal<RadioButtons[]>(this.generatorRadioButtonConfig());
 
   buttonNext: ButtonConfig = {
     text: 'Далее',
@@ -54,24 +47,19 @@ export class RegistrationTypeComponent {
   readonly #stepService = inject(StepService);
   readonly #store = inject(Store);
 
-  generatorRadioButtonConfig(): RadioButtonConfig[] {
+  generatorRadioButtonConfig(): RadioButtons[] {
     const typeValue = Object.values(TypeUser);
 
-    typeValue.forEach((user) => {
-      const newButtonConfig: RadioButtonConfig = {
-        name: user,
-        checked: false,
-        id: uuid.v4(),
-      };
-
-      this.radioButtons = [...this.radioButtons, newButtonConfig];
-    });
-
-    return this.radioButtons;
+    return typeValue.map((name) => ({
+      icon: 'checkbox',
+      name,
+      checked: false,
+      id: uuid.v4(),
+    }));
   }
 
-  userChoice(data: string) {
-    this.updateClientType(data);
+  userChoice(userBtn: RadioButtons) {
+    this.updateClientType(userBtn.name);
     this.updateButtonState();
   }
 

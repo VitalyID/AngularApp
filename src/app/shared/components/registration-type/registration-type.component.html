@@ -1,7 +1,10 @@
-<custom-radio-button
-  [radioConfig]="RadioButtonConfig"
-  (userConfiture)="userChoice($event)"
-></custom-radio-button>
+@for (buttonConfig of radioButtons(); track buttonConfig.id) {
+  <custom-radio-button
+    [radioConfig]="buttonConfig"
+    (userConfiture)="userChoice($event)"
+  ></custom-radio-button>
+}
+
 <div class="button">
   <app-buttons
     [text]="buttonLast.text"

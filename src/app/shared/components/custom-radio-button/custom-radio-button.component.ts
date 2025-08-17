@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
-import { RadioButtonConfig, RadioButtons } from './types/interface/radioButton';
+import { RadioButtons } from './types/interface/radioButton';
 
 @Component({
   selector: 'custom-radio-button',
@@ -18,28 +18,17 @@ import { RadioButtonConfig, RadioButtons } from './types/interface/radioButton';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomRadioButtonComponent {
-  @Input() radioConfig = signal<RadioButtons>({
+  @Input() radioConfig: RadioButtons = {
     icon: '',
-    iconActive: '',
-    button: [
-      {
-        name: '',
-        checked: false,
-        id: '',
-      },
-    ],
-  });
+    name: '',
+    checked: false,
+    id: '',
+  };
 
   @Output() userConfiture = new EventEmitter();
 
-  setUser(event: RadioButtonConfig) {
-    const newRadioConfig = this.radioConfig();
-
-    const newButtons = this.radioConfig().button.map((element) => {
-      return { ...element, checked: element.name === event.name };
-    });
-    this.radioConfig.set({ ...newRadioConfig, button: newButtons });
-
-    this.userConfiture.emit(event.name);
+  setUser(setUserRadioNtb: RadioButtons) {
+    this.radioConfig = { ...this.radioConfig, icon: 'checkboxActive' };
+    this.userConfiture.emit(setUserRadioNtb);
   }
 }
