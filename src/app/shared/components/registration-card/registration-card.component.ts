@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  EventEmitter,
   inject,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,11 +14,13 @@ import { Store } from '@ngxs/store';
 import { PopupService } from '../../../services/popup.service';
 import { UpdateUser } from '../../../state/user/user.action';
 
+import { debounceTime } from 'rxjs';
 import { UserCard } from '../../../state/user/user.models';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from '../stepper/service/step.service';
 import { InputTextComponent } from './../input-text/input-text.component';
+import { CardFormValue } from './types/interfaces/CardFormValue';
 
 @Component({
   selector: 'registration-card',
@@ -28,6 +32,7 @@ import { InputTextComponent } from './../input-text/input-text.component';
 export class RegistrationCardComponent implements OnInit {
   @Input() isTitle?: boolean = true;
   @Input() isButtons?: boolean = true;
+  @Output() cardDataChange = new EventEmitter();
 
   card: UserCard = {
     cards: [{ card_number: '', expiry: '', cvc: '', isActive: true }],
@@ -60,33 +65,7 @@ export class RegistrationCardComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.cardForm
-      .get('card')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userCard) => {
-        if (userCard) {
-          const newCard = userCard.replace(/ /g, '');
-          this.card.cards = [{ ...this.card.cards[0], card_number: newCard }];
-        }
-      });
-
-    this.cardForm
-      .get('data')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((data) => {
-        if (data) {
-          this.card.cards = [{ ...this.card.cards[0], expiry: data }];
-        }
-      });
-
-    this.cardForm
-      .get('cvc')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((cvc) => {
-        if (cvc) {
-          this.card.cards = [{ ...this.card.cards[0], cvc: cvc }];
-        }
-      });
+    if (!this.isButtons) this.generalSubscriptionFields();
   }
 
   lastStep() {
@@ -94,11 +73,46 @@ export class RegistrationCardComponent implements OnInit {
   }
 
   nextStep() {
+    this.generalGetFields(this.cardForm.getRawValue());
+
     this.#store.dispatch(new UpdateUser(this.card));
     this.#popupService.popupState$.next({
       id: 'SetUser',
       state: false,
       component: null,
     });
+  }
+
+  generalSubscriptionFields() {
+    this.cardForm.valueChanges
+      .pipe(takeUntilDestroyed(this.#destroyRef), debounceTime(300))
+      .subscribe((value) => {
+        this.card.cards = [
+          {
+            card_number: value.card ? value.card.replace(/\s/g, '') : '',
+            expiry: value.data || '',
+            cvc: value.cvc || '',
+            isActive: true,
+          },
+        ];
+
+        this.cardDataChange.emit(this.card);
+      });
+  }
+
+  generalGetFields(formValue: CardFormValue) {
+    const card_number = formValue.card ? formValue.card.replace(/\s/g, '') : '';
+    const expiry = formValue.data || '';
+    const cvc = formValue.cvc || '';
+    if (card_number && expiry && cvc) {
+      this.card.cards = [
+        {
+          card_number: card_number,
+          expiry: expiry,
+          cvc: cvc,
+          isActive: true,
+        },
+      ];
+    }
   }
 }

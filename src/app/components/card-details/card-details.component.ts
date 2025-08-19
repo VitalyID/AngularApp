@@ -37,6 +37,13 @@ export class CardDetailsComponent implements OnInit {
   isTitle: boolean = false;
   isButtons: boolean = false;
 
+  bankCard: BankCard = {
+    card_number: '',
+    expiry: '',
+    cvc: '',
+    isActive: false,
+  };
+
   ngOnInit(): void {
     this.#store.dispatch(new GetUserInfo());
 
@@ -92,5 +99,11 @@ export class CardDetailsComponent implements OnInit {
     }));
   }
 
-  addNewCard() {}
+  setNewCard(card: BankCard) {
+    this.bankCard = { ...this.bankCard, ...card };
+  }
+
+  addNewCard() {
+    this.#store.dispatch(new UpdateBankCards(this.bankCard));
+  }
 }
