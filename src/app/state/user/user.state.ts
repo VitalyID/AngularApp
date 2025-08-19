@@ -4,8 +4,14 @@ import { EMPTY, take, tap } from 'rxjs';
 import { UserInfoService } from '../../services/userInfo.service';
 import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
 import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
-import { GetUserInfo, UpdateUser } from './user.action';
-import { StateUser, StateUserModel } from './user.models';
+import { GetUserInfo, UpdateBankCards, UpdateUser } from './user.action';
+import {
+  BankCard,
+  StateUser,
+  StateUserModel,
+  UpdateUserInfo,
+} from './user.models';
+import { EmailValidator } from '@angular/forms';
 
 @State<StateUserModel>({
   name: 'userProfile',
@@ -32,6 +38,15 @@ import { StateUser, StateUserModel } from './user.models';
 export class UserState {
   readonly #http = inject(UserInfoService);
 
+  stoppingAction(user: UpdateUserInfo): boolean {
+    if (
+      user.currentComponent === RegistrationFormComponent ||
+      user.currentComponent === RegistrationTypeComponent
+    )
+      return true;
+    return false;
+  }
+
   @Selector()
   static getUserInfo(state: StateUserModel): StateUser {
     return {
@@ -39,20 +54,17 @@ export class UserState {
     };
   }
 
+  // NOTE: If user update personal information after some time info:UpdateUserInfo, isNewUser === true;
+
   @Action(UpdateUser)
   updateUser(
     ctx: StateContext<StateUserModel>,
     { info, isNewUser }: UpdateUser,
   ) {
     const oldUser = ctx.getState().userProfile;
-
     ctx.patchState({ userProfile: { ...oldUser, ...info } });
 
-    if (
-      info.currentComponent === RegistrationFormComponent ||
-      info.currentComponent === RegistrationTypeComponent
-    )
-      return EMPTY;
+    if (this.stoppingAction(info)) return EMPTY;
 
     const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
 
@@ -76,5 +88,18 @@ export class UserState {
         });
       }),
     );
+  }
+
+  @Action(UpdateBankCards)
+  updateCards(ctx: StateContext<StateUserModel>, { cards }: UpdateBankCards) {
+    const oldUserInfo = ctx.getState().userProfile;
+
+    if (this.stoppingAction(oldUserInfo)) return EMPTY;
+
+    ctx.patchState({ userProfile: { ...oldUserInfo, cards } });
+
+    const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
+
+    return this.#http.putUserInfo(updateUserInfo);
   }
 }

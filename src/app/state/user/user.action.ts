@@ -1,4 +1,4 @@
-import { UpdateUserInfo } from './user.models';
+import { BankCard, UpdateUserInfo } from './user.models';
 
 export class UpdateUser {
   static readonly type = '[user] User';
@@ -10,4 +10,9 @@ export class UpdateUser {
 
 export class GetUserInfo {
   static readonly type = '[getInfo] GetInfoUser';
+}
+
+export class UpdateBankCards {
+  static readonly type = '[bankCards] UserBankCards';
+  constructor(public cards: BankCard[]) {}
 }
