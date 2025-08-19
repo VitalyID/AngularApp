@@ -4,27 +4,27 @@
   <div class="cardDetail__body">
     <div class="cardDetail__top">
       <bank-card
-        [balance]="bankCard.balansCard"
-        [typeCard]="bankCard.typeBankCard"
-        [name]="bankCard.nameCardHolder"
-        [number]="bankCard.numberCard"
-        [data]="bankCard.expirationDate"
+        [balance]="activeCard.balansCard"
+        [typeCard]="activeCard.typeBankCard"
+        [name]="activeCard.nameCardHolder"
+        [number]="activeCard.numberCard"
+        [data]="activeCard.expirationDate"
       ></bank-card>
 
       @for (card of user().cards; track card.card_number || $index) {
         <div
           class="cardDetail__userCard"
-          (click)="isActiveCard(card.card_number)"
-          (keyup)="isActiveCard(card.card_number)"
+          (click)="setActiveCard(card)"
+          (keyup)="setActiveCard(card)"
           tabindex="0"
         >
           <div class="cardDetail__userCard--activeType">
-            <custom-radio-button
-              [radioConfig]="radioConfig"
-            ></custom-radio-button>
+            @for (btn of radioConfig(); track btn.id) {
+              <custom-radio-button [radioConfig]="btn"></custom-radio-button>
+            }
             <img [src]="typeBankCard()" alt="Тип банковской карточки" />
           </div>
-          <span>{{ card.card_number | bankCardNumber }}</span>
+          <span>{{ card.card_number | bankCardNumberSpaces }}</span>
         </div>
       }
 

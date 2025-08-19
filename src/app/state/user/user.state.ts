@@ -45,6 +45,7 @@ export class UserState {
     { info, isNewUser }: UpdateUser,
   ) {
     const oldUser = ctx.getState().userProfile;
+
     ctx.patchState({ userProfile: { ...oldUser, ...info } });
 
     if (
@@ -52,8 +53,6 @@ export class UserState {
       info.currentComponent === RegistrationTypeComponent
     )
       return EMPTY;
-
-    console.log('debug', ctx.getState().userProfile);
 
     const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
 

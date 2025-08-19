@@ -1,15 +1,15 @@
 <div class="bankCard">
   <div class="bankCard__top">
     <span class="bankCard__spanInfo">Баланс карты</span>
-    <img [src]="typeCard()" alt="Тип карточки" class="cardTypeLogo" />
+    <img [src]="typeCard" alt="Тип карточки" class="cardTypeLogo" />
   </div>
 
-  <span class="bankCard__balance">{{ balance() }} ₽</span>
+  <span class="bankCard__balance">{{ balance }} ₽</span>
 
-  <span class="bankCard__name">{{ name() }}</span>
+  <span class="bankCard__name">{{ name }}</span>
 
   <div class="bankCard__bottom">
-    <span class="bankCard__number">{{ number() }}</span>
-    <span class="bankCard__data">{{ data() }}</span>
+    <span class="bankCard__number">{{ number | bankCardNumberSpaces }}</span>
+    <span class="bankCard__data">{{ data }}</span>
   </div>
 </div>

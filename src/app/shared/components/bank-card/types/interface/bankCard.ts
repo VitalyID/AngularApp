@@ -1,9 +1,7 @@
-import { Signal } from '@angular/core';
-
 export interface UserBankCard {
-  typeBankCard: Signal<string>;
-  balansCard: Signal<number>;
-  nameCardHolder: Signal<string>;
-  numberCard: Signal<string>;
-  expirationDate: Signal<string>;
+  typeBankCard: string;
+  balansCard: number;
+  nameCardHolder: string;
+  numberCard: string;
+  expirationDate: string;
 }

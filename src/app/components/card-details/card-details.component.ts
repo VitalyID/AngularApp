@@ -14,7 +14,7 @@ import * as uuid from 'uuid';
 import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
 import { GetUserInfo } from '../../state/user/user.action';
-import { StateUser } from '../../state/user/user.models';
+import { BankCard, StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 
@@ -31,12 +31,7 @@ export class CardDetailsComponent implements OnInit {
 
   user: Signal<StateUser> = this.#store.selectSignal(UserState.getUserInfo);
 
-  radioConfig = signal<RadioButtons>({
-    icon: 'checkbox',
-    name: '',
-    checked: false,
-    id: uuid.v4(),
-  });
+  radioConfig = signal<RadioButtons[]>([]);
 
   numberCard = signal<string>('0000 0000 0000 0000');
   isTitle: boolean = false;
@@ -48,18 +43,18 @@ export class CardDetailsComponent implements OnInit {
     runInInjectionContext(this.#inject, () => {
       effect(() => {
         if (this.user()) {
-          this.updateRadioConfig();
+          this.radioConfig.set(this.updateRadioConfig());
         }
       });
     });
   }
 
-  bankCard: UserBankCard = {
-    typeBankCard: signal('../../../assets/images/Visa card.png'),
-    balansCard: signal(0),
-    nameCardHolder: signal('Алибеков Гайсир'),
-    numberCard: signal('1234 5678 1234 5678'),
-    expirationDate: signal('06/28'),
+  activeCard: UserBankCard = {
+    typeBankCard: '../../../assets/images/Visa card.png',
+    balansCard: 0,
+    nameCardHolder: this.user().first_name + ' ' + this.user().last_name,
+    numberCard: '1234 5678 1234 5678',
+    expirationDate: '06/28',
   };
 
   removeCard: ButtonConfig = {
@@ -83,16 +78,16 @@ export class CardDetailsComponent implements OnInit {
       : '../../../assets/images/Visa card.png';
   }
 
-  isActiveCard(cardNumber: string) {}
+  setActiveCard(card: BankCard) {
+    this.activeCard.numberCard = card.card_number;
+  }
 
-  updateRadioConfig(): signal<RadioButtons[]> {
-    return signal(
-      this.user().cards.map((card) => ({
-        icon: card.isActive ? 'checkboxActive' : 'checkbox',
-        name: '',
-        checked: card.isActive,
-        id: uuid.v4(),
-      })),
-    );
+  updateRadioConfig(): RadioButtons[] {
+    return this.user().cards.map((card) => ({
+      icon: card.isActive ? 'checkboxActive' : 'checkbox',
+      name: '',
+      checked: card.isActive,
+      id: uuid.v4(),
+    }));
   }
 }

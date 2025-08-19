@@ -5,7 +5,7 @@ import { CustomRadioButtonComponent } from '../../shared/components/custom-radio
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
 import { BankCardComponent } from '../../shared/components/bank-card/bank-card.component';
-import { CardPipe } from './pipe/card-number';
+import { BankCardNumberSpaces } from '../../shared/components/bank-card/pipe/card-number';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
     ButtonsComponent,
     RegistrationCardComponent,
     BankCardComponent,
-    CardPipe,
+    BankCardNumberSpaces,
     CommonModule,
   ],
   exports: [],

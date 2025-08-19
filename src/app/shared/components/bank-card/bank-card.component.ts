@@ -1,22 +1,18 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  signal,
-  Signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { BankCardNumberSpaces } from './pipe/card-number';
 
 @Component({
   selector: 'bank-card',
-  imports: [],
+  standalone: true,
+  imports: [BankCardNumberSpaces],
   templateUrl: './bank-card.component.html',
   styleUrl: './bank-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BankCardComponent {
-  @Input({ required: true }) balance: Signal<number> = signal(0);
-  @Input({ required: true }) typeCard: Signal<string> = signal('');
-  @Input({ required: true }) name: Signal<string> = signal('');
-  @Input({ required: true }) number: Signal<string> = signal('');
-  @Input({ required: true }) data: Signal<string> = signal('');
+  @Input({ required: true }) balance: number = 0;
+  @Input({ required: true }) typeCard: string = '';
+  @Input({ required: true }) name: string = '';
+  @Input({ required: true }) number: string = '';
+  @Input({ required: true }) data: string = '';
 }

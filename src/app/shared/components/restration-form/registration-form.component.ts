@@ -19,10 +19,7 @@ import { ListOfService } from '../../../const';
 import { UpdateUser } from '../../../state/user/user.action';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
-import {
-  RadioButtonConfig,
-  RadioButtons,
-} from '../custom-radio-button/types/interface/radioButton';
+
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { ListDropdown } from '../dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../input-text/directives/validators/noNumbersInNameValidator';
@@ -51,10 +48,6 @@ export class RegistrationFormComponent implements OnInit {
     text: 'Далее',
     borderStyle: 'none',
   };
-
-  // NOTE: for change types user you need to change enum with types
-  RadioButtonConfig!: WritableSignal<RadioButtons>;
-  radioButtons: RadioButtonConfig[] = [];
 
   first_name = '';
   last_name = '';
