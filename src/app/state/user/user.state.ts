@@ -5,13 +5,7 @@ import { UserInfoService } from '../../services/userInfo.service';
 import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
 import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
 import { GetUserInfo, UpdateBankCards, UpdateUser } from './user.action';
-import {
-  BankCard,
-  StateUser,
-  StateUserModel,
-  UpdateUserInfo,
-} from './user.models';
-import { EmailValidator } from '@angular/forms';
+import { StateUser, StateUserModel, UpdateUserInfo } from './user.models';
 
 @State<StateUserModel>({
   name: 'userProfile',
@@ -81,6 +75,8 @@ export class UserState {
         if (typeof userInfo.cards === 'string') {
           const parseCards = JSON.parse(userInfo.cards);
           userInfo = { ...userInfo, cards: parseCards };
+
+          console.log('debug: ', userInfo);
         }
 
         ctx.patchState({
@@ -91,12 +87,16 @@ export class UserState {
   }
 
   @Action(UpdateBankCards)
-  updateCards(ctx: StateContext<StateUserModel>, { cards }: UpdateBankCards) {
+  updateCards(ctx: StateContext<StateUserModel>, { card }: UpdateBankCards) {
     const oldUserInfo = ctx.getState().userProfile;
 
     if (this.stoppingAction(oldUserInfo)) return EMPTY;
 
-    ctx.patchState({ userProfile: { ...oldUserInfo, cards } });
+    ctx.patchState({
+      userProfile: { ...oldUserInfo, cards: [...oldUserInfo.cards, card] },
+    });
+
+    console.log('debug: store new cards', ctx.getState().userProfile);
 
     const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
 

@@ -14,5 +14,5 @@ export class GetUserInfo {
 
 export class UpdateBankCards {
   static readonly type = '[bankCards] UserBankCards';
-  constructor(public cards: BankCard[]) {}
+  constructor(public card: BankCard) {}
 }

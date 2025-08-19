@@ -13,7 +13,7 @@ import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
-import { GetUserInfo } from '../../state/user/user.action';
+import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
 import { BankCard, StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
@@ -80,6 +80,7 @@ export class CardDetailsComponent implements OnInit {
 
   setActiveCard(card: BankCard) {
     this.activeCard.numberCard = card.card_number;
+    this.#store.dispatch(new UpdateBankCards(card));
   }
 
   updateRadioConfig(): RadioButtons[] {
@@ -90,4 +91,6 @@ export class CardDetailsComponent implements OnInit {
       id: uuid.v4(),
     }));
   }
+
+  addNewCard() {}
 }
