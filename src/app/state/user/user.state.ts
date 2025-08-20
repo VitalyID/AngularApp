@@ -87,19 +87,18 @@ export class UserState {
   }
 
   @Action(UpdateBankCards)
-  updateCards(ctx: StateContext<StateUserModel>, { card }: UpdateBankCards) {
+  updateCards(ctx: StateContext<StateUserModel>, { cards }: UpdateBankCards) {
     const oldUserInfo = ctx.getState().userProfile;
 
     if (this.stoppingAction(oldUserInfo)) return EMPTY;
 
     ctx.patchState({
-      userProfile: { ...oldUserInfo, cards: [...oldUserInfo.cards, card] },
+      userProfile: { ...oldUserInfo, cards: [...cards] },
     });
 
     console.log('debug: store new cards', ctx.getState().userProfile);
+    return EMPTY;
 
-    const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
-
-    return this.#http.putUserInfo(updateUserInfo);
+    // debug: return this.#http.putUserInfo(ctx.getState().userProfile);
   }
 }

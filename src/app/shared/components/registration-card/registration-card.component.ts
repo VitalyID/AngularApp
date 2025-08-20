@@ -96,7 +96,7 @@ export class RegistrationCardComponent implements OnInit {
           },
         ];
 
-        this.cardDataChange.emit(this.card);
+        this.cardDataChange.emit(this.card.cards);
       });
   }
 

@@ -1,3 +1,4 @@
+@let user = user$();
 <div class="cardDetail">
   <h2>Реквизиты</h2>
 
@@ -11,21 +12,24 @@
         [data]="activeCard.expirationDate"
       ></bank-card>
 
-      @for (card of user().cards; track card.card_number || $index) {
-        <div
-          class="cardDetail__userCard"
-          (click)="setActiveCard(card)"
-          (keyup)="setActiveCard(card)"
-          tabindex="0"
-        >
-          <div class="cardDetail__userCard--activeType">
-            @for (btn of radioConfig(); track btn.id) {
-              <custom-radio-button [radioConfig]="btn"></custom-radio-button>
-            }
-            <img [src]="typeBankCard()" alt="Тип банковской карточки" />
+      <!-- NOTE: if user didn't add bank card by registration, don't sho this section -->
+      @if (user.cards && user.cards.length >= 1) {
+        @for (card of user$().cards; track card.card_number + $index) {
+          <div
+            class="cardDetail__userCard"
+            (click)="setActiveCard(card)"
+            (keyup)="setActiveCard(card)"
+            tabindex="0"
+          >
+            <div class="cardDetail__userCard--activeType">
+              <custom-radio-button
+                [radioConfig]="radioConfig()[$index]"
+              ></custom-radio-button>
+              <img [src]="typeBankCard()" alt="Тип банковской карточки" />
+            </div>
+            <span>{{ card.card_number | bankCardNumberSpaces }}</span>
           </div>
-          <span>{{ card.card_number | bankCardNumberSpaces }}</span>
-        </div>
+        }
       }
 
       <app-buttons
@@ -35,6 +39,7 @@
         [borderStyle]="removeCard.borderStyle"
         [color]="removeCard.color"
         [boxShadow]="removeCard.boxShadow"
+        (click)="removeBankCard()"
       ></app-buttons>
     </div>
 
@@ -47,7 +52,7 @@
     <app-buttons
       [text]="addCard.text"
       [borderStyle]="addCard.borderStyle"
-      (click)="addNewCard()"
+      (click)="addBankCard()"
     ></app-buttons>
   </div>
 </div>
