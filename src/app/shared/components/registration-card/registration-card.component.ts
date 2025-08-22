@@ -1,3 +1,4 @@
+import { BankCard } from './../../../state/user/user.models';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,7 +33,7 @@ import { CardFormValue } from './types/interfaces/CardFormValue';
 export class RegistrationCardComponent implements OnInit {
   @Input() isTitle?: boolean = true;
   @Input() isButtons?: boolean = true;
-  @Output() cardDataChange = new EventEmitter();
+  @Output() cardDataChange = new EventEmitter<BankCard[]>();
 
   card: UserCard = {
     cards: [{ card_number: '', expiry: '', cvc: '', isActive: true }],
