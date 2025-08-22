@@ -76,7 +76,7 @@ export class UserState {
           const parseCards = JSON.parse(userInfo.cards);
           userInfo = { ...userInfo, cards: parseCards };
 
-          console.log('debug: ', userInfo);
+          console.log('debug. get info from server ', userInfo);
         }
 
         ctx.patchState({
@@ -96,9 +96,6 @@ export class UserState {
       userProfile: { ...oldUserInfo, cards: [...cards] },
     });
 
-    console.log('debug: store new cards', ctx.getState().userProfile);
-    return EMPTY;
-
-    // debug: return this.#http.putUserInfo(ctx.getState().userProfile);
+    return this.#http.putUserInfo(ctx.getState().userProfile);
   }
 }

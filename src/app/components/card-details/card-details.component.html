@@ -17,8 +17,8 @@
         @for (card of user$().cards; track card.card_number + $index) {
           <div
             class="cardDetail__userCard"
-            (click)="setActiveCard(card)"
-            (keyup)="setActiveCard(card)"
+            (click)="userActiveCard(card)"
+            (keyup)="userActiveCard(card)"
             tabindex="0"
           >
             <div class="cardDetail__userCard--activeType">

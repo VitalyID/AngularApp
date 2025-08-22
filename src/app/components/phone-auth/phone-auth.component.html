@@ -11,21 +11,23 @@
         <h1>Вход в Tips.me</h1>
         <span>Номер телефона</span>
 
-        <input-text
-          [placeholder]="inputPhone.placeholder || ''"
-          [type]="inputPhone.type || 'tel'"
-          [disabled]="inputPhone.disabled || false"
-          [value]="userData().phone"
-          [dropSpecialCharacters]="inputPhone.dropSpecialCharacters || true"
-          [mask]="inputPhone.mask || ''"
-          (updateValue)="phoneNumber($event)"
-          [prefix]="inputPhone.prefix || ''"
-        ></input-text>
-        <input-text
-          [placeholder]="inputPassword.placeholder || ''"
-          [type]="inputPassword.type || 'password'"
-          (updateValue)="setPassword($event)"
-        ></input-text>
+        <form>
+          <input-text
+            [placeholder]="inputPhone.placeholder || ''"
+            [type]="inputPhone.type || 'tel'"
+            [disabled]="inputPhone.disabled || false"
+            [value]="userData().phone"
+            [dropSpecialCharacters]="inputPhone.dropSpecialCharacters || true"
+            [mask]="inputPhone.mask || ''"
+            (updateValue)="phoneNumber($event)"
+            [prefix]="inputPhone.prefix || ''"
+          ></input-text>
+          <input-text
+            [placeholder]="inputPassword.placeholder || ''"
+            [type]="inputPassword.type || 'password'"
+            (updateValue)="setPassword($event)"
+          ></input-text>
+        </form>
 
         <div class="auth-phone-container__switcher">
           <switcher

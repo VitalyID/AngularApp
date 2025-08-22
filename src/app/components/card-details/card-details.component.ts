@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import * as uuid from 'uuid';
 import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
@@ -82,10 +82,7 @@ export class CardDetailsComponent implements OnInit {
         tap((user: StateUser) => {
           user.cards.forEach((card) => {
             if (card.isActive) {
-              this.activeCard.numberCard = card.card_number;
-              this.activeCard.nameCardHolder =
-                user.first_name + ' ' + user.last_name;
-              this.activeCard.expirationDate = card.expiry;
+              this.setActiveCard(user, card);
             }
           });
         }),
@@ -108,7 +105,13 @@ export class CardDetailsComponent implements OnInit {
       : '../../../assets/images/Visa card.png';
   }
 
-  setActiveCard(card: BankCard) {
+  setActiveCard(user: StateUser, card: BankCard) {
+    this.activeCard.numberCard = card.card_number;
+    this.activeCard.nameCardHolder = user.first_name + ' ' + user.last_name;
+    this.activeCard.expirationDate = card.expiry;
+  }
+
+  userActiveCard(card: BankCard) {
     const numberActiveCard = card.card_number;
     this.user$.update((currentUser) => {
       const newCards =
@@ -138,6 +141,7 @@ export class CardDetailsComponent implements OnInit {
   }
 
   addBankCard() {
+    this.setCardFalse();
     this.user$.update((user) => {
       const currentCards = user.cards || [];
       return {
@@ -158,5 +162,13 @@ export class CardDetailsComponent implements OnInit {
     if (updatedCard) {
       this.#store.dispatch(new UpdateBankCards(updatedCard));
     }
+  }
+
+  setCardFalse() {
+    this.user$.update((user) => {
+      const currentCards = user.cards || [];
+      currentCards.map((card) => (card.isActive = false));
+      return { ...user, cards: [...currentCards] };
+    });
   }
 }
