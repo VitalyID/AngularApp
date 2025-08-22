@@ -13,7 +13,7 @@
       ></bank-card>
 
       <!-- NOTE: if user didn't add bank card by registration, don't sho this section -->
-      @if (user.cards && user.cards.length >= 1) {
+      @if (user.cards && user.cards.length) {
         @for (card of user$().cards; track card.card_number + $index) {
           <div
             class="cardDetail__userCard"
@@ -25,7 +25,7 @@
               <custom-radio-button
                 [radioConfig]="radioConfig()[$index]"
               ></custom-radio-button>
-              <img [src]="typeBankCard()" alt="Тип банковской карточки" />
+              <img [src]="card.typeCard" alt="Тип банковской карточки" />
             </div>
             <span>{{ card.card_number | bankCardNumberSpaces }}</span>
           </div>

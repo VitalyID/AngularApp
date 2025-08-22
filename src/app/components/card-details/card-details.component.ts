@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
-import { Observable, tap } from 'rxjs';
 import * as uuid from 'uuid';
 import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
@@ -32,8 +31,6 @@ export class CardDetailsComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #inject = inject(Injector);
   readonly #destroyRef = inject(DestroyRef);
-
-  // debug: user: Signal<StateUser> = this.#store.selectSignal(UserState.getUserInfo);
 
   user$ = signal<Partial<StateUser>>({});
 
@@ -77,17 +74,16 @@ export class CardDetailsComponent implements OnInit {
 
     this.#store
       .select(UserState.getUserInfo)
-      .pipe(
-        takeUntilDestroyed(this.#destroyRef),
-        tap((user: StateUser) => {
-          user.cards.forEach((card) => {
-            if (card.isActive) {
-              this.setActiveCard(user, card);
-            }
-          });
-        }),
-      )
-      .subscribe((user) => this.user$.set(user));
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((user: StateUser) => {
+        user.cards.forEach((card) => {
+          card.typeCard = this.typeBankCard();
+          if (card.isActive) {
+            this.setActiveCard(user, card);
+          }
+        });
+        this.user$.set(user);
+      });
 
     runInInjectionContext(this.#inject, () => {
       effect(() => {
@@ -98,7 +94,7 @@ export class CardDetailsComponent implements OnInit {
     });
   }
 
-  typeBankCard() {
+  typeBankCard(): string {
     const random = Math.round(Math.random());
     return random === 1
       ? '../../../assets/images/Master card.png'
@@ -109,6 +105,7 @@ export class CardDetailsComponent implements OnInit {
     this.activeCard.numberCard = card.card_number;
     this.activeCard.nameCardHolder = user.first_name + ' ' + user.last_name;
     this.activeCard.expirationDate = card.expiry;
+    this.activeCard.typeBankCard = this.typeBankCard();
   }
 
   userActiveCard(card: BankCard) {
@@ -137,7 +134,7 @@ export class CardDetailsComponent implements OnInit {
   }
 
   setNewCard(card: BankCard[]) {
-    this.bankCard = { ...card[0] };
+    this.bankCard = { ...card[0], typeCard: this.typeBankCard() };
   }
 
   addBankCard() {
@@ -156,9 +153,15 @@ export class CardDetailsComponent implements OnInit {
   }
 
   removeBankCard() {
-    const updatedCard = this.user$().cards?.filter((card) => {
+    const inActiveCard = this.user$().cards?.filter((card) => {
       return card.isActive === false;
     });
+
+    const updatedCard = inActiveCard?.map((card) => {
+      const { typeCard, ...cardWithType } = card;
+      return cardWithType;
+    });
+
     if (updatedCard) {
       this.#store.dispatch(new UpdateBankCards(updatedCard));
     }

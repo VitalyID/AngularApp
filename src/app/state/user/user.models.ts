@@ -43,5 +43,6 @@ export interface BankCard {
   card_number: string;
   expiry: string;
   cvc: string;
+  typeCard?: string;
   isActive: boolean;
 }

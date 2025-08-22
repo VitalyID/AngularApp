@@ -73,7 +73,7 @@ export class RegistrationCardComponent implements OnInit {
   }
 
   nextStep() {
-    this.generalGetFields(this.cardForm.getRawValue());
+    this.formatAndSetCard(this.cardForm.getRawValue());
 
     this.#store.dispatch(new UpdateUser(this.card));
     this.#popupService.popupState$.next({
@@ -87,20 +87,12 @@ export class RegistrationCardComponent implements OnInit {
     this.cardForm.valueChanges
       .pipe(takeUntilDestroyed(this.#destroyRef), debounceTime(300))
       .subscribe((value) => {
-        this.card.cards = [
-          {
-            card_number: value.card ? value.card.replace(/\s/g, '') : '',
-            expiry: value.data || '',
-            cvc: value.cvc || '',
-            isActive: true,
-          },
-        ];
-
+        this.formatAndSetCard(value as CardFormValue);
         this.cardDataChange.emit(this.card.cards);
       });
   }
 
-  generalGetFields(formValue: CardFormValue) {
+  formatAndSetCard(formValue: CardFormValue) {
     const card_number = formValue.card ? formValue.card.replace(/\s/g, '') : '';
     const expiry = formValue.data || '';
     const cvc = formValue.cvc || '';
