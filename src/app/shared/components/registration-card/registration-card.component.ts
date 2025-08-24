@@ -40,21 +40,11 @@ export class RegistrationCardComponent implements OnInit {
     currentComponent: RegistrationCardComponent,
   };
 
-  buttonLast: ButtonConfig = {
-    text: 'Назад',
-    borderStyle: 'none',
-  };
-
-  buttonNext: ButtonConfig = {
-    text: 'Далее',
-    borderStyle: 'none',
-  };
-
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
-  readonly #stepService = inject(StepService);
-  readonly #store = inject(Store);
-  readonly #popupService = inject(PopupService);
+  // debug: readonly #stepService = inject(StepService);
+  // debug: readonly #store = inject(Store);
+  // debug: readonly #popupService = inject(PopupService);
 
   cardForm = this.#fb.group({
     card: [
@@ -69,20 +59,19 @@ export class RegistrationCardComponent implements OnInit {
     if (!this.isButtons) this.generalSubscriptionFields();
   }
 
-  lastStep() {
-    this.#stepService.changeStep$.next(1);
-  }
+  // debug: lastStep() {
+  // debug:   // debug: this.#stepService.changeStep$.next(1);
+  // debug: }
 
-  nextStep() {
-    this.formatAndSetCard(this.cardForm.getRawValue());
+  // debug: nextStep() {
+  // debug:   this.formatAndSetCard(this.cardForm.getRawValue());
 
-    this.#store.dispatch(new UpdateUser(this.card));
-    this.#popupService.popupState$.next({
-      id: 'SetUser',
-      state: false,
-      component: null,
-    });
-  }
+  // debug:   this.#store.dispatch(new UpdateUser(this.card));
+  // debug:   this.#popupService.popupState$.next({
+  // debug:     state: false,
+  // debug:     component: null,
+  // debug:   });
+  // debug: }
 
   generalSubscriptionFields() {
     this.cardForm.valueChanges

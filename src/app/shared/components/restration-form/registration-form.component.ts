@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
   OnInit,
-  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -13,13 +13,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { ListOfService } from '../../../const';
-import { UpdateUser } from '../../../state/user/user.action';
-import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
+import { UserPersonalInfo } from './../../../state/user/user.models';
 
+import { debounceTime, map } from 'rxjs';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { ListDropdown } from '../dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../input-text/directives/validators/noNumbersInNameValidator';
@@ -44,21 +43,18 @@ export class RegistrationFormComponent implements OnInit {
   cityDropdownItems: ListDropdown[] = this.createListDropdown('cities');
   cityDefaultValue: ListDropdown = this.cityDropdownItems[0];
 
-  buttonNext: ButtonConfig = {
-    text: 'Далее',
-    borderStyle: 'none',
+  user: UserPersonalInfo = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    country: '',
+    city: '',
   };
-
-  first_name = '';
-  last_name = '';
-  email = '';
-  country = '';
-  city = '';
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
   readonly #stepService = inject(StepService);
-  readonly #store = inject(Store);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   userForm = this.#fb.group({
     name: [
@@ -75,54 +71,28 @@ export class RegistrationFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    // NOTE: open popup if the registration component send true to service
-    this.userForm
-      .get('name')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userName) => {
-        if (userName) {
-          this.first_name = userName;
-        }
-      });
+    this.userForm.statusChanges
+      .pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        debounceTime(300),
+        map(() => this.userForm.value),
+      )
+      .subscribe((userInfo) => {
+        this.user.first_name = userInfo.name ?? '';
+        this.user.last_name = userInfo.lastName || '';
+        this.user.email = userInfo.email || '';
+        this.user.country = userInfo.country?.item.toString() || '';
 
-    this.userForm
-      .get('lastName')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userLastName) => {
-        if (userLastName) {
-          this.last_name = userLastName;
-        }
-      });
-
-    this.userForm
-      .get('email')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((email) => {
-        if (email) {
-          this.email = email;
-        }
-      });
-
-    this.userForm
-      .get('country')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userCountry: ListDropdown | null) => {
-        if (userCountry) {
-          this.country = userCountry.item.toString();
-          this.cityDropdownItems = this.createListDropdown(
-            'cities',
-            String(this.country),
-          );
+        if (userInfo.country) {
+          const country = userInfo.country.item.toString() || '';
+          this.cityDropdownItems = this.createListDropdown('cities', country);
           this.cityDefaultValue = this.cityDropdownItems[0];
+          this.#cdr.detectChanges();
         }
-      });
+        this.user.city = userInfo.city?.item.toString() || '';
 
-    this.userForm
-      .get('city')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((userCity: ListDropdown | null) => {
-        if (userCity) {
-          this.city = userCity.item.toString();
+        if (this.userForm.valid) {
+          this.#stepService.emitStepData$.next(this.user);
         }
       });
 
@@ -140,20 +110,5 @@ export class RegistrationFormComponent implements OnInit {
       const cities = ListOfService[fromCountry];
       return cities.map((city) => ({ id: uuid.v4(), item: city }));
     }
-  }
-
-  nextStep() {
-    this.#store.dispatch(
-      new UpdateUser({
-        first_name: this.first_name,
-        last_name: this.last_name,
-        email: this.email,
-        country: this.country,
-        city: this.city,
-        currentComponent: RegistrationFormComponent,
-      }),
-    );
-
-    this.#stepService.changeStep$.next(1);
   }
 }

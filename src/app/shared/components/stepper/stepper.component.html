@@ -1,4 +1,4 @@
-<!-- NOTE: stepperEnd - its parameter, which need for last gorizontal line in stapper component -->
+<!-- NOTE: stepperEndLine - its parameter, which need for last gorizontal line in stapper component -->
 
 <div class="stepper">
   <div class="step">
@@ -18,11 +18,27 @@
         <span>Шаг{{ step.stepNumber + 1 }}</span>
       </div>
 
-      <div class="step__right" [class.isActiveStep]="step.stepperEnd"></div>
+      <div class="step__right" [class.isActiveStep]="step.stepperEndLine"></div>
     }
   </div>
 
   <div class="step__content">
     <ng-container #stepContent></ng-container>
+  </div>
+
+  <div class="button">
+    <app-buttons
+      [text]="buttonLast.text"
+      [borderStyle]="buttonLast.borderStyle"
+      (click)="lastStep()"
+      [disabled]="step() === 0"
+    ></app-buttons>
+
+    <app-buttons
+      [text]="buttonNext.text"
+      [borderStyle]="buttonNext.borderStyle"
+      [disabled]="disabledBtn"
+      (click)="nextStep()"
+    ></app-buttons>
   </div>
 </div>

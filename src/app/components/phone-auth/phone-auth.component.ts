@@ -99,8 +99,7 @@ export class PhoneAuthComponent implements OnInit {
     this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
     this.#popupService.popupState$.next({
-      title: 'Идентификация аккаунта',
-      id: 'SetUser',
+      titlePopUp: 'Идентификация аккаунта',
       state: true,
       component: StepperComponent,
       componentProps: [
@@ -123,7 +122,6 @@ export class PhoneAuthComponent implements OnInit {
     this.#store.dispatch(new LoginUser(this.userData()));
 
     setInterval(() => this.#store.dispatch(new RefreshToken()), 1200000);
-    // debug: this.#router.navigate(['']);
   }
 
   SavingUserData() {

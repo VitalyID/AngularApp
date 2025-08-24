@@ -1,9 +1,10 @@
 import { Type } from '@angular/core';
 
-// NOTE: stepperEnd - its parameter, which need for last gorizontal line in stapper component
+// NOTE: stepperEndLine - its parameter, which need for last gorizontal line in stapper component
 export interface StepperConfig {
   component: Type<any>;
   stepNumber: number;
+  steps: number;
   isActive: boolean;
-  stepperEnd: boolean;
+  stepperEndLine: boolean;
 }
