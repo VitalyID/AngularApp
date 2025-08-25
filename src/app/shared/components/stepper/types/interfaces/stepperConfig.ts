@@ -4,7 +4,6 @@ import { Type } from '@angular/core';
 export interface StepperConfig {
   component: Type<any>;
   stepNumber: number;
-  steps: number;
   isActive: boolean;
   stepperEndLine: boolean;
 }

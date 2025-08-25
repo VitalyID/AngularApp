@@ -24,21 +24,21 @@
 
   <div class="step__content">
     <ng-container #stepContent></ng-container>
-  </div>
 
-  <div class="button">
-    <app-buttons
-      [text]="buttonLast.text"
-      [borderStyle]="buttonLast.borderStyle"
-      (click)="lastStep()"
-      [disabled]="step() === 0"
-    ></app-buttons>
+    <div class="button">
+      <app-buttons
+        [text]="buttonLast.text"
+        [borderStyle]="buttonLast.borderStyle"
+        (click)="lastStep()"
+        [disabled]="step() === 0"
+      ></app-buttons>
 
-    <app-buttons
-      [text]="buttonNext.text"
-      [borderStyle]="buttonNext.borderStyle"
-      [disabled]="disabledBtn"
-      (click)="nextStep()"
-    ></app-buttons>
+      <app-buttons
+        [text]="buttonNext.text"
+        [borderStyle]="buttonNext.borderStyle"
+        [disabled]="disabledBtn"
+        (click)="nextStep()"
+      ></app-buttons>
+    </div>
   </div>
 </div>

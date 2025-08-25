@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import * as uuid from 'uuid';
 
 import { UserType } from '../../../state/user/user.models';
@@ -6,6 +11,7 @@ import { ButtonsComponent } from '../buttons/buttons.component';
 import { CustomRadioButtonComponent } from '../custom-radio-button/custom-radio-button.component';
 import { TypeUser } from '../custom-radio-button/types/enum/typeUser';
 import { RadioButtons } from '../custom-radio-button/types/interface/radioButton';
+import { StepService } from '../stepper/service/step.service';
 
 @Component({
   selector: 'registration-type',
@@ -15,6 +21,8 @@ import { RadioButtons } from '../custom-radio-button/types/interface/radioButton
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationTypeComponent {
+  readonly #stepService = inject(StepService);
+
   radioButtons = signal<RadioButtons[]>(this.generatorRadioButtonConfig());
 
   client_type: UserType = {
@@ -50,5 +58,7 @@ export class RegistrationTypeComponent {
       client_type: user as keyof typeof TypeUser,
       currentComponent: RegistrationTypeComponent,
     };
+
+    this.#stepService.emitStepData$.next(this.client_type);
   }
 }

@@ -71,7 +71,8 @@ export class RegistrationFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.userForm.statusChanges
+    this.createListDropdown('countries');
+    this.userForm.valueChanges
       .pipe(
         takeUntilDestroyed(this.#destroyRef),
         debounceTime(300),
@@ -88,15 +89,32 @@ export class RegistrationFormComponent implements OnInit {
           this.cityDropdownItems = this.createListDropdown('cities', country);
           this.cityDefaultValue = this.cityDropdownItems[0];
           this.#cdr.detectChanges();
+
+          // NOTE: need this check, because list of city updating, but emitting to stepper old value
+
+          const currentCity = this.userForm.get('city')?.value;
+          const validCity = this.cityDropdownItems.some(
+            (city) => currentCity?.item === city.item,
+          );
+
+          this.user.city = userInfo.city?.item.toString() || '';
+
+          // NOTE: if we change country or city, update list of cities and users city
+          if (!validCity) {
+            this.userForm
+              .get('city')
+              ?.patchValue(this.cityDefaultValue, { emitEvent: false });
+
+            this.user.city =
+              this.userForm.get('city')?.value?.item.toString() ??
+              this.cityDefaultValue.item.toString();
+          }
         }
-        this.user.city = userInfo.city?.item.toString() || '';
 
         if (this.userForm.valid) {
           this.#stepService.emitStepData$.next(this.user);
         }
       });
-
-    this.createListDropdown('countries');
   }
 
   createListDropdown(

@@ -5,7 +5,7 @@ import { UpdateUserInfo } from '../../../../state/user/user.models';
 
 @Injectable({ providedIn: 'root' })
 export class StepService {
-  changeStep$ = new Subject<StepperConfig>();
+  changeStep$ = new Subject<number>();
 
   emitStepData$ = new Subject<UpdateUserInfo>();
 }

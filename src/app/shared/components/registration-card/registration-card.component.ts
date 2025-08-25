@@ -42,7 +42,7 @@ export class RegistrationCardComponent implements OnInit {
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
-  // debug: readonly #stepService = inject(StepService);
+  readonly #stepService = inject(StepService);
   // debug: readonly #store = inject(Store);
   // debug: readonly #popupService = inject(PopupService);
 
@@ -79,6 +79,7 @@ export class RegistrationCardComponent implements OnInit {
       .subscribe((value) => {
         this.formatAndSetCard(value as CardFormValue);
         this.cardDataChange.emit(this.card.cards);
+        this.#stepService.emitStepData$.next(this.card);
       });
   }
 

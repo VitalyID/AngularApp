@@ -18,11 +18,17 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngxs/store';
 import { PopupService } from '../../../services/popup.service';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from './service/step.service';
 import { StepperConfig } from './types/interfaces/stepperConfig';
+import {
+  isUserCard,
+  isUserPersonalInfo,
+  isUserType,
+} from './utils/registrationUtels';
 
 @Component({
   selector: 'stepper',
@@ -41,11 +47,13 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
   readonly #popupService = inject(PopupService);
   readonly #stepService = inject(StepService);
   readonly #destroyRef = inject(DestroyRef);
-  // debug: readonly #store = inject(Store);
+  readonly #store = inject(Store);
 
   step = signal<number>(0);
   stepperConfig: WritableSignal<StepperConfig[]> = signal([]);
   disabledBtn: boolean = true;
+
+  stepData: any = {};
 
   buttonNext: ButtonConfig = {
     text: 'Далее',
@@ -59,8 +67,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['propsForHostContent']) {
-      console.log('debug:', this.generateConfig());
-
       this.stepperConfig.set(this.generateConfig());
     }
   }
@@ -68,25 +74,17 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
   ngOnInit(): void {
     this.#stepService.changeStep$
       .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((step: StepperConfig) => {
-        this.step.set(step.stepNumber);
+      .subscribe(() => {
         this.updateActiveStep();
-        if (this.step() === this.stepperConfig().length) {
-          this.#popupService.popupState$.next({
-            state: false,
-            component: null,
-          });
-          return;
-        }
+        this.conditionClosePopup();
         this.changeComponent();
       });
 
     this.#stepService.emitStepData$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((dataStep) => {
-        this.step.update((step) => step + 1);
         this.disabledBtn = false;
-        console.log('debug in step 2', dataStep);
+        this.stepData = dataStep;
       });
   }
 
@@ -98,7 +96,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     return this.propsForHostContent.map((component, index) => ({
       component: component,
       stepNumber: index,
-      steps: this.propsForHostContent.length,
       isActive: index === 0,
       stepperEndLine: false,
     }));
@@ -117,6 +114,12 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
         const isActive = this.step() >= index;
         const stepperEndLine = this.step() > index;
 
+        console.log('debug ', {
+          ...el,
+          isActive,
+          stepperEndLine,
+        });
+
         return {
           ...el,
           isActive,
@@ -126,9 +129,30 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     });
   }
 
+  conditionClosePopup() {
+    if (this.step() === this.stepperConfig().length) {
+      this.#popupService.popupState$.next({
+        state: false,
+        component: null,
+      });
+      return;
+    }
+  }
+
   nextStep() {
-    // debug: this.#store.dispatch(new UpdateUser(this.client_type));
-    // debug: this.#stepService.changeStep$.next(2);
+    // NOTE: because stepper can use for different situations, we are using narrow type for define stor and action
+    if (
+      isUserPersonalInfo(this.stepData) ||
+      isUserType(this.stepData) ||
+      isUserCard(this.stepData)
+    ) {
+      console.log('debug: send to store', this.stepData);
+
+      // debug: this.#store.dispatch(new UpdateUser(this.stepData));
+      this.step.update((step) => step + 1);
+
+      this.#stepService.changeStep$.next(this.step());
+    }
   }
 
   lastStep() {}

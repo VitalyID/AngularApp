@@ -29,7 +29,6 @@ export class CustomRadioButtonComponent {
 
   setUser(setUserRadioNtb: RadioButtons) {
     this.radioConfig = { ...this.radioConfig, icon: 'checkboxActive' };
-    console.log('debug: radiobutton ', setUserRadioNtb);
 
     this.userConfiture.emit(setUserRadioNtb);
   }
