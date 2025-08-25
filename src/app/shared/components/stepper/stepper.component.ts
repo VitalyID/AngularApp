@@ -20,6 +20,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import { PopupService } from '../../../services/popup.service';
+import { UpdateUser } from '../../../state/user/user.action';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from './service/step.service';
@@ -76,7 +77,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe(() => {
         this.updateActiveStep();
-        this.conditionClosePopup();
+        if (this.conditionClosePopup()) return;
         this.changeComponent();
       });
 
@@ -129,18 +130,21 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     });
   }
 
-  conditionClosePopup() {
+  conditionClosePopup(): boolean {
     if (this.step() === this.stepperConfig().length) {
       this.#popupService.popupState$.next({
         state: false,
         component: null,
       });
-      return;
+      return true;
     }
+    return false;
   }
 
   nextStep() {
     // NOTE: because stepper can use for different situations, we are using narrow type for define stor and action
+    console.log('debug before check', this.stepData);
+
     if (
       isUserPersonalInfo(this.stepData) ||
       isUserType(this.stepData) ||
@@ -148,7 +152,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     ) {
       console.log('debug: send to store', this.stepData);
 
-      // debug: this.#store.dispatch(new UpdateUser(this.stepData));
+      this.#store.dispatch(new UpdateUser(this.stepData));
       this.step.update((step) => step + 1);
 
       this.#stepService.changeStep$.next(this.step());

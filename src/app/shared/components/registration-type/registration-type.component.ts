@@ -56,7 +56,6 @@ export class RegistrationTypeComponent {
     const user = this.getTypeUser(data);
     this.client_type = {
       client_type: user as keyof typeof TypeUser,
-      currentComponent: RegistrationTypeComponent,
     };
 
     this.#stepService.emitStepData$.next(this.client_type);

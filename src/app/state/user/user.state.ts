@@ -2,10 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { EMPTY, take, tap } from 'rxjs';
 import { UserInfoService } from '../../services/userInfo.service';
-import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
-import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
 import { GetUserInfo, UpdateBankCards, UpdateUser } from './user.action';
-import { StateUser, StateUserModel, UpdateUserInfo } from './user.models';
+import { StateUser, StateUserModel } from './user.models';
 
 @State<StateUserModel>({
   name: 'userProfile',
@@ -32,15 +30,6 @@ import { StateUser, StateUserModel, UpdateUserInfo } from './user.models';
 export class UserState {
   readonly #http = inject(UserInfoService);
 
-  stoppingAction(user: UpdateUserInfo): boolean {
-    if (
-      user.currentComponent === RegistrationFormComponent ||
-      user.currentComponent === RegistrationTypeComponent
-    )
-      return true;
-    return false;
-  }
-
   @Selector()
   static getUserInfo(state: StateUserModel): StateUser {
     return {
@@ -58,13 +47,13 @@ export class UserState {
     const oldUser = ctx.getState().userProfile;
     ctx.patchState({ userProfile: { ...oldUser, ...info } });
 
-    if (this.stoppingAction(info)) return EMPTY;
-
-    const { currentComponent, ...updateUserInfo } = ctx.getState().userProfile;
+    const { cards, ...state } = ctx.getState().userProfile;
+    if (!cards.length) return EMPTY;
+    if (!Object.values(state).every((value) => value !== null)) return EMPTY;
 
     return isNewUser
-      ? this.#http.putUserInfo(updateUserInfo)
-      : this.#http.postUserInfo(updateUserInfo);
+      ? this.#http.putUserInfo(ctx.getState().userProfile)
+      : this.#http.postUserInfo(ctx.getState().userProfile);
   }
 
   @Action(GetUserInfo)
@@ -75,8 +64,6 @@ export class UserState {
         if (typeof userInfo.cards === 'string') {
           const parseCards = JSON.parse(userInfo.cards);
           userInfo = { ...userInfo, cards: parseCards };
-
-          console.log('debug. get info from server ', userInfo);
         }
 
         ctx.patchState({
@@ -89,8 +76,6 @@ export class UserState {
   @Action(UpdateBankCards)
   updateCards(ctx: StateContext<StateUserModel>, { cards }: UpdateBankCards) {
     const oldUserInfo = ctx.getState().userProfile;
-
-    if (this.stoppingAction(oldUserInfo)) return EMPTY;
 
     ctx.patchState({
       userProfile: { ...oldUserInfo, cards: [...cards] },

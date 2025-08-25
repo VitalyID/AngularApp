@@ -31,20 +31,15 @@ import { CardFormValue } from './types/interfaces/CardFormValue';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationCardComponent implements OnInit {
-  @Input() isTitle?: boolean = true;
-  @Input() isButtons?: boolean = true;
   @Output() cardDataChange = new EventEmitter<BankCard[]>();
 
   card: UserCard = {
     cards: [{ card_number: '', expiry: '', cvc: '', isActive: true }],
-    currentComponent: RegistrationCardComponent,
   };
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
   readonly #stepService = inject(StepService);
-  // debug: readonly #store = inject(Store);
-  // debug: readonly #popupService = inject(PopupService);
 
   cardForm = this.#fb.group({
     card: [
@@ -56,22 +51,8 @@ export class RegistrationCardComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (!this.isButtons) this.generalSubscriptionFields();
+    this.generalSubscriptionFields();
   }
-
-  // debug: lastStep() {
-  // debug:   // debug: this.#stepService.changeStep$.next(1);
-  // debug: }
-
-  // debug: nextStep() {
-  // debug:   this.formatAndSetCard(this.cardForm.getRawValue());
-
-  // debug:   this.#store.dispatch(new UpdateUser(this.card));
-  // debug:   this.#popupService.popupState$.next({
-  // debug:     state: false,
-  // debug:     component: null,
-  // debug:   });
-  // debug: }
 
   generalSubscriptionFields() {
     this.cardForm.valueChanges

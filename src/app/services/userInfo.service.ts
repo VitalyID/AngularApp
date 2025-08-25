@@ -9,11 +9,15 @@ export class UserInfoService {
   readonly #http = inject(HttpClient);
 
   postUserInfo(user: StateUser) {
-    return this.#http.post<StateUser>(profileLink, user);
+    console.log('debug: send to service', user);
+
+    // debug: return this.#http.post<StateUser>(profileLink, user);
   }
 
   putUserInfo(user: StateUser) {
-    return this.#http.put<StateUser>(profileLink, user);
+    console.log('debug: send to service', user);
+
+    // debug: return this.#http.put<StateUser>(profileLink, user);
   }
 
   getUserService() {
