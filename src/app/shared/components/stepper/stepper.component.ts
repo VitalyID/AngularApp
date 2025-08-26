@@ -17,7 +17,7 @@ import {
   ViewContainerRef,
   WritableSignal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import { PopupService } from '../../../services/popup.service';
 import { UpdateUser } from '../../../state/user/user.action';
@@ -52,7 +52,9 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
 
   step = signal<number>(0);
   stepperConfig: WritableSignal<StepperConfig[]> = signal([]);
-  disabledBtn: boolean = true;
+
+  // NOTE: All propsForHostContent must send boolean for correct work btn
+  isFormValid = toSignal(this.#stepService.isFormInValid$);
 
   stepData: any = {};
 
@@ -77,14 +79,18 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe(() => {
         this.updateActiveStep();
-        if (this.conditionClosePopup()) return;
+        setTimeout(() => {
+          if (this.conditionClosePopup()) return;
+        }, 300);
+
         this.changeComponent();
       });
 
     this.#stepService.emitStepData$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((dataStep) => {
-        this.disabledBtn = false;
+        console.log('debug get data from component: ', dataStep);
+
         this.stepData = dataStep;
       });
   }
@@ -157,7 +163,13 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
 
       this.#stepService.changeStep$.next(this.step());
     }
+
+    this.#stepService.isFormInValid$.next(true);
   }
 
-  lastStep() {}
+  lastStep() {
+    this.step.update((step) => step - 1);
+    this.updateActiveStep();
+    this.changeComponent();
+  }
 }

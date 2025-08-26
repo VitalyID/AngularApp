@@ -1,23 +1,18 @@
-import { BankCard } from './../../../state/user/user.models';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   EventEmitter,
   inject,
-  Input,
   OnInit,
   Output,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { PopupService } from '../../../services/popup.service';
-import { UpdateUser } from '../../../state/user/user.action';
+import { BankCard } from './../../../state/user/user.models';
 
-import { debounceTime } from 'rxjs';
+import { debounceTime, filter, map } from 'rxjs';
 import { UserCard } from '../../../state/user/user.models';
-import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from '../stepper/service/step.service';
 import { InputTextComponent } from './../input-text/input-text.component';
@@ -33,13 +28,14 @@ import { CardFormValue } from './types/interfaces/CardFormValue';
 export class RegistrationCardComponent implements OnInit {
   @Output() cardDataChange = new EventEmitter<BankCard[]>();
 
-  card: UserCard = {
-    cards: [{ card_number: '', expiry: '', cvc: '', isActive: true }],
-  };
-
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
   readonly #stepService = inject(StepService);
+
+  card: UserCard = {
+    cards: [{ card_number: '', expiry: '', cvc: '', isActive: true }],
+  };
+  isFormInValid: boolean = true;
 
   cardForm = this.#fb.group({
     card: [
@@ -52,11 +48,22 @@ export class RegistrationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.generalSubscriptionFields();
+    this.cardForm.statusChanges
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe(() => {
+        this.isFormInValid = !this.cardForm.valid;
+        this.#stepService.isFormInValid$.next(this.isFormInValid);
+      });
   }
 
   generalSubscriptionFields() {
     this.cardForm.valueChanges
-      .pipe(takeUntilDestroyed(this.#destroyRef), debounceTime(300))
+      .pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        filter(() => this.cardForm.valid),
+        map(() => this.cardForm.value),
+        debounceTime(300),
+      )
       .subscribe((value) => {
         this.formatAndSetCard(value as CardFormValue);
         this.cardDataChange.emit(this.card.cards);

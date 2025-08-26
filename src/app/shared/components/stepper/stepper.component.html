@@ -36,7 +36,7 @@
       <app-buttons
         [text]="buttonNext.text"
         [borderStyle]="buttonNext.borderStyle"
-        [disabled]="disabledBtn"
+        [disabled]="isFormValid()"
         (click)="nextStep()"
       ></app-buttons>
     </div>

@@ -37,8 +37,6 @@ export class CardDetailsComponent implements OnInit {
   radioConfig = signal<RadioButtons[]>([]);
 
   numberCard = signal<string>('0000 0000 0000 0000');
-  isTitle: boolean = false;
-  isButtons: boolean = false;
 
   bankCard: BankCard = {
     card_number: '',

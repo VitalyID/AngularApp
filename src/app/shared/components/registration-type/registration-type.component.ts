@@ -7,7 +7,6 @@ import {
 import * as uuid from 'uuid';
 
 import { UserType } from '../../../state/user/user.models';
-import { ButtonsComponent } from '../buttons/buttons.component';
 import { CustomRadioButtonComponent } from '../custom-radio-button/custom-radio-button.component';
 import { TypeUser } from '../custom-radio-button/types/enum/typeUser';
 import { RadioButtons } from '../custom-radio-button/types/interface/radioButton';
@@ -15,7 +14,7 @@ import { StepService } from '../stepper/service/step.service';
 
 @Component({
   selector: 'registration-type',
-  imports: [CustomRadioButtonComponent, ButtonsComponent],
+  imports: [CustomRadioButtonComponent],
   templateUrl: './registration-type.component.html',
   styleUrl: './registration-type.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,5 +58,6 @@ export class RegistrationTypeComponent {
     };
 
     this.#stepService.emitStepData$.next(this.client_type);
+    this.#stepService.isFormInValid$.next(false);
   }
 }

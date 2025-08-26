@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { StepperConfig } from '../types/interfaces/stepperConfig';
 import { UpdateUserInfo } from '../../../../state/user/user.models';
 
@@ -8,4 +8,6 @@ export class StepService {
   changeStep$ = new Subject<number>();
 
   emitStepData$ = new Subject<UpdateUserInfo>();
+
+  isFormInValid$ = new BehaviorSubject<boolean>(true);
 }

@@ -15,7 +15,6 @@ import {
 } from '@angular/forms';
 import * as uuid from 'uuid';
 import { ListOfService } from '../../../const';
-import { ButtonsComponent } from '../buttons/buttons.component';
 import { UserPersonalInfo } from './../../../state/user/user.models';
 
 import { debounceTime, map } from 'rxjs';
@@ -31,7 +30,6 @@ import { StepService } from '../stepper/service/step.service';
     DropdownComponent,
     FormsModule,
     InputTextComponent,
-    ButtonsComponent,
   ],
   templateUrl: './registration-form.component.html',
   styleUrl: './registration-form.component.scss',
@@ -42,6 +40,8 @@ export class RegistrationFormComponent implements OnInit {
   countryDefaultValue: ListDropdown = this.countryDropdownItems[0];
   cityDropdownItems: ListDropdown[] = this.createListDropdown('cities');
   cityDefaultValue: ListDropdown = this.cityDropdownItems[0];
+
+  isFormInValid: boolean = true;
 
   user: UserPersonalInfo = {
     first_name: '',
@@ -114,6 +114,13 @@ export class RegistrationFormComponent implements OnInit {
         if (this.userForm.valid) {
           this.#stepService.emitStepData$.next(this.user);
         }
+      });
+
+    this.userForm.statusChanges
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe(() => {
+        this.isFormInValid = !this.userForm.valid;
+        this.#stepService.isFormInValid$.next(this.isFormInValid);
       });
   }
 
