@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -18,18 +17,25 @@ import { RadioButtons } from './types/interface/radioButton';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomRadioButtonComponent {
-  @Input() radioConfig: RadioButtons = {
-    icon: '',
-    name: '',
-    checked: false,
-    id: '',
-  };
+  @Input() radioConfig: RadioButtons[] = [
+    {
+      icon: '',
+      name: '',
+      checked: false,
+      id: '',
+    },
+  ];
 
   @Output() userConfiture = new EventEmitter();
 
-  setUser(setUserRadioNtb: RadioButtons) {
-    this.radioConfig = { ...this.radioConfig, icon: 'checkboxActive' };
+  setUser(setUserRadioBtn: RadioButtons) {
+    this.radioConfig.map((btn) => {
+      if (btn.id === setUserRadioBtn.id) {
+        btn.icon = 'checkboxActive';
+        btn.checked = true;
+      }
+    });
 
-    this.userConfiture.emit(setUserRadioNtb);
+    this.userConfiture.emit(setUserRadioBtn);
   }
 }
