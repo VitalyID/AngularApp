@@ -110,6 +110,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
 
   changeComponent() {
     if (!this.hostContentRef) return;
+    if (this.step() > this.propsForHostContent.length - 1) return;
 
     this.hostContentRef.clear();
     this.hostContentRef.createComponent(this.propsForHostContent[this.step()]);
