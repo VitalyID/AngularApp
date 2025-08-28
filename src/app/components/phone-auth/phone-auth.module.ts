@@ -8,6 +8,7 @@ import { SwitcherComponent } from '../../shared/components/switcher/switcher.com
 import { TextAreaComponent } from '../../shared/components/text-area/text-area.component';
 import { PhoneAuthComponent } from './phone-auth.component';
 import { PhoneAuthRoutingModule } from './phone-auth.routing';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { PhoneAuthRoutingModule } from './phone-auth.routing';
     ButtonsComponent,
     CommonModule,
     SpinnerComponent,
+    FormsModule,
   ],
   exports: [],
   declarations: [PhoneAuthComponent],

@@ -24,6 +24,7 @@ import {
 } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'phone-auth',

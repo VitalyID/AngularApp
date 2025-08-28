@@ -11,7 +11,7 @@
         <h1>Вход в Tips.me</h1>
         <span>Номер телефона</span>
 
-        <form>
+        <form #myForm="ngForm">
           <input-text
             [placeholder]="inputPhone.placeholder || ''"
             [type]="inputPhone.type || 'tel'"
@@ -22,11 +22,25 @@
             (updateValue)="phoneNumber($event)"
             [prefix]="inputPhone.prefix || ''"
           ></input-text>
-          <input-text
-            [placeholder]="inputPassword.placeholder || ''"
-            [type]="inputPassword.type || 'password'"
-            (updateValue)="setPassword($event)"
-          ></input-text>
+          <div class="auth-phone-container__userPassword">
+            <input-text
+              [placeholder]="inputPassword.placeholder || ''"
+              [type]="inputPassword.type || 'password'"
+              (updateValue)="setPassword($event)"
+              pattern="/^\d{8}$"
+              name="password"
+              ngModel
+            ></input-text>
+            @if (
+              myForm.controls["password"]?.invalid &&
+              (myForm.controls["password"]?.dirty ||
+                myForm.controls["password"]?.touched)
+            ) {
+              @if (myForm.controls["password"]?.errors?.["pattern"]) {
+                <span class="spanErr">Только 8 цифр</span>
+              }
+            }
+          </div>
         </form>
 
         <div class="auth-phone-container__switcher">

@@ -70,6 +70,10 @@
     min-height: 50vh;
   }
 
+  &__userPassword {
+    position: relative;
+  }
+
   &__userPhone {
     width: 100%;
     padding-top: 120px;
@@ -95,6 +99,12 @@
     & input-text {
       margin-bottom: 20px;
       width: 100%;
+    }
+
+    .spanErr {
+      position: absolute;
+      bottom: -20px;
+      left: 0;
     }
   }
 

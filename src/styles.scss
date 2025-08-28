@@ -92,7 +92,8 @@ body {
 @font-face {
   font-family: "icomoon";
   src: url("assets/fonts/svg-fonts/fonts/icomoon.eot?jpwddb");
-  src: url("assets/fonts/svg-fonts/fonts/icomoon.eot?jpwddb#iefix")
+  src:
+    url("assets/fonts/svg-fonts/fonts/icomoon.eot?jpwddb#iefix")
       format("embedded-opentype"),
     url("assets/fonts/svg-fonts/fonts/icomoon.ttf?jpwddb") format("truetype"),
     url("assets/fonts/svg-fonts/fonts/icomoon.woff?jpwddb") format("woff"),
@@ -165,4 +166,10 @@ a {
   line-height: 20px;
 
   color: #777d82;
+}
+
+.spanErr {
+  margin-bottom: 0;
+  color: red;
+  font-size: small;
 }
