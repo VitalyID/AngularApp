@@ -26,7 +26,6 @@ export class RegistrationTypeComponent {
 
   client_type: UserType = {
     client_type: 'payer',
-    currentComponent: RegistrationTypeComponent,
   };
 
   generatorRadioButtonConfig(): RadioButtons[] {

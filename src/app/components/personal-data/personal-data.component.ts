@@ -40,7 +40,6 @@ export class PersonalDataComponent implements OnInit {
     email: '',
     country: '',
     city: '',
-    currentComponent: PersonalDataComponent,
   };
 
   btnText = computed(() =>
@@ -104,7 +103,6 @@ export class PersonalDataComponent implements OnInit {
     this.newUserInfo = {
       ...this.newUserInfo,
       city: userCity.item.toString(),
-      currentComponent: PersonalDataComponent,
     };
   }
 

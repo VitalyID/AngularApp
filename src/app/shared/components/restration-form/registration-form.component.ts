@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -17,7 +16,6 @@ import * as uuid from 'uuid';
 import { ListOfService } from '../../../const';
 import { UserPersonalInfo } from './../../../state/user/user.models';
 
-import { debounceTime, map } from 'rxjs';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { ListDropdown } from '../dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../input-text/directives/validators/noNumbersInNameValidator';
@@ -54,14 +52,13 @@ export class RegistrationFormComponent implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
   readonly #stepService = inject(StepService);
-  readonly #cdr = inject(ChangeDetectorRef);
 
   userForm = this.#fb.group({
-    name: [
+    first_name: [
       '',
       [Validators.required, Validators.minLength(3), letterNameValidator()],
     ],
-    lastName: [
+    last_name: [
       '',
       [Validators.required, Validators.minLength(2), letterNameValidator()],
     ],
@@ -70,51 +67,42 @@ export class RegistrationFormComponent implements OnInit {
     city: [this.cityDefaultValue],
   });
 
+  subscribe(controlName: keyof UserPersonalInfo) {
+    this.userForm
+      .get(controlName)
+      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((control: ListDropdown | null | string) => {
+        if (!control) return;
+        if (this.isDropdown(control)) {
+          if (controlName === 'country') {
+            this.cityDropdownItems = this.createListDropdown(
+              'cities',
+              control.item.toString(),
+            );
+            this.cityDefaultValue = this.cityDropdownItems[0];
+
+            this.user.country = control.item.toString();
+          }
+
+          if (controlName === 'city') {
+            this.user.city = control.item.toString();
+          }
+        } else {
+          this.user[controlName] = control;
+        }
+
+        this.#stepService.emitStepData$.next(this.user);
+      });
+  }
+
   ngOnInit(): void {
     this.createListDropdown('countries');
-    this.userForm.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.#destroyRef),
-        debounceTime(300),
-        map(() => this.userForm.value),
-      )
-      .subscribe((userInfo) => {
-        this.user.first_name = userInfo.name ?? '';
-        this.user.last_name = userInfo.lastName || '';
-        this.user.email = userInfo.email || '';
-        this.user.country = userInfo.country?.item.toString() || '';
 
-        if (userInfo.country) {
-          const country = userInfo.country.item.toString() || '';
-          this.cityDropdownItems = this.createListDropdown('cities', country);
-          this.cityDefaultValue = this.cityDropdownItems[0];
-          this.#cdr.detectChanges();
-
-          // NOTE: need this check, because list of city updating, but emitting to stepper old value
-
-          const currentCity = this.userForm.get('city')?.value;
-          const validCity = this.cityDropdownItems.some(
-            (city) => currentCity?.item === city.item,
-          );
-
-          this.user.city = userInfo.city?.item.toString() || '';
-
-          // NOTE: if we change country or city, update list of cities and users city
-          if (!validCity) {
-            this.userForm
-              .get('city')
-              ?.patchValue(this.cityDefaultValue, { emitEvent: false });
-
-            this.user.city =
-              this.userForm.get('city')?.value?.item.toString() ??
-              this.cityDefaultValue.item.toString();
-          }
-        }
-
-        if (this.userForm.valid) {
-          this.#stepService.emitStepData$.next(this.user);
-        }
-      });
+    this.subscribe('first_name');
+    this.subscribe('last_name');
+    this.subscribe('email');
+    this.subscribe('country');
+    this.subscribe('city');
 
     this.userForm.statusChanges
       .pipe(takeUntilDestroyed(this.#destroyRef))
@@ -135,5 +123,17 @@ export class RegistrationFormComponent implements OnInit {
       const cities = ListOfService[fromCountry];
       return cities.map((city) => ({ id: uuid.v4(), item: city }));
     }
+  }
+
+  isDropdown(type: any): type is ListDropdown {
+    return (
+      (type &&
+        typeof type === 'object' &&
+        'id' in type &&
+        typeof type.id === 'string' &&
+        'item' in type &&
+        typeof type.item === 'string') ||
+      typeof type.item === 'number'
+    );
   }
 }

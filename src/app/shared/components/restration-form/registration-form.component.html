@@ -1,12 +1,15 @@
-@let name = this.userForm.get("name");
-@let lastName = this.userForm.get("lastName");
+@let name = this.userForm.get("first_name");
+@let lastName = this.userForm.get("last_name");
 @let email = userForm.get("email");
 
 <h3>Персональные данные:</h3>
 <form [formGroup]="userForm">
   <div class="popup__down--name">
     <span>Имя</span>
-    <input-text formControlName="name" placeholder="Введите имя"></input-text>
+    <input-text
+      formControlName="first_name"
+      placeholder="Введите имя"
+    ></input-text>
     @if (name?.invalid && (name?.dirty || name?.touched)) {
       @if (name?.errors?.["required"]) {
         <span class="spanErr">Обязательное поле</span>
@@ -23,7 +26,7 @@
   <div class="popup__down--lastName">
     <span>Фамилия</span>
     <input-text
-      formControlName="lastName"
+      formControlName="last_name"
       placeholder="Введите фамилию"
     ></input-text>
     @if (lastName?.invalid && (lastName?.dirty || lastName?.touched)) {

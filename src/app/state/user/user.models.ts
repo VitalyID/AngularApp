@@ -9,17 +9,14 @@ export interface UserPersonalInfo {
   email: string;
   country: string;
   city: string;
-  currentComponent?: Type<any>;
 }
 
 export interface UserType {
   client_type: keyof typeof TypeUser;
-  currentComponent?: Type<any>;
 }
 
 export interface UserCard {
   cards: BankCard[];
-  currentComponent?: Type<any>;
 }
 
 export interface StateUser {
@@ -30,7 +27,6 @@ export interface StateUser {
   city: string;
   client_type: keyof typeof TypeUser;
   cards: BankCard[];
-  currentComponent?: Type<any>;
 }
 
 export type UpdateUserInfo = UserPersonalInfo | UserType | UserCard;
