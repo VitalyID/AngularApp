@@ -42,7 +42,14 @@ export class RegistrationCardComponent implements OnInit {
       '',
       [Validators.required, Validators.pattern(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/)],
     ],
-    data: ['', [Validators.required, Validators.minLength(4)]],
+    data: [
+      '',
+      [
+        Validators.required,
+        // eslint-disable-next-line no-useless-escape
+        Validators.pattern('^(0[1-9]|1[0-2])\/\\d{2}$'),
+      ],
+    ],
     cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
   });
 

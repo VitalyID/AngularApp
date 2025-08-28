@@ -16,6 +16,7 @@ import * as uuid from 'uuid';
 import { ListOfService } from '../../../const';
 import { UserPersonalInfo } from './../../../state/user/user.models';
 
+import { debounceTime } from 'rxjs';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { ListDropdown } from '../dropdown/types/interface/listDropdown';
 import { letterNameValidator } from '../input-text/directives/validators/noNumbersInNameValidator';
@@ -70,7 +71,10 @@ export class RegistrationFormComponent implements OnInit {
   subscribe(controlName: keyof UserPersonalInfo) {
     this.userForm
       .get(controlName)
-      ?.valueChanges.pipe(takeUntilDestroyed(this.#destroyRef))
+      ?.valueChanges.pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        debounceTime(300),
+      )
       .subscribe((control: ListDropdown | null | string) => {
         if (!control) return;
         if (this.isDropdown(control)) {

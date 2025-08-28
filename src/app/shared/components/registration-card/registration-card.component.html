@@ -1,6 +1,6 @@
 @let card = cardForm.get("card");
 @let data = cardForm.get("data");
-@let cvv = cardForm.get("cvv");
+@let cvv = cardForm.get("cvc");
 
 <h3>Введите данные вашей карты</h3>
 <form [formGroup]="cardForm">
@@ -34,11 +34,8 @@
         @if (data?.errors?.["required"]) {
           <span class="spanErr">Обязательное поле</span>
         }
-        @if (data?.errors?.["minlength"]) {
-          <span class="spanErr">В поле не менее {{ 4 }} символов</span>
-        }
-        @if (data?.errors?.["numbersInName"]) {
-          <span class="spanErr">Некорректное имя</span>
+        @if (data?.errors?.["pattern"]) {
+          <span class="spanErr">Некорректный формат</span>
         }
       }
     </div>
@@ -54,8 +51,8 @@
         @if (cvv?.errors?.["required"]) {
           <span class="spanErr">Обязательное поле</span>
         }
-        @if (cvv?.errors?.["numbersInName"]) {
-          <span class="spanErr">Некорректное имя</span>
+        @if (cvv?.errors?.["pattern"]) {
+          <span class="spanErr">Только цифры</span>
         }
       }
     </div>
