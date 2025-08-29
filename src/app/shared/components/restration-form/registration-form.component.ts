@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -53,6 +54,7 @@ export class RegistrationFormComponent implements OnInit {
   readonly #destroyRef = inject(DestroyRef);
   readonly #fb = inject(FormBuilder);
   readonly #stepService = inject(StepService);
+  readonly #cdr = inject(ChangeDetectorRef);
 
   userForm = this.#fb.group({
     first_name: [
@@ -83,7 +85,10 @@ export class RegistrationFormComponent implements OnInit {
               'cities',
               control.item.toString(),
             );
+            this.#cdr.markForCheck();
+
             this.cityDefaultValue = this.cityDropdownItems[0];
+            this.#cdr.markForCheck();
 
             this.user.country = control.item.toString();
           }
@@ -100,7 +105,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createListDropdown('countries');
+    // debug: this.createListDropdown('countries');
 
     this.subscribe('first_name');
     this.subscribe('last_name');
