@@ -26,8 +26,7 @@
             <input-text
               [placeholder]="inputPassword.placeholder || ''"
               [type]="inputPassword.type || 'password'"
-              (updateValue)="setPassword($event)"
-              pattern="/^\d{8}$"
+              pattern="^\d{8}$"
               name="password"
               ngModel
             ></input-text>

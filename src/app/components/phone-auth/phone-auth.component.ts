@@ -5,12 +5,14 @@ import {
   inject,
   OnInit,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
+import { NgForm } from '@angular/forms';
 import { PopupService } from '../../services/popup.service';
 import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
 import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
@@ -24,7 +26,6 @@ import {
 } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'phone-auth',
@@ -34,6 +35,8 @@ import { NgForm } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhoneAuthComponent implements OnInit {
+  @ViewChild('myForm') myForm!: NgForm;
+
   svgLogo: SvgSpriteSetting = {
     iconID: 'icon-logo',
     width: '98px',
@@ -65,6 +68,7 @@ export class PhoneAuthComponent implements OnInit {
   readonly #popupService = inject(PopupService);
 
   userData = signal(this.getLocalStorageData());
+  // debug: this.userData().password = setPassword;
 
   inputPhone: InputConfig = {
     placeholder: '+7 ( ___ ) ___-__-__',
@@ -97,6 +101,7 @@ export class PhoneAuthComponent implements OnInit {
 
   registration() {
     // NOTE: open popup in main page
+    this.getPassword();
     this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
     this.#popupService.popupState$.next({
@@ -114,6 +119,7 @@ export class PhoneAuthComponent implements OnInit {
   }
 
   login() {
+    this.getPassword();
     this.SavingUserData();
     this.userData.update((oldValue) => {
       const newValue = { ...oldValue, silentMode: true };
@@ -144,8 +150,8 @@ export class PhoneAuthComponent implements OnInit {
     }));
   }
 
-  setPassword(pwd: string) {
-    this.userData().password = pwd;
+  getPassword() {
+    this.userData().password = this.myForm.controls['password'].value;
   }
 
   toggleSaveUser(isSaving: boolean) {
