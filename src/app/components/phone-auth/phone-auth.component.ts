@@ -68,7 +68,6 @@ export class PhoneAuthComponent implements OnInit {
   readonly #popupService = inject(PopupService);
 
   userData = signal(this.getLocalStorageData());
-  // debug: this.userData().password = setPassword;
 
   inputPhone: InputConfig = {
     placeholder: '+7 ( ___ ) ___-__-__',
@@ -106,6 +105,7 @@ export class PhoneAuthComponent implements OnInit {
     this.#store.dispatch(new CreateUser(this.userData()));
     this.#popupService.popupState$.next({
       titlePopUp: 'Идентификация аккаунта',
+      name: 'registrationUser',
       state: true,
       component: StepperComponent,
       componentProps: [

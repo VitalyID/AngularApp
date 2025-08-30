@@ -4,6 +4,7 @@ import { EMPTY, take, tap } from 'rxjs';
 import { UserInfoService } from '../../services/userInfo.service';
 import { GetUserInfo, UpdateBankCards, UpdateUser } from './user.action';
 import { StateUser, StateUserModel } from './user.models';
+import { typeBankCard } from './user.utils';
 
 @State<StateUserModel>({
   name: 'userProfile',
@@ -65,6 +66,14 @@ export class UserState {
           const parseCards = JSON.parse(userInfo.cards);
           userInfo = { ...userInfo, cards: parseCards };
         }
+
+        console.log('debug before: ', userInfo);
+
+        const cardsWithLogo = userInfo.cards.map((card) => {
+          return (card.typeCard = typeBankCard());
+        });
+
+        console.log('debug cards after: ', cardsWithLogo);
 
         ctx.patchState({
           userProfile: userInfo,

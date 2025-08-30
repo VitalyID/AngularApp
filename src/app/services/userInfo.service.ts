@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { profileLink } from '../const';
@@ -11,13 +10,13 @@ export class UserInfoService {
   postUserInfo(user: StateUser) {
     console.log('debug: send to service', user);
 
-    // debug: return this.#http.post<StateUser>(profileLink, user);
+    return this.#http.post<StateUser>(profileLink, user);
   }
 
   putUserInfo(user: StateUser) {
     console.log('debug: send to service', user);
 
-    // debug: return this.#http.put<StateUser>(profileLink, user);
+    return this.#http.put<StateUser>(profileLink, user);
   }
 
   getUserService() {

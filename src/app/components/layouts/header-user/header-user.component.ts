@@ -1,9 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, Signal, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { v4 as uuidv4 } from 'uuid';
 import { LocalStorigeService } from '../../../services/local-storige.service';
+import { PopupService } from '../../../services/popup.service';
 import { ButtonsComponent } from '../../../shared/components/buttons/buttons.component';
 import { DropdownComponent } from '../../../shared/components/dropdown/dropdown.component';
 import { ListDropdown } from '../../../shared/components/dropdown/types/interface/listDropdown';
@@ -26,7 +34,7 @@ import { SvgSpriteSetting } from './../../../types/interfaces/svgIcon';
   templateUrl: './header-user.component.html',
   styleUrl: './header-user.component.scss',
 })
-export class HeaderUserComponent implements OnInit {
+export class HeaderUserComponent implements AfterViewInit {
   defaultValue: ListDropdown = {
     id: uuidv4(),
     item: 'RU',
@@ -72,11 +80,29 @@ export class HeaderUserComponent implements OnInit {
   readonly #localeStorageService = inject(LocalStorigeService);
   readonly #router = inject(Router);
   readonly #store = inject(Store);
+  readonly #popupService = inject(PopupService);
+  readonly #destroyRef = inject(DestroyRef);
 
-  user: Signal<StateUser> = this.#store.selectSignal(UserState.getUserInfo);
+  user = signal<Partial<StateUser>>({});
 
-  ngOnInit(): void {
-    this.#store.dispatch(new GetUserInfo());
+  ngAfterViewInit(): void {
+    this.#popupService.popupState$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((popup) => {
+        console.log('debug header:', popup.name, popup.state);
+
+        if (popup.name === 'registrationUser' && popup.state) return;
+
+        console.log('debug: applay');
+
+        // NOTE: download user first and last name only if its old user
+        this.#store.dispatch(new GetUserInfo());
+        const downloadUser$ = this.#store.select(UserState.getUserInfo);
+        if (!downloadUser$) return;
+        downloadUser$
+          .pipe(takeUntilDestroyed(this.#destroyRef))
+          .subscribe((user) => this.user.set(user));
+      });
   }
 
   onClickContact() {

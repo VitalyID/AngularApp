@@ -56,6 +56,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.#popupService.popupState$.next({
       titlePopUp: 'Идентификация аккаунта',
+      name: 'registrationUser',
       state: true,
       component: StepperComponent,
       componentProps: [

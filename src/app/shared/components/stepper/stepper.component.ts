@@ -141,6 +141,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     if (this.step() === this.stepperConfig().length) {
       this.#popupService.popupState$.next({
         state: false,
+        name: 'registrationUser',
         component: null,
       });
       return true;

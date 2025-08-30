@@ -32,12 +32,12 @@
       }
 
       <app-buttons
-        [text]="removeCard.text"
-        [background]="removeCard.background"
-        [borderRadius]="removeCard.borderRadius"
-        [borderStyle]="removeCard.borderStyle"
-        [color]="removeCard.color"
-        [boxShadow]="removeCard.boxShadow"
+        [text]="'Удаление карты'"
+        [background]="'none'"
+        [borderRadius]="'6px'"
+        [borderStyle]="'1px solid #E1E3E1'"
+        [color]="'#101011'"
+        [boxShadow]="'none'"
         (click)="removeBankCard()"
       ></app-buttons>
     </div>
@@ -46,8 +46,10 @@
       (cardDataChange)="setNewCard($event)"
     ></registration-card>
 
-    <app-buttons borderStyle="none" (click)="addBankCard()"
-      >Привязать карту</app-buttons
-    >
+    <app-buttons
+      (click)="addBankCard()"
+      [borderStyle]="'none'"
+      [text]="'Привязать карту'"
+    ></app-buttons>
   </div>
 </div>

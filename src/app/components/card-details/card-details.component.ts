@@ -53,20 +53,6 @@ export class CardDetailsComponent implements OnInit {
     expirationDate: '06/28',
   };
 
-  removeCard: ButtonConfig = {
-    text: 'Удаление карты',
-    background: 'none',
-    borderRadius: '6px',
-    borderStyle: '1px solid #E1E3E1',
-    color: '#101011',
-    boxShadow: 'none',
-  };
-
-  addCard: ButtonConfig = {
-    text: 'Привязать карту',
-    borderStyle: 'none',
-  };
-
   ngOnInit(): void {
     this.#store.dispatch(new GetUserInfo());
 
@@ -75,7 +61,7 @@ export class CardDetailsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((user: StateUser) => {
         user.cards.forEach((card) => {
-          card.typeCard = this.typeBankCard();
+          // debug card.typeCard = this.typeBankCard();
           if (card.isActive) {
             this.setActiveCard(user, card);
           }
@@ -92,18 +78,18 @@ export class CardDetailsComponent implements OnInit {
     });
   }
 
-  typeBankCard(): string {
-    const random = Math.round(Math.random());
-    return random === 1
-      ? '../../../assets/images/Master card.png'
-      : '../../../assets/images/Visa card.png';
-  }
+  // debug: typeBankCard(): string {
+  // debug:   const random = Math.round(Math.random());
+  // debug:   return random === 1
+  // debug:     ? '../../../assets/images/Master card.png'
+  // debug:     : '../../../assets/images/Visa card.png';
+  // debug: }
 
   setActiveCard(user: StateUser, card: BankCard) {
     this.activeCard.numberCard = card.card_number;
     this.activeCard.nameCardHolder = user.first_name + ' ' + user.last_name;
     this.activeCard.expirationDate = card.expiry;
-    this.activeCard.typeBankCard = this.typeBankCard();
+    // debug this.activeCard.typeBankCard = this.typeBankCard();
   }
 
   userActiveCard(card: BankCard) {
@@ -132,7 +118,7 @@ export class CardDetailsComponent implements OnInit {
   }
 
   setNewCard(card: BankCard[]) {
-    this.bankCard = { ...card[0], typeCard: this.typeBankCard() };
+    // debug this.bankCard = { ...card[0], typeCard: this.typeBankCard() };
   }
 
   addBankCard() {
