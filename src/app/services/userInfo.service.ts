@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { tap } from 'rxjs';
 import { profileLink } from '../const';
 import { StateUser } from '../state/user/user.models';
 
@@ -20,6 +21,10 @@ export class UserInfoService {
   }
 
   getUserService() {
-    return this.#http.get<StateUser>(profileLink);
+    return this.#http.get<StateUser>(profileLink).pipe(
+      tap((response) => {
+        console.log('debug service get: ', response);
+      }),
+    );
   }
 }

@@ -17,7 +17,7 @@ import { RadioButtons } from '../../shared/components/custom-radio-button/types/
 import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
 import { StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
-import { ButtonConfig } from '../../types/interfaces/sectionItem';
+import { typeBankCard } from '../../state/user/user.utils';
 import { BankCard } from './../../state/user/user.models';
 
 @Component({
@@ -56,18 +56,7 @@ export class CardDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.#store.dispatch(new GetUserInfo());
 
-    this.#store
-      .select(UserState.getUserInfo)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((user: StateUser) => {
-        user.cards.forEach((card) => {
-          // debug card.typeCard = this.typeBankCard();
-          if (card.isActive) {
-            this.setActiveCard(user, card);
-          }
-        });
-        this.user$.set(user);
-      });
+    this.uploadCards();
 
     runInInjectionContext(this.#inject, () => {
       effect(() => {
@@ -78,18 +67,10 @@ export class CardDetailsComponent implements OnInit {
     });
   }
 
-  // debug: typeBankCard(): string {
-  // debug:   const random = Math.round(Math.random());
-  // debug:   return random === 1
-  // debug:     ? '../../../assets/images/Master card.png'
-  // debug:     : '../../../assets/images/Visa card.png';
-  // debug: }
-
   setActiveCard(user: StateUser, card: BankCard) {
     this.activeCard.numberCard = card.card_number;
     this.activeCard.nameCardHolder = user.first_name + ' ' + user.last_name;
     this.activeCard.expirationDate = card.expiry;
-    // debug this.activeCard.typeBankCard = this.typeBankCard();
   }
 
   userActiveCard(card: BankCard) {
@@ -118,7 +99,8 @@ export class CardDetailsComponent implements OnInit {
   }
 
   setNewCard(card: BankCard[]) {
-    // debug this.bankCard = { ...card[0], typeCard: this.typeBankCard() };
+    this.bankCard = { ...card[0], typeCard: typeBankCard() };
+    console.log('debug new bankCard: ', this.bankCard);
   }
 
   addBankCard() {
@@ -132,7 +114,9 @@ export class CardDetailsComponent implements OnInit {
     });
 
     if (this.user$().cards) {
-      this.#store.dispatch(new UpdateBankCards(this.user$().cards!));
+      const listCardsWithaoutLogo = this.removeTypeBankCard(this.user$().cards);
+      this.#store.dispatch(new UpdateBankCards(listCardsWithaoutLogo));
+      this.uploadCards();
     }
   }
 
@@ -141,10 +125,7 @@ export class CardDetailsComponent implements OnInit {
       return card.isActive === false;
     });
 
-    const updatedCard = inActiveCard?.map((card) => {
-      const { typeCard, ...cardWithType } = card;
-      return cardWithType;
-    });
+    const updatedCard = this.removeTypeBankCard(inActiveCard);
 
     if (updatedCard) {
       this.#store.dispatch(new UpdateBankCards(updatedCard));
@@ -157,5 +138,27 @@ export class CardDetailsComponent implements OnInit {
       currentCards.map((card) => (card.isActive = false));
       return { ...user, cards: [...currentCards] };
     });
+  }
+
+  removeTypeBankCard(cards: BankCard[] | undefined): BankCard[] {
+    if (!cards) return [];
+    return cards.map((card) => {
+      const { typeCard, ...restCard } = card;
+      return restCard as BankCard;
+    });
+  }
+
+  uploadCards() {
+    this.#store
+      .select(UserState.getUserInfo)
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((user: StateUser) => {
+        user.cards.forEach((card) => {
+          if (card.isActive) {
+            this.setActiveCard(user, card);
+          }
+        });
+        this.user$.set(user);
+      });
   }
 }

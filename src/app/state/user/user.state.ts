@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { EMPTY, take, tap } from 'rxjs';
+import { EMPTY, Observable, take, tap } from 'rxjs';
 import { UserInfoService } from '../../services/userInfo.service';
 import { GetUserInfo, UpdateBankCards, UpdateUser } from './user.action';
 import { StateUser, StateUserModel } from './user.models';
@@ -44,13 +44,16 @@ export class UserState {
   updateUser(
     ctx: StateContext<StateUserModel>,
     { info, isNewUser }: UpdateUser,
-  ) {
+  ): Observable<any> {
     const oldUser = ctx.getState().userProfile;
     ctx.patchState({ userProfile: { ...oldUser, ...info } });
 
     const { cards, ...state } = ctx.getState().userProfile;
-    if (!cards.length) return EMPTY;
-    if (!Object.values(state).every((value) => value !== null)) return EMPTY;
+
+    if (!cards.length || !Object.values(state).every((value) => value !== null))
+      return EMPTY;
+
+    if (isNewUser) console.log('debug PUT state:', info);
 
     return isNewUser
       ? this.#http.putUserInfo(ctx.getState().userProfile)
@@ -67,16 +70,13 @@ export class UserState {
           userInfo = { ...userInfo, cards: parseCards };
         }
 
-        console.log('debug before: ', userInfo);
-
-        const cardsWithLogo = userInfo.cards.map((card) => {
-          return (card.typeCard = typeBankCard());
-        });
-
-        console.log('debug cards after: ', cardsWithLogo);
+        const cardsWithLogo = userInfo.cards.map((card) => ({
+          ...card,
+          typeCard: typeBankCard(),
+        }));
 
         ctx.patchState({
-          userProfile: userInfo,
+          userProfile: { ...userInfo, cards: cardsWithLogo },
         });
       }),
     );
@@ -90,6 +90,12 @@ export class UserState {
       userProfile: { ...oldUserInfo, cards: [...cards] },
     });
 
-    return this.#http.putUserInfo(ctx.getState().userProfile);
+    console.log('debug put bankcard: ', ctx.getState().userProfile);
+
+    return this.#http.putUserInfo(ctx.getState().userProfile).pipe(
+      tap(() => {
+        ctx.dispatch(new GetUserInfo());
+      }),
+    );
   }
 }

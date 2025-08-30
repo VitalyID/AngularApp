@@ -10,17 +10,15 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BankCard } from './../../../state/user/user.models';
-
 import { debounceTime, filter, map } from 'rxjs';
 import { UserCard } from '../../../state/user/user.models';
-import { ButtonsComponent } from '../buttons/buttons.component';
 import { StepService } from '../stepper/service/step.service';
 import { InputTextComponent } from './../input-text/input-text.component';
 import { CardFormValue } from './types/interfaces/CardFormValue';
 
 @Component({
   selector: 'registration-card',
-  imports: [InputTextComponent, ReactiveFormsModule, ButtonsComponent],
+  imports: [InputTextComponent, ReactiveFormsModule],
   templateUrl: './registration-card.component.html',
   styleUrl: './registration-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
