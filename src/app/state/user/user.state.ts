@@ -56,8 +56,8 @@ export class UserState {
     if (isNewUser) console.log('debug PUT state:', info);
 
     return isNewUser
-      ? this.#http.putUserInfo(ctx.getState().userProfile)
-      : this.#http.postUserInfo(ctx.getState().userProfile);
+      ? this.#http.postUserInfo(ctx.getState().userProfile)
+      : this.#http.putUserInfo(ctx.getState().userProfile);
   }
 
   @Action(GetUserInfo)
