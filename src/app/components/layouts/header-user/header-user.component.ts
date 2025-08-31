@@ -89,11 +89,7 @@ export class HeaderUserComponent implements AfterViewInit {
     this.#popupService.popupState$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((popup) => {
-        console.log('debug header:', popup.name, popup.state);
-
         if (popup.name === 'registrationUser' && popup.state) return;
-
-        console.log('debug: applay');
 
         // NOTE: download user first and last name only if its old user
         this.#store.dispatch(new GetUserInfo());

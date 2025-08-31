@@ -19,6 +19,7 @@ import { StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { typeBankCard } from '../../state/user/user.utils';
 import { BankCard } from './../../state/user/user.models';
+import { insertSpace } from '../../types/utils/insertSpace';
 
 @Component({
   selector: 'card-details',
@@ -119,6 +120,7 @@ export class CardDetailsComponent implements OnInit {
       const listCardsWithaoutLogo = this.removeTypeBankCard(this.user$().cards);
       this.#store.dispatch(new UpdateBankCards(listCardsWithaoutLogo));
       this.uploadCards();
+      console.log('debug: ', this.user$().cards);
     }
   }
 
@@ -159,6 +161,7 @@ export class CardDetailsComponent implements OnInit {
           if (card.isActive) {
             this.setActiveCard(user, card);
           }
+          card.card_number = insertSpace(card.card_number);
         });
         this.user$.set(user);
       });
