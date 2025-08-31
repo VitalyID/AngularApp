@@ -14,22 +14,12 @@
 
       <!-- NOTE: if user didn't add bank card by registration, don't show this section -->
 
-      @for (card of cards; track card.card_number + $index) {
-        <div
-          class="cardDetail__userCard"
-          (click)="userActiveCard(card)"
-          (keyup)="userActiveCard(card)"
-          tabindex="0"
-        >
-          <div class="cardDetail__userCard--activeType">
-            <custom-radio-button
-              [radioConfig]="radioConfig()"
-            ></custom-radio-button>
-            <img [src]="card.typeCard" alt="Тип банковской карточки" />
-          </div>
-          <span>{{ card.card_number | bankCardNumberSpaces }}</span>
-        </div>
-      }
+      <div class="cardDetail__about">
+        <custom-radio-button
+          [radioConfig]="radioConfig()"
+          (userConfiture)="setCard($event)"
+        ></custom-radio-button>
+      </div>
 
       <app-buttons
         [text]="'Удаление карты'"

@@ -45,13 +45,22 @@
     }
   }
 
-  &__userCard--activeType {
-    padding: 7px 0 7px 12px;
-    @include flex($gap: 12px);
+  &__about {
+    // padding: 7px 0 7px 12px;
+    @include flex($gap: 12px, $justify: start);
+
+    width: 100%;
 
     & custom-radio-button {
       --mbElement: 0px;
       --gap: 0px;
+      --background: #f4f5f7;
+      --padding: 12px;
+      --flex-grow: 2;
+      --border-radius: 8px;
+      --margin-bottom: 6px;
+      --borderActive: solid 2px #54a75c;
+      width: 100%;
     }
   }
 

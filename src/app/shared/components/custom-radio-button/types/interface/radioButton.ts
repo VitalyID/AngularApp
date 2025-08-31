@@ -3,4 +3,6 @@ export interface RadioButtons {
   name: string;
   checked: boolean;
   id: string;
+  imgSrc?: string;
+  imgAlt?: string;
 }

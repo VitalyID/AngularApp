@@ -91,9 +91,11 @@ export class CardDetailsComponent implements OnInit {
     return (
       this.user$().cards?.map((card) => ({
         icon: card.isActive ? 'checkboxActive' : 'checkbox',
-        name: '',
+        name: card.card_number,
         checked: card.isActive,
         id: uuid.v4(),
+        imgSrc: card.typeCard,
+        imgAlt: 'Тип банковской карточки',
       })) || []
     );
   }
@@ -160,5 +162,9 @@ export class CardDetailsComponent implements OnInit {
         });
         this.user$.set(user);
       });
+  }
+
+  setCard(userCard: RadioButtons) {
+    console.log('debug', userCard);
   }
 }

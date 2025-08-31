@@ -29,12 +29,16 @@ export class CustomRadioButtonComponent {
   @Output() userConfiture = new EventEmitter();
 
   setUser(setUserRadioBtn: RadioButtons) {
-    this.radioConfig.map((btn) => {
-      if (btn.id === setUserRadioBtn.id) {
-        btn.icon = 'checkboxActive';
-        btn.checked = true;
-      }
+    const updateRadioConfig = this.radioConfig.map((btn) => {
+      const isActive = btn.id === setUserRadioBtn.id;
+
+      return {
+        ...btn,
+        icon: isActive ? 'checkboxActive' : 'checkbox',
+        checked: isActive,
+      };
     });
+    this.radioConfig = updateRadioConfig;
 
     this.userConfiture.emit(setUserRadioBtn);
   }
