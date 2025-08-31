@@ -89,8 +89,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
     this.#stepService.emitStepData$
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((dataStep) => {
-        console.log('debug get data from component: ', dataStep);
-
         this.stepData = dataStep;
       });
   }
@@ -122,12 +120,6 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
         const isActive = this.step() >= index;
         const stepperEndLine = this.step() > index;
 
-        console.log('debug ', {
-          ...el,
-          isActive,
-          stepperEndLine,
-        });
-
         return {
           ...el,
           isActive,
@@ -151,15 +143,12 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
 
   nextStep() {
     // NOTE: because stepper can use for different situations, we are using narrow type for define stor and action
-    console.log('debug before check', this.stepData);
 
     if (
       isUserPersonalInfo(this.stepData) ||
       isUserType(this.stepData) ||
       isUserCard(this.stepData)
     ) {
-      console.log('debug: send to store', this.stepData);
-
       this.#store.dispatch(new UpdateUser(this.stepData));
       this.step.update((step) => step + 1);
 
