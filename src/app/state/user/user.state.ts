@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { EMPTY, Observable, take, tap } from 'rxjs';
 import { UserInfoService } from '../../services/userInfo.service';
 import { GetUserInfo, UpdateBankCards, UpdateUser } from './user.action';
-import { StateUser, StateUserModel } from './user.models';
+import { BankCard, StateUser, StateUserModel } from './user.models';
 import { typeBankCard } from './user.utils';
 
 @State<StateUserModel>({
@@ -36,6 +36,17 @@ export class UserState {
     return {
       ...state.userProfile,
     };
+  }
+
+  static getActiveCard(state: StateUserModel): BankCard {
+    return (
+      state.userProfile.cards.find((card) => card.isActive === true) ?? {
+        card_number: '0000000000000000',
+        expiry: '00/00',
+        cvc: '000',
+        isActive: true,
+      }
+    );
   }
 
   // NOTE: If user update personal information after some time info:UpdateUserInfo, isNewUser === true;

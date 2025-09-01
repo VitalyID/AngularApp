@@ -7,16 +7,18 @@ import {
   Injector,
   OnInit,
   runInInjectionContext,
+  Signal,
   signal,
+  WritableSignal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { BankCardNumberSpaces } from '../../shared/components/bank-card/pipe/card-number';
 import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
 import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
-import { StateUser } from '../../state/user/user.models';
+import { StateUser, StateUserModel } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { typeBankCard } from '../../state/user/user.utils';
 import { BankCard } from './../../state/user/user.models';
@@ -33,7 +35,11 @@ export class CardDetailsComponent implements OnInit {
   readonly #inject = inject(Injector);
   readonly #destroyRef = inject(DestroyRef);
 
-  user$ = signal<Partial<StateUser>>({});
+  // debug: user$ = signal<Partial<StateUser>>({});
+  user: Signal<StateUser> = this.#store.selectSignal(UserState.getUserInfo);
+  activeBankCard: Signal<BankCard> = this.#store.selectSignal(
+    UserState.getActiveCard,
+  );
 
   radioConfig = signal<RadioButtons[]>([]);
 
@@ -61,7 +67,7 @@ export class CardDetailsComponent implements OnInit {
 
     runInInjectionContext(this.#inject, () => {
       effect(() => {
-        if (this.user$()) {
+        if (this.user()) {
           this.radioConfig.set(this.updateRadioConfig());
         }
       });
@@ -78,21 +84,20 @@ export class CardDetailsComponent implements OnInit {
     const cardWithoutSpaces = cardNumber.replace(/\s/g, '');
 
     const numberActiveCard = cardWithoutSpaces;
-    this.user$.update((currentUser) => {
-      const newCards =
-        currentUser.cards?.map((c) => ({
-          ...c,
-          isActive: c.card_number === numberActiveCard,
-        })) || [];
 
-      this.#store.dispatch(new UpdateBankCards(newCards));
-      return { ...currentUser, cards: newCards };
-    });
+    const userCards =
+      this.user().cards.map((c) => ({
+        ...c,
+        isActive: c.card_number === numberActiveCard,
+      })) || [];
+
+    this.#store.dispatch(new UpdateBankCards(userCards));
+    return { ...this.user(), cards: userCards };
   }
 
   updateRadioConfig(): RadioButtons[] {
     return (
-      this.user$().cards?.map((card) => ({
+      this.user().cards?.map((card) => ({
         icon: card.isActive ? 'checkboxActive' : 'checkbox',
         name: this.copyPipe(card.card_number) ?? '',
         checked: card.isActive,
@@ -109,10 +114,10 @@ export class CardDetailsComponent implements OnInit {
   }
 
   addBankCard() {
-    console.log('debug 1: ', this.user$().cards);
+    console.log('debug 1: ', this.user().cards);
 
     this.setCardFalse();
-    this.user$.update((user) => {
+    this.user.update((user) => {
       const currentCards = user.cards || [];
       return {
         ...user,
@@ -120,17 +125,17 @@ export class CardDetailsComponent implements OnInit {
       };
     });
 
-    if (this.user$().cards) {
-      const listCorrectCards = this.removeTypeBankCard(this.user$().cards);
+    if (this.user().cards) {
+      const listCorrectCards = this.removeTypeBankCard(this.user().cards);
 
       this.#store.dispatch(new UpdateBankCards(listCorrectCards));
       this.uploadCards();
-      console.log('debug 2: ', this.user$().cards);
+      console.log('debug 2: ', this.user().cards);
     }
   }
 
   deleteBankCard() {
-    const inActiveCard = this.user$().cards?.filter((card) => {
+    const inActiveCard = this.user().cards?.filter((card) => {
       return card.isActive === false;
     });
 
@@ -142,7 +147,7 @@ export class CardDetailsComponent implements OnInit {
   }
 
   setCardFalse() {
-    this.user$.update((user) => {
+    this.user.update((user) => {
       const currentCards = user.cards || [];
       currentCards.map((card) => (card.isActive = false));
       return { ...user, cards: [...currentCards] };
@@ -167,8 +172,7 @@ export class CardDetailsComponent implements OnInit {
             this.setActiveCard(user, card);
           }
         });
-        this.user$.set(user);
-        console.log('debug:', this.user$());
+        // debug: this.user.set(user);
       });
   }
 
