@@ -33,7 +33,7 @@
     <div class="personalData__country">
       @if (listCountries$ | async; as countries) {
         <dropdown
-          [defaultValue]="countries[0]"
+          [defaultValue]="(defCountry$ | async) ?? { item: '', id: '' }"
           [dropdownItems]="countries"
           (itemSelected)="userCountry($event)"
         ></dropdown>
@@ -41,6 +41,7 @@
     </div>
 
     <span>Город</span>
+
     @if (listCities$ | async; as cities) {
       <dropdown
         [defaultValue]="cities[0]"

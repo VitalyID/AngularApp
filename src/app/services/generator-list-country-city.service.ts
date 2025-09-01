@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as uuid from 'uuid';
+import { isString } from '../components/personal-data/utils/narrow-dropdown-types';
 import { ListOfService } from '../const';
 import { ListDropdown } from '../shared/components/dropdown/types/interface/listDropdown';
 
@@ -14,29 +15,52 @@ export class GeneratorListCountryCityService {
   dropdownUserCities$ = new BehaviorSubject<ListDropdown[]>([
     { id: '', item: '' },
   ]);
+  dropdownDefCountry$ = new BehaviorSubject<ListDropdown>({ id: '', item: '' });
 
-  defaultCountry: ListDropdown = { id: '', item: '' };
-
-  setCountry(): ListDropdown[] {
+  setCountry(country?: string): ListDropdown[] {
     const countries = Object.keys(ListOfService).sort();
     const newListCountries = countries.map((country) => ({
       id: uuid.v4(),
       item: country,
     }));
     this.dropdownUserCountry$.next(newListCountries);
-    this.defaultCountry = newListCountries[0];
+
+    const defaultCountry = country
+      ? newListCountries.filter((item) => {
+          return item.item === country;
+        })[0]
+      : newListCountries[0];
+
+    console.log('debug: ', defaultCountry);
+    this.dropdownDefCountry$.next(defaultCountry);
+
     return newListCountries;
   }
 
-  setCities(defaultCountry: ListDropdown): ListDropdown[] {
-    const cities = ListOfService[defaultCountry.item];
-    const userCity = cities.map((city) => ({ id: uuid.v4(), item: city }));
-    this.dropdownUserCities$.next(userCity);
-    return userCity;
+  setCities(defaultCountry: ListDropdown | string): ListDropdown[] {
+    console.log('debug default country: ', defaultCountry);
+
+    const resultType = isString(defaultCountry);
+
+    if (resultType) {
+      const cities = ListOfService[defaultCountry];
+      const userCity = cities.map((city) => ({ id: uuid.v4(), item: city }));
+      this.dropdownUserCities$.next(userCity);
+
+      return userCity;
+    } else {
+      const cities = ListOfService[defaultCountry.item ?? ''];
+      const userCity = cities.map((city) => ({ id: uuid.v4(), item: city }));
+      this.dropdownUserCities$.next(userCity);
+      return userCity;
+    }
   }
 
   // NOTE: click user on dropdown country
-  userCountry(country: ListDropdown) {
+  // NOTE: type 'string' its data from serever
+  userCountry(country: ListDropdown | string) {
+    console.log('debug userCountry: ', country);
+
     this.setCities(country);
   }
 

@@ -168,6 +168,7 @@ export class CardDetailsComponent implements OnInit {
           }
         });
         this.user$.set(user);
+        console.log('debug:', this.user$());
       });
   }
 

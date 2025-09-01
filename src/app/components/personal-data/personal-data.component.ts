@@ -2,8 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
+  Injector,
   OnInit,
+  runInInjectionContext,
   Signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -50,6 +53,7 @@ export class PersonalDataComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #router = inject(Router);
   readonly #lss = inject(LocalStorigeService);
+  readonly #inject = inject(Injector);
 
   listCountries$: Observable<ListDropdown[]> =
     this.#dropdownService.dropdownUserCountry$;
@@ -60,6 +64,9 @@ export class PersonalDataComponent implements OnInit {
   userTel$: Observable<UserAuthStateModel> = this.#store.select(
     UserAuthState.userAccount,
   );
+
+  defCountry$: Observable<ListDropdown> =
+    this.#dropdownService.dropdownDefCountry$;
 
   userInfo: Signal<UserInfo> = this.#store.selectSignal(UserState.getUserInfo);
 
@@ -77,6 +84,13 @@ export class PersonalDataComponent implements OnInit {
   ngOnInit(): void {
     this.#store.dispatch(new GetUserInfo());
     this.changeUrlPage();
+
+    runInInjectionContext(this.#inject, () => {
+      effect(() => {
+        this.#dropdownService.setCountry(this.userInfo().country);
+        this.#dropdownService.userCountry(this.userInfo().country);
+      });
+    });
   }
 
   updateFirstName(firstName: string) {
