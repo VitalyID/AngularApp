@@ -13,6 +13,6 @@ export class BankCardComponent {
   @Input({ required: true }) balance: number = 0;
   @Input({ required: true }) typeCard: string = '';
   @Input({ required: true }) name: string = '';
-  @Input({ required: true }) number: string = '';
+  @Input({ required: true }) number: string = '0000000000000000';
   @Input({ required: true }) data: string = '';
 }

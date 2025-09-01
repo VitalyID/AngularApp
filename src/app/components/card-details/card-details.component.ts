@@ -12,6 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
+import { BankCardNumberSpaces } from '../../shared/components/bank-card/pipe/card-number';
 import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
 import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
@@ -19,7 +20,6 @@ import { StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { typeBankCard } from '../../state/user/user.utils';
 import { BankCard } from './../../state/user/user.models';
-import { insertSpace } from '../../types/utils/insertSpace';
 
 @Component({
   selector: 'card-details',
@@ -92,7 +92,7 @@ export class CardDetailsComponent implements OnInit {
     return (
       this.user$().cards?.map((card) => ({
         icon: card.isActive ? 'checkboxActive' : 'checkbox',
-        name: card.card_number,
+        name: this.copyPipe(card.card_number) ?? '',
         checked: card.isActive,
         id: uuid.v4(),
         imgSrc: card.typeCard,
@@ -107,6 +107,8 @@ export class CardDetailsComponent implements OnInit {
   }
 
   addBankCard() {
+    console.log('debug 1: ', this.user$().cards);
+
     this.setCardFalse();
     this.user$.update((user) => {
       const currentCards = user.cards || [];
@@ -117,14 +119,15 @@ export class CardDetailsComponent implements OnInit {
     });
 
     if (this.user$().cards) {
-      const listCardsWithaoutLogo = this.removeTypeBankCard(this.user$().cards);
-      this.#store.dispatch(new UpdateBankCards(listCardsWithaoutLogo));
+      const listCorrectCards = this.removeTypeBankCard(this.user$().cards);
+
+      this.#store.dispatch(new UpdateBankCards(listCorrectCards));
       this.uploadCards();
-      console.log('debug: ', this.user$().cards);
+      console.log('debug 2: ', this.user$().cards);
     }
   }
 
-  removeBankCard() {
+  deleteBankCard() {
     const inActiveCard = this.user$().cards?.filter((card) => {
       return card.isActive === false;
     });
@@ -161,7 +164,6 @@ export class CardDetailsComponent implements OnInit {
           if (card.isActive) {
             this.setActiveCard(user, card);
           }
-          card.card_number = insertSpace(card.card_number);
         });
         this.user$.set(user);
       });
@@ -169,5 +171,10 @@ export class CardDetailsComponent implements OnInit {
 
   setCard(userCard: RadioButtons) {
     console.log('debug', userCard);
+  }
+
+  copyPipe(cardNumber: string) {
+    const pipe = new BankCardNumberSpaces();
+    return pipe.transform(cardNumber);
   }
 }
