@@ -31,36 +31,25 @@ export class GeneratorListCountryCityService {
         })[0]
       : newListCountries[0];
 
-    console.log('debug: ', defaultCountry);
     this.dropdownDefCountry$.next(defaultCountry);
-
     return newListCountries;
   }
 
   setCities(defaultCountry: ListDropdown | string): ListDropdown[] {
-    console.log('debug default country: ', defaultCountry);
-
     const resultType = isString(defaultCountry);
 
-    if (resultType) {
-      const cities = ListOfService[defaultCountry];
-      const userCity = cities.map((city) => ({ id: uuid.v4(), item: city }));
-      this.dropdownUserCities$.next(userCity);
+    const cities = resultType
+      ? ListOfService[defaultCountry] || []
+      : ListOfService[defaultCountry.item ?? ''] || [];
 
-      return userCity;
-    } else {
-      const cities = ListOfService[defaultCountry.item ?? ''];
-      const userCity = cities.map((city) => ({ id: uuid.v4(), item: city }));
-      this.dropdownUserCities$.next(userCity);
-      return userCity;
-    }
+    const userCity = cities.map((city) => ({ id: uuid.v4(), item: city }));
+    this.dropdownUserCities$.next(userCity);
+    return userCity;
   }
 
   // NOTE: click user on dropdown country
   // NOTE: type 'string' its data from serever
   userCountry(country: ListDropdown | string) {
-    console.log('debug userCountry: ', country);
-
     this.setCities(country);
   }
 
