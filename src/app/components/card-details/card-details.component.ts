@@ -74,8 +74,10 @@ export class CardDetailsComponent implements OnInit {
     this.activeCard.expirationDate = card.expiry;
   }
 
-  userActiveCard(card: BankCard) {
-    const numberActiveCard = card.card_number;
+  userActiveCard(cardNumber: string) {
+    const cardWithoutSpaces = cardNumber.replace(/\s/g, '');
+
+    const numberActiveCard = cardWithoutSpaces;
     this.user$.update((currentUser) => {
       const newCards =
         currentUser.cards?.map((c) => ({
@@ -170,7 +172,7 @@ export class CardDetailsComponent implements OnInit {
   }
 
   setCard(userCard: RadioButtons) {
-    console.log('debug', userCard);
+    this.userActiveCard(userCard.name);
   }
 
   copyPipe(cardNumber: string) {
