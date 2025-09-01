@@ -38,6 +38,7 @@ export class UserState {
     };
   }
 
+  @Selector()
   static getActiveCard(state: StateUserModel): BankCard {
     return (
       state.userProfile.cards.find((card) => card.isActive === true) ?? {

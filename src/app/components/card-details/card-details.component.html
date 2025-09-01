@@ -4,11 +4,11 @@
   <div class="cardDetail__body">
     <div class="cardDetail__top">
       <bank-card
-        [balance]="activeCard.balansCard"
-        [typeCard]="activeCard.typeBankCard"
-        [name]="activeCard.nameCardHolder"
-        [number]="activeCard.numberCard"
-        [data]="activeCard.expirationDate"
+        [balance]="0"
+        [typeCard]="activeBankCard().typeCard || 'error'"
+        [name]="user$().first_name || '' + user$().last_name || ''"
+        [number]="activeBankCard().card_number"
+        [data]="activeBankCard().expiry"
       ></bank-card>
 
       <!-- NOTE: if user didn't add bank card by registration, don't show this section -->
