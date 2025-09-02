@@ -1,29 +1,16 @@
-import { Component, Injectable, signal, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SpinnerConfig } from './../types/spinner-config';
-// NOTE: this service get signals from interseptor
+// NOTE: this service get signals from interseptor to enabled and disabled
 
 @Injectable({ providedIn: 'root' })
 export class SpinnerService {
-  spinnerState = new BehaviorSubject<SpinnerConfig>({
-    isActive: false,
-    id: '',
-    source: null,
-    nameIcon: 'icon-spinner',
-  });
+  spinnerState = new BehaviorSubject<boolean>(false);
 
   enableSpinner() {
-    const newSpinner = { ...this.spinnerState.getValue(), isActive: true };
-    this.spinnerState.next(newSpinner);
+    this.spinnerState.next(true);
   }
 
   disableSpinner() {
-    const newSpinner = { ...this.spinnerState.getValue(), isActive: false };
-    this.spinnerState.next(newSpinner);
-  }
-
-  setSource(source: Type<Component>) {
-    const spinnerConfig = { ...this.spinnerState.getValue(), source };
-    this.spinnerState.next(spinnerConfig);
+    this.spinnerState.next(false);
   }
 }

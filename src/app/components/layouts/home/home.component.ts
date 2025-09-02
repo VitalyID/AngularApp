@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   // NOTE: newUser need for forbid to render popup when user is done. We get it true from PopUpService and 'close' from 'close popup click on latest step'
   newUser: boolean = false;
 
-  spinnerConfig = toSignal(this.#spinner.spinnerState);
+  spinnerState = toSignal(this.#spinner.spinnerState);
 
   ngOnInit(): void {
     this.#menuService.stateMenuService

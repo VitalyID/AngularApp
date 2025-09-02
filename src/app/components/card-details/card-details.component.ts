@@ -8,16 +8,21 @@ import {
   runInInjectionContext,
   Signal,
   signal,
+  Type,
 } from '@angular/core';
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { BankCardNumberSpaces } from '../../shared/components/bank-card/pipe/card-number';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
+import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { SpinnerConfig } from '../../shared/components/spinner/types/spinner-config';
 import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
 import { StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { typeBankCard } from '../../state/user/user.utils';
 import { BankCard } from './../../state/user/user.models';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'card-details',
@@ -29,6 +34,7 @@ import { BankCard } from './../../state/user/user.models';
 export class CardDetailsComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #inject = inject(Injector);
+  readonly #spinnerService = inject(SpinnerService);
 
   user$ = signal<Partial<StateUser>>({});
 
@@ -40,6 +46,9 @@ export class CardDetailsComponent implements OnInit {
   radioConfig = signal<RadioButtons[]>([]);
   numberCard = signal<string>('0000 0000 0000 0000');
   disabledAddCard: boolean = true;
+
+  spinnerState = toSignal<boolean>(this.#spinnerService.spinnerState);
+  propComp: Type<Component> = SpinnerComponent;
 
   bankCard: BankCard = {
     card_number: '',
@@ -95,13 +104,10 @@ export class CardDetailsComponent implements OnInit {
 
   setNewCard(card: BankCard[]) {
     this.bankCard = { ...card[0], typeCard: typeBankCard() };
-    console.log('debug new bankCard: ', this.bankCard);
     this.disabledAddCard = false;
   }
 
   addBankCard() {
-    console.log('debug 1: ', this.user$().cards);
-
     this.setCardFalse();
     this.user$.update((user) => {
       const currentCards = user.cards || [];
@@ -115,7 +121,6 @@ export class CardDetailsComponent implements OnInit {
       const listCorrectCards = this.removeTypeBankCard(this.user$().cards);
 
       this.#store.dispatch(new UpdateBankCards(listCorrectCards));
-      console.log('debug 2: ', this.user$().cards);
     }
   }
 

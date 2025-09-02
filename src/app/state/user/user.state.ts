@@ -102,8 +102,6 @@ export class UserState {
       userProfile: { ...oldUserInfo, cards: [...cards] },
     });
 
-    console.log('debug put bankcard: ', ctx.getState().userProfile);
-
     return this.#http.putUserInfo(ctx.getState().userProfile).pipe(
       tap(() => {
         ctx.dispatch(new GetUserInfo());

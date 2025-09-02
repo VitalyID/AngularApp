@@ -26,6 +26,7 @@ import {
 } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'phone-auth',
@@ -68,6 +69,7 @@ export class PhoneAuthComponent implements OnInit {
   readonly #popupService = inject(PopupService);
 
   userData = signal(this.getLocalStorageData());
+  spinnerState = toSignal(this.#spinner.spinnerState);
 
   inputPhone: InputConfig = {
     placeholder: '+7 ( ___ ) ___-__-__',
@@ -84,11 +86,6 @@ export class PhoneAuthComponent implements OnInit {
     type: 'password',
     disabled: true,
   };
-
-  spinnerConfig = computed(() => ({
-    iconID: 'icon-spinner',
-    isVisible: this.#spinner.spinnerState(),
-  }));
 
   ngOnInit(): void {
     this.userData.set(this.getLocalStorageData());

@@ -1,3 +1,6 @@
+import { Component, Type } from '@angular/core';
+import { SpinnerConfig } from '../../shared/components/spinner/types/spinner-config';
+
 export interface ButtonConfig {
   text?: string;
   iconClass?: string;
@@ -10,4 +13,6 @@ export interface ButtonConfig {
   borderRadius?: string;
   boxShadow?: string;
   paddings?: string;
+  spinner?: SpinnerConfig;
+  innerComponent?: Type<Component> | null;
 }
