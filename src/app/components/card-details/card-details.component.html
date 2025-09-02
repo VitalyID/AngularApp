@@ -36,6 +36,7 @@
     ></registration-card>
 
     <app-buttons
+      [disabled]="disabledAddCard"
       (click)="addBankCard()"
       [borderStyle]="'none'"
       [text]="'Привязать карту'"

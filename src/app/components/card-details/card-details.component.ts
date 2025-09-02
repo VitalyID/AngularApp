@@ -38,8 +38,8 @@ export class CardDetailsComponent implements OnInit {
   );
 
   radioConfig = signal<RadioButtons[]>([]);
-
   numberCard = signal<string>('0000 0000 0000 0000');
+  disabledAddCard: boolean = true;
 
   bankCard: BankCard = {
     card_number: '',
@@ -96,6 +96,7 @@ export class CardDetailsComponent implements OnInit {
   setNewCard(card: BankCard[]) {
     this.bankCard = { ...card[0], typeCard: typeBankCard() };
     console.log('debug new bankCard: ', this.bankCard);
+    this.disabledAddCard = false;
   }
 
   addBankCard() {
