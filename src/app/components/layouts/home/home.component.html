@@ -21,7 +21,9 @@
   <app-aside class="aside desctop"></app-aside>
 
   <div class="main">
-    <spinner [spinnerConfig]="spinnerConfig"></spinner>
+    @if (spinnerConfig()?.isActive && !spinnerConfig()?.source) {
+      <spinner [spinnerIcon]="'icon-spinner'"></spinner>
+    }
     <router-outlet></router-outlet>
   </div>
 
