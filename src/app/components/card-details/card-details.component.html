@@ -6,7 +6,7 @@
       <bank-card
         [balance]="0"
         [typeCard]="activeBankCard().typeCard || 'error'"
-        [name]="user$().first_name || '' + user$().last_name || ''"
+        [name]="(user$().first_name || '') + ' ' + (user$().last_name || '')"
         [number]="activeBankCard().card_number"
         [data]="activeBankCard().expiry"
       ></bank-card>

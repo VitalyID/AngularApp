@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   effect,
   inject,
   Injector,
@@ -10,11 +9,9 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import * as uuid from 'uuid';
 import { BankCardNumberSpaces } from '../../shared/components/bank-card/pipe/card-number';
-import { UserBankCard } from '../../shared/components/bank-card/types/interface/bankCard';
 import { RadioButtons } from '../../shared/components/custom-radio-button/types/interface/radioButton';
 import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
 import { StateUser } from '../../state/user/user.models';
@@ -32,9 +29,10 @@ import { BankCard } from './../../state/user/user.models';
 export class CardDetailsComponent implements OnInit {
   readonly #store = inject(Store);
   readonly #inject = inject(Injector);
-  readonly #destroyRef = inject(DestroyRef);
 
   user$ = signal<Partial<StateUser>>({});
+
+  state: Signal<StateUser> = this.#store.selectSignal(UserState.getUserInfo);
   activeBankCard: Signal<BankCard> = this.#store.selectSignal(
     UserState.getActiveCard,
   );
@@ -53,13 +51,15 @@ export class CardDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.#store.dispatch(new GetUserInfo());
 
-    this.uploadCards();
-
     runInInjectionContext(this.#inject, () => {
       effect(() => {
         if (this.user$()) {
           this.radioConfig.set(this.updateRadioConfig());
         }
+      });
+
+      effect(() => {
+        this.user$.set(this.state());
       });
     });
   }
@@ -114,7 +114,6 @@ export class CardDetailsComponent implements OnInit {
       const listCorrectCards = this.removeTypeBankCard(this.user$().cards);
 
       this.#store.dispatch(new UpdateBankCards(listCorrectCards));
-      this.uploadCards();
       console.log('debug 2: ', this.user$().cards);
     }
   }
@@ -145,15 +144,6 @@ export class CardDetailsComponent implements OnInit {
       const { typeCard, ...restCard } = card;
       return restCard as BankCard;
     });
-  }
-
-  uploadCards() {
-    this.#store
-      .select(UserState.getUserInfo)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe((user: StateUser) => {
-        this.user$.set(user);
-      });
   }
 
   setCard(userCard: RadioButtons) {
