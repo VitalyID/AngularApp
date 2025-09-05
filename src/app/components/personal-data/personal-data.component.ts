@@ -72,13 +72,11 @@ export class PersonalDataComponent implements OnInit {
 
   // NOTE: check type page: edit or create if user hasn't filled in the form fields
   isEditMode = computed(() => {
-    if (
+    return !!(
       this.userInfo().first_name &&
       this.userInfo().last_name &&
       this.userInfo().email
-    )
-      return true;
-    return false;
+    );
   });
 
   ngOnInit(): void {
@@ -93,16 +91,8 @@ export class PersonalDataComponent implements OnInit {
     });
   }
 
-  updateFirstName(firstName: string) {
-    this.newUserInfo = { ...this.newUserInfo, first_name: firstName };
-  }
-
-  updateLastName(lastName: string) {
-    this.newUserInfo = { ...this.newUserInfo, last_name: lastName };
-  }
-
-  updateEmail(userEmail: string) {
-    this.newUserInfo = { ...this.newUserInfo, email: userEmail };
+  updatedUserInfo(personalInfo: string, fieldName: string) {
+    this.newUserInfo = { ...this.newUserInfo, [fieldName]: personalInfo };
   }
 
   userCountry(userCountry: ListDropdown) {
@@ -121,8 +111,6 @@ export class PersonalDataComponent implements OnInit {
   }
 
   sendUserInfo() {
-    console.log('debug: component ', this.newUserInfo, this.isEditMode());
-
     return this.isEditMode()
       ? this.#store.dispatch(new UpdateUser(this.newUserInfo, true))
       : this.#store.dispatch(new UpdateUser(this.newUserInfo));

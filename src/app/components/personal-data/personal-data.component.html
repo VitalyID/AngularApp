@@ -5,21 +5,21 @@
     <input-text
       [placeholder]="placeName"
       [value]="userInfo().first_name"
-      (updateValue)="updateFirstName($event)"
+      (updateValue)="updatedUserInfo($event, 'first_name')"
     ></input-text>
 
     <span>Фамилия</span>
     <input-text
       [placeholder]="placeSurName"
       [value]="userInfo().last_name"
-      (updateValue)="updateLastName($event)"
+      (updateValue)="updatedUserInfo($event, 'last_name')"
     ></input-text>
 
     <span>E-mail</span>
     <input-text
       [placeholder]="placeEmail"
       [value]="userInfo().email"
-      (updateValue)="updateEmail($event)"
+      (updateValue)="updatedUserInfo($event, 'email')"
     ></input-text>
 
     <span>Номер телефона</span>
