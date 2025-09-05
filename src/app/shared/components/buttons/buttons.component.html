@@ -8,7 +8,7 @@
   [style.border-radius]="borderRadius"
   [style.padding]="paddings"
 >
-  <ng-container #component class="btn-spinner"></ng-container>
+  <ng-container #component></ng-container>
 
   @if (!setComponent().isActive) {
     <i *ngIf="classSvgFonts" [class]="classSvgFonts"></i> {{ text }}
