@@ -68,8 +68,7 @@ export class ButtonsComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     runInInjectionContext(this.#inject, () => {
       effect(() => {
-        // debug switch (this.setComponent().isActive) {
-        switch (1 === 1) {
+        switch (this.setComponent().isActive) {
           case true:
             if (!this.setComponent().container || !this.hostContainerRef) {
               return;
