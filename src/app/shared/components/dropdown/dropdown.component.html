@@ -1,7 +1,12 @@
 <div class="container">
   <div class="dropdown" [class.disabled]="disabled">
     <div class="dropdown__visible">
-      <div class="dropdown__active">
+      <div
+        class="dropdown__active"
+        (click)="onClick()"
+        (keyup)="onClick()"
+        tabindex="0"
+      >
         <div class="dropdown__active-item">
           @if (defaultValue.icon) {
             <svg-icon
@@ -16,7 +21,6 @@
           [iconID]="DropdownOpenIcon.iconID"
           [width]="DropdownOpenIcon.width"
           [height]="DropdownOpenIcon.height"
-          (click)="onClick()"
         ></svg-icon>
       </div>
     </div>
