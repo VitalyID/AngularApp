@@ -7,12 +7,16 @@ import {
   inject,
   Injector,
   Input,
+  OnChanges,
   runInInjectionContext,
-  Signal,
+  signal,
+  SimpleChanges,
   Type,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { SpinnerComponent } from '../spinner/spinner.component';
+import { SpinnerConfig } from '../spinner/types/interfaces/spinnerConfig';
 
 @Component({
   selector: 'app-buttons',
@@ -21,7 +25,7 @@ import {
   templateUrl: './buttons.component.html',
   styleUrl: './buttons.component.scss',
 })
-export class ButtonsComponent implements AfterViewInit {
+export class ButtonsComponent implements OnChanges, AfterViewInit {
   @Input() background?: string = '';
   @Input() color?: string = '';
   @Input() borderStyle?: string = '';
@@ -33,8 +37,7 @@ export class ButtonsComponent implements AfterViewInit {
   @Input() text?: string = '';
   @Input() classSvgFonts?: string = '';
   @Input() paddings?: string = '';
-  @Input() propComp?: Type<Component> | null = null;
-  @Input() propState?: Signal<boolean | undefined>;
+  @Input() innerComponent?: SpinnerConfig;
 
   @ViewChild('component', { read: ViewContainerRef })
   hostContainerRef!: ViewContainerRef;
@@ -42,30 +45,50 @@ export class ButtonsComponent implements AfterViewInit {
   readonly #inject = inject(Injector);
 
   dynamicComp: ComponentRef<any> | null = null;
+  buttonComponent: Type<any> = ButtonsComponent;
+  setComponent = signal<SpinnerConfig>({
+    isActive: false,
+    container: ButtonsComponent,
+    insertComponent: SpinnerComponent,
+  });
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['innerComponent']) {
+      console.log('debug id: ', this.id, this.innerComponent?.id);
+
+      if (
+        this.innerComponent?.container === ButtonsComponent &&
+        this.id === this.innerComponent.id
+      ) {
+        this.setComponent.set(this.innerComponent);
+      }
+    }
+  }
 
   ngAfterViewInit(): void {
-    if (!this.propState) return;
-    if (!this.hostContainerRef) return;
-
     runInInjectionContext(this.#inject, () => {
       effect(() => {
-        console.log('debug this.propState', this.propState!());
-
-        switch (this.propState!()) {
+        // debug switch (this.setComponent().isActive) {
+        switch (1 === 1) {
           case true:
-            if (!this.propComp || !this.hostContainerRef) return;
+            if (!this.setComponent().container || !this.hostContainerRef) {
+              return;
+            }
 
-            if (this.dynamicComp) return;
-            this.hostContainerRef.clear();
+            if (this.dynamicComp !== null) return;
+
             this.dynamicComp = this.hostContainerRef.createComponent(
-              this.propComp,
+              this.setComponent().insertComponent,
             );
             this.disabled = true;
             break;
           case false:
             this.disabled = false;
-            this.hostContainerRef.clear();
             this.dynamicComp?.destroy();
+            this.dynamicComp = null;
+            if (!this.hostContainerRef) return;
+            this.hostContainerRef.clear();
+            break;
         }
       });
     });

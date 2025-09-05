@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   signal,
+  Type,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -70,6 +71,7 @@ export class PhoneAuthComponent implements OnInit {
 
   userData = signal(this.getLocalStorageData());
   spinnerState = toSignal(this.#spinner.spinnerState);
+  currentComponent: Type<any> = PhoneAuthComponent;
 
   inputPhone: InputConfig = {
     placeholder: '+7 ( ___ ) ___-__-__',
@@ -88,6 +90,7 @@ export class PhoneAuthComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.#spinner.setContainer(PhoneAuthComponent);
     this.userData.set(this.getLocalStorageData());
 
     if (this.#route.snapshot.paramMap.get('login')) {

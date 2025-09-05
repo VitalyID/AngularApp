@@ -1,6 +1,8 @@
 <div class="auth-phone-container">
   <div class="auth-phone-container__enter">
-    @if (spinnerState()) {
+    @if (
+      spinnerState()?.container === currentComponent && spinnerState()?.isActive
+    ) {
       <spinner></spinner>
     }
     <div class="auth-phone-container__top">

@@ -21,7 +21,9 @@
   <app-aside class="aside desctop"></app-aside>
 
   <div class="main">
-    @if (spinnerState()) {
+    @if (
+      spinnerState()?.container === currentComponent && spinnerState()?.isActive
+    ) {
       <spinner></spinner>
     }
     <router-outlet></router-outlet>
@@ -29,5 +31,3 @@
 
   <div class="overlay" [class.shadowActive]="isShadow()"></div>
 </div>
-
-.desctop .adaptive

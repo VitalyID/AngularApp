@@ -8,10 +8,9 @@
   [style.border-radius]="borderRadius"
   [style.padding]="paddings"
 >
-  @if (propState && propState()) {
-    <ng-template #component></ng-template>
-  }
+  <ng-container #component class="btn-spinner"></ng-container>
 
-  <i *ngIf="classSvgFonts" [class]="classSvgFonts"></i>
-  {{ text }}
+  @if (!setComponent().isActive) {
+    <i *ngIf="classSvgFonts" [class]="classSvgFonts"></i> {{ text }}
+  }
 </button>

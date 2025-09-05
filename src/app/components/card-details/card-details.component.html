@@ -27,7 +27,9 @@
         [borderStyle]="'1px solid #E1E3E1'"
         [color]="'#101011'"
         [boxShadow]="'none'"
-        (click)="deleteBankCard()"
+        (click)="deleteBankCard('removeBtn')"
+        [innerComponent]="spinnerState()"
+        [id]="'removeBtn'"
       ></app-buttons>
     </div>
 
@@ -37,11 +39,11 @@
 
     <app-buttons
       [disabled]="disabledAddCard"
-      (click)="addBankCard()"
+      (click)="addBankCard('addBtn')"
       [borderStyle]="'none'"
       [text]="'Привязать карту'"
-      [propState]="spinnerState"
-      [propComp]="propComp"
+      [innerComponent]="spinnerState()"
+      [id]="'addBtn'"
     ></app-buttons>
   </div>
 </div>

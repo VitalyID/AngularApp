@@ -45,6 +45,8 @@ button {
   transform: scale(1) var(--transform);
   transition: var(--transition);
 
+  position: relative;
+
   &:active {
     transform: scale(0.95);
     transition: var(--transition);
@@ -53,6 +55,11 @@ button {
   &:disabled {
     background: gray;
   }
+
+  -heightspinner: 100%;
+  --spinnerContainerPosition: static;
+  --spinnerIconWidth: 32px;
+  --spinnerIconHeight: 32px;
 }
 
 .isActive {

@@ -6,6 +6,7 @@ import {
   inject,
   OnInit,
   signal,
+  Type,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit {
   menuState = signal<boolean>(false);
   isOpen = signal<boolean>(false);
   overflow: string = 'auto';
+  currentComponent: Type<any> = HomeComponent;
 
   // NOTE: newUser need for forbid to render popup when user is done. We get it true from PopUpService and 'close' from 'close popup click on latest step'
   newUser: boolean = false;
@@ -69,6 +71,8 @@ export class HomeComponent implements OnInit {
           }, 1000);
         }
       });
+
+    this.#spinner.setContainer(HomeComponent);
   }
 
   onMenuClose(data: boolean) {
