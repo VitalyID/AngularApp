@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { take, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { CreateUser, LoginUser, RefreshToken } from './auth.action';
@@ -83,18 +83,20 @@ export class UserAuthState {
   }
 
   @Action(RefreshToken)
-  refreshToken(ctx: StateContext<UserAuthStateModel>) {
+  refreshToken(
+    ctx: StateContext<UserAuthStateModel>,
+  ): Observable<{ access_token: string }> {
     return this.#auth.refresh().pipe(
       take(1),
-      tap((response) => {
-        if (!response.access_token) {
+      tap(({ access_token }: { access_token: string }) => {
+        if (!access_token) {
           throw new Error('Refresh token missing');
         }
 
         const state = ctx.getState();
         ctx.patchState({
           ...state,
-          access_token: response.access_token,
+          access_token: access_token,
           tokenUpdated_at: new Date().toString(),
         });
 

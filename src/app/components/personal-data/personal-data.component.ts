@@ -117,7 +117,7 @@ export class PersonalDataComponent implements OnInit {
   }
 
   userTel() {
-    const userData: any = this.#lss.getLocalStorige();
+    const userData: string = this.#lss.getLocalStorige();
     return JSON.parse(userData).phone;
   }
 

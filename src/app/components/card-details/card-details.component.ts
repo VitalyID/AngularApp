@@ -22,7 +22,6 @@ import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
 import { StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { typeBankCard } from '../../state/user/user.utils';
-import { HomeComponent } from '../layouts/home/home.component';
 import { BankCard } from './../../state/user/user.models';
 
 @Component({

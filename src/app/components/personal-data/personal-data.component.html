@@ -1,24 +1,25 @@
+@let user = userInfo();
 <div class="personalData">
   <h2>Персональные данные</h2>
   <div class="personalData__body">
     <span>Имя</span>
     <input-text
       [placeholder]="placeName"
-      [value]="userInfo().first_name"
+      [value]="user.first_name"
       (updateValue)="updatedUserInfo($event, 'first_name')"
     ></input-text>
 
     <span>Фамилия</span>
     <input-text
       [placeholder]="placeSurName"
-      [value]="userInfo().last_name"
+      [value]="user.last_name"
       (updateValue)="updatedUserInfo($event, 'last_name')"
     ></input-text>
 
     <span>E-mail</span>
     <input-text
       [placeholder]="placeEmail"
-      [value]="userInfo().email"
+      [value]="user.email"
       (updateValue)="updatedUserInfo($event, 'email')"
     ></input-text>
 
