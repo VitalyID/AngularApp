@@ -23,9 +23,6 @@ export class SpinnerService {
       ...this.spinnerState.getValue(),
       isActive: false,
     });
-
-    // NOTE: always switch component to default
-    this.setContainer(HomeComponent);
   }
 
   setContainer(container: Type<any>, id = '') {

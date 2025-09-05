@@ -16,12 +16,14 @@ import { RadioButtons } from '../../shared/components/custom-radio-button/types/
 import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
 
 import { toSignal } from '@angular/core/rxjs-interop';
+import { of, switchMap } from 'rxjs';
 import { ButtonsComponent } from '../../shared/components/buttons/buttons.component';
 import { SpinnerConfig } from '../../shared/components/spinner/types/interfaces/spinnerConfig';
 import { GetUserInfo, UpdateBankCards } from '../../state/user/user.action';
 import { StateUser } from '../../state/user/user.models';
 import { UserState } from '../../state/user/user.state';
 import { typeBankCard } from '../../state/user/user.utils';
+import { HomeComponent } from '../layouts/home/home.component';
 import { BankCard } from './../../state/user/user.models';
 
 @Component({
@@ -119,8 +121,7 @@ export class CardDetailsComponent implements OnInit {
 
     if (this.user$().cards) {
       const listCorrectCards = this.removeTypeBankCard(this.user$().cards);
-
-      this.#store.dispatch(new UpdateBankCards(listCorrectCards));
+      this.updateCardsInStore(listCorrectCards);
     }
   }
 
@@ -134,7 +135,7 @@ export class CardDetailsComponent implements OnInit {
     const updatedCard = this.removeTypeBankCard(inActiveCard);
 
     if (updatedCard) {
-      this.#store.dispatch(new UpdateBankCards(updatedCard));
+      this.updateCardsInStore(updatedCard);
     }
   }
 
@@ -161,5 +162,14 @@ export class CardDetailsComponent implements OnInit {
   copyPipe(cardNumber: string) {
     const pipe = new BankCardNumberSpaces();
     return pipe.transform(cardNumber);
+  }
+
+  updateCardsInStore(cards: BankCard[]) {
+    this.#store.dispatch(new UpdateBankCards(cards)).pipe(
+      switchMap(() => {
+        this.#spinnerService.setContainer(HomeComponent);
+        return of(null);
+      }),
+    );
   }
 }

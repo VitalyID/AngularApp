@@ -54,8 +54,6 @@ export class ButtonsComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['innerComponent']) {
-      console.log('debug id: ', this.id, this.innerComponent?.id);
-
       if (
         this.innerComponent?.container === ButtonsComponent &&
         this.id === this.innerComponent.id
