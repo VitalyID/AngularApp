@@ -23,8 +23,7 @@
   background: #3539ec;
   box-shadow: 0px 10px 40px rgba(20, 32, 60, 0.05);
   border-radius: 0.5rem;
-  min-height: 200px; // минимальная высота
-  // padding: clamp(1rem, 4%, 1.4375rem) clamp(1rem, 3%, 1.25rem);
+  min-height: 200px;
 
   &__top,
   &__bottom {
