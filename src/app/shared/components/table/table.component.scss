@@ -2,33 +2,46 @@
   height: auto;
 }
 
-.table__top {
+@mixin font(
+  $fFamily: "Formular",
+  $fStyle: normal,
+  $fw: 400,
+  $fSize: 14px,
+  $lh: 20px
+) {
+  font-family: $fFamily;
+  font-style: $fStyle;
+  font-weight: $fw;
+  font-size: $fSize;
+  line-height: $lh;
+}
+
+@mixin flex($jc: center, $aI: center, $gap: 0px) {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: $jc;
+  align-items: $aI;
+  gap: $gap;
+}
+
+.table__top {
+  @include flex($jc: space-between);
+
   background: #fff;
   width: 100%;
   border-radius: 10px;
   padding: 15px 30px 0;
 
   &--mobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    // display: none;
+    @include flex($gap: 10px);
   }
 
   &--tabs {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex();
   }
 
   &--tabsUnit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex();
+
     padding: 8px 20px;
     background: #ffffff;
     border: 1px solid #e1e3e1;
@@ -37,24 +50,16 @@
   }
 
   &--tabsUnitElement {
-    // min-width: 0;
     flex-shrink: 3;
     padding: 8px 20px;
     border-radius: 50px;
 
-    font-family: "Formular";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
+    @include font();
+    @include flex();
 
     color: #313436;
 
     // width: min-content;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     min-width: 130px;
 
@@ -65,14 +70,16 @@
     }
   }
 
-  @media (max-width: 1500px) {
-    &--tabsUnit {
-      padding: 4px 10px;
-    }
-
+  @media (max-width: 1625px) {
     &--tabsUnitElement {
       padding: 5px 8px;
       min-width: 100px;
+    }
+  }
+
+  @media (max-width: 1500px) {
+    &--tabsUnit {
+      padding: 4px 10px;
     }
 
     &--mobile {
@@ -91,13 +98,14 @@
   }
 
   @media (max-width: 685px) {
-    justify-content: space-around;
+    justify-content: start;
     align-items: center;
   }
 }
 
 .table__topMobile {
   padding: 15px 15px 0;
+  @include flex($jc: start, $gap: 10px);
 }
 
 .hiddenDataInput {
@@ -138,11 +146,7 @@
     // border-bottom: 1px solid #ddd;
     width: 100%;
 
-    font-family: "Formular";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    // line-height: 20px;
+    @include font();
 
     color: #101112;
   }
@@ -154,11 +158,7 @@
 
 .table__total {
   display: flex;
-  font-family: "Formular";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
+  @include font($fw: 700, $fSize: 16px, $lh: 22px);
   padding: 7.5px 0;
 
   color: #101112;
@@ -192,11 +192,9 @@
     padding: 8px;
     border-bottom: 1px solid #ddd;
     width: 100%;
-    font-family: "Formular";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
+
+    @include font();
+
     color: #101112;
   }
 }
@@ -211,7 +209,7 @@
   dropdown {
     --bgColor: #ffffff;
     --brRadius: 46px;
-    --padActive: 6px 20px;
+    --padActive: 2px 8px;
     --firstItemMarginTop: 35px;
   }
 }
@@ -261,9 +259,9 @@ mobile-transaction-card {
     padding: 15px 15px 0;
   }
 
-  .table__top--dataMiddle {
-    display: none;
-  }
+  // .table__top--dataMiddle {
+  //   display: none;
+  // }
 
   // все выше заменить на один класс
 

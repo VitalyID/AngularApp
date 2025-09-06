@@ -10,6 +10,7 @@ export class ScreenSizeService {
     '1000': false,
     '768': false,
     '685': false,
+    '564': false,
   };
 
   private resizeSubscription: Subscription;
@@ -34,6 +35,8 @@ export class ScreenSizeService {
         [brPnt]: matchMedia(`(max-width: ${brPnt}px)`).matches,
       };
     });
+
+    console.log('debug size: ', this.breakpoints);
 
     return this.breakpoints;
   }

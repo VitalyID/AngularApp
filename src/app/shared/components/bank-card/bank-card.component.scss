@@ -18,8 +18,10 @@
 .bankCard {
   @include flex($justify: space-between, $direction: column);
   width: 100%;
+
   aspect-ratio: 350/200;
   padding: 1.4375rem 1.25rem;
+
   background: #3539ec;
   box-shadow: 0px 10px 40px rgba(20, 32, 60, 0.05);
   border-radius: 0.5rem;
