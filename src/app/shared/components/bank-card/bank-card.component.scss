@@ -16,36 +16,46 @@
 }
 
 .bankCard {
+  @include flex($justify: space-between, $direction: column);
   width: 100%;
-  padding: 23px 20px;
+  aspect-ratio: 350/200;
+  padding: 1.4375rem 1.25rem;
   background: #3539ec;
   box-shadow: 0px 10px 40px rgba(20, 32, 60, 0.05);
-  border-radius: 8px;
+  border-radius: 0.5rem;
+  min-height: 200px; // минимальная высота
+  // padding: clamp(1rem, 4%, 1.4375rem) clamp(1rem, 3%, 1.25rem);
 
   &__top,
+  &__bottom {
+    @include flex($justify: space-between, $align: start);
+    width: 100%;
+  }
+
   &__bottom {
     @include flex($justify: space-between);
   }
 
   &__spanInfo {
-    @include font($fs: 14px, $lh: 20px, $color: #ffffff);
+    @include font($fs: 0.875rem, $lh: 1.25rem, $color: #ffffff);
     opacity: 0.5;
     mix-blend-mode: normal;
+    margin-bottom: 0.375rem;
   }
 
   &__balance {
-    @include font($lh: 32px, $fs: 24px, $color: #ffffff);
+    @include font($lh: 2rem, $fs: 1.5rem, $color: #ffffff);
     display: block;
-    margin-bottom: 75px;
   }
 
   &__name {
-    @include font($lh: 20px, $fs: 14px, $color: #ffffff);
+    @include font($lh: 1.25rem, $fs: 0.875rem, $color: #ffffff);
     opacity: 0.5;
   }
 
   &__number,
   &__data {
-    @include font($lh: 20px, $fs: 14px, $color: #ffffff);
+    @include font($lh: 1.25rem, $fs: 0.875rem, $color: #ffffff);
+    display: block;
   }
 }
