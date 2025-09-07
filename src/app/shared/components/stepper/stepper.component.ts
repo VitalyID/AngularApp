@@ -23,6 +23,7 @@ import { PopupService } from '../../../services/popup.service';
 import { UpdateUser } from '../../../state/user/user.action';
 import { ButtonConfig } from '../../../types/interfaces/sectionItem';
 import { ButtonsComponent } from '../buttons/buttons.component';
+import { RegistrationStep } from './../../../types/enums/registrationStep';
 import { StepService } from './service/step.service';
 import { StepperConfig } from './types/interfaces/stepperConfig';
 import {
@@ -103,7 +104,13 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
       stepNumber: index,
       isActive: index === 0,
       stepperEndLine: false,
+      name: this.generatorTitleStepConfig(index),
     }));
+  }
+
+  generatorTitleStepConfig(index: number): string {
+    const titles = Object.values(RegistrationStep);
+    return titles[index];
   }
 
   changeComponent() {

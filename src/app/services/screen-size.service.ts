@@ -36,8 +36,6 @@ export class ScreenSizeService {
       };
     });
 
-    console.log('debug size: ', this.breakpoints);
-
     return this.breakpoints;
   }
 }

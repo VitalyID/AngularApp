@@ -19,6 +19,11 @@ import { ClickOutsideDirective } from '../aside/directives/click-outside.directi
 import { EscCloseDirective } from '../aside/directives/esc-close.directive';
 import { HeaderUserComponent } from '../header-user/header-user.component';
 import { HeaderComponent } from '../header/header.component';
+import { PopupService } from '../../../services/popup.service';
+import { StepperComponent } from '../../../shared/components/stepper/stepper.component';
+import { RegistrationFormComponent } from '../../../shared/components/restration-form/registration-form.component';
+import { RegistrationTypeComponent } from '../../../shared/components/registration-type/registration-type.component';
+import { RegistrationCardComponent } from '../../../shared/components/registration-card/registration-card.component';
 
 @Component({
   selector: 'app-home',
@@ -43,6 +48,7 @@ export class HomeComponent implements OnInit {
   readonly #cdr = inject(ChangeDetectorRef);
   readonly activeMenuItem: number[] = [6, 7, 8];
   readonly #spinner = inject(SpinnerService);
+  readonly #popupService = inject(PopupService);
 
   isShadow = signal<boolean>(false);
   menuState = signal<boolean>(false);
@@ -56,6 +62,18 @@ export class HomeComponent implements OnInit {
   spinnerState = toSignal(this.#spinner.spinnerState);
 
   ngOnInit(): void {
+    this.#popupService.popupState$.next({
+      titlePopUp: 'Идентификация аккаунта',
+      name: 'registrationUser',
+      state: true,
+      component: StepperComponent,
+      componentProps: [
+        RegistrationFormComponent,
+        RegistrationTypeComponent,
+        RegistrationCardComponent,
+      ],
+    });
+
     this.#menuService.stateMenuService
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
