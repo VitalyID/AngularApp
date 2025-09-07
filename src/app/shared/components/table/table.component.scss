@@ -1,30 +1,11 @@
+@import "../../../../styles/mixins.scss";
+
 :host {
   height: auto;
 }
 
-@mixin font(
-  $fFamily: "Formular",
-  $fStyle: normal,
-  $fw: 400,
-  $fSize: 14px,
-  $lh: 20px
-) {
-  font-family: $fFamily;
-  font-style: $fStyle;
-  font-weight: $fw;
-  font-size: $fSize;
-  line-height: $lh;
-}
-
-@mixin flex($jc: center, $aI: center, $gap: 0px) {
-  display: flex;
-  justify-content: $jc;
-  align-items: $aI;
-  gap: $gap;
-}
-
 .table__top {
-  @include flex($jc: space-between);
+  @include flex($justify: space-between);
 
   background: #fff;
   width: 100%;
@@ -54,16 +35,10 @@
     padding: 8px 20px;
     border-radius: 50px;
 
-    @include font();
+    @include font($fs: 14px, $lh: 20px, $color: #313436);
     @include flex();
 
-    color: #313436;
-
-    // width: min-content;
-
     min-width: 130px;
-
-    // height: 85px;
 
     &:hover {
       cursor: pointer;
@@ -105,11 +80,10 @@
 
 .table__topMobile {
   padding: 15px 15px 0;
-  @include flex($jc: start, $gap: 10px);
+  @include flex($justify: start, $gap: 10px);
 }
 
 .hiddenDataInput {
-  // margin-top: 8px;
   transition: transform 1s;
   transform-origin: left;
   transform: scaleX(0);
@@ -143,10 +117,9 @@
 
   grid &--cell {
     padding: 8px;
-    // border-bottom: 1px solid #ddd;
     width: 100%;
 
-    @include font();
+    @include font($fs: 14px, $lh: 20px);
 
     color: #101112;
   }
@@ -158,7 +131,7 @@
 
 .table__total {
   display: flex;
-  @include font($fw: 700, $fSize: 16px, $lh: 22px);
+  @include font($fw: 700, $fs: 16px, $lh: 22px);
   padding: 7.5px 0;
 
   color: #101112;
@@ -167,8 +140,6 @@
   padding: 15px 30px 0;
 
   & span {
-    // margin: 0 8px 0;
-
     &:nth-child(even) {
       color: green;
       margin: 0 12px 8px;
@@ -193,7 +164,7 @@
     border-bottom: 1px solid #ddd;
     width: 100%;
 
-    @include font();
+    @include font($fs: 14px, $lh: 20px);
 
     color: #101112;
   }
@@ -202,7 +173,6 @@
 .tableTop__onlyMobile {
   width: 247px;
   height: 48px;
-  // display: none;
 
   background: #ffffff;
 
@@ -258,10 +228,6 @@ mobile-transaction-card {
   .table__body {
     padding: 15px 15px 0;
   }
-
-  // .table__top--dataMiddle {
-  //   display: none;
-  // }
 
   // все выше заменить на один класс
 

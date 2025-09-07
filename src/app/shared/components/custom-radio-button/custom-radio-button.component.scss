@@ -1,3 +1,5 @@
+@import "../../../../styles/mixins.scss";
+
 :host {
   --mbElement: 17px;
   --justify: start;
@@ -13,15 +15,9 @@
   --borderActive: none;
 }
 
-@mixin flex($just: center, $align: center, $gap: center) {
-  display: flex;
-  justify-content: $just;
-  align-items: $align;
-  gap: $gap;
-}
-
 .radioButton {
-  @include flex($gap: var(--gapSpan), $just: start);
+  @include flex($gap: var(--gapSpan), $justify: start);
+
   margin-bottom: var(--mbElement);
   background: var(--background);
   padding: var(--padding);

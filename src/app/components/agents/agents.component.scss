@@ -1,9 +1,3 @@
-@mixin flex($juCon: center, $alIt: center) {
-  display: flex;
-  justify-content: $juCon;
-  align-items: $alIt;
-}
-
 .agent {
   height: auto;
   padding: 40px;

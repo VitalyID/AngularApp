@@ -1,10 +1,4 @@
-@mixin flex($justify: center, $alight: center, $gap: 0px, $direction: row) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $alight;
-  gap: $gap;
-  flex-direction: $direction;
-}
+@import "../../../styles/mixins.scss";
 
 .cardDetail {
   background: #f9fafc;

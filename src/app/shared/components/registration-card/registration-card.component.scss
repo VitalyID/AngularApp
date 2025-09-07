@@ -1,13 +1,7 @@
+@import "../../../../styles/mixins.scss";
+
 :host {
   --width: 100%;
-}
-
-@mixin flex($justify: center, $align: center, $gap: 0px, $fd: row) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  gap: $gap;
-  flex-direction: $fd;
 }
 
 h3 {

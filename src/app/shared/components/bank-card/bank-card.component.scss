@@ -1,19 +1,4 @@
-@mixin flex($justify: center, $align: center, $gap: 0px, $direction: row) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  flex-direction: $direction;
-  gap: $gap;
-}
-
-@mixin font($style: normal, $fw: 400, $fs: 16px, $lh: 16px, $color: black) {
-  font-family: "Formular";
-  font-style: $style;
-  font-weight: $fw;
-  font-size: $fs;
-  line-height: $lh;
-  color: $color;
-}
+@import "../../../../styles/mixins.scss";
 
 .bankCard {
   @include flex($justify: space-between, $direction: column);
