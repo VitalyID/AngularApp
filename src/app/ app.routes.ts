@@ -79,7 +79,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'user-auth/:login',
+    path: 'c/:login',
     loadChildren: () =>
       import('./components/phone-auth/phone-auth.module').then(
         (m) => m.PhoneAuthModule,

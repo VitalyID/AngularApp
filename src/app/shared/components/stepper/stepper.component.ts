@@ -110,7 +110,7 @@ export class StepperComponent implements AfterViewInit, OnChanges, OnInit {
 
   generatorTitleStepConfig(index: number): string {
     const titles = Object.values(RegistrationStep);
-    return titles[index];
+    return titles[index] as string;
   }
 
   changeComponent() {

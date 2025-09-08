@@ -5,52 +5,58 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import {
+  catchError,
+  filter,
+  finalize,
+  Observable,
+  switchMap,
+  take,
+  tap,
+  throwError,
+} from 'rxjs';
 import { urlForAuth } from '../const';
-import { AuthService } from '../services/auth.service';
 import { LocalStorigeService } from '../services/local-storige.service';
-import { RefreshToken } from '../types/interfaces/refreshToken';
+import { RefreshTokenService } from '../services/refreshing.service';
+import { RefreshToken } from '../state/auth/auth.action';
 
 export function AuthInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  const user = JSON.parse(inject(LocalStorigeService).getLocalStorige()) || {};
-  const authService = inject(AuthService);
   const storageService = inject(LocalStorigeService);
+  const router = inject(Router);
+  const store = inject(Store);
+  const refreshService = inject(RefreshTokenService);
+
+  if (!storageService.getLocalStorige()) {
+    router.navigate(['user-auth']);
+    return throwError(() => new Error());
+  }
+
+  const user = getUser(storageService);
 
   if (
     urlForAuth.some((url) => {
       return req.url.includes(url);
     })
   ) {
-    const newReq = req.clone({
-      headers: req.headers.append(
-        'Authorization',
-        `Bearer ${user.access_token}`,
-      ),
-    });
-    return next(newReq).pipe(
+    const authReq = addTokenRequest(req, user.access_token);
+    return next(authReq).pipe(
+      tap(() => {
+        console.log('debug success', authReq.url);
+      }),
       catchError((error: HttpErrorResponse) => {
-        // NOTE: we don't send request for refresh
-        if (error.status === 401 && !req.url.includes('/refresh')) {
-          return authService.refresh().pipe(
-            tap((response: RefreshToken) => {
-              const newUser = {
-                ...user,
-                access_token: response.access_token,
-                tokenUpdated_at: new Date().toString(),
-              };
-
-              storageService.sendToLocalStorige(JSON.stringify(newUser));
-            }),
-            switchMap((response: RefreshToken) => {
-              const newToken = response.access_token;
-              const newReq = req.clone({
-                headers: req.headers.set('Authorization', `Bearer ${newToken}`),
-              });
-              return next(newReq);
-            }),
+        if (error.status === 401) {
+          return handler401Err(
+            req,
+            storageService,
+            next,
+            router,
+            store,
+            refreshService,
           );
         }
         return throwError(() => error);
@@ -59,4 +65,64 @@ export function AuthInterceptor(
   }
 
   return next(req);
+}
+
+function addTokenRequest(req: HttpRequest<unknown>, token: string) {
+  return req.clone({
+    headers: req.headers.append('Authorization', `Bearer ${token}`),
+    body: req.body,
+  });
+}
+
+function getUser(storageService: LocalStorigeService) {
+  return JSON.parse(storageService.getLocalStorige()) || {};
+}
+
+function newReq(
+  req: HttpRequest<unknown>,
+  storageService: LocalStorigeService,
+): HttpRequest<unknown> {
+  const user = getUser(storageService);
+  const authReq = addTokenRequest(req, user.access_token);
+  return authReq;
+}
+
+function handler401Err(
+  req: HttpRequest<unknown>,
+  storageService: LocalStorigeService,
+  next: HttpHandlerFn,
+  router: Router,
+  store: Store,
+  refreshService: RefreshTokenService,
+): Observable<HttpEvent<unknown>> {
+  // NOTE: if in current ti,e token is no updating
+  if (!refreshService.isRefresh.getValue()) {
+    refreshService.isRefresh.next(true);
+    refreshService.isNewToken.next(null);
+    return store.dispatch(new RefreshToken()).pipe(
+      switchMap(() => {
+        refreshService.isRefresh.next(false);
+        refreshService.isNewToken.next(getUser(storageService).access_token);
+
+        return next(newReq(req, storageService)).pipe();
+      }),
+      catchError(() => {
+        router.navigate(['user-auth/login']);
+
+        return throwError(() => new Error('Error update token'));
+      }),
+      finalize(() => {
+        refreshService.isRefresh.next(false);
+        refreshService.isNewToken.next(null);
+      }),
+    );
+  } else {
+    return refreshService.isNewToken.pipe(
+      filter((access_token): access_token is string => access_token !== null),
+      take(1),
+      switchMap((access_token) => {
+        return next(addTokenRequest(req, access_token));
+      }),
+    );
+  }
 }

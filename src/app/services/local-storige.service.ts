@@ -28,4 +28,14 @@ export class LocalStorigeService {
     }
     return '';
   }
+
+  clearLocalStorage(): void {
+    if (this.#isBrowser) {
+      try {
+        localStorage.clear();
+      } catch {
+        return;
+      }
+    }
+  }
 }
