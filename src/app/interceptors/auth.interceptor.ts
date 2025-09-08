@@ -33,7 +33,7 @@ export function AuthInterceptor(
 
   if (!storageService.getLocalStorige()) {
     router.navigate(['user-auth']);
-    return throwError(() => new Error());
+    return throwError(() => new Error('No data in localStorage'));
   }
 
   const user = getUser(storageService);
@@ -45,9 +45,6 @@ export function AuthInterceptor(
   ) {
     const authReq = addTokenRequest(req, user.access_token);
     return next(authReq).pipe(
-      tap(() => {
-        console.log('debug success', authReq.url);
-      }),
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           return handler401Err(
@@ -84,6 +81,7 @@ function newReq(
 ): HttpRequest<unknown> {
   const user = getUser(storageService);
   const authReq = addTokenRequest(req, user.access_token);
+
   return authReq;
 }
 
@@ -101,16 +99,16 @@ function handler401Err(
     refreshService.isNewToken.next(null);
     return store.dispatch(new RefreshToken()).pipe(
       switchMap(() => {
-        refreshService.isRefresh.next(false);
         refreshService.isNewToken.next(getUser(storageService).access_token);
 
-        return next(newReq(req, storageService)).pipe();
+        return next(newReq(req, storageService));
       }),
+
       catchError(() => {
         router.navigate(['user-auth/login']);
-
         return throwError(() => new Error('Error update token'));
       }),
+
       finalize(() => {
         refreshService.isRefresh.next(false);
         refreshService.isNewToken.next(null);
