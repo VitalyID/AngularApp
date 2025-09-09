@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   OnInit,
   signal,
@@ -13,6 +12,7 @@ import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NgForm } from '@angular/forms';
 import { PopupService } from '../../services/popup.service';
 import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
@@ -27,7 +27,6 @@ import {
 } from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'phone-auth',
@@ -95,6 +94,8 @@ export class PhoneAuthComponent implements OnInit {
 
     if (this.#route.snapshot.paramMap.get('login')) {
       this.isLoginPage = true;
+    } else {
+      this.#lSS.clearLocalStorage();
     }
   }
 

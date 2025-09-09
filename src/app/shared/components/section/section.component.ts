@@ -1,5 +1,6 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { TitleAside } from '../../../types/enums/titleAside';
 import { SectionItem } from '../../../types/interfaces/asideSVG';
 import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
@@ -21,9 +22,17 @@ export class SectionComponent {
   };
   @Input() routerLink: string = this.item.route;
 
+  readonly #router = inject(Router);
+
   sectionIcons: SvgSpriteSetting = {
     iconID: this.item.iconSetting.iconID,
     width: '21px',
     height: '21px',
   };
+
+  userClick(title: string) {
+    if (title === TitleAside.logOut) {
+      this.#router.navigate(['user-auth']);
+    }
+  }
 }
