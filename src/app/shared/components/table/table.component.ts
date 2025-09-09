@@ -5,7 +5,7 @@ import {
   Component,
   inject,
   OnInit,
-  signal
+  signal,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as uuid from 'uuid';
@@ -131,6 +131,7 @@ export class TableComponent implements OnInit {
       ...this.defaultValue,
       item: TabsName[this.IDActiveTab as keyof typeof TabsName],
     };
+
     this.#cdr.markForCheck();
   }
 
@@ -146,9 +147,8 @@ export class TableComponent implements OnInit {
   }
 
   itemSelected(data: ListDropdown) {
-
     const arrTabsKey: (keyof typeof TabsName)[] = Object.keys(
-      TabsName
+      TabsName,
     ) as (keyof typeof TabsName)[];
 
     arrTabsKey.forEach((item) => {

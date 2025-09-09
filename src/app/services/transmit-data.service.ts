@@ -35,9 +35,10 @@ export class TransmitDataService implements OnDestroy {
     let arrUserActualOperations;
 
     switch (this.name) {
-      case 'today':
-        {const filterToday = this.dataUserOperations.filter((item) => {
+      case 'today': {
+        const filterToday = this.dataUserOperations.filter((item) => {
           this.arrDateItem = item.data.split('.');
+          console.log('debug split ', this.arrDateItem);
 
           return (
             this.arrDate[0] === this.arrDateItem[0] &&
@@ -45,11 +46,13 @@ export class TransmitDataService implements OnDestroy {
             this.arrDate[2] === this.arrDateItem[2]
           );
         });
+
         this.dataObject$.next(filterToday);
 
-        break;}
-      case 'yestarday':
-        {const today = new Date();
+        break;
+      }
+      case 'yestarday': {
+        const today = new Date();
         const setYesterday = new Date(today.setDate(today.getDate() - 1));
 
         const filterYestarday = this.dataUserOperations.filter((item) => {
@@ -63,9 +66,10 @@ export class TransmitDataService implements OnDestroy {
         });
         this.dataObject$.next(filterYestarday);
 
-        break;}
-      case 'forWeek':
-        {let dayWeek: number = new Date().getDay();
+        break;
+      }
+      case 'forWeek': {
+        let dayWeek: number = new Date().getDay();
 
         // NOTE: change number day in week
         dayWeek = dayWeek === 0 ? 6 : dayWeek - 1;
@@ -89,35 +93,37 @@ export class TransmitDataService implements OnDestroy {
         });
         this.dataObject$.next(filterWeek);
 
-        break;}
-      case 'forMonth':
-        {const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
+        break;
+      }
+      case 'forMonth': {
+        const arrOperationsForMonth = this.dataUserOperations.filter((item) => {
           return Number(item.data.split('.')[1]) === Number(this.arrDate[1]);
         });
         this.dataObject$.next(arrOperationsForMonth);
 
-        break;}
-      case 'forLastMonth':{
+        break;
+      }
+      case 'forLastMonth': {
         new Date().setMonth(-1);
 
         const arrOperationsForLastMonth = this.dataUserOperations.filter(
           (item) => {
             return Number(item.data.split('.')[1]) === new Date().getMonth();
-          }
+          },
         );
 
         this.dataObject$.next(arrOperationsForLastMonth);
 
-        break;}
-      case 'forPeriod':
-       { this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
+        break;
+      }
+      case 'forPeriod': {
+        this.dateFromInput = this.#service.DateFromInput$.subscribe((data) => {
           this.#tmp = data.obj as DateTimeUserOperations;
 
           const dataStart = new Date(this.#tmp.dateFrom);
           const dataEnd = new Date(this.#tmp.dateEnd);
 
           arrUserActualOperations = this.dataUserOperations.filter((item) => {
-
             const regex = /(\d{2})\.(\d{2})\.(\d{4})/;
             const match = item.data.match(regex);
 
@@ -137,7 +143,8 @@ export class TransmitDataService implements OnDestroy {
           this.dataObject$.next(arrUserActualOperations);
         });
 
-        break;}
+        break;
+      }
     }
   }
 
@@ -164,7 +171,7 @@ export class TransmitDataService implements OnDestroy {
         retry({ count: 3, delay: 2000 }),
         catchError((err) => {
           return throwError(() => err());
-        })
+        }),
       )
       .subscribe({
         next: (data: DataUserOperation[]) => {

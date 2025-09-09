@@ -14,7 +14,6 @@ import {
   Observable,
   switchMap,
   take,
-  tap,
   throwError,
 } from 'rxjs';
 import { urlForAuth } from '../const';
@@ -32,7 +31,7 @@ export function AuthInterceptor(
   const refreshService = inject(RefreshTokenService);
 
   if (!storageService.getLocalStorige()) {
-    router.navigate(['user-auth']);
+    router.navigate(['user-auth', 'login']);
     return throwError(() => new Error('No data in localStorage'));
   }
 
@@ -100,12 +99,11 @@ function handler401Err(
     return store.dispatch(new RefreshToken()).pipe(
       switchMap(() => {
         refreshService.isNewToken.next(getUser(storageService).access_token);
-
         return next(newReq(req, storageService));
       }),
 
       catchError(() => {
-        router.navigate(['user-auth/login']);
+        router.navigate(['user-auth', 'login']);
         return throwError(() => new Error('Error update token'));
       }),
 
