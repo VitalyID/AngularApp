@@ -50,13 +50,6 @@ export class TableComponent implements OnInit {
   readonly #cdr = inject(ChangeDetectorRef);
   readonly #ViewPort = inject(ScreenSizeService);
 
-  public btnText: ButtonConfig = {
-    text: 'Скачать в Exel',
-    iconClass: 'icon-PaperDownload',
-    background: '#F7F9FB',
-    color: '#101112',
-  };
-
   transmitToBTN: ButtonConfig = {
     text: 'Ok',
     disabled: true,

@@ -41,12 +41,7 @@ export class AsideComponent implements OnInit {
       ID: 2,
       route: LinkAside.myQR,
     },
-    {
-      title: TitleAside.agents,
-      iconSetting: { iconID: 'icon-Work', width: '21px', height: '21px' },
-      ID: 3,
-      route: LinkAside.agents,
-    },
+
     {
       title: TitleAside.requisites,
       iconSetting: {
@@ -64,34 +59,6 @@ export class AsideComponent implements OnInit {
       route: LinkAside.personalData,
     },
     {
-      title: TitleAside.myPlace,
-      iconSetting: { iconID: 'icon-myPlace', width: '21px', height: '21px' },
-      ID: 6,
-      route: LinkAside.myPlace,
-    },
-    {
-      title: TitleAside.myStaff,
-      iconSetting: { iconID: 'icon-myStaff', width: '21px', height: '21px' },
-      ID: 7,
-      route: LinkAside.myStaff,
-    },
-    {
-      title: TitleAside.myFeedbacks,
-      iconSetting: {
-        iconID: 'icon-myFeedbacks',
-        width: '21px',
-        height: '21px',
-      },
-      ID: 8,
-      route: LinkAside.myFeedbacks,
-    },
-    {
-      title: TitleAside.loyalty,
-      iconSetting: { iconID: 'icon-loyalty', width: '21px', height: '21px' },
-      ID: 9,
-      route: LinkAside.loyalty,
-    },
-    {
       title: TitleAside.logOut,
       iconSetting: { iconID: 'icon-Logout', width: '21px', height: '21px' },
       ID: 10,
@@ -101,8 +68,6 @@ export class AsideComponent implements OnInit {
 
   public generalGroup: SectionItem[] = [];
   public logOut: SectionItem[] = [];
-
-  public btnText: string = 'Служба поддержки';
 
   menuData: SvgSpriteSetting = {
     iconID: 'menu',
@@ -123,8 +88,6 @@ export class AsideComponent implements OnInit {
   ngOnInit(): void {
     this.generalGroup = this.listSections.slice(0, 9);
     this.logOut = this.listSections.slice(9, 10);
-
-
   }
 
   // NOTE: добавляем класс только к элементам с этими id

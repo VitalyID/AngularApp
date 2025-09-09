@@ -24,12 +24,4 @@ export class HeaderComponent {
     height: '31px',
     fill: 'black',
   };
-
-  public headerLilnks: string[] = [
-    'Получателям',
-    'Бизнесу',
-    'Плательщикам',
-    'Агентам',
-    'Поддержка',
-  ];
 }

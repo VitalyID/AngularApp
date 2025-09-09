@@ -65,29 +65,9 @@
         <data-input [dateForBTN]="transmitToBTN"></data-input>
       </div>
     }
-
-    @if (windowSize["685"] === false) {
-      <app-buttons
-        [text]="btnText.text"
-        [classSvgFonts]="btnText.iconClass"
-        [background]="btnText.background"
-        [color]="btnText.color"
-        (click)="onClickDownload()"
-      ></app-buttons>
-    }
   </div>
 
   <div class="table__topMobile">
-    @if (windowSize["685"] === true) {
-      <app-buttons
-        [text]="btnText.text"
-        [classSvgFonts]="btnText.iconClass"
-        [background]="btnText.background"
-        [color]="btnText.color"
-        (click)="onClickDownload()"
-      ></app-buttons>
-    }
-
     @if (windowSize["564"] === true) {
       <div
         class="hiddenDataInput table__data--small"
