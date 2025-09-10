@@ -33,7 +33,7 @@ export const adminPanelGuard: CanActivateFn = (
     router.navigate(['user-auth']);
     return false;
   } else if (currentTimestamp - timestampToken > 1740000) {
-    router.navigate(['user-auth', 'login']);
+    router.navigate(['user-auth']);
     return false;
   } else {
     return true;
