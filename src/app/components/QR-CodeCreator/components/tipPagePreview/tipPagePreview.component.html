@@ -1,0 +1,127 @@
+@let userCard = (userCard$ | async);
+<!-- <ng-container>
+  {{ userCard | json }}
+</ng-container> -->
+
+<div class="userPreview__top">
+  <span class="spanBold">Так выглядит ваша страница</span>
+</div>
+
+<border-line></border-line>
+
+<!-- --------------- -->
+<!-- section Preview -->
+<!-- --------------- -->
+
+<div class="userPreview__about">
+  <svg-icon
+    [iconID]="svgLogo.iconID"
+    [width]="svgLogo.width"
+    [height]="svgLogo.height"
+  ></svg-icon>
+
+  <div class="userPreview__about--me">
+    <img
+      [src]="
+        userCard?.logo_file_id ?? '../../../../../assets/images/logoDefault.png'
+      "
+      alt="user logo"
+      class="userPreview__about--meLogo"
+      #preview
+    />
+
+    <div class="userPreview__about--meInfo">
+      <span class="spanBold"><b>Смирнов Виталий</b></span>
+      <span class="spanThink">Сотрудник в Фитнес Территория</span>
+    </div>
+  </div>
+</div>
+
+<border-line></border-line>
+
+<!-- --------------- -->
+<!-- section setTips -->
+<!-- --------------- -->
+
+<div class="userPreview__setTips">
+  <span class="spanBold">Сумма чаевых</span>
+  <input-text
+    [placeholder]="setUpTips.placeholder || ''"
+    [value]="setUpTips.value || ''"
+    [type]="setUpTips.type || 'number'"
+    [disabled]="setUpTips.disabled || false"
+    [unitCurrency]="setUpTips.unitCurrency || 'rub'"
+    (userInput)="validInput($event)"
+  ></input-text>
+
+  @if(userCard && userCard.preset_payment_sizes){
+  <div class="userPreview__setTips--btn">
+    @for (btn of arrBTN; track $index){
+    <app-buttons
+      (click)="onClick(userCard.preset_payment_sizes[$index].toString())"
+      (click)="changeActiveClass($index)"
+      [text]="userCard.preset_payment_sizes[$index].toString()"
+      [background]="btn.background"
+      [color]="btn.color"
+      [borderStyle]="btn.borderStyle"
+      [isActive]="btn.isActive"
+    ></app-buttons>
+    }
+  </div>
+  }
+</div>
+
+<!-- ------------------ -->
+<!-- section stars-rate -->
+<!-- ------------------ -->
+
+<div
+  class="userPreview__rate"
+  [class.userPreview__rate--open]="userCard?.rating"
+>
+  <span class="spanBold">Ваш рейтинг</span>
+  <stars-rate
+    [starRateSetup]="dataToStarRate"
+    (rating)="rating($event)"
+  ></stars-rate>
+</div>
+
+<!-- ----------------- -->
+<!-- section feedbacks -->
+<!-- ----------------- -->
+
+<div
+  class="userPreview__feedbacks"
+  [class.userPreview__feedbacks--open]="userCard!.reviews"
+>
+  <span class="spanBold">Ваш отзыв</span>
+
+  <feedbacks [feedbackData]="feedback">
+    {{ feedback.text }}
+  </feedbacks>
+</div>
+
+<!-- --------------- -->
+<!-- section amodzie -->
+<!-- --------------- -->
+
+<div
+  class="userPreview__feeling"
+  [class.userPreview__feeling--open]="userCard!.smiles"
+>
+  <span class="spanBold">Ваши впечатления</span>
+  <amodzie
+    [amodzieSetting]="amodzieData"
+    (amodzieSelected)="amodzieSelected($event)"
+  ></amodzie>
+</div>
+
+<div class="userPreview__sendData">
+  <app-buttons
+    [text]="btnSendData.text"
+    [disabled]="btnSendData.disabled"
+    [background]="btnSendData.background"
+    [color]="btnSendData.color"
+    [isActive]="btnSendData.isActive"
+  ></app-buttons>
+</div>

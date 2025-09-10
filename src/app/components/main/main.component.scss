@@ -1,0 +1,88 @@
+user-profile-popup {
+  width: 100vw;
+  display: block;
+}
+
+.wrapTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  padding-top: 65px;
+
+  @media (max-width: 768px) {
+    .wrapTop {
+      padding: 30px 15px 0;
+    }
+  }
+}
+
+h2 {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  align-items: center;
+
+  color: #121212;
+}
+
+.wrapTable,
+.wrapChart {
+  padding: 0 30px;
+}
+
+@media (max-width: 768px) {
+  .wrapChart {
+    padding: 0 15px;
+  }
+
+  .wrapTable {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .wrapTable {
+    padding: 0;
+  }
+}
+
+.chart__body {
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 30px;
+  background: #ffffff;
+
+  box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
+  border-radius: 10px;
+}
+
+.chart__body {
+  & h2 {
+    display: block;
+    width: 100%;
+    align-items: start;
+  }
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+  // background: #f9fafc;
+}
+
+table {
+  width: 100%;
+}
+
+chart {
+  width: 90%;
+  height: 250px;
+}

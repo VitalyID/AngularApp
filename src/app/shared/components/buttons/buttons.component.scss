@@ -1,0 +1,130 @@
+:host {
+  --width: auto;
+  --height: auto;
+  --padding: 11px 30px;
+  --gap: 15px;
+  --color: #ffffff;
+  --fontSize: 16px;
+  --borderRadius: 54px;
+  --border: 2px solid black;
+  --transform: none;
+  --transition: 0s;
+  --display: flex;
+  --isActiveColor: "red";
+  --isActiveTransform: none;
+  --isActiveTransition: 0s;
+  --isActiveBorder: 1px solid black;
+
+  --background: linear-gradient(0deg, #3bc76b, #3bc76b), #3bc76b;
+}
+
+button {
+  background: var(--background);
+  box-shadow: 0px 5px 20px rgba(71, 155, 78, 0.15);
+  border: var(--border);
+  border-radius: var(--borderRadius);
+  padding: var(--padding);
+
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--fontSize);
+  line-height: 22px;
+
+  display: var(--display);
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap);
+
+  width: var(--width);
+  height: var(--height);
+
+  color: var(--color);
+  cursor: pointer;
+
+  transform: scale(1) var(--transform);
+  transition: var(--transition);
+
+  position: relative;
+
+  &:active {
+    transform: scale(0.95);
+    transition: var(--transition);
+  }
+
+  &:disabled {
+    background: gray;
+  }
+
+  --heightSpinner: 100%;
+  --spinnerContainerPosition: static;
+  --spinnerIconWidth: 32px;
+  --spinnerIconHeight: 32px;
+}
+
+.isActive {
+  background-color: #3bc76b !important;
+  border: var(--isActiveBorder) !important;
+  color: var(--isActiveColor) !important;
+  transform: var(--isActiveTransform) !important;
+  transition: var(--isActiveTransition) !important;
+}
+
+.icon-add-outline:before {
+  content: "\e901";
+  color: #ffffff !important;
+  font-size: 24px;
+  font-size: 24px;
+}
+
+.icon-Paper-Download:before {
+  content: "\e903";
+  color: #777d82;
+  font-size: 24px;
+}
+.icon-PaperDownload:before {
+  content: "\e902";
+  color: #777d82;
+  font-size: 24px;
+}
+.icon-document:before {
+  content: "\e902";
+  color: black;
+  font-size: 24px;
+}
+
+.icon-icon-upload:before {
+  content: "\e901";
+  color: #55595b;
+}
+
+.icon-Calendar:before {
+  content: "\e900";
+  color: #777d82;
+}
+
+.icon-share:before {
+  content: "\e904";
+  color: #777d82;
+}
+.icon-Trash:before {
+  content: "\e905";
+  color: #777d82;
+}
+.icon-Edit:before {
+  content: "\e906";
+  color: #777d82;
+}
+.icon-Chart:before {
+  content: "\e907";
+  color: #777d82;
+}
+
+@media (max-width: 1500px) {
+  :host {
+    --padding: 6px 15px;
+  }
+  button {
+    gap: 5px;
+  }
+}

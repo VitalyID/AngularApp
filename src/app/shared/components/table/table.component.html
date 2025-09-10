@@ -1,0 +1,145 @@
+@let windowSize = windowSize$ | async;
+@if (windowSize) {
+  <div class="table__top">
+    <!-- фильтра сворачиваются в дропдаун -->
+    @if (windowSize["1000"] === true) {
+      <div class="table__top--mobile">
+        <div class="tableTop__onlyMobile">
+          <dropdown
+            [dropdownItems]="filterMobile"
+            [defaultValue]="defaultValue"
+            (itemSelected)="itemSelected($event)"
+          ></dropdown>
+        </div>
+
+        <app-buttons
+          [classSvgFonts]="calendar.iconClass"
+          [disabled]="calendar.disabled"
+          [background]="calendar.background"
+          [borderStyle]="calendar.borderStyle"
+          class="calendar"
+          (click)="OnClickCalendar()"
+        ></app-buttons>
+
+        <!-- Показываем выбор дат в диапазоне 1100 ... 685 -->
+
+        @if (windowSize["1100"] === true && windowSize["685"] === false) {
+          <div
+            class="hiddenDataInput table__top--dataMiddle"
+            [class.visible]="visibility()"
+          >
+            <data-input [dateForBTN]="transmitToBTN"></data-input>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Стандартные табы -->
+    <div class="table__top--tabs">
+      <div class="table__top--tabsUnit">
+        <div
+          class="table__top--tabsUnitElement"
+          *ngFor="let tab of tabs"
+          (click)="clickOnTab(tab.key)"
+          (keyup.enter)="clickOnTab(tab.key)"
+          tabindex="0"
+          [ngClass]="classActiveTab(tab.key)"
+        >
+          {{ tab.value }}
+        </div>
+      </div>
+
+      <!-- Скрываем стандартный компонент. периода дат -->
+      @if (windowSize["1100"] === false) {
+        <div class="table__top--topFilter">
+          <data-input [dateForBTN]="transmitToBTN"></data-input>
+        </div>
+      }
+    </div>
+
+    @if (windowSize["768"] === true && windowSize["564"] === false) {
+      <div
+        class="hiddenDataInput table__data--small"
+        [class.visible]="visibility()"
+      >
+        <data-input [dateForBTN]="transmitToBTN"></data-input>
+      </div>
+    }
+  </div>
+
+  <div class="table__topMobile">
+    @if (windowSize["564"] === true) {
+      <div
+        class="hiddenDataInput table__data--small"
+        [class.visible]="visibility()"
+      >
+        <data-input [dateForBTN]="transmitToBTN"></data-input>
+      </div>
+    }
+  </div>
+
+  <div class="table__filter">
+    <div class="table__filter--cell" *ngFor="let filter of filters">
+      <filter
+        [titleFilter]="filter.value"
+        [userFilterFromParent]="userFilter"
+        (titleFilterFromChild)="setUserFilter($event)"
+      ></filter>
+    </div>
+  </div>
+
+  <border-line class="footerBorder"></border-line>
+
+  <div class="table__total">
+    @let totalTop = (tableTotal$ | async) ?? [];
+    <div>
+      <span>Всего чаевых:</span>
+      <span>{{ totalTop?.[0] }}</span>
+    </div>
+    <div>
+      <span>Всего комиссия:</span>
+      <span>{{ totalTop?.[1] }}</span>
+    </div>
+    <div>
+      <span>Средний чек:</span>
+      <span>{{ totalTop?.[2] }}</span>
+    </div>
+  </div>
+
+  <div class="table__body">
+    <div class="table__body--row" *ngFor="let operation of tableBody$ | async">
+      <div
+        class="table__body--cell"
+        *ngFor="let key of getKeys(tableBody$ | async)"
+      >
+        {{ operation[key] }}
+      </div>
+    </div>
+  </div>
+
+  @let table = (tableBody$ | async) ?? [];
+  @for (item of table; track item.id) {
+    <mobile-transaction-card
+      [table]="item"
+      class="table__body--mobileCard"
+    ></mobile-transaction-card>
+  }
+
+  <border-line class="footerBorder"></border-line>
+
+  <div class="table__total">
+    @let total = (tableTotal$ | async) ?? [];
+    <div>
+      <span>Всего чаевых:</span>
+      <span>{{ total?.[0] }}</span>
+    </div>
+    <div>
+      <span>Всего комиссия:</span>
+      <span>{{ total?.[1] }}</span>
+    </div>
+    <div>
+      <span>Средний чек:</span>
+      <span>{{ total?.[2] }}</span>
+    </div>
+  </div>
+}

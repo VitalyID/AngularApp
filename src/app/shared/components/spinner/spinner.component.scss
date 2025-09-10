@@ -1,0 +1,48 @@
+:host {
+  --width: 100%;
+  --display: block;
+}
+
+.spinner__wrap {
+  position: var(--positionWrapSpinner, absolute);
+  top: 0;
+  left: 0;
+  width: var(--width);
+  height: var(--heightSpinner, 100vh);
+  z-index: 1000;
+  display: var(--display);
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: var(--heightSpinner, 100vh);
+
+  width: 100%;
+  position: var(--spinnerContainerPosition, relative);
+  background-color: rgba(184, 182, 182, 0.3);
+}
+
+svg-icon {
+  --height: var(--spinnerIconHeight, 64px);
+  --width: var(--spinnerIconWidth, 64px);
+  --fill: black;
+  position: relative;
+  z-index: 1001;
+
+  animation: spinner 4s infinite linear;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

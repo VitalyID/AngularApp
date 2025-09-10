@@ -1,0 +1,36 @@
+.myQR {
+  &__wrapTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 30px 0;
+  }
+
+  &__wrapBody {
+    padding: 30px 30px 0;
+  }
+
+  &__cards {
+    width: 100%;
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 350px));
+    grid-auto-rows: auto;
+
+    justify-content: center;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
+    width: 100%;
+  }
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

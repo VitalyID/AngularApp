@@ -1,0 +1,77 @@
+@import "../../../../styles/mixins.scss";
+
+.isActiveStep,
+.isActiveLastStep {
+  background-color: #54a75c !important;
+}
+
+.step {
+  @include flex();
+}
+
+.step__unit {
+  position: relative;
+
+  span {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 5;
+    transform: translate(-50%, calc(60% + 13px));
+  }
+}
+
+.step__ring {
+  @include flex();
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+  background-color: #e1e3e1;
+  position: relative;
+  z-index: 1;
+
+  &--outer {
+    @include flex();
+
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: relative;
+    z-index: 2;
+  }
+
+  &--inner {
+    @include flex();
+
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #e1e3e1;
+    position: relative;
+    z-index: 3;
+  }
+}
+
+.step__left,
+.step__right {
+  flex-grow: 1;
+  height: 3px;
+  background: #e1e3e1;
+}
+
+.step__content {
+  padding: 62px 50px 30px;
+}
+
+h3 {
+  margin-bottom: 22px;
+}
+
+.button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,0 +1,60 @@
+@import "../../../../styles/mixins.scss";
+
+:host {
+  --mbElement: 17px;
+  --justify: start;
+  --align: center;
+  --gapSpan: 8px;
+  --gapImg: 12px;
+  --background: none;
+  --padding: none;
+  --width: 100%;
+  --flex-grow: 2;
+  --border-radius: none;
+  --margin-bottom: none;
+  --borderActive: none;
+}
+
+.radioButton {
+  @include flex($gap: var(--gapSpan), $justify: start);
+
+  margin-bottom: var(--mbElement);
+  background: var(--background);
+  padding: var(--padding);
+  width: var(--width);
+  flex-grow: var(--flex-grow);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--margin-bottom);
+
+  &__img {
+    @include flex($gap: var(--gapImg));
+  }
+}
+
+.isActive {
+  border: var(--borderActive);
+}
+
+input {
+  position: absolute;
+  top: 0px;
+  left: -1000px;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  cursor: none;
+}
+
+svg-icon {
+  cursor: pointer;
+  --width: 20px;
+  --height: 20px;
+}
+
+label {
+  display: block;
+}
+
+span {
+  display: block;
+}

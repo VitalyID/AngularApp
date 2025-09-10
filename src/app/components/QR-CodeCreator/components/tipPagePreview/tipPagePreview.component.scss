@@ -1,0 +1,157 @@
+@import "../../../../../styles/mixins.scss";
+
+:host {
+  height: auto;
+}
+
+@mixin general($direction: column, $gap: 20px, $mb: 30px, $p: 0px 30px) {
+  flex-direction: $direction;
+  gap: $gap;
+  margin-bottom: $mb;
+  padding: $p;
+}
+
+.userPreview__top {
+  padding: 25px 30px 0px;
+
+  & span {
+    margin-bottom: 25px;
+    display: block;
+  }
+}
+
+.userPreview__sectionBorder {
+  background: #e1e3e1;
+  height: 2px;
+  margin-bottom: 30px;
+}
+
+.userPreview__about {
+  @include flex($align: start, $direction: column, $gap: 20px);
+  margin-bottom: 30px;
+  padding: 0 30px;
+
+  &--me {
+    @include flex($justify: start, $gap: 20px);
+  }
+
+  &--meLogo {
+    width: 33%;
+    max-width: 90px;
+    height: 90px;
+    overflow: hidden;
+    background-color: burlywood;
+    border-radius: 10px;
+  }
+
+  &--meInfo {
+    width: 66%;
+
+    & span {
+      display: block;
+
+      &:nth-child(1) {
+        margin-bottom: 18px;
+      }
+    }
+  }
+}
+
+.userPreview__setTips {
+  @include flex($align: start, $direction: column, $gap: 20px);
+
+  margin-bottom: 30px;
+  padding: 0 30px;
+
+  &--btn {
+    @include flex();
+    gap: 11px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+}
+
+.userPreview__rate {
+  @include flex($direction: column, $gap: 20px);
+
+  margin-bottom: 30px;
+  padding: 0 30px;
+  overflow: hidden;
+
+  height: 0;
+  transition: all 1s;
+  transform-origin: top;
+  margin: 0;
+
+  &--open {
+    height: 85px;
+    transition: all 1s;
+    transform-origin: top;
+  }
+
+  & > span {
+    display: block;
+    text-align: center;
+  }
+}
+
+.userPreview__feedbacks {
+  @include flex($align: stretch, $direction: column);
+
+  padding: 0 30px;
+  overflow: hidden;
+  width: 100%;
+
+  height: 0px;
+  transform-origin: top;
+  margin-bottom: 0;
+  transition: all 1s;
+  width: 100%;
+
+  & span {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  &--open {
+    height: 220px;
+    transform-origin: top;
+    margin-bottom: 30px;
+    transition: all 1s;
+    width: 100%;
+  }
+}
+
+.userPreview__feeling {
+  @include flex($align: stretch, $direction: column);
+  padding: 0 30px;
+  overflow: hidden;
+  width: 100%;
+
+  height: 0px;
+  transform-origin: top;
+  margin-bottom: 0;
+  transition: all 1s;
+  width: 100%;
+
+  & span {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  &--open {
+    height: 96px;
+    transform-origin: top;
+    margin-bottom: 30px;
+    transition: all 1s;
+    width: 100%;
+  }
+}
+
+.userPreview__sendData {
+  @include flex($justify: start);
+  margin-bottom: 30px;
+  padding: 0 30px;
+}

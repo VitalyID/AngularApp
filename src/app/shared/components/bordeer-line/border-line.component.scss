@@ -1,0 +1,12 @@
+:host {
+  --bgColor: #e1e3e1;
+  --height: 2px;
+  --mb: 30px;
+  --mt: 0px;
+}
+.bolder-line {
+  background: var(--bgColor);
+  height: var(--height);
+  margin-bottom: var(--mb);
+  margin-top: var(--mt);
+}

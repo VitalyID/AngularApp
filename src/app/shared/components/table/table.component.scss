@@ -1,0 +1,266 @@
+@import "../../../../styles/mixins.scss";
+
+:host {
+  height: auto;
+}
+
+.table__top {
+  @include flex($justify: space-between);
+
+  background: #fff;
+  width: 100%;
+  border-radius: 10px;
+  padding: 15px 30px 0;
+
+  &--mobile {
+    @include flex($gap: 10px);
+  }
+
+  &--tabs {
+    @include flex();
+  }
+
+  &--tabsUnit {
+    @include flex();
+
+    padding: 8px 20px;
+    background: #ffffff;
+    border: 1px solid #e1e3e1;
+    border-radius: 40px;
+    flex-shrink: 2;
+  }
+
+  &--tabsUnitElement {
+    flex-shrink: 3;
+    padding: 8px 20px;
+    border-radius: 50px;
+
+    @include font($fs: 14px, $lh: 20px, $color: #313436);
+    @include flex();
+
+    min-width: 130px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: 1625px) {
+    &--tabsUnitElement {
+      padding: 5px 8px;
+      min-width: 100px;
+    }
+  }
+
+  @media (max-width: 1500px) {
+    &--tabsUnit {
+      padding: 4px 10px;
+    }
+
+    &--mobile {
+      justify-content: start;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    &--tabsUnit {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 15px 15px 0;
+  }
+
+  @media (max-width: 685px) {
+    justify-content: start;
+    align-items: center;
+  }
+}
+
+.table__topMobile {
+  padding: 15px 15px 0;
+  @include flex($justify: start, $gap: 10px);
+}
+
+.hiddenDataInput {
+  transition: transform 1s;
+  transform-origin: left;
+  transform: scaleX(0);
+  overflow: hidden;
+
+  &.visible {
+    max-width: 100%;
+    transform: scaleX(1);
+    overflow: visible;
+  }
+}
+
+.table__data--small {
+  display: none;
+  padding: 0 30px;
+}
+
+.table__filter {
+  display: grid;
+  grid-template-rows: repeat(1, 1fr);
+  grid-auto-flow: column;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 2fr 1fr 1fr;
+  box-sizing: border-box;
+  align-items: center;
+
+  border-radius: 10px;
+  padding: 15px 30px 0;
+
+  gap: 50px;
+
+  grid &--cell {
+    padding: 8px;
+    width: 100%;
+
+    @include font($fs: 14px, $lh: 20px);
+
+    color: #101112;
+  }
+
+  @media (max-width: 1000px) {
+    gap: 15px;
+  }
+}
+
+.table__total {
+  display: flex;
+  @include font($fw: 700, $fs: 16px, $lh: 22px);
+  padding: 7.5px 0;
+
+  color: #101112;
+
+  border-radius: 10px;
+  padding: 15px 30px 0;
+
+  & span {
+    &:nth-child(even) {
+      color: green;
+      margin: 0 12px 8px;
+    }
+  }
+}
+
+.table__body {
+  width: 100%;
+
+  border-radius: 10px;
+  padding: 15px 30px 0;
+
+  &--row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr 1fr 1fr;
+    width: 100%;
+  }
+
+  &--cell {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+
+    @include font($fs: 14px, $lh: 20px);
+
+    color: #101112;
+  }
+}
+
+.tableTop__onlyMobile {
+  width: 247px;
+  height: 48px;
+
+  background: #ffffff;
+
+  dropdown {
+    --bgColor: #ffffff;
+    --brRadius: 46px;
+    --padActive: 2px 8px;
+    --firstItemMarginTop: 35px;
+  }
+}
+
+.footerBorder {
+  --mb: 0px;
+}
+
+.calendar {
+  --padding: 12px;
+  display: none;
+}
+
+.isActive {
+  background: rgba(71, 155, 78, 0.1);
+}
+
+mobile-transaction-card {
+  display: none;
+}
+
+// ===============================================================
+// ===============================================================
+// ===============================================================
+
+@media (max-width: 1500px) {
+  .calendar {
+    --padding: 12px;
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .table__data--small {
+    padding: 0 15px;
+  }
+
+  .table__filter {
+    padding: 15px 15px 0;
+  }
+
+  .table__total {
+    padding: 15px 15px 0;
+  }
+
+  .table__body {
+    padding: 15px 15px 0;
+  }
+
+  // все выше заменить на один класс
+
+  .hiddenDataInput.table__data--small {
+    display: flex;
+    flex-shrink: 1;
+  }
+}
+
+@media (max-width: 650px) {
+  .table__filter {
+    display: none;
+  }
+  .table__body {
+    display: none;
+  }
+
+  mobile-transaction-card {
+    display: block;
+  }
+
+  .table__total {
+    display: block;
+    padding: 15px 15px 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .table__data--small {
+    margin-bottom: 10px;
+  }
+
+  .table__top--mobile {
+    justify-content: start;
+  }
+}

@@ -1,0 +1,15 @@
+<div class="wrapFilter">
+  <span>{{ titleFilter }}</span>
+  <div class="filterIcons">
+    <svg-icon
+      [iconID]="dataIconUp.iconID"
+      [fill]="dataIconUp.fill"
+      (click)="clickSort($event, 'Up')"
+    ></svg-icon>
+    <svg-icon
+      [iconID]="dataIconDown.iconID"
+      [fill]="dataIconDown.fill"
+      (click)="clickSort($event, 'Down')"
+    ></svg-icon>
+  </div>
+</div>

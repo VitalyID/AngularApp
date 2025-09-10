@@ -1,0 +1,32 @@
+<div class="date-range-picker" [formGroup]="myInputForm">
+  <div class="date-range-picker__inputs">
+    <input
+      class="date-range-picker__input"
+      type="date"
+      formControlName="dateFrom"
+      [ngStyle]="{
+        'border-color':
+          myInputForm.get('dateFrom')?.invalid &&
+          myInputForm.get('dateFrom')?.touched &&
+          myInputForm.get('dateFrom')?.hasError('dateEndInvalid')
+            ? 'red'
+            : 'black',
+      }"
+    />
+
+    <input
+      class="date-range-picker__input"
+      type="date"
+      formControlName="dateEnd"
+      [ngStyle]="{
+        'border-color':
+          (myInputForm.get('dateEnd')?.invalid &&
+            myInputForm.get('dateEnd')?.touched) ||
+          myInputForm.get('dateEnd')?.hasError('dateEndInvalid')
+            ? 'red'
+            : 'black',
+      }"
+    />
+  </div>
+  <app-buttons [text]="dateForBTN.text" (click)="onClick()"></app-buttons>
+</div>

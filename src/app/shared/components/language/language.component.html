@@ -1,0 +1,8 @@
+<select (change)="onLanguageChange($event)" [value]="selectedLanguage">
+  <option *ngFor="let languageItem of language" [value]="languageItem.title">
+    <div class="flag-wrapper">
+      <img [src]="languageItem.flagUrl" alt="language.title" />
+      <span>{{ languageItem.title }}</span>
+    </div>
+  </option>
+</select>

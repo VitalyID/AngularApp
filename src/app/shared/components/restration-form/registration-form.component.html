@@ -1,0 +1,73 @@
+@let name = this.userForm.get("first_name");
+@let lastName = this.userForm.get("last_name");
+@let email = userForm.get("email");
+
+<form [formGroup]="userForm">
+  <div class="popup__down--name">
+    <span>Имя</span>
+    <input-text
+      formControlName="first_name"
+      placeholder="Введите имя"
+    ></input-text>
+    @if (name?.invalid && (name?.dirty || name?.touched)) {
+      @if (name?.errors?.["required"]) {
+        <span class="spanErr">Обязательное поле</span>
+      }
+      @if (name?.errors?.["minlength"]) {
+        <span class="spanErr">В поле не менее {{ 3 }} символов</span>
+      }
+      @if (name?.errors?.["numbersInName"]) {
+        <span class="spanErr">Некорректное имя</span>
+      }
+    }
+  </div>
+
+  <div class="popup__down--lastName">
+    <span>Фамилия</span>
+    <input-text
+      formControlName="last_name"
+      placeholder="Введите фамилию"
+    ></input-text>
+    @if (lastName?.invalid && (lastName?.dirty || lastName?.touched)) {
+      @if (lastName?.errors?.["required"]) {
+        <span class="spanErr">Обязательное поле</span>
+      }
+      @if (lastName?.errors?.["minlength"]) {
+        <span class="spanErr">В поле не менее {{ 2 }} символов</span>
+      }
+      @if (lastName?.errors?.["numbersInName"]) {
+        <span class="spanErr">Некорректное имя</span>
+      }
+    }
+  </div>
+
+  <div class="popup__down--email">
+    <span>E-mail</span>
+    <input-text
+      formControlName="email"
+      placeholder="Введите E-mail"
+    ></input-text>
+    @if (email?.invalid && (email?.dirty || email?.touched)) {
+      @if (email?.errors?.["required"]) {
+        <span class="spanErr">Обязательное поле</span>
+      }
+      @if (email?.errors?.["numbersInName"]) {
+        <span class="spanErr">Некорректное имя</span>
+      }
+    }
+  </div>
+
+  <span>Страна</span>
+  <dropdown
+    formControlName="country"
+    [defaultValue]="countryDefaultValue"
+    [dropdownItems]="countryDropdownItems"
+  ></dropdown>
+
+  <span>Город</span>
+  <dropdown
+    formControlName="city"
+    [defaultValue]="cityDefaultValue"
+    [dropdownItems]="cityDropdownItems"
+  ></dropdown>
+</form>

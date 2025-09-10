@@ -1,0 +1,20 @@
+:host {
+  --gap: none;
+}
+.wrapFilter {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.filterIcons {
+  display: block;
+  margin-left: 7px;
+}
+
+.filterIcons svg-icon {
+  --width: 12px;
+  --height: 12px;
+  --max-height: 12px;
+  --lh: 12px;
+}

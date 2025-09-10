@@ -1,0 +1,60 @@
+@let card = cardForm.get("card");
+@let data = cardForm.get("data");
+@let cvv = cardForm.get("cvc");
+
+<!-- <h3>Введите данные вашей карты</h3> -->
+<form [formGroup]="cardForm">
+  <span>Номер карты</span>
+  <div class="card-form">
+    <input-text
+      formControlName="card"
+      type="text"
+      mask="0000 0000 0000 0000"
+      placeholder="**** **** **** ****"
+    ></input-text>
+    @if (card?.invalid && (card?.dirty || card?.touched)) {
+      @if (card?.errors?.["required"]) {
+        <span class="spanErr">Обязательное поле</span>
+      }
+      @if (card?.errors?.["pattern"]) {
+        <span class="spanErr">Неверный номер</span>
+      }
+    }
+  </div>
+  <div class="card-data-cvc">
+    <div class="card-data">
+      <span>Месяц/год</span>
+      <input-text
+        formControlName="data"
+        type="text"
+        mask="M0/00"
+        placeholder="00/00"
+      ></input-text>
+      @if (data?.invalid && (data?.dirty || data?.touched)) {
+        @if (data?.errors?.["required"]) {
+          <span class="spanErr">Обязательное поле</span>
+        }
+        @if (data?.errors?.["pattern"]) {
+          <span class="spanErr">Некорректный формат</span>
+        }
+      }
+    </div>
+    <div class="card-cvc">
+      <span>CVC/CVV-код</span>
+      <input-text
+        formControlName="cvc"
+        placeholder="***"
+        type="password"
+        mask="000"
+      ></input-text>
+      @if (cvv?.invalid && (cvv?.dirty || cvv?.touched)) {
+        @if (cvv?.errors?.["required"]) {
+          <span class="spanErr">Обязательное поле</span>
+        }
+        @if (cvv?.errors?.["pattern"]) {
+          <span class="spanErr">Только цифры</span>
+        }
+      }
+    </div>
+  </div>
+</form>

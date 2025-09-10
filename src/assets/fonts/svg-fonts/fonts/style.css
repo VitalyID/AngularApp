@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?ri6h5m');
+  src:  url('fonts/icomoon.eot?ri6h5m#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ri6h5m') format('truetype'),
+    url('fonts/icomoon.woff?ri6h5m') format('woff'),
+    url('fonts/icomoon.svg?ri6h5m#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-share:before {
+  content: "\e904";
+}
+.icon-Trash:before {
+  content: "\e905";
+  color: #afb0b6;
+}
+.icon-Edit:before {
+  content: "\e906";
+  color: #afb0b6;
+}
+.icon-Chart:before {
+  content: "\e907";
+  color: #afb0b6;
+}
+.icon-Calendar:before {
+  content: "\e900";
+  color: #777d82;
+}
+.icon-icon-upload:before {
+  content: "\e901";
+}
+.icon-add-outline:before {
+  content: "\e902";
+}
+.icon-PaperDownload:before {
+  content: "\e903";
+}

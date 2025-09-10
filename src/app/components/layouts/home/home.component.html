@@ -1,0 +1,33 @@
+<popup></popup>
+<div class="home-container" [style.overflow]="overflow">
+  <div class="header">
+    <!-- [menuState]="isOpen" it's need for directives, which is controlling state components-->
+
+    <app-aside
+      class="aside adaptive"
+      [ngClass]="{ close: !menuState(), open: menuState() }"
+      appEscClose
+      (menuClose)="onMenuClose($event)"
+      appClickOutside
+      [menuState]="isOpen()"
+    ></app-aside>
+
+    <div class="headerWrap">
+      <app-header></app-header>
+      <app-header-user></app-header-user>
+    </div>
+  </div>
+
+  <app-aside class="aside desktop"></app-aside>
+
+  <div class="main">
+    @if (
+      spinnerState()?.container === currentComponent && spinnerState()?.isActive
+    ) {
+      <spinner></spinner>
+    }
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="overlay" [class.shadowActive]="isShadow()"></div>
+</div>

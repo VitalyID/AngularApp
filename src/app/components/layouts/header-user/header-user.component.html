@@ -1,0 +1,48 @@
+<div class="user">
+  <div class="user__language">
+    <dropdown
+      [defaultValue]="defaultValue"
+      [dropdownItems]="languageItems"
+    ></dropdown>
+  </div>
+
+  <div class="user__logo">
+    <div class="user__logo--logo">
+      <svg-icon
+        [iconID]="userSetting.iconID"
+        [width]="userSetting.width"
+        [height]="userSetting.height"
+        [fill]="userSetting.fill"
+      ></svg-icon>
+    </div>
+
+    <svg-icon
+      class="user__logo--dropdown"
+      [iconID]="dropdownIcon.iconID"
+      [width]="dropdownIcon.width"
+      [height]="dropdownIcon.height"
+      (click)="onClickContact()"
+    ></svg-icon>
+
+    <!-- <div class="user__logo--data" [ngClass]="{ open: isOpen, close: !isOpen }"> -->
+    <div class="user__logo--data" [class.open]="isOpen()">
+      <span>Фамилия Имя</span>
+      <span>mail&#64;mail.ru</span>
+    </div>
+  </div>
+
+  <div class="user__data">
+    <span
+      >{{ user().last_name || "Фамилия" }}
+      {{ user().first_name || "Имя" }}</span
+    >
+    <span>{{ user().email || "mail&#64;mail.ru" }}</span>
+    <!-- <app-buttons
+      [text]="exitBtn.text"
+      [background]="exitBtn.background"
+      [borderStyle]="exitBtn.borderStyle"
+      [borderRadius]="exitBtn.borderRadius"
+      (click)="exitUser()"
+    ></app-buttons> -->
+  </div>
+</div>

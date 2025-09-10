@@ -1,0 +1,66 @@
+@import "../../../styles/mixins.scss";
+
+.cardDetail {
+  background: #f9fafc;
+  padding: 25px 35px;
+  height: 100vh;
+
+  width: 100%;
+
+  &__max {
+    max-width: 420px;
+  }
+
+  &__min {
+    max-width: 350px;
+    width: 100%;
+  }
+
+  & h2 {
+    margin-bottom: 30px;
+  }
+
+  &__body {
+    display: inline-block;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  &__userCard {
+    @include flex($gap: 8px, $justify: start);
+    background-color: #f4f5f7;
+    border-radius: 8px;
+    // max-width: 350px;
+    width: 100%;
+    margin-bottom: 1.875rem;
+  }
+
+  &__about {
+    width: 100%;
+
+    & custom-radio-button {
+      --mbElement: 0px;
+      --gap: 0px;
+      --background: #f4f5f7;
+      --padding: 12px;
+      --flex-grow: 2;
+      --border-radius: 8px;
+      --margin-bottom: 6px;
+      --borderActive: solid 2px #54a75c;
+      width: 100%;
+    }
+    margin-bottom: 1.875rem;
+  }
+
+  registration-card {
+    --width: 420px;
+  }
+
+  app-buttons {
+    --display: block;
+    --width: 100%;
+    --height: 2.812rem;
+  }
+}

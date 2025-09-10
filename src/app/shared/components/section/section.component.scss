@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  margin: 0 10px;
+  cursor: pointer;
+  font-family: "Formular", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  // CSS переменные
+  --borderRadius: 0px;
+  --borderTopLeftRadius: 10px;
+  --borderTopRightRadius: 10px;
+  --borderBottomLeftRadius: 10px;
+  --borderBottomRightRadius: 10px;
+  --section-icon-fill: #777d82;
+  --section-text-color: #777d82;
+  --section-active-icon-fill: #54a75c; // Добавлено
+
+  // Стили для секции
+  .section {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 17px;
+    color: var(--section-text-color);
+    text-decoration: none;
+
+    &-icon svg {
+      fill: var(--section-icon-fill);
+    }
+
+    // Активное состояние
+    &.isActive {
+      background: linear-gradient(
+          0deg,
+          rgba(59, 199, 107, 0.05),
+          rgba(59, 199, 107, 0.05)
+        ),
+        linear-gradient(0deg, rgba(71, 155, 78, 0.05), rgba(71, 155, 78, 0.05)),
+        linear-gradient(0deg, rgba(63, 169, 73, 0.05), rgba(63, 169, 73, 0.05)),
+        rgba(84, 167, 92, 0.05);
+      border-radius: 10px;
+
+      .section-title {
+        color: #54a75c;
+        // --section-text-color: #54a75c;
+      }
+
+      .section-icon svg {
+        fill: var(--section-active-icon-fill);
+      }
+    }
+  }
+
+  // Модификаторы
+  // &.isMyGroup {
+  //   border-radius: var(--borderRadius);
+  //   background: rgba(248, 57, 57, 0.05);
+  // }
+
+  // &.firstItem {
+  //   border-top-left-radius: var(--borderTopLeftRadius);
+  //   border-top-right-radius: var(--borderTopRightRadius);
+  // }
+
+  // &.lastItem {
+  //   border-bottom-right-radius: var(--borderBottomLeftRadius);
+  //   border-bottom-left-radius: var(--borderBottomRightRadius);
+  // }
+}

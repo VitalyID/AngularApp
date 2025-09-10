@@ -1,0 +1,18 @@
+<div class="wrapUpload">
+  <input
+    type="file"
+    name="fileUserLogo"
+    accept="image/png"
+    #fileInput
+    (change)="openFile()"
+  />
+  <app-buttons
+    [text]="uploadPhoto.text"
+    [classSvgFonts]="uploadPhoto.iconClass"
+    [background]="uploadPhoto.background"
+    [color]="uploadPhoto.color"
+    [borderStyle]="uploadPhoto.borderStyle"
+    [boxShadow]="uploadPhoto.boxShadow"
+    #customInput
+  ></app-buttons>
+</div>

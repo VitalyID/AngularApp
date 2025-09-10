@@ -1,0 +1,13 @@
+<div class="container">
+  @for(img of arrImg; track img.grade){
+  <div
+    class="amodzieWrap"
+    [class.active]="gradeActive === img.grade"
+    (click)="onClick(img.grade)"
+    (keyup.enter)="onClick(img.grade)"
+    tabindex="0"
+  >
+    <img [src]="img.path" alt="#" />
+  </div>
+  }
+</div>

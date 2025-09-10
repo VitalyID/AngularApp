@@ -1,0 +1,106 @@
+<div class="createQRcode__title-wrap">
+  <h2>Создать QR-код</h2>
+</div>
+
+<!-- ---------------- -->
+<!-- section input ----->
+<!-- ---------------- -->
+
+<div class="createQRcode__body-wrap">
+  <div class="createQRcode__body-center">
+    <div class="createQRcode__body-wrapForm">
+      <span>Предустановленные суммы чаевых</span>
+
+      <div class="createQRcode__body-wrapForm-tips">
+        <input-text
+          [placeholder]="inputSmallTip().placeholder || ''"
+          [disabled]="inputSmallTip().disabled || false"
+          [type]="inputSmallTip().type || 'number'"
+          [value]="inputSmallTip().value || ''"
+          [validationSettings]="validation"
+          (updateValue)="sendDataStore(0, $event)"
+        ></input-text>
+        <input-text
+          [placeholder]="inputMiddleTip().placeholder || ''"
+          [disabled]="inputMiddleTip().disabled || false"
+          [type]="inputMiddleTip().type || 'number'"
+          [value]="inputMiddleTip().value || ''"
+          [validationSettings]="validation"
+          (updateValue)="sendDataStore(1, $event)"
+        ></input-text>
+        <input-text
+          [placeholder]="inputBigTip().placeholder || ''"
+          [disabled]="inputBigTip().disabled || false"
+          [type]="inputBigTip().type || 'number'"
+          [value]="inputBigTip().value || ''"
+          [validationSettings]="validation"
+          (updateValue)="sendDataStore(2, $event)"
+        ></input-text>
+      </div>
+    </div>
+
+    <!-- ---------------- -->
+    <!-- section checkbox -->
+    <!-- ---------------- -->
+
+    <div class="createQRcode__body-about">
+      <span>{{ enumSwitcher.rate }}</span>
+      <switcher
+        [title]="enumSwitcher.rate"
+        [featureToggle]="isOnRate"
+        (updateSwitcher)="isSwitcher(1, $event)"
+      ></switcher>
+      <span>{{ enumSwitcher.feedback }}</span>
+      <switcher
+        [title]="enumSwitcher.feedback"
+        [featureToggle]="isOnFeedback"
+        (updateSwitcher)="isSwitcher(2, $event)"
+      ></switcher>
+      <span>{{ enumSwitcher.impressions }}</span>
+      <switcher
+        [title]="enumSwitcher.impressions"
+        [featureToggle]="isOnImpressions"
+        (updateSwitcher)="isSwitcher(3, $event)"
+      ></switcher>
+    </div>
+
+    <!-- ------------------- -->
+    <!-- section colorPicker -->
+    <!-- ------------------- -->
+
+    <div class="createQRcode__body-background">
+      <span>Код цвета для подложки</span>
+      <color-picker
+        (userSetColor)="onClickColor('background', $event)"
+        [color]="card().background_hex_color"
+      ></color-picker>
+    </div>
+
+    <!-- ------------------ -->
+    <!-- section uploadLogo -->
+    <!-- ------------------ -->
+
+    <div class="createQRcode__body-uploadLogo">
+      <upload-logo (uploadLogo)="uploadLogo($event)"></upload-logo>
+    </div>
+
+    <!------------------- -->
+    <!-- section colorBTN -->
+    <!-- ---------------- -->
+
+    <div class="createQRcode__body-setupColorBTN">
+      <span>Код цвета для кнопки</span>
+      <color-picker
+        (userSetColor)="onClickColor('btnColor', $event)"
+        [color]="card().button_hex_color"
+      ></color-picker>
+      <!-- <button (click)="testSend()">test</button> -->
+    </div>
+
+    <app-buttons [text]="btnText" (click)="createEditCard()"></app-buttons>
+  </div>
+
+  <div class="createQRcode__body-right">
+    <user-preview></user-preview>
+  </div>
+</div>

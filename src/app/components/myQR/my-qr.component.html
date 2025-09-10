@@ -1,0 +1,39 @@
+@if ( cardCount() > 0){
+
+<div class="myQR__wrapTop">
+  <h2>Мои QR</h2>
+  <app-buttons
+    [text]="btnSetUp.text"
+    [classSvgFonts]="btnSetUp.iconClass"
+    (click)="navigateCreateQrPage()"
+  ></app-buttons>
+</div>
+
+<div class="myQR__wrapBody">
+  <div class="myQR__cards">
+    @for (card of cards().cards; track card.id){
+    <qr-card
+      [src]="src"
+      [backgroundCard]="card.background_hex_color"
+      [btnColor]="card.button_hex_color"
+      [id]="card.id"
+    ></qr-card
+    >}
+  </div>
+</div>
+
+@if (cardCount() >= 12) {
+<div class="myQR__pagination">
+  <pagination
+    [state]="cards"
+    (userClick)="selectPage($event)"
+    [activePage]="currentPage"
+  ></pagination>
+</div>
+} } @else {
+<ng-container class="myQR__error">
+  <p>
+    Карточек нет, можете их добавить вот <a routerLink="/create-qrcode">тут</a>
+  </p>
+</ng-container>
+}

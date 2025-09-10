@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="dropdown" [class.disabled]="disabled">
+    <div class="dropdown__visible">
+      <div
+        class="dropdown__active"
+        (click)="onClick()"
+        (keyup)="onClick()"
+        tabindex="0"
+      >
+        <div class="dropdown__active-item">
+          @if (defaultValue.icon) {
+            <svg-icon
+              [iconID]="defaultValue.icon.iconID || ''"
+              [width]="defaultValue.width"
+              [height]="defaultValue.height"
+            ></svg-icon>
+          }
+          <span>{{ defaultValue.item || "Необходимо выбрать" }}</span>
+        </div>
+        <svg-icon
+          [iconID]="DropdownOpenIcon.iconID"
+          [width]="DropdownOpenIcon.width"
+          [height]="DropdownOpenIcon.height"
+        ></svg-icon>
+      </div>
+    </div>
+
+    <div class="dropdown__invisible" [class.open]="isOpen">
+      @for (item of dropdownItems; track item.id) {
+        <div
+          class="dropdown__item"
+          (click)="onClickItem(item)"
+          (keyup.enter)="onClickItem(item)"
+          tabindex="0"
+        >
+          @if (item.icon?.iconID) {
+            <svg-icon
+              [iconID]="item.icon?.iconID || ''"
+              [width]="item.icon?.width"
+              [height]="item.icon?.height"
+            ></svg-icon>
+          }
+
+          <span>{{ item.item }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

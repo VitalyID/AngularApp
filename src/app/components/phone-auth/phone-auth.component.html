@@ -1,0 +1,89 @@
+<div class="auth-phone-container">
+  <div class="auth-phone-container__enter">
+    @if (
+      spinnerState()?.container === currentComponent && spinnerState()?.isActive
+    ) {
+      <spinner></spinner>
+    }
+    <div class="auth-phone-container__top">
+      <div class="auth-phone-container__userPhone">
+        <svg-icon
+          [iconID]="svgLogo.iconID"
+          [width]="svgLogo.width"
+          [height]="svgLogo.height"
+        ></svg-icon>
+        <h1>Вход в Tips.me</h1>
+        <span>Номер телефона</span>
+
+        <form #myForm="ngForm">
+          <input-text
+            [placeholder]="inputPhone.placeholder || ''"
+            [type]="inputPhone.type || 'tel'"
+            [disabled]="inputPhone.disabled || false"
+            [value]="userData().phone"
+            [dropSpecialCharacters]="inputPhone.dropSpecialCharacters || true"
+            [mask]="inputPhone.mask || ''"
+            (updateValue)="phoneNumber($event)"
+            [prefix]="inputPhone.prefix || ''"
+          ></input-text>
+          <div class="auth-phone-container__userPassword">
+            <input-text
+              [placeholder]="inputPassword.placeholder || ''"
+              [type]="inputPassword.type || 'password'"
+              pattern="^\d{8}$"
+              name="password"
+              ngModel
+            ></input-text>
+            @if (
+              myForm.controls["password"]?.invalid &&
+              (myForm.controls["password"]?.dirty ||
+                myForm.controls["password"]?.touched)
+            ) {
+              @if (myForm.controls["password"]?.errors?.["pattern"]) {
+                <span class="spanErr">Только 8 цифр</span>
+              }
+            }
+          </div>
+        </form>
+
+        <div class="auth-phone-container__switcher">
+          <switcher
+            [featureToggle]="isSaveSwitcher"
+            (updateSwitcher)="toggleSaveUser($event)"
+          ></switcher>
+          <span>Запомнить меня</span>
+        </div>
+
+        <div class="auth-phone-container__buttons">
+          @if (!isLoginPage) {
+            <app-buttons
+              [text]="buttonDataRegister.text"
+              [background]="buttonDataRegister.background"
+              [borderRadius]="buttonDataRegister.borderRadius"
+              [color]="buttonDataRegister.color"
+              (click)="registration()"
+            ></app-buttons>
+          }
+
+          <app-buttons
+            [text]="buttonDataLogin().text"
+            [background]="buttonDataLogin().background"
+            [borderRadius]="buttonDataLogin().borderRadius"
+            [color]="buttonDataLogin().color"
+            [disabled]="buttonDataLogin().disabled"
+            (click)="login()"
+          ></app-buttons>
+        </div>
+      </div>
+    </div>
+    <div class="auth-phone-container__bottom"></div>
+  </div>
+
+  <div class="auth-phone-container__img">
+    <picture>
+      <source srcset="../../../assets/images/auth.webp" type="image/webp" />
+      <source srcset="../../../assets/images/auth.jpg" type="image/jpg" />
+      <img src="../../../assets/images/auth.png" alt="Авторизация" />
+    </picture>
+  </div>
+</div>

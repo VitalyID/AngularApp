@@ -1,0 +1,106 @@
+@import "../../../styles/mixins.scss";
+
+.auth-phone-container {
+  @include flex($justify: start);
+  height: 100vh;
+  overflow-y: hidden;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+
+  &__enter {
+    @include flex($direction: column);
+    padding-top: 120px;
+
+    background: #fff;
+    width: 50%;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  & spinner {
+    --width: 50%;
+  }
+
+  &__img {
+    @include flex($align: start);
+    align-self: stretch;
+
+    background: #f4f5f7;
+    width: 50%;
+    padding-top: 120px;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__top {
+    @include flex();
+    width: 100%;
+    max-width: 465px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__bottom {
+    min-height: 50vh;
+  }
+
+  &__userPassword {
+    position: relative;
+  }
+
+  &__userPhone {
+    width: 100%;
+    padding-top: 120px;
+
+    & svg-icon {
+      --mb: 106px;
+    }
+
+    & h1 {
+      @include font($fw: 700, $fs: 42px, $lh: 52px);
+
+      color: #1b1d1f;
+      margin-bottom: 50px;
+    }
+
+    & h1 + span {
+      @include font($lh: 22px);
+
+      color: #313436;
+      margin-bottom: 10px;
+    }
+
+    & input-text {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .spanErr {
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+    }
+  }
+
+  &__switcher {
+    @include flex($gap: 10px, $justify: start);
+    margin-bottom: 20px;
+  }
+
+  &__buttons {
+    @include flex($direction: column, $gap: 20px);
+    width: 100%;
+
+    & app-buttons {
+      --width: 100%;
+      --transition: 0.3s;
+      align-self: stretch;
+    }
+  }
+}

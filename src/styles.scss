@@ -1,0 +1,120 @@
+@import "../node_modules/normalize.css/normalize.css";
+@import "bootstrap/scss/bootstrap";
+// @import "~ngx-toastr/toastr.scss";
+@import "../node_modules/ngx-toastr/toastr-bs5-alert.scss";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+@font-face {
+  font-family: "PT_Russia Text";
+  src: url("/assets/fonts/PT_Russia-Text.ttf") format("truetype");
+  // src: url("/assets/fonts/PT_Russia-Text.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Formular";
+  src: url("/assets/fonts/Formular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Formular";
+  src: url("/assets/fonts/Formular-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "icomoon";
+  src: url("assets/fonts/svg-fonts/fonts/icomoon.eot?jpwddb");
+  src:
+    url("assets/fonts/svg-fonts/fonts/icomoon.eot?jpwddb#iefix")
+      format("embedded-opentype"),
+    url("assets/fonts/svg-fonts/fonts/icomoon.ttf?jpwddb") format("truetype"),
+    url("assets/fonts/svg-fonts/fonts/icomoon.woff?jpwddb") format("woff"),
+    url("assets/fonts/svg-fonts/fonts/icomoon.svg?jpwddb#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon" !important;
+  // speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #101112;
+  text-decoration: none;
+
+  &:hover {
+    font-family: "Formular";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+
+    color: #54a75c;
+  }
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.spanBold {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #101112;
+}
+
+.spanThink {
+  font-family: "Formular";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+
+  color: #777d82;
+}
+
+.spanErr {
+  margin-bottom: 0;
+  color: red;
+  font-size: small;
+}

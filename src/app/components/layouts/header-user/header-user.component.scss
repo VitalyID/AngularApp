@@ -1,0 +1,131 @@
+@import "../../../../styles/mixins.scss";
+
+// @mixin font() {
+//   font-family: "PT_Russia Text";
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 16px;
+//   line-height: 22px;
+// }
+
+.user {
+  @include flex($gap: 15px);
+
+  width: 100%;
+
+  @media (max-width: 500px) {
+    & {
+      justify-content: right;
+      padding-right: 7px;
+    }
+  }
+
+  &__language {
+    width: 80px;
+    transform: translateY(-23.69px);
+    & dropdown {
+      --border: none;
+      --bgColor: #f9fafc;
+      --gap: 4px;
+      --paddingTop: 5px;
+      --padActive: 8px 8px;
+    }
+  }
+
+  &__logo {
+    @include flex($gap: 5px);
+    width: 73px;
+    position: relative;
+
+    &--logo {
+      @include flex();
+      width: 25%;
+      border-radius: 50%;
+      overflow: hidden;
+
+      flex: 1;
+    }
+
+    &--dropdown {
+      display: none;
+      cursor: pointer;
+
+      @media (max-width: 650px) {
+        & {
+          display: block;
+        }
+      }
+    }
+
+    &--data {
+      display: none;
+      // max-height: 0;
+
+      @media (max-width: 650px) {
+        & {
+          display: block;
+
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          transform: translateY(100%);
+          background: #ffffff;
+          padding: 10px;
+          border-radius: 10px;
+
+          transition: max-height 0.5s;
+          overflow: hidden;
+
+          max-height: 0;
+          padding: 0 10px;
+
+          & span {
+            display: block;
+            text-align: center;
+
+            &:first-child {
+              @include font();
+              color: #121212;
+            }
+
+            &:last-child {
+              @include font();
+              color: #62687a;
+            }
+          }
+
+          &.open {
+            max-height: 100px;
+          }
+        }
+      }
+    }
+  }
+
+  &__data {
+    @include flex($direction: column);
+    & span {
+      display: block;
+      text-align: center;
+
+      &:first-child {
+        @include font($color: #121212);
+      }
+
+      &:last-child {
+        @include font($color: #62687a);
+      }
+    }
+
+    app-buttons {
+      --padding: 0px 0px;
+      --color: #212529;
+    }
+
+    @media (max-width: 650px) {
+      & {
+        display: none;
+      }
+    }
+  }
+}
