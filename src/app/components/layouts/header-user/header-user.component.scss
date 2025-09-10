@@ -1,25 +1,17 @@
-@mixin flex($just: center, $alItems: center, $fd: row, $gap: 0px) {
-  display: flex;
-  justify-content: $just;
-  align-items: $alItems;
-  gap: $gap;
-  flex-direction: $fd;
-}
+@import "../../../../styles/mixins.scss";
 
-@mixin font() {
-  font-family: "PT_Russia Text";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
-}
+// @mixin font() {
+//   font-family: "PT_Russia Text";
+//   font-style: normal;
+//   font-weight: 400;
+//   font-size: 16px;
+//   line-height: 22px;
+// }
 
 .user {
   @include flex($gap: 15px);
 
-  // width: 330px;
   width: 100%;
-  height: 44px;
 
   @media (max-width: 500px) {
     & {
@@ -111,20 +103,17 @@
   }
 
   &__data {
-    @include flex();
-    flex-direction: column;
+    @include flex($direction: column);
     & span {
       display: block;
       text-align: center;
 
       &:first-child {
-        @include font();
-        color: #121212;
+        @include font($color: #121212);
       }
 
       &:last-child {
-        @include font();
-        color: #62687a;
+        @include font($color: #62687a);
       }
     }
 

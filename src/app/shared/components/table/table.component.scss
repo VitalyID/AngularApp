@@ -1,34 +1,28 @@
+@import "../../../../styles/mixins.scss";
+
 :host {
   height: auto;
 }
 
 .table__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex($justify: space-between);
+
   background: #fff;
   width: 100%;
   border-radius: 10px;
   padding: 15px 30px 0;
 
   &--mobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    // display: none;
+    @include flex($gap: 10px);
   }
 
   &--tabs {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex();
   }
 
   &--tabsUnit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex();
+
     padding: 8px 20px;
     background: #ffffff;
     border: 1px solid #e1e3e1;
@@ -37,42 +31,30 @@
   }
 
   &--tabsUnitElement {
-    // min-width: 0;
     flex-shrink: 3;
     padding: 8px 20px;
     border-radius: 50px;
 
-    font-family: "Formular";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-
-    color: #313436;
-
-    // width: min-content;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include font($fs: 14px, $lh: 20px, $color: #313436);
+    @include flex();
 
     min-width: 130px;
-
-    // height: 85px;
 
     &:hover {
       cursor: pointer;
     }
   }
 
-  @media (max-width: 1500px) {
-    &--tabsUnit {
-      padding: 4px 10px;
-    }
-
+  @media (max-width: 1625px) {
     &--tabsUnitElement {
       padding: 5px 8px;
       min-width: 100px;
+    }
+  }
+
+  @media (max-width: 1500px) {
+    &--tabsUnit {
+      padding: 4px 10px;
     }
 
     &--mobile {
@@ -91,17 +73,17 @@
   }
 
   @media (max-width: 685px) {
-    justify-content: space-around;
+    justify-content: start;
     align-items: center;
   }
 }
 
 .table__topMobile {
   padding: 15px 15px 0;
+  @include flex($justify: start, $gap: 10px);
 }
 
 .hiddenDataInput {
-  // margin-top: 8px;
   transition: transform 1s;
   transform-origin: left;
   transform: scaleX(0);
@@ -135,14 +117,9 @@
 
   grid &--cell {
     padding: 8px;
-    // border-bottom: 1px solid #ddd;
     width: 100%;
 
-    font-family: "Formular";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    // line-height: 20px;
+    @include font($fs: 14px, $lh: 20px);
 
     color: #101112;
   }
@@ -154,11 +131,7 @@
 
 .table__total {
   display: flex;
-  font-family: "Formular";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
+  @include font($fw: 700, $fs: 16px, $lh: 22px);
   padding: 7.5px 0;
 
   color: #101112;
@@ -167,8 +140,6 @@
   padding: 15px 30px 0;
 
   & span {
-    // margin: 0 8px 0;
-
     &:nth-child(even) {
       color: green;
       margin: 0 12px 8px;
@@ -192,11 +163,9 @@
     padding: 8px;
     border-bottom: 1px solid #ddd;
     width: 100%;
-    font-family: "Formular";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
+
+    @include font($fs: 14px, $lh: 20px);
+
     color: #101112;
   }
 }
@@ -204,14 +173,13 @@
 .tableTop__onlyMobile {
   width: 247px;
   height: 48px;
-  // display: none;
 
   background: #ffffff;
 
   dropdown {
     --bgColor: #ffffff;
     --brRadius: 46px;
-    --padActive: 6px 20px;
+    --padActive: 2px 8px;
     --firstItemMarginTop: 35px;
   }
 }
@@ -259,10 +227,6 @@ mobile-transaction-card {
 
   .table__body {
     padding: 15px 15px 0;
-  }
-
-  .table__top--dataMiddle {
-    display: none;
   }
 
   // все выше заменить на один класс

@@ -1,21 +1,20 @@
-@mixin flex($juCon: center, $alIt: center) {
-  display: flex;
-  justify-content: $juCon;
-  align-items: $alIt;
-}
-
-.wrapTop {
+.agent {
   height: auto;
   padding: 40px;
 
-  background: #ffffff;
-  box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
-  border-radius: 10px;
-  margin-bottom: 20px;
-
   &__title {
-    @include flex(space-between);
-    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+  }
+
+  &__body {
+    background: #ffffff;
+    box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 30px;
   }
 }
 
@@ -32,15 +31,4 @@ p {
   &:last-child {
     margin-bottom: 0;
   }
-}
-
-.wrapBody__amount,
-.wrapBody__table {
-  height: auto;
-  padding: 40px;
-
-  background: #ffffff;
-  box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
-  border-radius: 10px;
-  margin-bottom: 20px;
 }

@@ -9,7 +9,7 @@
   --border: 2px solid black;
   --transform: none;
   --transition: 0s;
-
+  --display: flex;
   --isActiveColor: "red";
   --isActiveTransform: none;
   --isActiveTransition: 0s;
@@ -31,7 +31,7 @@ button {
   font-size: var(--fontSize);
   line-height: 22px;
 
-  display: flex;
+  display: var(--display);
   justify-content: center;
   align-items: center;
   gap: var(--gap);
@@ -45,6 +45,8 @@ button {
   transform: scale(1) var(--transform);
   transition: var(--transition);
 
+  position: relative;
+
   &:active {
     transform: scale(0.95);
     transition: var(--transition);
@@ -53,6 +55,11 @@ button {
   &:disabled {
     background: gray;
   }
+
+  --heightSpinner: 100%;
+  --spinnerContainerPosition: static;
+  --spinnerIconWidth: 32px;
+  --spinnerIconHeight: 32px;
 }
 
 .isActive {

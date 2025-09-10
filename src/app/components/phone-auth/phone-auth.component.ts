@@ -5,21 +5,29 @@ import {
   inject,
   OnInit,
   signal,
+  Type,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { LocalStorigeService } from '../../services/local-storige.service';
 import { InputConfig } from '../../shared/components/input-text/types/interfaces/dataInput';
 
+import { NgForm } from '@angular/forms';
 import { PopupService } from '../../services/popup.service';
+import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
+import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
+import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
 import { SpinnerService } from '../../shared/components/spinner/serices/spinner.service';
-import { CreateUser, LoginUser } from '../../state/auth/auth.action';
+import { StepperComponent } from '../../shared/components/stepper/stepper.component';
+import {
+  CreateUser,
+  LoginUser,
+  RefreshToken,
+} from '../../state/auth/auth.action';
 import { ButtonConfig } from '../../types/interfaces/sectionItem';
 import { SvgSpriteSetting } from '../../types/interfaces/svgIcon';
-import { StepperComponent } from '../../shared/components/stepper/stepper.component';
-import { RegistrationFormComponent } from '../../shared/components/restration-form/registration-form.component';
-import { RegistrationTypeComponent } from '../../shared/components/registration-type/registration-type.component';
-import { RegistrationCardComponent } from '../../shared/components/registration-card/registration-card.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'phone-auth',
@@ -29,6 +37,8 @@ import { RegistrationCardComponent } from '../../shared/components/registration-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhoneAuthComponent implements OnInit {
+  @ViewChild('myForm') myForm!: NgForm;
+
   svgLogo: SvgSpriteSetting = {
     iconID: 'icon-logo',
     width: '98px',
@@ -60,6 +70,8 @@ export class PhoneAuthComponent implements OnInit {
   readonly #popupService = inject(PopupService);
 
   userData = signal(this.getLocalStorageData());
+  spinnerState = toSignal(this.#spinner.spinnerState);
+  currentComponent: Type<any> = PhoneAuthComponent;
 
   inputPhone: InputConfig = {
     placeholder: '+7 ( ___ ) ___-__-__',
@@ -77,12 +89,8 @@ export class PhoneAuthComponent implements OnInit {
     disabled: true,
   };
 
-  spinnerConfig = computed(() => ({
-    iconID: 'icon-spinner',
-    isVisible: this.#spinner.spinnerState(),
-  }));
-
   ngOnInit(): void {
+    this.#spinner.setContainer(PhoneAuthComponent);
     this.userData.set(this.getLocalStorageData());
 
     if (this.#route.snapshot.paramMap.get('login')) {
@@ -92,12 +100,12 @@ export class PhoneAuthComponent implements OnInit {
 
   registration() {
     // NOTE: open popup in main page
-
+    this.getPassword();
     this.SavingUserData();
     this.#store.dispatch(new CreateUser(this.userData()));
     this.#popupService.popupState$.next({
-      title: 'Идентификация аккаунта',
-      id: 'SetUser',
+      titlePopUp: 'Идентификация аккаунта',
+      name: 'registrationUser',
       state: true,
       component: StepperComponent,
       componentProps: [
@@ -106,12 +114,21 @@ export class PhoneAuthComponent implements OnInit {
         RegistrationCardComponent,
       ],
     });
+
+    this.isLoginPage = true;
   }
 
   login() {
+    this.getPassword();
     this.SavingUserData();
+    this.userData.update((oldValue) => {
+      const newValue = { ...oldValue, silentMode: true };
+      return newValue;
+    });
+
     this.#store.dispatch(new LoginUser(this.userData()));
-    // debug: this.#router.navigate(['']);
+
+    setInterval(() => this.#store.dispatch(new RefreshToken()), 1200000);
   }
 
   SavingUserData() {
@@ -120,6 +137,7 @@ export class PhoneAuthComponent implements OnInit {
         ...oldValue,
         userCreated: new Date().toString(),
       }));
+
       this.#lSS.sendToLocalStorige(JSON.stringify(this.userData()));
     }
   }
@@ -132,8 +150,8 @@ export class PhoneAuthComponent implements OnInit {
     }));
   }
 
-  setPassword(pwd: string) {
-    this.userData().password = pwd;
+  getPassword() {
+    this.userData().password = this.myForm.controls['password'].value;
   }
 
   toggleSaveUser(isSaving: boolean) {
@@ -144,7 +162,8 @@ export class PhoneAuthComponent implements OnInit {
     const localStorage = this.#lSS.getLocalStorige();
     if (localStorage) {
       try {
-        return JSON.parse(localStorage);
+        // NOTE: silentMode - is control for spinner in refresh token
+        return { ...JSON.parse(localStorage), silentMode: false };
       } catch {
         console.log('DEBUG: error reading localStarage: ', localStorage);
       }

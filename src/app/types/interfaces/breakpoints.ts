@@ -3,4 +3,5 @@ export interface Breakpoints {
   '1000': boolean;
   '768': boolean;
   '685': boolean;
+  '564': boolean;
 }

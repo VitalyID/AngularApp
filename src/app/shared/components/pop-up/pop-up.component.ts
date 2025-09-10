@@ -70,7 +70,7 @@ export class PopupComponent implements OnInit, AfterViewInit {
   }
 
   closePopUp() {
-    if (!this.popupData?.id) return;
+    if (!this.popupData?.component) return;
     this.#popupService.popupState$.next({ ...this.popupData, state: false });
   }
 }

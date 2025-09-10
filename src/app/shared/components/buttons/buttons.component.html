@@ -6,8 +6,11 @@
   [style.boxShadow]="boxShadow"
   [class.isActive]="isActive"
   [style.border-radius]="borderRadius"
-  [style.paddings]="paddings"
+  [style.padding]="paddings"
 >
-  <i *ngIf="classSvgFonts" [class]="classSvgFonts"></i>
-  {{ text }}
+  <ng-container #component></ng-container>
+
+  @if (!setComponent().isActive) {
+    <i *ngIf="classSvgFonts" [class]="classSvgFonts"></i> {{ text }}
+  }
 </button>

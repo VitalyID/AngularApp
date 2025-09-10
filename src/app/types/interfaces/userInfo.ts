@@ -5,5 +5,5 @@ export interface UserInfo {
   country: string;
   city: string;
   client_type?: string;
-  card?: { card_number: string; expiry: string; cvc: string };
+  card?: { card_number: string; expiry: string; cvc: string }[];
 }

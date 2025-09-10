@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EmptyRouteComponent } from './empty-route.component';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('EmptyRouteComponent', () => {
   let component: EmptyRouteComponent;
@@ -8,9 +10,8 @@ describe('EmptyRouteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EmptyRouteComponent]
-    })
-    .compileComponents();
+      imports: [EmptyRouteComponent, RouterTestingModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EmptyRouteComponent);
     component = fixture.componentInstance;

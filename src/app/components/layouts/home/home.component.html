@@ -18,10 +18,14 @@
     </div>
   </div>
 
-  <app-aside class="aside desctop"></app-aside>
+  <app-aside class="aside desktop"></app-aside>
 
   <div class="main">
-    <spinner [spinnerConfig]="spinnerConfig"></spinner>
+    @if (
+      spinnerState()?.container === currentComponent && spinnerState()?.isActive
+    ) {
+      <spinner></spinner>
+    }
     <router-outlet></router-outlet>
   </div>
 

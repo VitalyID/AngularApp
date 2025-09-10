@@ -7,8 +7,8 @@ import { Popup } from '../types/interfaces/popup';
 })
 export class PopupService {
   popupState$ = new BehaviorSubject<Popup>({
-    id: '',
     state: false,
+    name: '',
     component: null,
   });
 }

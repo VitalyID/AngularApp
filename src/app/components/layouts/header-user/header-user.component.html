@@ -1,11 +1,9 @@
 <div class="user">
   <div class="user__language">
-    <!-- <app-language></app-language> -->
     <dropdown
       [defaultValue]="defaultValue"
       [dropdownItems]="languageItems"
     ></dropdown>
-    <!-- <span>dropdown</span> -->
   </div>
 
   <div class="user__logo">
@@ -34,8 +32,11 @@
   </div>
 
   <div class="user__data">
-    <span>Фамилия Имя</span>
-    <span>mail&#64;mail.ru</span>
+    <span
+      >{{ user().last_name || "Фамилия" }}
+      {{ user().first_name || "Имя" }}</span
+    >
+    <span>{{ user().email || "mail&#64;mail.ru" }}</span>
     <app-buttons
       [text]="exitBtn.text"
       [background]="exitBtn.background"

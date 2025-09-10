@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { take, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorigeService } from '../../services/local-storige.service';
-import { CreateUser, LoginUser } from './auth.action';
+import { CreateUser, LoginUser, RefreshToken } from './auth.action';
 
 export interface UserAuthStateModel {
   phone: string;
@@ -17,6 +17,7 @@ export interface UserAuthData {
   phone: string;
   password: string;
   token: string;
+  silentMode: boolean;
 }
 
 @State<UserAuthStateModel>({
@@ -58,17 +59,17 @@ export class UserAuthState {
 
   @Action(LoginUser)
   LoginUser(ctx: StateContext<UserAuthStateModel>, { user }: LoginUser) {
-    return this.#auth.login(user.phone, user.password).pipe(
+    return this.#auth.login(user.phone, user.password, user.silentMode).pipe(
       take(1),
       tap((response) => {
         if (!response.access_token) {
-          console.log('debug: Token is none');
-          return;
+          throw new Error('Access token missing');
         }
 
         const state = ctx.getState();
         ctx.patchState({
           ...state,
+          phone: user.phone,
           access_token: response.access_token,
           tokenUpdated_at: new Date().toString(),
         });
@@ -77,6 +78,31 @@ export class UserAuthState {
           JSON.stringify(ctx.getState()),
         );
         this.#router.navigate(['']);
+      }),
+    );
+  }
+
+  @Action(RefreshToken)
+  refreshToken(
+    ctx: StateContext<UserAuthStateModel>,
+  ): Observable<{ access_token: string }> {
+    return this.#auth.refresh().pipe(
+      take(1),
+      tap(({ access_token }: { access_token: string }) => {
+        if (!access_token) {
+          throw new Error('Refresh token missing');
+        }
+
+        const state = ctx.getState();
+        ctx.patchState({
+          ...state,
+          access_token: access_token,
+          tokenUpdated_at: new Date().toString(),
+        });
+
+        this.#localStorageService.sendToLocalStorige(
+          JSON.stringify(ctx.getState()),
+        );
       }),
     );
   }

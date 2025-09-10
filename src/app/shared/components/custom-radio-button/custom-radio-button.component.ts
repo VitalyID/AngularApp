@@ -4,11 +4,10 @@ import {
   EventEmitter,
   Input,
   Output,
-  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
-import { RadioButtonConfig, RadioButtons } from './types/interface/radioButton';
+import { RadioButtons } from './types/interface/radioButton';
 
 @Component({
   selector: 'custom-radio-button',
@@ -18,28 +17,29 @@ import { RadioButtonConfig, RadioButtons } from './types/interface/radioButton';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomRadioButtonComponent {
-  @Input() radioConfig = signal<RadioButtons>({
-    icon: '',
-    iconActive: '',
-    button: [
-      {
-        name: '',
-        checked: false,
-        id: '',
-      },
-    ],
-  });
+  @Input() radioConfig: RadioButtons[] = [
+    {
+      icon: '',
+      name: '',
+      checked: false,
+      id: '',
+    },
+  ];
 
   @Output() userConfiture = new EventEmitter();
 
-  setUser(event: RadioButtonConfig) {
-    const newRadioConfig = this.radioConfig();
+  setUser(setUserRadioBtn: RadioButtons) {
+    const updateRadioConfig = this.radioConfig.map((btn) => {
+      const isActive = btn.id === setUserRadioBtn.id;
 
-    const newButtons = this.radioConfig().button.map((element) => {
-      return { ...element, checked: element.name === event.name };
+      return {
+        ...btn,
+        icon: isActive ? 'checkboxActive' : 'checkbox',
+        checked: isActive,
+      };
     });
-    this.radioConfig.set({ ...newRadioConfig, button: newButtons });
+    this.radioConfig = updateRadioConfig;
 
-    this.userConfiture.emit(event.name);
+    this.userConfiture.emit(setUserRadioBtn);
   }
 }
