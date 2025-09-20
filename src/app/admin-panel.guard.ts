@@ -17,7 +17,7 @@ export const adminPanelGuard: CanActivateFn = (
   const currentTimestamp = new Date().getTime();
 
   if (!authService.getLocalStorige()) {
-    router.navigate(['user-auth', 'login']);
+    router.navigate(['user-auth']);
     return false;
   }
 
