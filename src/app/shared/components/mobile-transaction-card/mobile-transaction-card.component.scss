@@ -1,18 +1,10 @@
-:host {
-}
-
-@mixin flex($jc: center, $alIt: center, $fd: row) {
-  display: flex;
-  justify-content: $jc;
-  align-items: $alIt;
-  flex-direction: $fd;
-}
+@import "../../../../styles/mixins.scss";
 
 .mobileCard {
   padding: 20px;
 
   &__top {
-    @include flex($jc: space-between);
+    @include flex($justify: space-between);
   }
 
   &__body {

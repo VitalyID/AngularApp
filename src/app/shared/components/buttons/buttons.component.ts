@@ -1,5 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ComponentRef,
+  effect,
+  inject,
+  Injector,
+  Input,
+  OnChanges,
+  runInInjectionContext,
+  signal,
+  SimpleChanges,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { SpinnerComponent } from '../spinner/spinner.component';
+import { SpinnerConfig } from '../spinner/types/interfaces/spinnerConfig';
 
 @Component({
   selector: 'app-buttons',
@@ -8,8 +25,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './buttons.component.html',
   styleUrl: './buttons.component.scss',
 })
-export class ButtonsComponent {
-
+export class ButtonsComponent implements OnChanges, AfterViewInit {
   @Input() background?: string = '';
   @Input() color?: string = '';
   @Input() borderStyle?: string = '';
@@ -21,4 +37,57 @@ export class ButtonsComponent {
   @Input() text?: string = '';
   @Input() classSvgFonts?: string = '';
   @Input() paddings?: string = '';
+  @Input() innerComponent?: SpinnerConfig;
+
+  @ViewChild('component', { read: ViewContainerRef })
+  hostContainerRef!: ViewContainerRef;
+
+  readonly #inject = inject(Injector);
+
+  dynamicComp: ComponentRef<any> | null = null;
+  buttonComponent: Type<any> = ButtonsComponent;
+  setComponent = signal<SpinnerConfig>({
+    isActive: false,
+    container: ButtonsComponent,
+    insertComponent: SpinnerComponent,
+  });
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['innerComponent']) {
+      if (
+        this.innerComponent?.container === ButtonsComponent &&
+        this.id === this.innerComponent.id
+      ) {
+        this.setComponent.set(this.innerComponent);
+      }
+    }
+  }
+
+  ngAfterViewInit(): void {
+    runInInjectionContext(this.#inject, () => {
+      effect(() => {
+        switch (this.setComponent().isActive) {
+          case true:
+            if (!this.setComponent().container || !this.hostContainerRef) {
+              return;
+            }
+
+            if (this.dynamicComp !== null) return;
+
+            this.dynamicComp = this.hostContainerRef.createComponent(
+              this.setComponent().insertComponent,
+            );
+            this.disabled = true;
+            break;
+          case false:
+            this.disabled = false;
+            this.dynamicComp?.destroy();
+            this.dynamicComp = null;
+            if (!this.hostContainerRef) return;
+            this.hostContainerRef.clear();
+            break;
+        }
+      });
+    });
+  }
 }

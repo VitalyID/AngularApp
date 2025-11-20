@@ -1,18 +1,21 @@
-@for (radioButton of radioConfig().button; track radioButton.id) {
-  <div class="radioButton">
-    <input
-      type="radio"
-      name="nameRadio"
-      [id]="radioButton.id"
-      (change)="setUser(radioButton)"
-    />
-    <label [for]="radioButton.id">
-      <svg-icon
-        [iconID]="
-          radioButton.checked ? radioConfig().iconActive : radioConfig().icon
-        "
-      ></svg-icon>
-    </label>
-    <span>{{ radioButton.name }}</span>
+@for (radioBtn of radioConfig; track radioBtn.id) {
+  <div class="radioButton" [class.isActive]="radioBtn.checked">
+    <div class="radioButton__img">
+      <input
+        type="radio"
+        name="nameRadio"
+        [id]="radioBtn.id"
+        (change)="setUser(radioBtn)"
+      />
+      <label [for]="radioBtn.id">
+        <svg-icon [iconID]="radioBtn.icon"></svg-icon>
+      </label>
+
+      @if (radioBtn.imgSrc && radioBtn.imgAlt) {
+        <img [src]="radioBtn.imgSrc" [alt]="radioBtn.imgAlt" />
+      }
+    </div>
+
+    <span>{{ radioBtn.name }}</span>
   </div>
 }

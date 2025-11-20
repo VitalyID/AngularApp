@@ -3,6 +3,7 @@
   routerLinkActive="isActive"
   [routerLinkActiveOptions]="{ exact: true }"
   class="section"
+  (click)="userClick(item.title)"
 >
   <div class="section-icon">
     <svg-icon

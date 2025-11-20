@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  signal,
-  Signal,
-} from '@angular/core';
-import { SvgSpriteSetting } from '../../../types/interfaces/svgIcon';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 @Component({
@@ -15,9 +8,4 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   styleUrl: './spinner.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpinnerComponent {
-  @Input() spinnerConfig: Signal<SvgSpriteSetting> = signal({
-    iconID: '',
-    isVisible: false,
-  });
-}
+export class SpinnerComponent {}

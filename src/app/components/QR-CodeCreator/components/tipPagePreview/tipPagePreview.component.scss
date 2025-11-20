@@ -1,11 +1,7 @@
+@import "../../../../../styles/mixins.scss";
+
 :host {
   height: auto;
-}
-
-@mixin flexCenter($justify: center, $align: center) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
 }
 
 @mixin general($direction: column, $gap: 20px, $mb: 30px, $p: 0px 30px) {
@@ -31,12 +27,12 @@
 }
 
 .userPreview__about {
-  @include flexCenter(center, start);
-  @include general(column);
+  @include flex($align: start, $direction: column, $gap: 20px);
+  margin-bottom: 30px;
+  padding: 0 30px;
 
   &--me {
-    @include flexCenter(left, center);
-    gap: 20px;
+    @include flex($justify: start, $gap: 20px);
   }
 
   &--meLogo {
@@ -62,11 +58,13 @@
 }
 
 .userPreview__setTips {
-  @include flexCenter(center, start);
-  @include general(column);
+  @include flex($align: start, $direction: column, $gap: 20px);
+
+  margin-bottom: 30px;
+  padding: 0 30px;
 
   &--btn {
-    @include flexCenter(center, center);
+    @include flex();
     gap: 11px;
     margin-bottom: 20px;
     width: 100%;
@@ -74,8 +72,10 @@
 }
 
 .userPreview__rate {
-  @include flexCenter(center, center);
-  @include general(column);
+  @include flex($direction: column, $gap: 20px);
+
+  margin-bottom: 30px;
+  padding: 0 30px;
   overflow: hidden;
 
   height: 0;
@@ -96,8 +96,9 @@
 }
 
 .userPreview__feedbacks {
-  @include general(column, 0px);
-  @include flexCenter($align: "stretch");
+  @include flex($align: stretch, $direction: column);
+
+  padding: 0 30px;
   overflow: hidden;
   width: 100%;
 
@@ -123,8 +124,8 @@
 }
 
 .userPreview__feeling {
-  @include general(column, 0px);
-  @include flexCenter($align: "stretch");
+  @include flex($align: stretch, $direction: column);
+  padding: 0 30px;
   overflow: hidden;
   width: 100%;
 
@@ -150,7 +151,7 @@
 }
 
 .userPreview__sendData {
-  @include flexCenter(start);
+  @include flex($justify: start);
   margin-bottom: 30px;
   padding: 0 30px;
 }

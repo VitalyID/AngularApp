@@ -9,13 +9,21 @@ import { SpinnerService } from '../shared/components/spinner/serices/spinner.ser
 
 export const SpinnerInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ) => {
+  const shouldSkipSpinner =
+    req.body && 'silentMode' in req.body && req.body.silentMode === false;
+
+  if (shouldSkipSpinner) {
+    delete req.body.silentMode;
+    return next(req);
+  }
+
   const spinnerService = inject(SpinnerService);
   spinnerService.enableSpinner();
   return next(req).pipe(
     finalize(() => {
       spinnerService.disableSpinner();
-    })
+    }),
   );
 };

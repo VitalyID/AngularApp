@@ -1,14 +1,16 @@
 :host {
   --width: 100%;
+  --display: block;
 }
 
 .spinner__wrap {
-  position: absolute;
+  position: var(--positionWrapSpinner, absolute);
   top: 0;
   left: 0;
   width: var(--width);
-  min-height: 100vh;
+  height: var(--heightSpinner, 100vh);
   z-index: 1000;
+  display: var(--display);
 }
 
 .spinnerContainer {
@@ -16,15 +18,16 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  min-height: 100vh;
+  height: var(--heightSpinner, 100vh);
+
   width: 100%;
-  position: relative;
+  position: var(--spinnerContainerPosition, relative);
   background-color: rgba(184, 182, 182, 0.3);
 }
 
 svg-icon {
-  --height: 64px;
-  --width: 64px;
+  --height: var(--spinnerIconHeight, 64px);
+  --width: var(--spinnerIconWidth, 64px);
   --fill: black;
   position: relative;
   z-index: 1001;

@@ -1,13 +1,15 @@
-@mixin flex($justify: center, $align: center, $gap: 0px, $fd: row) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  gap: $gap;
-  flex-direction: $fd;
+@import "../../../../styles/mixins.scss";
+
+:host {
+  --width: 100%;
 }
 
 h3 {
   margin-bottom: 22px;
+}
+
+form {
+  max-width: var(--width);
 }
 
 .card-data,
@@ -30,11 +32,8 @@ span {
 // span error validation
 input-text + span {
   position: absolute;
-  bottom: -24px;
+  bottom: -38px;
   left: 0;
-  margin-bottom: 0;
-  color: red;
-  font-size: small;
 }
 
 input-text {

@@ -1,40 +1,54 @@
+@let user = userInfo();
 <div class="personalData">
   <h2>Персональные данные</h2>
   <div class="personalData__body">
     <span>Имя</span>
     <input-text
-      [placeholder]="name"
-      [value]="userInfo().first_name"
+      [placeholder]="placeName"
+      [value]="user.first_name"
+      (updateValue)="updatedUserInfo($event, 'first_name')"
     ></input-text>
 
     <span>Фамилия</span>
     <input-text
-      [placeholder]="surName"
-      [value]="userInfo().last_name"
+      [placeholder]="placeSurName"
+      [value]="user.last_name"
+      (updateValue)="updatedUserInfo($event, 'last_name')"
     ></input-text>
 
     <span>E-mail</span>
-    <input-text [placeholder]="email" [value]="userInfo().email"></input-text>
+    <input-text
+      [placeholder]="placeEmail"
+      [value]="user.email"
+      (updateValue)="updatedUserInfo($event, 'email')"
+    ></input-text>
 
     <span>Номер телефона</span>
-    <input-text [placeholder]="tel"></input-text>
+    <input-text
+      [placeholder]="placeTel"
+      [disabled]="true"
+      [value]="userTel()"
+    ></input-text>
 
     <span>Страна</span>
     <div class="personalData__country">
       @if (listCountries$ | async; as countries) {
         <dropdown
-          [defaultValue]="countries[0]"
+          [defaultValue]="(defCountry$ | async) ?? { item: '', id: '' }"
           [dropdownItems]="countries"
+          (itemSelected)="userCountry($event)"
         ></dropdown>
       }
     </div>
 
     <span>Город</span>
+
     @if (listCities$ | async; as cities) {
       <dropdown
         [defaultValue]="cities[0]"
         [dropdownItems]="cities"
         class="personalData--cities"
+        (itemSelected)="userCity($event)"
       ></dropdown>
     }
   </div>

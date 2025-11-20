@@ -8,21 +8,12 @@
       <app-section
         [item]="item"
         [ngClass]="{
-        isMyGroup: getClassForSectionItem(item.ID),firstItem: i+1 === activeMenuItem[0],
-        lastItem: i+1 === activeMenuItem.at(-1),
-      }"
+          isMyGroup: getClassForSectionItem(item.ID),
+          firstItem: i + 1 === activeMenuItem[0],
+          lastItem: i + 1 === activeMenuItem.at(-1),
+        }"
       >
       </app-section>
-    </div>
-
-    <div class="aside__support">
-      <div class="aside__support-content">
-        <img
-          src="../../../assets/images/illustration.png"
-          alt="Картинка support"
-        />
-        <app-buttons [text]="btnText"></app-buttons>
-      </div>
     </div>
 
     <div *ngFor="let item of logOut">

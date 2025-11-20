@@ -1,12 +1,7 @@
-@mixin flexCenter($justify: center, $align: center) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-}
+@import "../../../../../styles/mixins.scss";
 
 .createQRcode {
   &__title-wrap {
-    // margin-bottom: 30px;
     height: auto;
     padding: 30px 30px 0;
 
@@ -18,11 +13,9 @@
   }
 
   &__body-wrap {
-    @include flexCenter(center, start);
-    gap: 30px;
-    // margin-bottom: 20px;
+    @include flex($align: start, $gap: 30px);
+
     padding: 30px 30px 0;
-    // width: 100%;
 
     & span {
       margin-bottom: 10px;
@@ -37,8 +30,8 @@
 
     @media (max-width: 900px) {
       & {
-        @include flexCenter(center, start);
-        flex-direction: column;
+        @include flex(center, $align: start, $direction: column);
+
         width: 100%;
       }
     }
@@ -57,13 +50,12 @@
 
   &__body-center {
     width: 66%;
-    @include flexCenter(center, start);
-    flex-direction: column;
+    @include flex(center, $align: start, $direction: column, $gap: 20px);
+
     background: #ffffff;
     box-shadow: 0px 5px 20px rgba(49, 52, 61, 0.05);
     border-radius: 10px;
     padding: 40px 40px 30px;
-    gap: 20px;
 
     @media (max-width: 900px) {
       width: 100%;
@@ -79,10 +71,7 @@
   }
 
   &__body-wrapForm-tips {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: center;
+    @include flex($gap: 10px);
     align-items: center;
     width: 100%;
     margin-bottom: 20px;

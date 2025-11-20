@@ -1,0 +1,23 @@
+<div class="bankCard">
+  <div class="bankCard__top">
+    <div class="bankCard__top--left">
+      <span class="bankCard__spanInfo">Баланс карты</span>
+      <span class="bankCard__balance">{{ balance }} ₽</span>
+    </div>
+    <img
+      [src]="typeCard"
+      alt="Тип карточки"
+      class="cardTypeLogo bankCard__cardLogo"
+    />
+  </div>
+
+  <div class="bankCard__bottom">
+    <div class="bankCard__bottom--left">
+      <span class="bankCard__name">{{ name || "Иванов Иван" }}</span>
+      <span class="bankCard__number">{{
+        number || "0000000000000000" | bankCardNumberSpaces
+      }}</span>
+    </div>
+    <span class="bankCard__data">{{ data }}</span>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+@import "../../../../styles/mixins.scss";
+
+.bankCard {
+  @include flex($justify: space-between, $direction: column);
+  width: 100%;
+  max-width: 350px;
+
+  aspect-ratio: 350/200;
+  padding: 1.4375rem 1.25rem;
+
+  background: #3539ec;
+  box-shadow: 0px 10px 40px rgba(20, 32, 60, 0.05);
+  border-radius: 0.5rem;
+  min-height: 200px;
+
+  @media (max-width: 500px) {
+    aspect-ratio: unset;
+    min-height: 180px;
+    max-width: 300px;
+  }
+
+  @media (max-width: 350px) {
+    max-width: 280px;
+    min-height: 160px;
+    padding: 0.8rem 0.6rem;
+  }
+
+  &__top,
+  &__bottom {
+    @include flex($justify: space-between, $align: start);
+    width: 100%;
+  }
+
+  &__bottom {
+    @include flex($justify: space-between);
+  }
+
+  &__spanInfo {
+    @include font($fs: 0.875rem, $lh: 1.25rem, $color: #ffffff);
+    opacity: 0.5;
+    mix-blend-mode: normal;
+    margin-bottom: 0.375rem;
+  }
+
+  &__balance {
+    @include font($lh: 2rem, $fs: 1.5rem, $color: #ffffff);
+    display: block;
+  }
+
+  &__name {
+    @include font($lh: 1.25rem, $fs: 0.875rem, $color: #ffffff);
+    opacity: 0.5;
+  }
+
+  &__number,
+  &__data {
+    @include font($lh: 1.25rem, $fs: 0.875rem, $color: #ffffff);
+    display: block;
+  }
+}

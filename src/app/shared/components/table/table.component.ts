@@ -5,7 +5,7 @@ import {
   Component,
   inject,
   OnInit,
-  signal
+  signal,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as uuid from 'uuid';
@@ -49,13 +49,6 @@ export class TableComponent implements OnInit {
   readonly #filterService = inject(SortDataService);
   readonly #cdr = inject(ChangeDetectorRef);
   readonly #ViewPort = inject(ScreenSizeService);
-
-  public btnText: ButtonConfig = {
-    text: 'Скачать в Exel',
-    iconClass: 'icon-PaperDownload',
-    background: '#F7F9FB',
-    color: '#101112',
-  };
 
   transmitToBTN: ButtonConfig = {
     text: 'Ok',
@@ -131,6 +124,7 @@ export class TableComponent implements OnInit {
       ...this.defaultValue,
       item: TabsName[this.IDActiveTab as keyof typeof TabsName],
     };
+
     this.#cdr.markForCheck();
   }
 
@@ -146,9 +140,8 @@ export class TableComponent implements OnInit {
   }
 
   itemSelected(data: ListDropdown) {
-
     const arrTabsKey: (keyof typeof TabsName)[] = Object.keys(
-      TabsName
+      TabsName,
     ) as (keyof typeof TabsName)[];
 
     arrTabsKey.forEach((item) => {

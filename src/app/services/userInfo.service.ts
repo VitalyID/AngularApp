@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { profileLink } from '../const';
-import { StateUser, StateUserModel } from '../state/user/user.models';
+import { StateUser } from '../state/user/user.models';
 
 @Injectable({ providedIn: 'root' })
 export class UserInfoService {
@@ -12,6 +12,10 @@ export class UserInfoService {
   }
 
   putUserInfo(user: StateUser) {
-    return this.#http.post<StateUser>(profileLink, user);
+    return this.#http.put<StateUser>(profileLink, user);
+  }
+
+  getUserService() {
+    return this.#http.get<StateUser>(profileLink);
   }
 }

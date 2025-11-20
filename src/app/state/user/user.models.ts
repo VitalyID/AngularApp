@@ -1,4 +1,7 @@
+import { Type } from '@angular/core';
 import { TypeUser } from '../../shared/components/custom-radio-button/types/enum/typeUser';
+
+// NOTE: in this interfaces property 'currentComponent' need for user.state.ts where logic is controlling component, which call dispatch. Before send to serve, this property is removing
 
 export interface UserPersonalInfo {
   first_name: string;
@@ -13,11 +16,7 @@ export interface UserType {
 }
 
 export interface UserCard {
-  card: {
-    card_number: string;
-    expiry: string;
-    cvc: string;
-  };
+  cards: BankCard[];
 }
 
 export interface StateUser {
@@ -27,15 +26,19 @@ export interface StateUser {
   country: string;
   city: string;
   client_type: keyof typeof TypeUser;
-  card: {
-    card_number: string;
-    expiry: string;
-    cvc: string;
-  };
+  cards: BankCard[];
 }
 
 export type UpdateUserInfo = UserPersonalInfo | UserType | UserCard;
 
 export interface StateUserModel {
   userProfile: StateUser;
+}
+
+export interface BankCard {
+  card_number: string;
+  expiry: string;
+  cvc: string;
+  typeCard?: string;
+  isActive: boolean;
 }

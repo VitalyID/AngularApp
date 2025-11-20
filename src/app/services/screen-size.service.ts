@@ -10,6 +10,7 @@ export class ScreenSizeService {
     '1000': false,
     '768': false,
     '685': false,
+    '564': false,
   };
 
   private resizeSubscription: Subscription;

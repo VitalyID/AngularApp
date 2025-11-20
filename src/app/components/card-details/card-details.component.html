@@ -1,0 +1,55 @@
+<div class="cardDetail">
+  <h2>Реквизиты</h2>
+
+  <div class="cardDetail__body">
+    <div class="cardDetail__max">
+      <div class="cardDetail__min">
+        <div class="cardDetail__userCard">
+          <bank-card
+            [balance]="0"
+            [typeCard]="activeBankCard().typeCard || 'error'"
+            [name]="
+              (user$().first_name || '') + ' ' + (user$().last_name || '')
+            "
+            [number]="activeBankCard().card_number"
+            [data]="activeBankCard().expiry"
+          ></bank-card>
+        </div>
+
+        <!-- NOTE: if user didn't add bank card by registration, don't show this section -->
+
+        <div class="cardDetail__about">
+          <custom-radio-button
+            [radioConfig]="radioConfig()"
+            (userConfiture)="setCard($event)"
+          ></custom-radio-button>
+        </div>
+
+        <app-buttons
+          [text]="'Удаление карты'"
+          [background]="'none'"
+          [borderRadius]="'6px'"
+          [borderStyle]="'1px solid #E1E3E1'"
+          [color]="'#101011'"
+          [boxShadow]="'none'"
+          (click)="deleteBankCard('removeBtn')"
+          [innerComponent]="spinnerState()"
+          [id]="'removeBtn'"
+        ></app-buttons>
+      </div>
+
+      <registration-card
+        (cardDataChange)="setNewCard($event)"
+      ></registration-card>
+
+      <app-buttons
+        [disabled]="disabledAddCard"
+        (click)="addBankCard('addBtn')"
+        [borderStyle]="'none'"
+        [text]="'Привязать карту'"
+        [innerComponent]="spinnerState()"
+        [id]="'addBtn'"
+      ></app-buttons>
+    </div>
+  </div>
+</div>
